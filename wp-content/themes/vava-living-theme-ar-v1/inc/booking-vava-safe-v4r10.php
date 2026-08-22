@@ -219,6 +219,7 @@ function vava_booking_shared_defaults(): array {
 		),
 		'slot_interval' => 30,
 		'default_duration' => 90,
+		'max_daily_minutes' => 240,
 		'min_notice_hours' => 0,
 		'max_days' => 60,
 		'payment_methods' => array( 'paymob' => 1, 'bank' => 1, 'cash' => 0 ),
@@ -343,9 +344,10 @@ function vava_booking_service_duration_minutes( array $service, int $fallback = 
 
 /** Resolve a stable consultation category from the service payload. */
 function vava_booking_service_category( array $service ): string {
-	$category = sanitize_key( (string) ( $service['category'] ?? '' ) );
-	if ( in_array( $category, array( 'quick', 'followup', 'comprehensive' ), true ) ) { return $category; }
-	return function_exists( 'vava_paths_session_category' ) ? vava_paths_session_category( $service ) : 'comprehensive';
+		if ( function_exists( 'vava_paths_is_discovery_session' ) && vava_paths_is_discovery_session( $service ) ) { return 'discovery'; }
+		$category = sanitize_key( (string) ( $service['category'] ?? '' ) );
+		if ( in_array( $category, array( 'quick', 'followup', 'comprehensive' ), true ) ) { return $category; }
+		return function_exists( 'vava_paths_session_category' ) ? vava_paths_session_category( $service ) : 'comprehensive';
 }
 
 /** Customer-facing duration label from the category source of truth. */
@@ -356,7 +358,7 @@ function vava_booking_service_display_duration( array $service, string $lang = '
 	}
 	$category = vava_booking_service_category( $service );
 	$is_en = 'en' === $lang;
-	return array( 'quick' => $is_en ? '15–20 minutes' : '15–20 دقيقة', 'followup' => $is_en ? '30 minutes' : '30 دقيقة', 'comprehensive' => $is_en ? '90 minutes' : '90 دقيقة' )[ $category ] ?? ( $is_en ? '90 minutes' : '90 دقيقة' );
+		return array( 'discovery' => $is_en ? '15 minutes' : '15 دقيقة', 'quick' => $is_en ? '15–20 minutes' : '15–20 دقيقة', 'followup' => $is_en ? '30 minutes' : '30 دقيقة', 'comprehensive' => $is_en ? '90 minutes' : '90 دقيقة' )[ $category ] ?? ( $is_en ? '90 minutes' : '90 دقيقة' );
 }
 
 /** Resolve the service duration used by availability and overlap protection. */
@@ -371,7 +373,7 @@ function vava_booking_effective_duration( array $service, array $shared ): int {
 /** Recover the consultation category for current and legacy bookings. */
 function vava_booking_category_for_booking( int $booking_id ): string {
 	$category = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_category', true ) );
-	if ( in_array( $category, array( 'quick', 'followup', 'comprehensive' ), true ) ) { return $category; }
+	if ( in_array( $category, array( 'discovery', 'quick', 'followup', 'comprehensive' ), true ) ) { return $category; }
 
 	$lang = 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar';
 	$uid  = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_uid', true ) );
@@ -381,6 +383,7 @@ function vava_booking_category_for_booking( int $booking_id ): string {
 	}
 
 	$title = strtolower( wp_strip_all_tags( (string) get_post_meta( $booking_id, '_vava_booking_service_title', true ) ) );
+	if ( preg_match( '/(?:جلسة\s*استكشافية|استكشافية|discovery\s*session)/iu', $title ) ) { return 'discovery'; }
 	if ( preg_match( '/(?:استشار(?:ة|ات)\s*سريعة|quick\s*(?:consult|session))/iu', $title ) ) { return 'quick'; }
 	if ( preg_match( '/(?:متابعة|follow[ -]?up)/iu', $title ) ) { return 'followup'; }
 	if ( preg_match( '/(?:شاملة|التوازن|التشافي|باقة|comprehensive|balance|healing|package)/iu', $title ) ) { return 'comprehensive'; }
@@ -417,7 +420,7 @@ function vava_booking_maybe_migrate_category_durations_v12250(): void {
 		if ( ! $booking_id || ( function_exists( 'vava_booking_order_is_product' ) && vava_booking_order_is_product( $booking_id ) ) ) { continue; }
 		$category = vava_booking_category_for_booking( $booking_id );
 		if ( ! $category ) { continue; }
-		$minutes = function_exists( 'vava_paths_session_category_booking_minutes' ) ? vava_paths_session_category_booking_minutes( $category ) : ( 'comprehensive' === $category ? 90 : 30 );
+			$minutes = 'discovery' === $category ? 15 : ( function_exists( 'vava_paths_session_category_booking_minutes' ) ? vava_paths_session_category_booking_minutes( $category ) : ( 'comprehensive' === $category ? 90 : 30 ) );
 		update_post_meta( $booking_id, '_vava_booking_service_category', $category );
 		update_post_meta( $booking_id, '_vava_booking_duration', $minutes );
 	}
@@ -987,7 +990,7 @@ function vava_booking_slot_is_reserved( string $date, string $time, int $duratio
 /** Maximum accepted bookings per day for each consultation category. */
 function vava_booking_daily_capacity( array $service ): int {
 	$category = vava_booking_service_category( $service );
-	return array( 'comprehensive' => 1, 'followup' => 2, 'quick' => 2 )[ $category ] ?? 1;
+	return array( 'comprehensive' => 1, 'followup' => 2, 'quick' => 2, 'discovery' => 1 )[ $category ] ?? 1;
 }
 
 /** Count active bookings for the selected consultation category and date. */
@@ -1007,9 +1010,29 @@ function vava_booking_daily_category_count( array $service, string $date ): int 
 	return $count;
 }
 
-/** Whether the selected category still has room for another booking that day. */
-function vava_booking_day_has_capacity( array $service, string $date ): bool {
-	return vava_booking_daily_category_count( $service, $date ) < vava_booking_daily_capacity( $service );
+/** Sum active consultation minutes already reserved for a date. */
+function vava_booking_daily_minutes_used( string $date ): int {
+	$bookings = get_posts( array(
+		'post_type' => 'vava_booking', 'post_status' => 'publish', 'posts_per_page' => -1, 'fields' => 'ids', 'no_found_rows' => true,
+		'meta_query' => array(
+			array( 'key' => '_vava_booking_date', 'value' => $date ),
+			array( 'key' => '_vava_booking_status', 'value' => array( 'pending', 'pending_payment', 'pending_bank_review', 'paid', 'confirmed', 'cancellation_requested' ), 'compare' => 'IN' ),
+		),
+	) );
+	$total = 0;
+	foreach ( $bookings as $booking_id ) {
+		if ( function_exists( 'vava_booking_order_is_product' ) && vava_booking_order_is_product( (int) $booking_id ) ) { continue; }
+		$total += max( 0, absint( get_post_meta( (int) $booking_id, '_vava_booking_duration', true ) ) );
+	}
+	return $total;
+}
+
+/** Whether the selected category and total daily work cap still have room. */
+function vava_booking_day_has_capacity( array $service, string $date, array $shared = array() ): bool {
+	if ( vava_booking_daily_category_count( $service, $date ) >= vava_booking_daily_capacity( $service ) ) { return false; }
+	$max_daily_minutes = max( 0, absint( $shared['max_daily_minutes'] ?? 240 ) );
+	$duration = vava_booking_effective_duration( $service, $shared );
+	return 0 === $max_daily_minutes || ( vava_booking_daily_minutes_used( $date ) + $duration ) <= $max_daily_minutes;
 }
 
 function vava_booking_available_slots( array $service, string $date_string, array $shared ): array {
@@ -1023,12 +1046,17 @@ function vava_booking_available_slots( array $service, string $date_string, arra
 	$working_days = vava_booking_effective_working_days( $service, $shared );
 	$working_hours = (array) ( $shared['working_hours'] ?? array() );
 	if ( empty( $working_days[ $key ] ) ) { return array(); }
-	if ( ! vava_booking_day_has_capacity( $service, $date_string ) ) { return array(); }
+	if ( ! vava_booking_day_has_capacity( $service, $date_string, $shared ) ) { return array(); }
 	$hours = (array) ( $working_hours[ $key ] ?? array() );
 	$start_string = (string) ( $hours['start'] ?? '10:00' );
 	$end_string = (string) ( $hours['end'] ?? '18:00' );
 	$start = new DateTimeImmutable( $date_string . ' ' . $start_string, $timezone );
 	$end = new DateTimeImmutable( $date_string . ' ' . $end_string, $timezone );
+	$max_daily_minutes = max( 0, absint( $shared['max_daily_minutes'] ?? 240 ) );
+	if ( $max_daily_minutes > 0 ) {
+		$daily_cap_end = $start->modify( '+' . $max_daily_minutes . ' minutes' );
+		if ( $daily_cap_end < $end ) { $end = $daily_cap_end; }
+	}
 	$interval = max( 10, absint( $shared['slot_interval'] ?? 30 ) );
 	$duration = vava_booking_effective_duration( $service, $shared );
 	$slots = array();
@@ -1819,6 +1847,7 @@ function vava_booking_render_availability_admin_panel( array $shared ): void {
 	$settings = array(
 		'timezone' => array( 'ar' => 'المنطقة الزمنية', 'en' => 'Time zone', 'type' => 'text', 'min' => '', 'suffix_ar' => '', 'suffix_en' => '', 'placeholder_ar' => '+03:00', 'placeholder_en' => '+03:00' ),
 		'slot_interval' => array( 'ar' => 'الفاصل بين المواعيد بالدقائق', 'en' => 'Time between appointments in minutes', 'type' => 'number', 'min' => '10', 'suffix_ar' => 'دقيقة', 'suffix_en' => 'min', 'placeholder_ar' => '30', 'placeholder_en' => '30' ),
+			'max_daily_minutes' => array( 'ar' => 'الحد الأقصى لساعات العمل اليومية', 'en' => 'Maximum daily working minutes', 'type' => 'number', 'min' => '0', 'suffix_ar' => 'دقيقة (240 = 4 ساعات)', 'suffix_en' => 'minutes (240 = 4 hours)', 'placeholder_ar' => '240', 'placeholder_en' => '240' ),
 		'default_duration' => array( 'ar' => 'المدة الافتراضية بالدقائق', 'en' => 'Default duration in minutes', 'type' => 'number', 'min' => '10', 'suffix_ar' => 'دقيقة', 'suffix_en' => 'min', 'placeholder_ar' => '90', 'placeholder_en' => '90' ),
 		'max_days' => array( 'ar' => 'عدد الأيام المتاحة مستقبلًا', 'en' => 'Number of future booking days', 'type' => 'number', 'min' => '1', 'suffix_ar' => 'يوم', 'suffix_en' => 'days', 'placeholder_ar' => '60', 'placeholder_en' => '60' ),
 	);
@@ -2122,7 +2151,7 @@ function vava_booking_recursive_sanitize( $value, string $key = '' ) {
 	if ( is_array( $value ) ) { $clean = array(); foreach ( $value as $k => $v ) { $clean[ $k ] = vava_booking_recursive_sanitize( $v, (string) $k ); } return $clean; }
 	if ( in_array( $key, array( 'required','enabled','sun','mon','tue','wed','thu','fri','sat','paymob','bank','cash' ), true ) ) { return ! empty( $value ) ? 1 : 0; }
 	if ( in_array( $key, array( 'secret_key','hmac_secret' ), true ) ) { return sanitize_text_field( (string) $value ); }
-	if ( in_array( $key, array( 'slot_interval','default_duration','min_notice_hours','max_days','review_hours' ), true ) ) { return absint( $value ); }
+	if ( in_array( $key, array( 'slot_interval','default_duration','max_daily_minutes','min_notice_hours','max_days','review_hours' ), true ) ) { return absint( $value ); }
 	if ( 'currency' === $key ) { return strtoupper( substr( preg_replace( '/[^A-Za-z]/', '', (string) $value ), 0, 3 ) ); }
 	if ( preg_match( '/(?:_url|base_url)$/', $key ) ) { return esc_url_raw( (string) $value ); }
 	return sanitize_textarea_field( (string) $value );
