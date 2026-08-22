@@ -346,7 +346,7 @@ function vava_booking_service_duration_minutes( array $service, int $fallback = 
 function vava_booking_service_category( array $service ): string {
 		if ( function_exists( 'vava_paths_is_discovery_session' ) && vava_paths_is_discovery_session( $service ) ) { return 'discovery'; }
 		$category = sanitize_key( (string) ( $service['category'] ?? '' ) );
-		if ( in_array( $category, array( 'quick', 'followup', 'comprehensive' ), true ) ) { return $category; }
+		if ( in_array( $category, array( 'discovery', 'quick', 'followup', 'comprehensive' ), true ) ) { return $category; }
 		return function_exists( 'vava_paths_session_category' ) ? vava_paths_session_category( $service ) : 'comprehensive';
 }
 
@@ -367,7 +367,7 @@ function vava_booking_effective_duration( array $service, array $shared ): int {
 	if ( ! empty( $service['booking_duration'] ) ) { return max( 10, absint( $service['booking_duration'] ) ); }
 	$category = vava_booking_service_category( $service );
 	if ( function_exists( 'vava_paths_session_category_booking_minutes' ) ) { return vava_paths_session_category_booking_minutes( $category ); }
-	return array( 'quick' => 20, 'followup' => 30, 'comprehensive' => 90 )[ $category ] ?? max( 10, absint( $shared['default_duration'] ?? 90 ) );
+		return array( 'discovery' => 15, 'quick' => 20, 'followup' => 30, 'comprehensive' => 90 )[ $category ] ?? max( 10, absint( $shared['default_duration'] ?? 90 ) );
 }
 
 /** Recover the consultation category for current and legacy bookings. */
