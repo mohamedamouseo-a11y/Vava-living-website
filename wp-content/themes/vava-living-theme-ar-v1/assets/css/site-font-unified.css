@@ -1,0 +1,9 @@
+/* VAVA_SITE_UNIFIED_CAIRO_FONT_V1
+ * One approved frontend typeface: the Cairo family already used by the booking intro copy.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap");
+
+body.vava-unified-font.vava-unified-font.vava-unified-font.vava-unified-font.vava-unified-font,
+body.vava-unified-font.vava-unified-font.vava-unified-font.vava-unified-font.vava-unified-font *:not(.dashicons):not([class^="dashicons-"]):not([class*=" dashicons-"]):not(.fa):not(.fas):not(.far):not(.fal):not(.fab){
+  font-family:"Cairo","Segoe UI",Tahoma,Arial,sans-serif!important;
+}

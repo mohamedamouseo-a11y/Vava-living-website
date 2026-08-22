@@ -1,0 +1,418 @@
+/* VAVA Paths — single-page guided journey */
+/* VAVA_PATHS_STAGE_ICON_CLEANUP_V1 */
+.vava-paths-wordpress-page{overflow:visible}
+.vava-paths-wordpress-page .vava-paths-hero-section{min-height:78vh}
+.vava-paths-journey{--paths-ink:#4b493f;--paths-olive:#6b6d43;--paths-coral:#d97f63;--paths-sage:#99b4aa;--paths-line:rgba(108,100,77,.18);position:relative;isolation:isolate;overflow:hidden;min-height:760px;padding:clamp(72px,8vw,118px) 0}
+.vava-paths-journey:before{content:"";position:absolute;inset:0;z-index:-3;pointer-events:none;background-image:radial-gradient(rgba(107,109,67,.085) .7px,transparent .8px);background-size:18px 18px;opacity:.42;mask-image:linear-gradient(to bottom,transparent,black 8%,black 92%,transparent)}
+.vava-paths-journey-decoration{position:absolute;z-index:-2;pointer-events:none;border-radius:48% 52% 58% 42%}
+.vava-paths-journey-decoration-coral{width:46vw;height:44vw;left:-22vw;top:8%;background:rgba(242,222,199,.46)}
+.vava-paths-journey-decoration-sage{width:32vw;height:37vw;right:-16vw;bottom:-11%;background:rgba(153,180,170,.30)}
+.vava-paths-stage[hidden]{display:none!important}
+.vava-paths-stage{opacity:0;transform:translateY(16px);transition:opacity .32s ease,transform .32s ease}
+.vava-paths-stage.is-active{opacity:1;transform:none}
+.vava-paths-stage-container{width:min(1180px,calc(100% - 40px));margin:auto;position:relative}
+.vava-paths-stage-heading{text-align:center;max-width:900px;margin:0 auto clamp(34px,5vw,62px)}
+.vava-paths-stage-pill{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:rgba(171,166,111,.13);border:1px solid rgba(107,109,67,.10);color:var(--paths-olive);font-size:14px;margin-bottom:18px}
+.vava-paths-stage-icon{width:25px;height:16px;color:var(--paths-coral);fill:currentColor;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.vava-paths-stage-heading h2{font-family:"VAVA Display","Noto Kufi Arabic",serif!important;font-size:clamp(38px,5vw,72px)!important;line-height:1.2!important;color:var(--paths-ink)!important;font-weight:500!important;margin:0!important}
+.vava-paths-stage-heading>p,.vava-paths-stage-intro p{max-width:780px;margin:16px auto 0!important;color:#5f5a50!important;font-size:clamp(16px,1.25vw,19px)!important;line-height:2!important}
+.vava-paths-heading-divider{display:flex;width:210px;max-width:62%;margin:18px auto 0;align-items:center;gap:10px}
+.vava-paths-heading-divider:before,.vava-paths-heading-divider:after{content:"";height:1px;flex:1;background:rgba(107,109,67,.28)}
+.vava-paths-heading-divider i{width:8px;height:8px;border-radius:50%;background:var(--paths-olive);box-shadow:0 0 0 5px #f9f4ec}
+.vava-paths-entry-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
+.vava-paths-entry-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;min-height:410px;padding:34px 30px 28px;border:1px solid var(--paths-line);border-radius:34px;background:rgba(255,252,247,.72);box-shadow:0 18px 55px rgba(85,78,59,.045);backdrop-filter:blur(7px);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.vava-paths-entry-card:hover{transform:translateY(-5px);box-shadow:0 26px 70px rgba(85,78,59,.075)}
+.vava-paths-entry-card.is-featured{border-color:rgba(217,127,99,.62);background:linear-gradient(150deg,rgba(255,250,244,.94),rgba(249,230,220,.44));box-shadow:0 25px 70px rgba(207,125,101,.12)}
+.vava-paths-entry-tag{position:absolute;top:16px;inset-inline-start:18px;padding:7px 13px;border-radius:999px;background:rgba(171,166,111,.13);color:var(--paths-olive);font-size:12px}
+.vava-paths-entry-card.is-featured .vava-paths-entry-tag{background:rgba(217,127,99,.12);color:var(--paths-coral)}
+.vava-paths-entry-icon,.vava-paths-flow-icon,.vava-paths-session-icon,.vava-paths-comparison-icon{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;margin:20px auto;background:rgba(171,166,111,.10);border:1px solid rgba(107,109,67,.11);color:var(--paths-olive)}
+.vava-paths-entry-icon svg,.vava-paths-flow-icon svg,.vava-paths-session-icon svg,.vava-paths-comparison-icon svg{width:38px;height:38px}
+.vava-paths-entry-card.is-featured .vava-paths-entry-icon{background:rgba(217,127,99,.10);color:var(--paths-coral);border-color:rgba(217,127,99,.18)}
+.vava-paths-entry-card h3,.vava-paths-flow-card h3,.vava-paths-session-card h3,.vava-paths-comparison-card h3{font-family:"VAVA Display","Noto Kufi Arabic",serif!important;color:var(--paths-ink)!important;font-weight:500!important}
+.vava-paths-entry-card h3{font-size:clamp(25px,2.3vw,34px)!important;margin:0 0 12px!important}
+.vava-paths-entry-card.is-featured h3{color:var(--paths-coral)!important}
+.vava-paths-entry-description{flex:1;color:#5f5a50}
+.vava-paths-entry-description p{font-size:15.5px!important;line-height:2!important;margin:0!important}
+.vava-paths-stage-button{appearance:none;border:0;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:18px;min-height:52px;padding:13px 30px;border-radius:999px;font:inherit;font-size:15px;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+.vava-paths-stage-button:hover{transform:translateY(-2px)}
+.vava-paths-stage-button-primary{background:linear-gradient(135deg,#d97f63,#cc704f);color:#fff!important;box-shadow:0 14px 34px rgba(204,112,79,.20)}
+.vava-paths-stage-button-secondary{background:rgba(255,252,247,.72);color:var(--paths-olive)!important;border:1px solid rgba(107,109,67,.24)}
+.vava-paths-stage-button-quiet{background:transparent;color:#746f64!important;border:1px dashed rgba(107,109,67,.22)}
+.vava-paths-entry-card .vava-paths-stage-button{width:100%;margin-top:24px}
+.vava-paths-stage-button.is-disabled{background:rgba(171,166,111,.12);color:#898575;cursor:default;box-shadow:none}
+.vava-paths-flow-hint,.vava-paths-privacy-note,.vava-paths-guidance-note{display:flex;align-items:center;justify-content:center;gap:12px;width:min(820px,100%);margin:34px auto 0;padding:16px 22px;border:1px solid rgba(107,109,67,.11);border-radius:999px;background:rgba(255,252,247,.62);box-shadow:0 12px 36px rgba(85,78,59,.04)}
+.vava-paths-privacy-note span{color:var(--paths-coral);font-size:22px}
+.vava-paths-flow-hint p,.vava-paths-privacy-note p,.vava-paths-guidance-note p{margin:0!important;font-size:14px!important;line-height:1.8!important;color:#625e54!important}
+.vava-paths-flow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;position:relative}
+.vava-paths-flow-grid:before{content:"";position:absolute;left:15%;right:15%;top:54%;border-top:1px dashed rgba(107,109,67,.34);z-index:-1}
+.vava-paths-flow-card{position:relative;appearance:none;text-align:center;border:1px solid var(--paths-line);border-radius:32px;background:rgba(255,252,247,.78);padding:30px 26px;min-height:310px;cursor:pointer;box-shadow:0 18px 50px rgba(85,78,59,.04);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.vava-paths-flow-card:hover{transform:translateY(-5px);border-color:rgba(107,109,67,.32);box-shadow:0 24px 62px rgba(85,78,59,.07)}
+.vava-paths-flow-card.is-current{border-color:rgba(217,127,99,.62);background:linear-gradient(145deg,rgba(255,251,246,.95),rgba(248,226,215,.40))}
+.vava-paths-flow-number{position:absolute;top:18px;inset-inline-end:18px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(171,166,111,.14);color:var(--paths-olive);font-weight:600}
+.vava-paths-flow-card.is-current .vava-paths-flow-number{background:rgba(217,127,99,.12);color:var(--paths-coral);border:1px solid rgba(217,127,99,.34)}
+.vava-paths-flow-card h3{font-size:28px!important;margin:6px 0 10px!important}
+.vava-paths-flow-card.is-current h3{color:var(--paths-coral)!important}
+.vava-paths-flow-card p{font-size:15px!important;line-height:1.9!important;color:#655f56!important;margin:0!important}
+.vava-paths-flow-card b{display:inline-block;margin-top:17px;color:var(--paths-coral);font-weight:500}
+.vava-paths-stage-actions{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:34px}
+.vava-paths-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:0;width:min(900px,100%);margin:0 auto 32px}
+.vava-paths-progress span{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;color:#8a857a;font-size:13px;text-align:center}
+.vava-paths-progress span:not(:last-child):after{content:"";position:absolute;top:17px;inset-inline-start:calc(50% + 26px);width:calc(100% - 52px);height:1px;background:rgba(107,109,67,.20)}
+.vava-paths-progress i{font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#f6f0e7;border:1px solid rgba(107,109,67,.18);color:var(--paths-olive);z-index:1}
+.vava-paths-progress .is-complete i{background:var(--paths-olive);color:#fff}.vava-paths-progress .is-active i{background:var(--paths-coral);color:#fff;border-color:var(--paths-coral)}
+.vava-paths-progress .is-active{color:var(--paths-coral)}
+.vava-paths-question-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}
+.vava-paths-questionnaire{background:rgba(255,252,247,.78);border:1px solid var(--paths-line);border-radius:32px;overflow:hidden;box-shadow:0 22px 65px rgba(85,78,59,.055)}
+.vava-paths-question-row{border:0;border-bottom:1px solid rgba(107,109,67,.11);padding:24px 26px;margin:0}
+.vava-paths-question-row legend{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:0;color:var(--paths-ink)}
+.vava-paths-question-row legend strong{font-size:18px;font-weight:500}.vava-paths-question-row legend i{font-style:normal;color:var(--paths-olive);font-size:22px}
+.vava-paths-question-number{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(171,166,111,.14);color:var(--paths-olive);font-weight:600}
+.vava-paths-question-options{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
+.vava-paths-question-options label{cursor:pointer;position:relative}.vava-paths-question-options input{position:absolute;opacity:0;pointer-events:none}
+.vava-paths-question-options span{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:999px;border:1px solid rgba(107,109,67,.16);background:rgba(255,255,255,.48);color:#686359;font-size:14px;transition:.22s ease}
+.vava-paths-question-options input:checked+span{background:rgba(217,127,99,.13);border-color:rgba(217,127,99,.62);color:#b85f45;box-shadow:0 7px 18px rgba(217,127,99,.08)}
+.vava-paths-results-button{display:flex;margin:26px auto 28px;min-width:320px}
+.vava-paths-form-error{margin:18px 24px 0;padding:12px 16px;border-radius:14px;background:rgba(190,64,48,.08);color:#a4473c;text-align:center;font-size:14px}
+.vava-paths-question-sidebar{position:sticky;top:115px;border:1px solid var(--paths-line);border-radius:28px;padding:24px;background:rgba(255,252,247,.72);box-shadow:0 18px 50px rgba(85,78,59,.04)}
+.vava-paths-question-sidebar h3{font-family:"VAVA Display","Noto Kufi Arabic",serif;font-size:25px;margin:0 0 16px;color:var(--paths-ink)}
+.vava-paths-mini-faq{display:grid;gap:9px;margin-bottom:18px}.vava-paths-mini-faq details{border:1px solid rgba(107,109,67,.12);border-radius:15px;background:rgba(255,255,255,.34);overflow:hidden}
+.vava-paths-mini-faq summary{cursor:pointer;list-style:none;padding:12px 14px;font-size:13px;color:#575348}.vava-paths-mini-faq summary::-webkit-details-marker{display:none}.vava-paths-mini-faq summary:after{content:"+";float:inline-end;color:var(--paths-coral)}.vava-paths-mini-faq details[open] summary:after{content:"−"}
+.vava-paths-mini-faq details>div{padding:0 14px 12px;color:#696459}.vava-paths-mini-faq p{font-size:12.5px!important;line-height:1.8!important;margin:0!important}
+.vava-paths-question-sidebar .vava-paths-stage-button{width:100%;font-size:13px;padding-inline:16px}
+.vava-paths-results-toolbar{display:flex;justify-content:flex-start;margin:-20px 0 22px}
+.vava-paths-session-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.vava-paths-session-card{position:relative;display:flex;flex-direction:column;min-height:370px;padding:25px;border:1px solid var(--paths-line);border-radius:28px;background:rgba(255,252,247,.76);box-shadow:0 17px 48px rgba(85,78,59,.04);transition:.28s ease}
+.vava-paths-session-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(85,78,59,.07)}
+.vava-paths-session-card.is-recommended{border-color:rgba(217,127,99,.58);box-shadow:0 22px 62px rgba(217,127,99,.10)}
+.vava-paths-session-recommended,.vava-paths-session-badge{position:absolute;top:16px;padding:6px 10px;border-radius:999px;font-size:11px}
+.vava-paths-session-recommended{inset-inline-start:16px;background:var(--paths-coral);color:#fff}.vava-paths-session-badge{inset-inline-end:16px;background:rgba(171,166,111,.12);color:var(--paths-olive)}
+.vava-paths-session-icon{width:58px;height:58px;margin:20px auto 13px}.vava-paths-session-icon svg{width:29px;height:29px}
+.vava-paths-session-card h3{font-size:24px!important;text-align:center;margin:0 0 10px!important}
+.vava-paths-session-description{flex:1}.vava-paths-session-description p{font-size:14.5px!important;line-height:1.9!important;text-align:center;color:#645f55!important;margin:0!important}
+.vava-paths-session-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:16px 0}.vava-paths-session-meta span{padding:7px 10px;border-radius:999px;background:rgba(171,166,111,.10);color:#777264;font-size:11.5px}
+.vava-paths-session-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto}.vava-paths-session-bottom>div{display:flex;align-items:baseline;gap:6px}.vava-paths-session-bottom strong{font-size:25px;color:var(--paths-olive)}.vava-paths-session-bottom small{color:#817b70}.vava-paths-session-bottom a{padding:10px 15px;border-radius:999px;background:var(--paths-olive);color:#fff;text-decoration:none;font-size:13px}
+.vava-paths-comparison-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.vava-paths-comparison-card{position:relative;display:flex;flex-direction:column;padding:28px 25px;border:1px solid var(--paths-line);border-radius:30px;background:rgba(255,252,247,.78);box-shadow:0 18px 52px rgba(85,78,59,.04)}
+.vava-paths-comparison-card.is-featured{border-color:rgba(217,127,99,.62);background:linear-gradient(160deg,rgba(255,252,247,.94),rgba(248,229,220,.36));transform:translateY(-8px)}
+.vava-paths-comparison-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:7px 16px;border-radius:999px;background:var(--paths-coral);color:#fff;font-size:12px;white-space:nowrap}
+.vava-paths-comparison-icon{width:60px;height:60px;margin:4px auto 12px}.vava-paths-comparison-icon svg{width:31px;height:31px}
+.vava-paths-comparison-card h3{text-align:center;font-size:28px!important;margin:0 0 10px!important}.vava-paths-comparison-card.is-featured h3{color:var(--paths-coral)!important}
+.vava-paths-comparison-description{text-align:center;color:#625e54;font-size:14px;line-height:1.8;min-height:52px}
+.vava-paths-comparison-core{text-align:center;margin:16px 0 7px;padding-bottom:10px;border-bottom:1px solid rgba(107,109,67,.16);color:var(--paths-olive);font-size:13px}
+.vava-paths-comparison-card ul{list-style:none;padding:0;margin:0}.vava-paths-comparison-card li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid rgba(107,109,67,.11);font-size:13px;color:#5f5a50}.vava-paths-comparison-card li span{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;font-size:11px}.vava-paths-comparison-card .is-yes{background:rgba(99,133,74,.12);color:#65804f}.vava-paths-comparison-card .is-no{background:rgba(107,109,67,.08);color:#999486}.vava-paths-comparison-card li b{font-weight:400}.vava-paths-comparison-card li em{font-style:normal;color:var(--paths-olive)}
+.vava-paths-comparison-price{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;padding-top:14px;border-top:1px solid rgba(107,109,67,.16)}.vava-paths-comparison-price span{font-size:12px;color:#7b766b}.vava-paths-comparison-price strong{font-size:24px;color:var(--paths-olive)}.vava-paths-comparison-card.is-featured .vava-paths-comparison-price strong{color:var(--paths-coral)}
+.vava-paths-comparison-best{margin-top:15px;padding:14px;border-radius:18px;background:rgba(171,166,111,.08)}.vava-paths-comparison-best span{font-size:11px;color:var(--paths-olive)}.vava-paths-comparison-best p{font-size:12px!important;line-height:1.7!important;margin:4px 0 0!important;color:#6c675d!important}
+@media(max-width:980px){.vava-paths-entry-grid,.vava-paths-flow-grid,.vava-paths-session-grid,.vava-paths-comparison-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vava-paths-entry-card:last-child,.vava-paths-flow-card:last-child,.vava-paths-comparison-card:last-child{grid-column:1/-1;max-width:560px;width:100%;justify-self:center}.vava-paths-question-layout{grid-template-columns:1fr}.vava-paths-question-sidebar{position:static}.vava-paths-flow-grid:before{display:none}}
+@media(max-width:680px){.vava-paths-wordpress-page .vava-paths-hero-section{min-height:auto}.vava-paths-journey{padding:68px 0;min-height:auto}.vava-paths-stage-container{width:min(100% - 26px,1180px)}.vava-paths-entry-grid,.vava-paths-flow-grid,.vava-paths-session-grid,.vava-paths-comparison-grid{grid-template-columns:1fr}.vava-paths-entry-card:last-child,.vava-paths-flow-card:last-child,.vava-paths-comparison-card:last-child{grid-column:auto;max-width:none}.vava-paths-entry-card{min-height:auto}.vava-paths-progress{grid-template-columns:repeat(4,minmax(0,1fr));overflow:auto}.vava-paths-progress span{font-size:10px;min-width:72px}.vava-paths-question-row{padding:20px 16px}.vava-paths-question-row legend{grid-template-columns:auto 1fr}.vava-paths-question-row legend i{display:none}.vava-paths-question-options{display:grid;grid-template-columns:1fr}.vava-paths-question-options span{width:100%}.vava-paths-results-button{min-width:0;width:calc(100% - 32px)}.vava-paths-results-toolbar{justify-content:center}.vava-paths-comparison-card.is-featured{transform:none}.vava-paths-flow-hint,.vava-paths-privacy-note,.vava-paths-guidance-note{border-radius:24px}.vava-paths-stage-button{width:100%}.vava-paths-stage-actions{display:grid;grid-template-columns:1fr;width:100%}}
+html[dir="ltr"] .vava-paths-stage-button span{transform:rotate(180deg)}
+
+/* V5 guided transitions and one-question flow */
+.vava-paths-stage.is-leaving{opacity:0;transform:translateY(-14px) scale(.992);pointer-events:none}
+.vava-paths-stage.is-entering{opacity:0;transform:translateY(18px) scale(.992)}
+.vava-paths-question-row[hidden]{display:none!important}
+.vava-paths-question-row.is-current{min-height:330px;display:flex;flex-direction:column;justify-content:center;border-bottom:0}
+.vava-paths-question-row.is-question-entering{opacity:0;transform:translateX(calc(var(--question-direction,1) * 28px))}
+.vava-paths-question-row{transition:opacity .3s ease,transform .3s ease}
+.vava-paths-question-row.is-answer-selected{opacity:0;transform:translateX(-22px)}
+.vava-paths-question-footer{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-top:1px solid rgba(107,109,67,.11);color:var(--paths-olive)}
+.vava-paths-question-prev{border:1px solid rgba(107,109,67,.22);background:transparent;border-radius:999px;padding:8px 14px;color:var(--paths-olive);cursor:pointer}
+.vava-paths-results-button[hidden]{display:none!important}
+.vava-paths-session-card.is-best-match{z-index:2;transform:translateY(-10px);border:2px solid rgba(217,127,99,.82);box-shadow:0 34px 95px rgba(217,127,99,.30),0 18px 55px rgba(70,60,45,.14);background:linear-gradient(155deg,#fffdf9,#fff2eb)}
+.vava-paths-session-card.is-best-match:hover{transform:translateY(-13px)}
+@media(prefers-reduced-motion:reduce){.vava-paths-stage,.vava-paths-question-row,.vava-paths-entry-card,.vava-paths-session-card{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+.vava-paths-comparison-basics{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:12px 0}.vava-paths-comparison-basics span{padding:8px 11px;border-radius:13px;background:rgba(171,166,111,.09);text-align:center}.vava-paths-comparison-basics small,.vava-paths-comparison-basics b{display:block}.vava-paths-comparison-basics small{font-size:10px;color:#8b8679}.vava-paths-comparison-basics b{font-size:12px;color:var(--paths-olive)}
+
+/* V8 — comparison facts and per-package booking actions. */
+.vava-paths-comparison-basics,.vava-paths-comparison-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.vava-paths-comparison-basics span,.vava-paths-comparison-facts span{padding:10px 9px;border-radius:12px;background:#f4f1e8;text-align:center}
+.vava-paths-comparison-basics small,.vava-paths-comparison-facts small{display:block;color:#918b7d;font-size:11px}.vava-paths-comparison-basics b,.vava-paths-comparison-facts b{display:block;margin-top:4px;color:#626347;font-size:14px}
+.vava-paths-plan-book-button{display:flex;align-items:center;justify-content:center;min-height:44px;margin-top:auto;padding:10px 18px;border-radius:999px;background:#6b6d43;color:#fff;text-decoration:none;font-weight:700;box-shadow:0 10px 24px rgba(107,109,67,.16);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+.vava-paths-comparison-card.is-featured .vava-paths-plan-book-button{background:#cf7d65;box-shadow:0 12px 28px rgba(207,125,101,.22)}
+.vava-paths-plan-book-button:hover,.vava-paths-plan-book-button:focus{color:#fff;transform:translateY(-2px);box-shadow:0 16px 30px rgba(107,109,67,.23)}
+
+
+/* V11 — approved immersive questions stage */
+.vava-paths-questions-stage .vava-paths-stage-container{width:min(1360px,calc(100% - 44px))}
+.vava-paths-questions-stage .vava-paths-stage-heading{display:none}
+.vava-paths-questions-stage .vava-paths-question-layout{direction:ltr;display:grid;grid-template-columns:300px minmax(0,1fr) 112px;grid-template-areas:"sidebar form progress";gap:28px;align-items:start}
+.vava-paths-questions-stage .vava-paths-question-sidebar{direction:rtl;grid-area:sidebar;position:sticky;top:112px;padding:30px 24px;border-radius:30px;background:rgba(255,252,247,.82);box-shadow:0 22px 70px rgba(85,78,59,.07);backdrop-filter:blur(10px)}
+.vava-paths-sidebar-spark{display:block;margin-bottom:8px;color:var(--paths-olive);font-size:20px}
+.vava-paths-questions-stage .vava-paths-question-sidebar h3{font-size:28px!important;line-height:1.45!important;margin-bottom:10px!important}
+.vava-paths-question-sidebar-intro{margin:0 0 20px!important;color:#817b70!important;font-size:14px!important;line-height:1.9!important}
+.vava-paths-sidebar-help{display:flex;align-items:center;gap:12px;margin:20px 0 14px;padding:15px;border-radius:18px;background:rgba(171,166,111,.10);color:var(--paths-olive)}
+.vava-paths-sidebar-help>span{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.55);font-size:17px}
+.vava-paths-sidebar-help div{display:grid;gap:2px}.vava-paths-sidebar-help strong{font-size:14px}.vava-paths-sidebar-help small{font-size:11.5px;color:#797468}
+.vava-paths-questions-stage .vava-paths-mini-faq{gap:8px;margin-bottom:0}
+.vava-paths-questions-stage .vava-paths-mini-faq details{border-color:rgba(107,109,67,.13);background:rgba(255,255,255,.45)}
+.vava-paths-questions-stage .vava-paths-mini-faq summary{padding:11px 13px;font-size:12.5px}
+.vava-paths-questions-stage .vava-paths-questionnaire{direction:rtl;grid-area:form;min-height:650px;display:flex;flex-direction:column;padding:34px 38px 26px;border-radius:38px;background:rgba(255,252,247,.88);box-shadow:0 28px 90px rgba(85,78,59,.075);overflow:hidden}
+.vava-paths-question-card-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px}
+.vava-paths-question-card-top>i{font-style:normal;color:var(--paths-olive);font-size:25px}
+.vava-paths-question-count{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:7px 15px;border-radius:999px;background:rgba(217,127,99,.11);color:var(--paths-coral);font-size:13px;font-weight:700}
+.vava-paths-questions-stage .vava-paths-question-row{flex:1;min-height:365px;padding:34px 18px 26px;border:0!important;text-align:center}
+.vava-paths-questions-stage .vava-paths-question-row.is-current{min-height:365px;justify-content:flex-start}
+.vava-paths-questions-stage .vava-paths-question-row legend{display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 10px;text-align:center}
+.vava-paths-questions-stage .vava-paths-question-number,.vava-paths-questions-stage .vava-paths-question-row legend>i{display:none}
+.vava-paths-questions-stage .vava-paths-question-row legend strong{font-family:"VAVA Display","Noto Kufi Arabic",serif!important;font-size:clamp(30px,3.1vw,48px)!important;line-height:1.45!important;font-weight:500!important;color:var(--paths-ink)!important}
+.vava-paths-question-guidance{margin:4px auto 26px!important;color:#898277!important;font-size:16px!important;line-height:1.8!important}
+.vava-paths-questions-stage .vava-paths-question-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0 auto;width:min(850px,100%)}
+.vava-paths-questions-stage .vava-paths-question-options label{width:100%}
+.vava-paths-questions-stage .vava-paths-question-options span{position:relative;width:100%;min-height:74px;padding:16px 52px 16px 22px;border-radius:19px;background:rgba(255,255,255,.55);border:1px solid rgba(107,109,67,.16);justify-content:flex-start;text-align:start;box-shadow:0 8px 22px rgba(85,78,59,.025)}
+.vava-paths-questions-stage .vava-paths-question-options span:before{content:"";position:absolute;inset-inline-start:20px;width:19px;height:19px;border:1.5px solid rgba(107,109,67,.38);border-radius:50%;background:rgba(255,255,255,.55)}
+.vava-paths-questions-stage .vava-paths-question-options span b{font-weight:500;font-size:15px;color:#5e594f}
+.vava-paths-questions-stage .vava-paths-question-options span i{position:absolute;inset-inline-start:23px;display:none;font-style:normal;color:#fff;font-size:11px;z-index:1}
+.vava-paths-questions-stage .vava-paths-question-options input:checked+span{background:linear-gradient(135deg,rgba(255,250,246,.98),rgba(247,228,218,.52));border-color:rgba(217,127,99,.82);box-shadow:0 14px 34px rgba(217,127,99,.10)}
+.vava-paths-questions-stage .vava-paths-question-options input:checked+span:before{background:var(--paths-coral);border-color:var(--paths-coral)}
+.vava-paths-questions-stage .vava-paths-question-options input:checked+span i{display:block}
+.vava-paths-questions-stage .vava-paths-question-options input:checked+span b{color:#bd644a}
+.vava-paths-smart-note{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 18px;padding:14px 18px;border:1px solid rgba(107,109,67,.11);border-radius:17px;background:rgba(255,252,247,.65)}
+.vava-paths-smart-note span{color:#b9954f;font-size:19px}.vava-paths-smart-note p{margin:0!important;color:#797368!important;font-size:12.5px!important;line-height:1.75!important;text-align:center}
+.vava-paths-question-actions{display:grid;grid-template-columns:minmax(160px,.48fr) minmax(280px,1fr);gap:16px;align-items:center}
+.vava-paths-question-actions .vava-paths-stage-button{width:100%;margin:0;min-height:56px}
+.vava-paths-question-actions .vava-paths-results-button{min-width:0}
+.vava-paths-question-actions button:disabled,.vava-paths-question-actions .is-disabled{opacity:.55;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.vava-paths-question-actions .vava-paths-results-button:disabled{background:linear-gradient(135deg,#ddb09f,#d99c87)}
+.vava-paths-results-helper{margin:10px 0 0!important;text-align:center;color:#837d72!important;font-size:12px!important;line-height:1.7!important}
+.vava-paths-questions-stage .vava-paths-question-footer{order:8;margin-top:14px;padding:13px 0 0;border-top:1px solid rgba(107,109,67,.11)}
+.vava-paths-questions-stage .vava-paths-question-prev{padding:7px 12px;border:0;background:transparent;color:var(--paths-olive);font-size:12.5px}
+.vava-paths-questions-stage .vava-paths-question-footer>span{font-weight:700;color:var(--paths-olive)}
+.vava-paths-questions-stage .vava-paths-form-error{order:9;margin:12px 0 0}
+.vava-paths-question-next[hidden]{display:none!important}
+.vava-paths-questions-stage .vava-paths-progress{direction:rtl;grid-area:progress;position:sticky;top:112px;display:flex;flex-direction:column;width:auto;margin:28px 0 0;gap:0}
+.vava-paths-questions-stage .vava-paths-progress span{min-height:116px;justify-content:flex-start;gap:10px;font-size:11px;line-height:1.5}
+.vava-paths-questions-stage .vava-paths-progress span:not(:last-child):after{top:36px;inset-inline-start:50%;width:1px;height:70px;transform:translateX(-50%);background:rgba(107,109,67,.20)}
+.vava-paths-questions-stage .vava-paths-progress i{width:38px;height:38px}
+
+@media(max-width:1180px){
+  .vava-paths-questions-stage .vava-paths-question-layout{grid-template-columns:285px minmax(0,1fr);grid-template-areas:"progress progress" "sidebar form"}
+  .vava-paths-questions-stage .vava-paths-progress{position:static;flex-direction:row;width:min(800px,100%);margin:0 auto 8px}
+  .vava-paths-questions-stage .vava-paths-progress span{flex:1;min-height:auto}
+  .vava-paths-questions-stage .vava-paths-progress span:not(:last-child):after{top:18px;inset-inline-start:calc(50% + 24px);width:calc(100% - 48px);height:1px;transform:none}
+}
+@media(max-width:860px){
+  .vava-paths-questions-stage .vava-paths-question-layout{grid-template-columns:1fr;grid-template-areas:"progress" "form" "sidebar"}
+  .vava-paths-questions-stage .vava-paths-question-sidebar{position:static}
+  .vava-paths-questions-stage .vava-paths-questionnaire{min-height:auto;padding:28px 22px 22px}
+  .vava-paths-questions-stage .vava-paths-question-row,.vava-paths-questions-stage .vava-paths-question-row.is-current{min-height:330px;padding-inline:0}
+}
+@media(max-width:620px){
+  .vava-paths-questions-stage .vava-paths-stage-container{width:min(100% - 22px,1360px)}
+  .vava-paths-questions-stage .vava-paths-progress{overflow:visible}
+  .vava-paths-questions-stage .vava-paths-progress span{min-width:0;font-size:9px}
+  .vava-paths-questions-stage .vava-paths-progress i{width:31px;height:31px}
+  .vava-paths-questions-stage .vava-paths-progress span:not(:last-child):after{top:15px}
+  .vava-paths-questions-stage .vava-paths-question-row legend strong{font-size:28px!important}
+  .vava-paths-questions-stage .vava-paths-question-options{grid-template-columns:1fr}
+  .vava-paths-question-actions{grid-template-columns:1fr}
+  .vava-paths-question-actions .vava-paths-question-next{order:2}
+}
+.vava-paths-questions-stage .vava-paths-question-row.is-answer-selected{opacity:1;transform:scale(.996)}
+
+/* V14 — corrected category flow and restored lightweight session results */
+.vava-paths-category-progress{grid-template-columns:repeat(3,1fr);margin-bottom:34px}
+.vava-paths-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
+.vava-paths-journey[data-lang="ar"] .vava-paths-category-grid{direction:rtl}
+.vava-paths-journey[data-lang="en"] .vava-paths-category-grid{direction:ltr}
+.vava-paths-category-card{appearance:none;-webkit-appearance:none;position:relative;display:flex;flex-direction:column;align-items:stretch;min-height:330px;padding:30px 26px 26px;border:1px solid var(--paths-line);border-radius:30px;background:rgba(255,252,247,.80);box-shadow:0 18px 55px rgba(85,78,59,.045);cursor:pointer;font:inherit;text-align:inherit;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease}
+.vava-paths-journey[data-lang="ar"] .vava-paths-category-card{direction:rtl}
+.vava-paths-journey[data-lang="en"] .vava-paths-category-card{direction:ltr}
+.vava-paths-category-card:hover,.vava-paths-category-card:focus-visible,.vava-paths-category-card.is-selected{transform:translateY(-5px);border-color:rgba(217,127,99,.60);background:rgba(255,249,245,.92);box-shadow:0 26px 70px rgba(217,127,99,.10);outline:0}
+.vava-paths-category-icon{width:66px;height:66px;display:grid;place-items:center;margin:0 auto 16px;border:1px solid rgba(107,109,67,.12);border-radius:50%;background:rgba(171,166,111,.10);color:var(--paths-olive)}
+.vava-paths-category-icon svg{width:34px;height:34px}
+.vava-paths-category-title{display:block;margin:0;text-align:center;font-family:"VAVA Display","Noto Kufi Arabic",serif;font-size:30px;line-height:1.45;color:var(--paths-ink);font-weight:500}
+.vava-paths-category-duration{display:block;margin:5px auto 0;text-align:center;color:var(--paths-coral);font-size:14px;font-weight:700}
+.vava-paths-category-action{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:48px;margin-top:auto;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#d97f63,#cc704f);color:#fff;font-size:14px;font-weight:700;box-shadow:0 12px 28px rgba(204,112,79,.16);transition:transform .2s ease,box-shadow .2s ease}
+.vava-paths-category-card:hover .vava-paths-category-action,.vava-paths-category-card:focus-visible .vava-paths-category-action{transform:translateY(-2px);box-shadow:0 16px 34px rgba(204,112,79,.22)}
+.vava-paths-stage-faq{width:min(980px,100%);margin:58px auto 0}
+.vava-paths-stage-faq>h3,.vava-paths-inline-comparison>header h3{margin:0 0 24px!important;text-align:center;font-family:"VAVA Display","Noto Kufi Arabic",serif!important;font-size:clamp(32px,4vw,48px)!important;line-height:1.35!important;color:var(--paths-olive)!important;font-weight:500!important}
+.vava-paths-stage-faq-list{display:grid;gap:10px}
+.vava-paths-stage-faq-list details{overflow:hidden;border:1px solid rgba(107,109,67,.14);border-radius:18px;background:rgba(255,252,247,.74);box-shadow:0 10px 30px rgba(85,78,59,.03)}
+.vava-paths-stage-faq-list summary{position:relative;cursor:pointer;list-style:none;padding:17px 54px 17px 20px;color:#575348;font-size:15px;font-weight:700}
+.vava-paths-stage-faq-list summary::-webkit-details-marker{display:none}
+.vava-paths-stage-faq-list summary:before{content:"+";position:absolute;inset-inline-start:18px;top:50%;transform:translateY(-50%);width:27px;height:27px;display:grid;place-items:center;border:1px solid rgba(107,109,67,.25);border-radius:50%;color:var(--paths-olive);font-size:17px;font-weight:400}
+.vava-paths-stage-faq-list details[open] summary{color:var(--paths-coral)}
+.vava-paths-stage-faq-list details[open] summary:before{content:"−"}
+.vava-paths-stage-faq-list details>div{padding:0 54px 18px 20px;color:#696459}
+.vava-paths-stage-faq-list details p{margin:0!important;font-size:14px!important;line-height:1.9!important}
+.vava-paths-category-results{grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch}
+.vava-paths-category-results .vava-paths-session-card[hidden]{display:none!important}
+.vava-paths-category-results .vava-paths-session-card-simple{display:flex;flex-direction:column;min-height:210px;padding:28px;border-radius:26px;text-align:center}
+.vava-paths-session-card-simple h3{margin:0!important;font-size:24px!important;line-height:1.55!important;text-align:center}
+.vava-paths-session-simple-footer{display:grid;gap:16px;margin-top:auto;padding-top:24px}
+.vava-paths-session-price{display:flex;align-items:baseline;justify-content:center;gap:7px;color:var(--paths-olive)}
+.vava-paths-session-price strong{font-size:28px;line-height:1;font-weight:600}
+.vava-paths-session-price small{font-size:13px;color:#817b70}
+.vava-paths-session-simple-footer>a{display:flex;align-items:center;justify-content:center;min-height:46px;padding:10px 16px;border-radius:999px;background:linear-gradient(135deg,#6b6d43,#7f7d65);color:#fff!important;text-decoration:none!important;font-size:13px;font-weight:700;box-shadow:0 10px 24px rgba(107,109,67,.16);transition:transform .2s ease,box-shadow .2s ease}
+.vava-paths-session-simple-footer>a:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(107,109,67,.23)}
+.vava-paths-inline-comparison{margin-top:68px;padding-top:54px;border-top:1px solid rgba(107,109,67,.16)}
+.vava-paths-inline-comparison[hidden]{display:none!important}
+.vava-paths-inline-comparison>header{width:min(820px,100%);margin:0 auto 32px;text-align:center}
+.vava-paths-inline-comparison>header p{margin:0!important;color:#655f56!important;font-size:15px!important;line-height:1.9!important}
+.vava-paths-plan-details-button{display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:auto;padding:11px 18px;border-radius:999px;background:linear-gradient(135deg,#6b6d43,#7f7d65);color:#fff!important;text-decoration:none!important;font-size:14px;font-weight:700;box-shadow:0 12px 28px rgba(107,109,67,.18);transition:transform .2s ease,box-shadow .2s ease}
+.vava-paths-plan-details-button:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(107,109,67,.24)}
+.vava-paths-comparison-card{display:flex;flex-direction:column}
+.vava-paths-comparison-card ul{flex:1}
+
+@media(max-width:1180px){
+  .vava-paths-category-results{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:980px){
+  .vava-paths-category-grid{grid-template-columns:1fr}
+  .vava-paths-category-card{min-height:250px}
+}
+@media(max-width:680px){
+  .vava-paths-category-progress{grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}
+  .vava-paths-category-results{grid-template-columns:1fr}
+  .vava-paths-stage-faq{margin-top:42px}
+  .vava-paths-stage-faq-list summary{padding-inline:48px 15px;font-size:13.5px}
+  .vava-paths-stage-faq-list details>div{padding-inline:48px 15px}
+  .vava-paths-category-card{min-height:230px}
+  .vava-paths-category-results .vava-paths-session-card-simple{min-height:190px}
+}
+
+/* V1.21.2 — category-agnostic balanced result rows. */
+.vava-paths-category-results{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:18px;
+  align-items:stretch;
+  justify-content:stretch
+}
+.vava-paths-category-results>.vava-paths-session-card{grid-column:span 2;min-width:0;height:100%}
+.vava-paths-category-results>.vava-paths-session-card.is-last-single{grid-column:1/-1;width:min(560px,100%);justify-self:center}
+.vava-paths-category-results>.vava-paths-session-card.is-last-pair-first{grid-column:1/span 3}
+.vava-paths-category-results>.vava-paths-session-card.is-last-pair-second{grid-column:4/span 3}
+@media(max-width:980px){
+  .vava-paths-category-results{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vava-paths-category-results>.vava-paths-session-card{grid-column:auto}
+  .vava-paths-category-results>.vava-paths-session-card.is-last-single,
+  .vava-paths-category-results>.vava-paths-session-card.is-last-pair-first,
+  .vava-paths-category-results>.vava-paths-session-card.is-last-pair-second{grid-column:auto}
+  .vava-paths-category-results>.vava-paths-session-card.is-tablet-last-single{grid-column:1/-1;width:min(560px,100%);justify-self:center}
+}
+@media(max-width:680px){
+  .vava-paths-category-results{grid-template-columns:1fr}
+  .vava-paths-category-results>.vava-paths-session-card,
+  .vava-paths-category-results>.vava-paths-session-card.is-last-single,
+  .vava-paths-category-results>.vava-paths-session-card.is-last-pair-first,
+  .vava-paths-category-results>.vava-paths-session-card.is-last-pair-second,
+  .vava-paths-category-results>.vava-paths-session-card.is-tablet-last-single{grid-column:auto;width:100%}
+}
+
+/* V4R4 — featured results, stage order and comparison guidance. */
+.vava-paths-sessions-stage .vava-paths-stage-heading{margin-bottom:0}
+.vava-paths-sessions-stage .vava-paths-stage-duration{margin:10px auto 0}
+.vava-paths-sessions-stage .vava-paths-category-progress{margin:26px auto 44px}
+.vava-paths-category-results .vava-paths-session-card-simple.is-featured{
+  border-color:#d97f63;
+  background:linear-gradient(145deg,#db8367,#cf7356);
+  color:#fff;
+  box-shadow:0 24px 58px rgba(207,115,86,.24);
+}
+.vava-paths-category-results .vava-paths-session-card-simple.is-featured h3,
+.vava-paths-category-results .vava-paths-session-card-simple.is-featured .vava-paths-session-price,
+.vava-paths-category-results .vava-paths-session-card-simple.is-featured .vava-paths-session-price strong,
+.vava-paths-category-results .vava-paths-session-card-simple.is-featured .vava-paths-session-price small{color:#fff!important}
+.vava-paths-category-results .vava-paths-session-card-simple.is-featured .vava-paths-session-simple-footer>a{
+  border:1px solid rgba(255,255,255,.52);
+  background:rgba(255,255,255,.16);
+  color:#fff!important;
+  box-shadow:none;
+}
+.vava-paths-category-results .vava-paths-session-card-simple.is-featured .vava-paths-session-simple-footer>a:hover{
+  background:#fff;
+  color:#cf7356!important;
+  box-shadow:0 12px 28px rgba(115,55,37,.18);
+}
+.vava-paths-guidance-note .vava-paths-guidance-session-link,
+.vava-paths-guidance-note a.vava-paths-guidance-session-link{
+  color:var(--paths-coral)!important;
+  text-decoration:none!important;
+  font-weight:700;
+}
+.vava-paths-guidance-note .vava-paths-guidance-session-link:hover,
+.vava-paths-guidance-note .vava-paths-guidance-session-link:focus{
+  color:#c66d52!important;
+  text-decoration:none!important;
+}
+
+
+/* V4R5R1 — verified stage layout correction based on the live theme snapshot. */
+.vava-paths-category-stage .vava-paths-stage-heading,
+.vava-paths-sessions-stage .vava-paths-stage-heading{
+  margin-bottom:0!important;
+}
+.vava-paths-category-stage .vava-paths-category-progress,
+.vava-paths-sessions-stage .vava-paths-category-progress{
+  position:relative!important;
+  inset:auto!important;
+  float:none!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  width:min(540px,100%)!important;
+  max-width:540px!important;
+  margin:24px auto 46px!important;
+  padding:0!important;
+  justify-content:center!important;
+  justify-items:stretch!important;
+  align-items:start!important;
+}
+.vava-paths-category-stage .vava-paths-category-progress span,
+.vava-paths-sessions-stage .vava-paths-category-progress span{
+  min-width:0!important;
+  width:auto!important;
+  justify-self:stretch!important;
+  align-items:center!important;
+  text-align:center!important;
+}
+.vava-paths-category-icon{display:none!important}
+.vava-paths-category-card{
+  align-items:center!important;
+  min-height:250px!important;
+  padding:40px 28px 28px!important;
+  text-align:center!important;
+}
+.vava-paths-category-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(217,127,99,.60);
+  background:rgba(255,249,245,.92);
+  box-shadow:0 26px 70px rgba(217,127,99,.10);
+  outline:0;
+}
+.vava-paths-category-card:focus-visible{
+  transform:none!important;
+  border-color:var(--paths-line)!important;
+  background:rgba(255,252,247,.80)!important;
+  box-shadow:0 18px 55px rgba(85,78,59,.045)!important;
+  outline:2px solid rgba(217,127,99,.72)!important;
+  outline-offset:4px;
+}
+.vava-paths-category-card.is-selected:not(:hover){
+  transform:none!important;
+  border-color:var(--paths-line)!important;
+  background:rgba(255,252,247,.80)!important;
+  box-shadow:0 18px 55px rgba(85,78,59,.045)!important;
+}
+.vava-paths-category-card:focus-visible .vava-paths-category-action{
+  transform:none!important;
+  box-shadow:0 12px 28px rgba(204,112,79,.16)!important;
+}
+@media(max-width:680px){
+  .vava-paths-category-stage .vava-paths-category-progress,
+  .vava-paths-sessions-stage .vava-paths-category-progress{
+    width:100%!important;
+    max-width:100%!important;
+    margin:20px auto 34px!important;
+  }
+}
+
+/* V4R6 — comparison cards: feature status, compact footer and no duplicate duration block. */
+.vava-paths-comparison-card li.is-unavailable{color:#8e817b}
+.vava-paths-comparison-card li.is-unavailable b,.vava-paths-comparison-card li.is-unavailable em{color:#8e817b}
+.vava-paths-comparison-card .is-no{background:rgba(190,94,76,.10);color:#b65f4c}
+.vava-paths-comparison-action-row{display:grid;grid-template-columns:minmax(88px,auto) minmax(0,1fr);gap:10px;align-items:center;margin-top:18px;padding-top:15px;border-top:1px solid rgba(107,109,67,.16)}
+.vava-paths-comparison-action-price{display:flex;align-items:center;justify-content:center;min-height:44px;padding:8px 13px;border-radius:999px;background:rgba(171,166,111,.10);white-space:nowrap}
+.vava-paths-comparison-action-price strong{color:var(--paths-olive);font-size:21px;line-height:1}
+.vava-paths-comparison-card.is-featured .vava-paths-comparison-action-price strong{color:var(--paths-coral)}
+.vava-paths-comparison-action-row .vava-paths-plan-book-button{margin-top:0;width:100%}
+@media(max-width:520px){.vava-paths-comparison-action-row{grid-template-columns:1fr}.vava-paths-comparison-action-price{width:100%}}

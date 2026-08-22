@@ -1,0 +1,1873 @@
+:root{
+  --vava-admin-accent:#6f815f;
+  --vava-admin-accent-soft:#edf3e9;
+  --vava-admin-coral:#d9907e;
+  --vava-admin-line:#dfe3e7;
+  --vava-admin-bg:#f7f8fa;
+  --vava-admin-text:#1f2937;
+}
+#poststuff #vava_homepage_settings .inside{margin:0;padding:0}
+#vava_homepage_settings{border:0;box-shadow:0 1px 3px rgba(15,23,42,.08)}
+#vava_homepage_settings .postbox-header{background:#fff;border-bottom:1px solid var(--vava-admin-line)}
+#vava_homepage_settings .hndle{font-size:16px;padding:15px 18px}
+.vava-homepage-admin{background:#fff;color:var(--vava-admin-text)}
+.vava-admin-intro{display:flex;align-items:flex-start;gap:14px;margin:0;padding:16px 20px;background:#edf6ff;border-bottom:1px solid #cfe4f6}
+.vava-admin-intro>.dashicons{width:36px;height:36px;font-size:26px;line-height:36px;text-align:center;color:#2271b1;background:#fff;border-radius:10px}
+.vava-admin-intro strong{display:block;margin:2px 0 4px;font-size:14px}
+.vava-admin-intro p{margin:0;color:#506273}
+.vava-admin-toolbar{position:sticky;top:32px;z-index:20;display:flex;align-items:stretch;justify-content:space-between;gap:18px;padding:14px 18px;background:#fff;border-bottom:1px solid var(--vava-admin-line);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.vava-section-tabs{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;scrollbar-width:thin}
+.vava-section-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:94px;padding:10px 13px;border:0;border-bottom:3px solid transparent;background:transparent;color:#4b5563;cursor:pointer;border-radius:8px 8px 0 0;transition:.18s ease}
+.vava-section-tab:hover{background:#f7f8fa;color:#1f2937}
+.vava-section-tab.is-active{color:var(--vava-admin-accent);background:var(--vava-admin-accent-soft);border-bottom-color:var(--vava-admin-accent);font-weight:700}
+.vava-section-tab .dashicons{font-size:21px;width:22px;height:22px}
+.vava-language-switch{display:flex;align-items:center;align-self:center;padding:3px;background:#eef0f2;border:1px solid #d8dde3;border-radius:10px;direction:rtl;flex:0 0 auto}
+.vava-language-switch button{display:flex;align-items:center;gap:7px;padding:8px 13px;border:0;background:transparent;color:#5c6672;border-radius:7px;cursor:pointer;font-weight:600}
+.vava-language-switch button small{display:inline-grid;place-items:center;min-width:25px;height:20px;padding:0 4px;border-radius:5px;background:#fff;color:#6b7280;font-size:10px}
+.vava-language-switch button.is-active{background:var(--vava-admin-accent);color:#fff;box-shadow:0 2px 7px rgba(50,70,42,.2)}
+.vava-language-switch button.is-active small{color:var(--vava-admin-accent)}
+.vava-section-panel{display:none;padding:22px;background:var(--vava-admin-bg)}
+.vava-section-panel.is-active{display:block}
+.vava-panel-heading{display:flex;align-items:center;gap:13px;margin-bottom:16px;padding:17px 20px;background:#fff;border:1px solid var(--vava-admin-line);border-radius:12px}
+.vava-panel-heading>.dashicons{width:42px;height:42px;font-size:24px;line-height:42px;text-align:center;color:var(--vava-admin-accent);background:var(--vava-admin-accent-soft);border-radius:10px}
+.vava-panel-heading h2{margin:0 0 4px;font-size:19px}
+.vava-panel-heading p{margin:0;color:#6b7280}
+.vava-language-pane{display:none}
+.vava-language-pane.is-active{display:block}
+.vava-language-status{display:flex;align-items:center;gap:10px;margin:0 0 16px;padding:11px 14px;border:1px solid #dce8d7;background:#f3f8f0;color:#405037;border-radius:9px}
+.vava-language-status small{margin-inline-start:auto;color:#68745f}
+.vava-fields-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.vava-admin-field{margin:0;padding:15px;background:#fff;border:1px solid var(--vava-admin-line);border-radius:10px;box-sizing:border-box}
+.vava-admin-field-textarea{grid-column:1/-1}
+.vava-admin-field label{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.vava-admin-field input[type=text],.vava-admin-field input[type=url],.vava-admin-field textarea{min-height:42px;border-color:#cfd5dc;border-radius:7px;box-shadow:none}
+.vava-admin-field textarea{min-height:116px;resize:vertical}
+.vava-lang-badge{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:20px;padding:0 5px;border-radius:5px;background:#eef0f2;color:#5f6974;font-size:10px;font-weight:700;vertical-align:middle}
+.vava-shared-fields{margin-top:18px;padding:17px;background:#fffaf3;border:1px solid #eadbc6;border-radius:11px}
+.vava-shared-fields>h3,.vava-admin-repeaters>h3{display:flex;align-items:center;gap:8px;margin:0 0 14px;font-size:15px}
+.vava-shared-fields>.description{margin:-5px 0 14px;color:#736a5c}
+.vava-media-field{height:100%;padding:13px;border:1px dashed #bcc5ce;border-radius:9px;background:#fafbfc;box-sizing:border-box}
+.vava-media-preview{display:grid;place-items:center;min-height:116px;margin:10px 0;background:#f1f3f5;border-radius:8px;color:#8b95a1;text-align:center}
+.vava-media-preview .dashicons{font-size:34px;width:38px;height:38px}
+.vava-media-preview em{display:block;margin-top:-30px;font-style:normal;font-size:12px}
+.vava-media-preview img{display:block;max-width:100%;max-height:190px;border-radius:8px}
+.vava-media-actions{display:flex;align-items:center;gap:12px;margin-top:10px}
+.vava-admin-repeaters{margin-top:18px;padding:17px;background:#fff;border:1px solid var(--vava-admin-line);border-radius:11px}
+.vava-repeater-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vava-repeater-grid-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.vava-repeater-grid-four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.vava-admin-repeater-card{margin:0;padding:14px;background:#fafafa;border:1px solid #dfe3e7;border-radius:10px;box-sizing:border-box}
+.vava-admin-repeater-card h4{margin:0 0 12px;padding-bottom:9px;border-bottom:1px solid #e4e7eb;color:#4c5865}
+.vava-admin-repeater-card label{display:block;margin:10px 0 5px;font-weight:600}
+.vava-admin-repeater-card textarea{min-height:135px;resize:vertical}
+.vava-link-card input[type=url]{direction:ltr}
+.vava-toggle-row{display:flex!important;align-items:center;gap:8px;margin:0 0 12px!important}
+.vava-social-card{background:#fff}
+body.post-type-page.vava-homepage-classic #postdivrich{display:none!important}
+@media(max-width:1200px){
+  .vava-admin-toolbar{flex-direction:column;align-items:stretch}
+  .vava-language-switch{align-self:flex-start}
+  .vava-repeater-grid-three,.vava-repeater-grid-four{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:782px){
+  .vava-admin-toolbar{top:46px;padding:10px}
+  .vava-section-tab{min-width:80px;padding:8px 9px;font-size:12px}
+  .vava-section-panel{padding:12px}
+  .vava-fields-grid,.vava-repeater-grid,.vava-repeater-grid-three,.vava-repeater-grid-four{grid-template-columns:1fr}
+  .vava-admin-field-textarea{grid-column:auto}
+  .vava-language-status{align-items:flex-start;flex-wrap:wrap}
+  .vava-language-status small{width:100%;margin:0}
+}
+
+/* ===== V1R4 homepage editor hardening and professional media controls ===== */
+#vava_homepage_settings.vava-homepage-locked-postbox .handle-actions,
+#vava_homepage_settings.vava-homepage-postbox-is-locked .handle-actions,
+#vava_homepage_settings .handlediv,
+#vava_homepage_settings .handle-order-higher,
+#vava_homepage_settings .handle-order-lower,
+#vava_homepage_settings .toggle-indicator{display:none!important}
+#vava_homepage_settings .postbox-header{cursor:default!important}
+#vava_homepage_settings .postbox-header>*{cursor:default!important}
+#vava_homepage_settings.closed .inside{display:block!important}
+body.post-type-page.vava-homepage-classic #postimagediv{display:none!important}
+
+.vava-language-status,.vava-lang-badge{display:none!important}
+.vava-admin-field-wide{grid-column:1/-1}
+.vava-intro-icon,.vava-tab-icon,.vava-panel-icon{display:inline-grid;place-items:center;flex:0 0 auto}
+.vava-intro-icon{width:38px;height:38px;color:#2271b1;background:#fff;border-radius:10px}
+.vava-intro-icon svg{width:24px;height:24px}
+.vava-tab-icon{width:25px;height:25px}
+.vava-panel-icon{width:42px;height:42px;color:var(--vava-admin-accent);background:var(--vava-admin-accent-soft);border-radius:10px}
+.vava-panel-icon svg{width:25px;height:25px}
+.vava-intro-icon svg,.vava-tab-icon svg,.vava-panel-icon svg,.vava-link-type-switch svg,.vava-media-type-switch svg,.vava-media-empty svg{
+  display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round
+}
+.vava-panel-heading>.dashicons{display:none}
+.vava-section-tab .dashicons{display:none}
+
+.vava-admin-field select{min-height:42px;border-color:#cfd5dc;border-radius:7px;box-shadow:none}
+.vava-admin-field-link label>strong{display:block}
+.vava-link-type-switch,.vava-media-type-switch{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin:4px 0 14px}
+.vava-link-type-switch label,.vava-media-type-switch label{margin:0;cursor:pointer}
+.vava-link-type-switch input,.vava-media-type-switch input{position:absolute;opacity:0;pointer-events:none}
+.vava-link-type-switch span,.vava-media-type-switch span{
+  display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:1px solid #cfd5dc;border-radius:9px;background:#fff;color:#4b5563;font-weight:600;transition:.16s ease
+}
+.vava-link-type-switch svg{width:20px;height:20px}
+.vava-media-type-switch svg{width:22px;height:22px}
+.vava-link-type-switch input:checked+span,.vava-media-type-switch input:checked+span{
+  color:#fff;background:var(--vava-admin-accent);border-color:var(--vava-admin-accent);box-shadow:0 3px 10px rgba(73,94,62,.18)
+}
+.vava-link-pane{margin-top:11px}
+.vava-link-pane[hidden]{display:none!important}
+.vava-link-pane>label{display:block;margin:0 0 7px;color:#53606d;font-weight:600}
+
+.vava-admin-field-media{padding:16px}
+.vava-media-field{position:relative;height:auto;padding:0;border:0;background:transparent}
+.vava-media-dropzone{
+  position:relative;display:block;min-height:210px;border:2px dashed #b9c4ce;border-radius:13px;background:#fafcfd;outline:0;cursor:pointer;overflow:hidden;transition:border-color .18s ease,background .18s ease,box-shadow .18s ease
+}
+.vava-media-dropzone:hover,.vava-media-dropzone:focus,.vava-media-dropzone.is-dragover{
+  border-color:var(--vava-admin-accent);background:#f3f8f0;box-shadow:0 0 0 3px rgba(111,129,95,.12)
+}
+.vava-media-preview{display:grid;place-items:center;align-content:center;min-height:206px;margin:0;padding:14px;background:transparent;border-radius:0;color:#76818d;box-sizing:border-box}
+.vava-media-preview img,.vava-media-preview video{display:block;width:100%;max-width:100%;height:220px;max-height:220px;object-fit:contain;border-radius:9px;background:#edf0f2}
+.vava-media-preview video{cursor:default}
+.vava-media-empty{display:grid;place-items:center;gap:8px;text-align:center}
+.vava-media-empty svg{width:50px;height:50px;color:var(--vava-admin-accent)}
+.vava-media-empty strong{font-size:14px;color:#3d4854}
+.vava-media-empty span{font-size:12px;color:#78838f}
+.vava-media-file-name{display:block;max-width:100%;margin-top:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#53606d;font-size:12px}
+.vava-media-actions{display:flex;align-items:center;gap:14px;margin-top:11px}
+.vava-media-actions .button{min-height:34px}
+.vava-upload-progress{position:absolute;inset-inline:0;bottom:0;height:4px;background:transparent;overflow:hidden}
+.vava-upload-progress span{display:block;width:0;height:100%;background:var(--vava-admin-accent);transition:width .16s ease}
+.vava-media-field.is-uploading .vava-media-dropzone{pointer-events:none;opacity:.75}
+.vava-media-field.is-uploading .vava-upload-progress{background:#e1e6df}
+.vava-media-error{margin-top:10px;padding:9px 11px;border:1px solid #e6a9a9;border-radius:7px;background:#fff1f1;color:#9c2c2c;font-size:12px}
+.vava-media-field.has-error .vava-media-dropzone{border-color:#d06767}
+.vava-journal-media-card .vava-admin-field{height:100%;padding:0;border:0;background:transparent}
+
+.vava-shared-fields [data-hero-media]{display:none}
+.vava-shared-fields [data-hero-media][style*="display: block"]{display:block}
+
+@media(max-width:1200px){
+  .vava-media-preview img,.vava-media-preview video{height:190px;max-height:190px}
+}
+@media(max-width:782px){
+  .vava-admin-field-wide{grid-column:auto}
+  .vava-link-type-switch,.vava-media-type-switch{display:grid;grid-template-columns:1fr 1fr}
+  .vava-link-type-switch span,.vava-media-type-switch span{padding:0 10px;font-size:12px}
+  .vava-media-dropzone{min-height:175px}
+  .vava-media-preview{min-height:171px}
+  .vava-media-preview img,.vava-media-preview video{height:165px;max-height:165px}
+}
+
+/* ===== V1R5 dynamic controls, repeaters and WordPress data sources ===== */
+.vava-button-control{padding:15px 16px}
+.vava-button-control-row{
+  display:grid;grid-template-columns:auto minmax(180px,1fr) auto 170px minmax(240px,1.25fr);align-items:center;gap:10px 12px
+}
+.vava-button-control-row>label{margin:0;white-space:nowrap}
+.vava-button-control-row>input,.vava-button-control-row>select,.vava-button-control-row .vava-link-pane{min-width:0;margin:0}
+.vava-button-control-row .vava-link-pane{width:100%}
+.vava-button-control-row .vava-link-pane input,.vava-button-control-row .vava-link-pane select{width:100%;min-height:42px}
+.vava-link-pane[hidden],[data-journal-pane][hidden]{display:none!important}
+
+.vava-hero-media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.vava-hero-media-grid .vava-admin-field-wide{grid-column:auto}
+.vava-hero-media-grid [data-hero-media="image"]{grid-column:1/-1}
+.vava-hero-media-grid [data-hero-media]{display:none}
+.vava-hero-media-grid[data-active-media="image"] [data-hero-media="image"],
+.vava-hero-media-grid[data-active-media="video"] [data-hero-media="video"]{display:block}
+
+.vava-repeater-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px}
+.vava-repeater-heading h3{margin:0;font-size:15px}
+.vava-repeater-heading .description{margin:5px 0 0;color:#6b7280}
+.vava-repeater-list{display:grid;gap:12px}
+.vava-repeater-item{margin:0;border:1px solid #dfe3e7;border-radius:10px;background:#fafafa;overflow:hidden;box-sizing:border-box}
+.vava-repeater-item-header{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 12px;background:#f4f6f7;border-bottom:1px solid #e1e5e8}
+.vava-repeater-item-header strong{color:#46515d}
+.vava-repeater-actions{display:flex;align-items:center;gap:13px;margin-inline-start:auto}
+.vava-repeater-drag{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border:0;background:transparent;color:#7a8590;cursor:grab;font-size:17px;line-height:1}
+.vava-repeater-drag:active{cursor:grabbing}
+.vava-repeater-item-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:14px}
+.vava-repeater-field label{display:block;margin:0 0 6px;font-weight:600}
+.vava-repeater-field textarea{min-height:132px;resize:vertical}
+.vava-repeater-field-wide{grid-column:1/-1}
+.vava-repeater-field-grow{min-width:0}
+.vava-repeater-item.is-collapsed .vava-repeater-item-header{border-bottom:0}
+.vava-repeater-placeholder{height:70px;border:2px dashed #b9c4ce;border-radius:10px;background:#f3f8f0}
+.vava-social-platform-icon{display:inline-grid;place-items:center;width:32px;height:32px;color:var(--vava-admin-accent);background:#fff;border:1px solid #dfe3e7;border-radius:8px}
+.vava-social-platform-icon svg{display:block;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+.vava-social-fields{grid-template-columns:minmax(180px,.7fr) minmax(260px,1.3fr)}
+
+.vava-journal-query>.description{margin:-5px 0 14px;color:#6b7280}
+.vava-journal-query-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vava-journal-query-grid>.vava-admin-field:first-child{grid-column:1/-1}
+.vava-multiple-select{min-height:150px!important;padding:5px!important}
+.vava-multiple-select option{padding:6px 8px}
+
+.vava-document-control-row{display:grid;grid-template-columns:auto minmax(180px,1fr) auto minmax(170px,.7fr);align-items:center;gap:10px 12px}
+.vava-document-control-row>label{margin:0;white-space:nowrap}
+.vava-footer-menu-field .description{margin:8px 0 0}
+.vava-footer-menu-field .description a{text-decoration:none}
+
+@media(max-width:1200px){
+  .vava-button-control-row{grid-template-columns:auto minmax(180px,1fr) auto 160px}
+  .vava-button-control-row .vava-link-pane{grid-column:1/-1}
+}
+@media(max-width:900px){
+  .vava-hero-media-grid,.vava-journal-query-grid{grid-template-columns:1fr}
+  .vava-hero-media-grid [data-hero-media="image"],.vava-journal-query-grid>.vava-admin-field:first-child{grid-column:auto}
+  .vava-document-control-row{grid-template-columns:auto minmax(0,1fr)}
+  .vava-social-fields{grid-template-columns:1fr}
+}
+@media(max-width:782px){
+  .vava-button-control-row{grid-template-columns:1fr}
+  .vava-button-control-row>label{margin-top:5px}
+  .vava-button-control-row .vava-link-pane{grid-column:auto}
+  .vava-repeater-heading{align-items:flex-start;flex-direction:column}
+  .vava-repeater-item-body{grid-template-columns:1fr}
+  .vava-repeater-field-wide{grid-column:auto}
+  .vava-document-control-row{grid-template-columns:1fr}
+}
+
+
+/* ===== V1R6 live section previews ===== */
+.vava-editor-workspace{display:grid;grid-template-columns:minmax(320px,.82fr) minmax(0,1.5fr);gap:18px;align-items:start}
+.vava-editor-controls{min-width:0}
+.vava-live-preview{position:sticky;top:148px;min-width:0;border:1px solid var(--vava-admin-line);border-radius:14px;background:#fff;box-shadow:0 8px 28px rgba(15,23,42,.07);overflow:hidden}
+.vava-live-preview-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid #e5e8eb;background:#fbfcfc}
+.vava-live-preview-header>div{display:grid;gap:2px}
+.vava-live-preview-header strong{font-size:13px;color:#34404c}
+.vava-live-preview-header span{font-size:11px;color:#7a8590}
+.vava-live-preview-dot{width:8px;height:8px;border-radius:50%;background:#6f815f;box-shadow:0 0 0 4px rgba(111,129,95,.12)}
+.vava-preview-canvas{position:relative;min-height:470px;overflow:hidden;background:#f5f1e9;color:#2c352d;box-sizing:border-box}
+.vava-preview-canvas h3,.vava-preview-canvas h4,.vava-preview-canvas p,.vava-preview-canvas small{margin-top:0}
+.vava-preview-canvas [data-preview-output]{white-space:pre-line}
+.vava-preview-canvas a{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 16px;border-radius:999px;text-decoration:none;font-weight:700;pointer-events:none}
+.vava-preview-kicker{display:block;margin-bottom:8px;color:#6f815f;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.vava-preview-empty{grid-column:1/-1;padding:28px 14px;border:1px dashed #c8ced4;border-radius:10px;color:#78838f;text-align:center;background:rgba(255,255,255,.58)}
+
+.vava-preview-hero{min-height:520px;background:#273128;color:#fff}
+.vava-preview-hero-media,.vava-preview-hero-media img,.vava-preview-hero-media video,.vava-preview-overlay{position:absolute;inset:0;width:100%;height:100%}
+.vava-preview-hero-media img,.vava-preview-hero-media video{object-fit:cover}
+.vava-preview-hero-media[data-preview-hero-type="image"] video,.vava-preview-hero-media[data-preview-hero-type="video"] img{display:none}
+.vava-preview-overlay{background:linear-gradient(90deg,rgba(25,31,26,.82),rgba(25,31,26,.25) 70%,rgba(25,31,26,.08))}
+.vava-preview-hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:520px;padding:34px;box-sizing:border-box}
+.vava-preview-hero-copy>span{margin-bottom:12px;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.vava-preview-hero-copy h3{max-width:320px;margin-bottom:14px;font-size:31px;line-height:1.25;color:#fff}
+.vava-preview-hero-copy p{max-width:360px;margin-bottom:20px;font-size:13px;line-height:1.9;color:rgba(255,255,255,.88)}
+.vava-preview-hero-copy a{background:#e1b8a2;color:#2f342f}
+
+.vava-preview-paths{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:18px;padding:28px;background:linear-gradient(145deg,#f8f4ed,#eef2ea)}
+.vava-preview-paths-copy h3{margin-bottom:12px;font-size:29px;color:#526044}
+.vava-preview-paths-copy p{margin-bottom:18px;font-size:13px;line-height:1.9;color:#536057}
+.vava-preview-paths-copy a{background:#6f815f;color:#fff}
+.vava-preview-paths figure{margin:0;height:360px;border-radius:48% 48% 14px 14px;overflow:hidden;box-shadow:0 18px 36px rgba(76,83,65,.18)}
+.vava-preview-paths img{width:100%;height:100%;object-fit:cover}
+
+.vava-preview-shop{display:grid;grid-template-columns:.85fr 1.15fr;align-items:center;gap:24px;padding:30px;background:#f4ecdf}
+.vava-preview-shop-art{position:relative;height:350px;border-radius:160px 160px 24px 24px;background:linear-gradient(165deg,#99b4aa,#e1b8a2);overflow:hidden}
+.vava-preview-shop-art span{position:absolute;border-radius:50%;background:rgba(255,255,255,.56);box-shadow:0 8px 20px rgba(82,79,62,.12)}
+.vava-preview-shop-art span:nth-child(1){width:96px;height:130px;right:20%;bottom:20px;border-radius:46px 46px 20px 20px}
+.vava-preview-shop-art span:nth-child(2){width:72px;height:92px;left:18%;bottom:30px;background:#aba66f}
+.vava-preview-shop-art span:nth-child(3){width:105px;height:105px;left:28%;top:35px;background:#f2dec7}
+.vava-preview-shop-copy>span{color:#6f815f;font-size:11px;text-transform:uppercase;letter-spacing:.15em}
+.vava-preview-shop-copy h3{margin:7px 0 3px;font-size:29px;color:#3e493c}
+.vava-preview-shop-copy h4{margin-bottom:14px;color:#b56d59;font-size:16px}
+.vava-preview-shop-copy p{font-size:13px;line-height:1.8;color:#596159}
+.vava-preview-shop-copy small{display:block;margin-bottom:18px;line-height:1.7;color:#7a746a}
+.vava-preview-shop-copy a{background:#cf7d65;color:#fff}
+
+.vava-preview-testimonials{padding:26px;background:linear-gradient(160deg,#f7f2eb,#edf2ed)}
+.vava-preview-testimonials-heading{text-align:center;margin-bottom:18px}
+.vava-preview-testimonials-heading>span{color:#cf7d65;font-size:11px;font-weight:700}
+.vava-preview-testimonials-heading h3{margin:6px 0 8px;font-size:26px;color:#465445}
+.vava-preview-testimonials-heading p{font-size:12px;line-height:1.7;color:#6e776e}
+.vava-preview-testimonial-list{display:grid;gap:10px}
+.vava-preview-testimonial-list article{position:relative;padding:17px 18px;border:1px solid rgba(111,129,95,.18);border-radius:14px;background:rgba(255,255,255,.82);box-shadow:0 8px 20px rgba(55,65,54,.06)}
+.vava-preview-testimonial-list article>span{position:absolute;top:8px;inset-inline-start:12px;color:#e1b8a2;font-size:30px;line-height:1}
+.vava-preview-testimonial-list p{display:-webkit-box;margin:0 0 9px;padding-top:10px;overflow:hidden;-webkit-line-clamp:3;-webkit-box-orient:vertical;font-size:12px;line-height:1.75;color:#545e55}
+.vava-preview-testimonial-list strong{font-size:11px;color:#6f815f}
+
+.vava-preview-journal{display:grid;grid-template-rows:auto 1fr;padding:24px;background:#f4efe7}
+.vava-preview-journal-copy{padding:4px 3px 18px}
+.vava-preview-journal-copy>span{color:#b66e5c;font-size:11px}
+.vava-preview-journal-copy h3{margin:5px 0 8px;font-size:27px;color:#465045}
+.vava-preview-journal-copy p{margin-bottom:8px;font-size:12px;line-height:1.75;color:#626a62}
+.vava-preview-journal-copy small{display:block;margin-bottom:14px;color:#7b776f;line-height:1.6}
+.vava-preview-journal-copy a{background:#6f815f;color:#fff}
+.vava-preview-journal-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start;transition:opacity .18s ease}
+.vava-preview-journal-list.is-loading{opacity:.45}
+.vava-preview-journal-list article{display:grid;gap:7px;min-width:0;padding:8px;border-radius:12px;background:#fff;box-shadow:0 8px 18px rgba(58,63,53,.08)}
+.vava-preview-journal-list img,.vava-preview-article-placeholder{display:block;width:100%;height:108px;border-radius:8px;object-fit:cover;background:linear-gradient(145deg,#99b4aa,#e1b8a2)}
+.vava-preview-journal-list small{margin:0;color:#b16958;font-size:9px}
+.vava-preview-journal-list strong{display:-webkit-box;overflow:hidden;-webkit-line-clamp:3;-webkit-box-orient:vertical;color:#434c43;font-size:11px;line-height:1.55}
+
+.vava-preview-contact{display:flex;align-items:center;justify-content:center;padding:34px;background:linear-gradient(145deg,#edf2ec,#f5e9df)}
+.vava-preview-contact-shape{position:absolute;inset-inline-end:-70px;top:-65px;width:260px;height:260px;border-radius:50%;background:rgba(153,180,170,.4)}
+.vava-preview-contact-shape:after{content:"";position:absolute;inset:70px;border-radius:50%;background:rgba(225,184,162,.72)}
+.vava-preview-contact-copy{position:relative;z-index:1;max-width:390px;padding:34px;border:1px solid rgba(255,255,255,.8);border-radius:26px;background:rgba(255,255,255,.76);box-shadow:0 18px 38px rgba(65,73,63,.1);text-align:center}
+.vava-preview-contact-copy h3{margin:6px 0 13px;font-size:32px;color:#4c5949}
+.vava-preview-contact-copy p{margin-bottom:20px;font-size:13px;line-height:1.9;color:#606a60}
+.vava-preview-contact-copy a{background:#cf7d65;color:#fff}
+
+.vava-preview-footer{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px;align-content:start;padding:28px;background:#354137;color:#f5f1e8}
+.vava-preview-footer-brand strong{display:block;font-family:serif;font-size:34px;letter-spacing:.16em}
+.vava-preview-footer-brand>span{display:block;margin-top:2px;font-size:9px;letter-spacing:.46em;color:#d9d7c8}
+.vava-preview-footer-brand p{margin-top:18px;color:#cfd7cb;font-size:12px}
+.vava-preview-footer-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.vava-preview-footer-links>div>strong{font-size:12px;color:#e1b8a2}
+.vava-preview-footer-links ul{display:grid;gap:7px;margin:11px 0 0;padding:0;list-style:none}
+.vava-preview-footer-links li{font-size:11px;color:#dce1da}
+.vava-preview-muted{opacity:.55}
+.vava-preview-footer-bottom{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14);font-size:10px;color:#cbd3c8}
+.vava-preview-footer-bottom>small{grid-column:1/-1;margin:0;color:#aeb8ad}
+.vava-preview-socials{display:flex;align-items:center;gap:7px}
+.vava-preview-socials a,.vava-preview-socials>span{display:inline-grid;place-items:center;width:28px;height:28px;min-height:0;padding:0;border:1px solid rgba(255,255,255,.18);border-radius:50%;color:#fff;background:rgba(255,255,255,.06)}
+.vava-preview-socials svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+@media(max-width:1300px){
+  .vava-editor-workspace{grid-template-columns:1fr}
+  .vava-live-preview{position:relative;top:auto}
+  .vava-preview-canvas{min-height:420px}
+}
+@media(max-width:782px){
+  .vava-preview-paths,.vava-preview-shop,.vava-preview-footer{grid-template-columns:1fr}
+  .vava-preview-paths figure{height:240px}
+  .vava-preview-shop-art{height:250px}
+  .vava-preview-journal-list{grid-template-columns:1fr}
+  .vava-preview-journal-list img,.vava-preview-article-placeholder{height:150px}
+  .vava-preview-footer-bottom{grid-template-columns:1fr}
+}
+
+/* ===== V1R7 compact editor actions and sidebar live preview ===== */
+body.post-type-page.vava-homepage-classic #submitdiv,
+body.post-type-page.vava-homepage-classic #pageparentdiv,
+body.post-type-page.vava-homepage-classic #postimagediv{display:none!important}
+
+.vava-toolbar-actions{display:flex;align-items:center;align-self:center;gap:10px;flex:0 0 auto}
+.vava-homepage-update-button{
+  display:inline-flex!important;align-items:center;justify-content:center;gap:7px;min-height:42px!important;padding:0 18px!important;
+  border-color:var(--vava-admin-accent)!important;border-radius:9px!important;background:var(--vava-admin-accent)!important;color:#fff!important;
+  box-shadow:0 2px 7px rgba(50,70,42,.2)!important;font-weight:700!important
+}
+.vava-homepage-update-button:hover,.vava-homepage-update-button:focus{border-color:#5f7150!important;background:#5f7150!important;color:#fff!important}
+.vava-homepage-update-button:disabled,.vava-homepage-update-button.is-saving{opacity:.72;cursor:wait}
+.vava-homepage-update-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.vava-editor-workspace{display:block}
+.vava-editor-controls{width:100%}
+#vava_live_preview_box{position:sticky;top:46px;border:0;background:transparent;box-shadow:none}
+#vava_live_preview_box>.inside{margin:0!important;padding:0!important}
+#vava_live_preview_box .vava-live-preview{position:relative;top:auto;width:100%;margin:0;border-radius:12px;box-sizing:border-box}
+#vava_live_preview_box .vava-live-preview[hidden]{display:none!important}
+#vava_live_preview_box .vava-preview-canvas{min-height:430px}
+#vava_live_preview_box .vava-preview-hero,#vava_live_preview_box .vava-preview-hero-copy{min-height:470px}
+
+.vava-media-actions .vava-media-remove{
+  min-height:34px;padding:0 12px;border-color:#cfd5dc;background:#fff;color:#b32d2e;box-shadow:none
+}
+.vava-media-actions .vava-media-remove:hover,.vava-media-actions .vava-media-remove:focus{
+  border-color:#b32d2e;background:#fff7f7;color:#8f2424
+}
+
+.vava-icon-button{
+  display:inline-grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid #cfd5dc;border-radius:7px;
+  background:#fff;color:#53606d;cursor:pointer;box-shadow:none;transition:border-color .15s ease,background .15s ease,color .15s ease
+}
+.vava-icon-button:hover,.vava-icon-button:focus{border-color:var(--vava-admin-accent);background:#f3f8f0;color:var(--vava-admin-accent);outline:0}
+.vava-icon-button-danger{color:#b32d2e}
+.vava-icon-button-danger:hover,.vava-icon-button-danger:focus{border-color:#b32d2e;background:#fff7f7;color:#8f2424}
+.vava-icon-button svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.vava-repeater-toggle svg{transition:transform .16s ease}
+.vava-repeater-item.is-collapsed .vava-repeater-toggle svg{transform:rotate(180deg)}
+
+.vava-social-repeater{padding:17px}
+.vava-social-table{overflow:hidden;border:1px solid #dfe3e7;border-radius:9px;background:#fff}
+.vava-social-table-header,.vava-social-repeater-item{
+  display:grid;grid-template-columns:54px minmax(210px,.85fr) minmax(300px,1.55fr) 58px;align-items:center;gap:10px
+}
+.vava-social-table-header{min-height:38px;padding:0 10px;border-bottom:1px solid #dfe3e7;background:#f4f6f7;color:#596572;font-size:12px;font-weight:700}
+.vava-social-table-header span:first-child,.vava-social-table-header span:last-child{text-align:center}
+.vava-social-repeater-list{display:block}
+.vava-social-repeater-item{
+  margin:0;padding:8px 10px;border:0;border-bottom:1px solid #e5e8eb;border-radius:0;background:#fff;overflow:visible
+}
+.vava-social-repeater-item:last-child{border-bottom:0}
+.vava-social-repeater-item:hover{background:#fbfcfc}
+.vava-social-repeater-item .vava-repeater-drag{justify-self:center}
+.vava-social-platform-cell{display:flex;align-items:center;gap:8px;min-width:0}
+.vava-social-platform-cell select,.vava-social-url-input{
+  width:100%;min-width:0;min-height:38px;border-color:#cfd5dc;border-radius:6px;box-shadow:none;background:#fff
+}
+.vava-social-platform-icon{flex:0 0 auto;width:34px;height:34px;border-radius:7px}
+.vava-social-repeater-item>.vava-icon-button{justify-self:center}
+.vava-social-add{display:inline-flex!important;align-items:center;gap:7px;margin-top:12px;min-height:36px}
+.vava-social-add span{font-size:17px;line-height:1}
+.vava-social-repeater .vava-repeater-placeholder{margin:0;border-width:1px;border-radius:0;background:#f3f8f0}
+
+@media(max-width:1200px){
+  .vava-toolbar-actions{align-self:flex-start}
+  .vava-social-table-header,.vava-social-repeater-item{grid-template-columns:46px minmax(180px,.8fr) minmax(220px,1.3fr) 48px}
+}
+@media(max-width:900px){
+  .vava-social-table-header{display:none}
+  .vava-social-repeater-item{grid-template-columns:42px minmax(0,1fr) 42px;gap:8px;padding:10px}
+  .vava-social-url-input{grid-column:2/4}
+}
+@media(max-width:782px){
+  .vava-toolbar-actions{width:100%;justify-content:space-between;flex-wrap:wrap}
+  .vava-homepage-update-button{min-height:40px!important}
+  #vava_live_preview_box{position:relative;top:auto}
+}
+
+/* ===== V1R8 larger sticky, frontend-matched section previews ===== */
+@media (min-width:1181px){
+  body.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2{
+    display:grid;
+    grid-template-columns:clamp(440px,36vw,570px) minmax(660px,1fr);
+    grid-template-areas:"title title" "preview editor";
+    align-items:start;
+    gap:18px;
+    margin-right:0!important;
+  }
+  body.post-type-page.vava-homepage-classic #post-body-content{
+    grid-area:title;
+    width:auto!important;
+    min-width:0;
+  }
+  body.post-type-page.vava-homepage-classic #postbox-container-1{
+    grid-area:preview;
+    width:auto!important;
+    min-width:0;
+    float:none!important;
+    margin:0!important;
+  }
+  body.post-type-page.vava-homepage-classic #postbox-container-2{
+    grid-area:editor;
+    width:auto!important;
+    min-width:0;
+    float:none!important;
+    margin:0!important;
+  }
+  body.post-type-page.vava-homepage-classic #postbox-container-1 .meta-box-sortables,
+  body.post-type-page.vava-homepage-classic #postbox-container-2 .meta-box-sortables{min-height:0!important}
+}
+
+#vava_live_preview_box{
+  position:sticky!important;
+  top:44px!important;
+  height:calc(100vh - 64px);
+  max-height:900px;
+  margin:0!important;
+  border:1px solid #dfe4df!important;
+  border-radius:16px!important;
+  background:#fff!important;
+  box-shadow:0 14px 34px rgba(48,57,46,.09)!important;
+  overflow:hidden;
+}
+#vava_live_preview_box>.inside{height:100%;display:flex;flex-direction:column}
+#vava_live_preview_box .vava-live-preview{
+  height:100%;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  border:0!important;
+  border-radius:0!important;
+  background:#fff;
+  overflow:hidden;
+}
+#vava_live_preview_box .vava-live-preview-header{
+  flex:0 0 auto;
+  min-height:56px;
+  padding:11px 16px;
+  border-bottom:1px solid #e1e5e0;
+  background:rgba(255,255,255,.96);
+}
+#vava_live_preview_box .vava-preview-canvas{
+  flex:1 1 auto;
+  min-height:0!important;
+  height:auto!important;
+  overflow:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#aeb9aa transparent;
+}
+#vava_live_preview_box .vava-preview-canvas::-webkit-scrollbar{width:7px;height:7px}
+#vava_live_preview_box .vava-preview-canvas::-webkit-scrollbar-thumb{background:#aeb9aa;border-radius:10px}
+
+.vava-preview-frontend{
+  --vava-fe-olive:#6b6d43;
+  --vava-fe-sage:#99b4aa;
+  --vava-fe-coral:#cf7d65;
+  --vava-fe-blush:#e1b8a2;
+  --vava-fe-cream:#f2dec7;
+  --vava-fe-bg:#fffaf4;
+  --vava-fe-ink:#51465b;
+  --vava-fe-muted:#766f72;
+  position:relative;
+  isolation:isolate;
+  background:var(--vava-fe-bg);
+  color:var(--vava-fe-ink);
+  font-family:"Cairo",Tahoma,Arial,sans-serif;
+  line-height:1.75;
+}
+.vava-preview-frontend[dir="ltr"]{font-family:Arial,sans-serif}
+.vava-preview-frontend *{box-sizing:border-box}
+.vava-preview-frontend h2,.vava-preview-frontend h3,.vava-preview-frontend p,.vava-preview-frontend figure{margin:0}
+.vava-preview-frontend a{pointer-events:none;text-decoration:none}
+.vava-fe-section{position:relative;width:100%;min-height:100%;overflow:hidden}
+.vava-fe-eyebrow{font-size:10px;letter-spacing:.1em;color:var(--vava-fe-olive)}
+.vava-fe-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:8px 20px;border-radius:999px;font-size:12px;font-weight:700;line-height:1.2}
+.vava-fe-btn-primary{background:var(--vava-fe-olive);color:#fff}
+.vava-fe-btn-secondary{background:var(--vava-fe-blush);color:#403b40}
+.vava-fe-btn-coral{background:var(--vava-fe-coral);color:#fff}
+.vava-fe-small{font-size:11px!important;color:#7d7774!important}
+
+/* Hero: same media-led composition as the homepage section. */
+.vava-fe-hero{min-height:640px;background:#263027;color:#fff}
+.vava-fe-hero-media,.vava-fe-hero-media img,.vava-fe-hero-media video,.vava-fe-hero-overlay{position:absolute;inset:0;width:100%;height:100%}
+.vava-fe-hero-media img,.vava-fe-hero-media video{object-fit:cover}
+.vava-fe-hero-media[data-preview-hero-type="image"] video,.vava-fe-hero-media[data-preview-hero-type="video"] img{display:none}
+.vava-fe-hero-overlay{background:linear-gradient(90deg,rgba(31,37,31,.88),rgba(31,37,31,.4) 62%,rgba(31,37,31,.1))}
+.vava-fe-hero-copy{position:relative;z-index:2;display:flex;min-height:640px;flex-direction:column;align-items:flex-start;justify-content:center;padding:44px 38px}
+.vava-fe-hero-copy .vava-fe-eyebrow{margin-bottom:12px;color:#fff;letter-spacing:.22em;text-transform:uppercase}
+.vava-fe-hero-copy h2{max-width:390px;margin-bottom:14px;color:#fff;font-family:"VAVA Display",Georgia,serif;font-size:38px;line-height:1.2}
+.vava-fe-hero-copy p{max-width:400px;margin-bottom:22px;color:rgba(255,255,255,.9);font-size:13px;line-height:2;white-space:pre-line}
+
+/* Paths: mirrors the real split layout, wave artwork and framed photograph. */
+.vava-fe-paths{min-height:650px;padding:42px 34px 72px;background:linear-gradient(180deg,#fffdfa 0%,#fffaf4 72%,#f6e6d7 100%)}
+.vava-fe-paths-botanical{position:absolute;inset-inline-start:-54px;top:60px;width:190px;color:rgba(107,109,67,.1)}
+.vava-fe-paths-botanical svg,.vava-fe-paths-wave svg{display:block;width:100%;height:100%}
+.vava-fe-paths-wave{position:absolute;inset-inline:0;bottom:0;height:220px;z-index:0}
+.vava-fe-paths-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,.95fr);align-items:center;gap:28px;min-height:530px}
+.vava-fe-paths-copy{text-align:center;padding:10px 2px}
+.vava-fe-paths-copy h2{color:#51465b;font-family:"VAVA Display",Georgia,serif;font-size:38px;line-height:1.25}
+.vava-fe-divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px auto;color:#d0a06c}
+.vava-fe-divider span{width:58px;height:1px;background:currentColor;opacity:.62}
+.vava-fe-divider b{font-size:17px;font-weight:400}
+.vava-fe-divider-bottom{margin-top:8px;margin-bottom:17px}
+.vava-fe-paths-copy p{margin:0 auto 22px;max-width:34em;color:#6e686c;font-size:12px;line-height:2.05;white-space:pre-line}
+.vava-fe-paths-visual{height:430px;border-radius:44px 44px 28px 28px;overflow:hidden;box-shadow:0 24px 44px rgba(93,74,63,.13)}
+.vava-fe-paths-visual img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* Shop: mirrors the oval visual and calm editorial copy. */
+.vava-fe-shop{min-height:650px;padding:54px 36px;background:radial-gradient(circle at 78% 36%,rgba(225,184,162,.2),transparent 42%),#fff9f2}
+.vava-fe-shop:after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(107,109,67,.1) .65px,transparent .65px);background-size:12px 12px;opacity:.45;pointer-events:none}
+.vava-fe-shop-blob{position:absolute;border-radius:50%;background:rgba(225,184,162,.18)}
+.vava-fe-shop-blob-a{width:260px;height:260px;left:-120px;bottom:-70px}
+.vava-fe-shop-blob-b{width:360px;height:260px;right:50px;top:85px;border-radius:50%}
+.vava-fe-shop-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,.9fr);align-items:center;gap:34px;min-height:530px}
+.vava-fe-shop-art{height:390px;border-radius:50%;overflow:hidden;box-shadow:0 24px 54px rgba(98,77,61,.11)}
+.vava-fe-shop-art img{display:block;width:100%;height:100%;object-fit:cover}
+.vava-fe-shop-copy h2{margin:6px 0 4px;color:var(--vava-fe-coral);font-family:"VAVA Display",Georgia,serif;font-size:35px;line-height:1.25}
+.vava-fe-shop-copy h3{margin-bottom:14px;color:#4f4a4d;font-size:17px;font-weight:600}
+.vava-fe-shop-copy p{margin-bottom:11px;color:#696568;font-size:12px;line-height:2;white-space:pre-line}
+.vava-fe-shop-copy .vava-fe-btn{margin-top:8px;min-width:130px}
+
+/* Testimonials: real three-card carousel composition. */
+.vava-fe-testimonials{min-height:650px;padding:40px 28px 56px;background:linear-gradient(180deg,#fff9f3,#f7eee4)}
+.vava-fe-section-label{text-align:end;color:#7f7b6f;font-size:10px;font-weight:700}
+.vava-fe-testimonials-heading{text-align:center;margin:4px auto 28px}
+.vava-fe-testimonials-heading h2{margin-bottom:7px;color:#41483e;font-family:"VAVA Display",Georgia,serif;font-size:31px}
+.vava-fe-testimonials-heading p{max-width:460px;margin:auto;color:#77736f;font-size:11px;line-height:1.85}
+.vava-fe-testimonial-carousel{display:grid;grid-template-columns:28px minmax(0,1fr) 28px;align-items:center;gap:9px}
+.vava-fe-testimonial-carousel>button{width:28px;height:28px;padding:0;border:1px solid #ddd4c5;border-radius:50%;background:#fffaf2;color:#7b765d}
+.vava-fe-testimonial-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;direction:rtl}
+.vava-fe-quote{position:relative;min-width:0;padding:34px 14px 22px;border:1px solid #e4dccf;border-radius:22px;background:rgba(255,253,248,.93);box-shadow:0 10px 25px rgba(86,72,59,.06)}
+.vava-fe-avatar{position:absolute;top:-20px;left:50%;display:grid;width:44px;height:44px;place-items:center;transform:translateX(-50%);border:7px solid rgba(171,166,111,.25);border-radius:50%;background:#aba66f;color:#6b6d43;font-size:11px}
+.vava-fe-quote p{display:-webkit-box;min-height:116px;overflow:hidden;-webkit-line-clamp:6;-webkit-box-orient:vertical;color:#66615d;font-size:10.5px;line-height:1.95;text-align:center}
+.vava-fe-more{display:block;width:max-content;margin:7px auto 10px;padding:3px 10px;border:1px solid #ded6c8;border-radius:999px;color:#777052;font-size:9px}
+.vava-fe-quote strong{display:block;padding-top:9px;border-top:1px solid #e8e1d6;color:#6b6d43;font-size:9.5px;font-weight:600}
+.vava-fe-quote i{position:absolute;inset-inline:0;bottom:0;height:22px;border-radius:0 0 22px 22px;background:linear-gradient(90deg,#6b6d43,#99b4aa);clip-path:polygon(0 0,82% 0,100% 100%,0 100%)}
+
+/* Journal: same content card and stacked article rows. */
+.vava-fe-journal{min-height:650px;padding:42px 34px;background:linear-gradient(145deg,#fffaf4,#f0eee4)}
+.vava-fe-journal-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:22px;align-items:center;min-height:560px}
+.vava-fe-journal-card{padding:30px 24px;border:1px solid rgba(205,193,175,.65);border-radius:28px;background:rgba(255,255,255,.68);box-shadow:0 14px 34px rgba(77,67,57,.05)}
+.vava-fe-journal-card h2{color:#4f594b;font-family:"VAVA Display",Georgia,serif;font-size:34px}
+.vava-fe-journal-card h3{margin:4px 0 13px;color:var(--vava-fe-coral);font-size:17px}
+.vava-fe-journal-card p{margin-bottom:11px;color:#6b6864;font-size:11.5px;line-height:1.95;white-space:pre-line}
+.vava-fe-article-row{display:grid;gap:10px}
+.vava-fe-article{display:grid!important;grid-template-columns:98px minmax(0,1fr);align-items:center;gap:12px;min-height:95px;padding:8px;border:1px solid rgba(205,193,175,.58);border-radius:18px;background:rgba(255,255,255,.84);color:#4d5149!important;box-shadow:0 9px 22px rgba(77,67,57,.045)}
+.vava-fe-thumb{display:block;width:98px;height:78px;border-radius:13px;background:linear-gradient(145deg,#99b4aa,#e1b8a2) center/cover no-repeat}
+.vava-fe-article strong{display:block;font-size:11px;line-height:1.65}
+.vava-fe-article small{display:block;margin-top:5px;color:#b66e5c;font-size:9px}
+
+/* Contact: real two-column visual treatment. */
+.vava-fe-contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,.86fr);align-items:center;gap:28px;min-height:650px;padding:48px 36px;background:linear-gradient(145deg,#f7f0e9,#edf2ec)}
+.vava-fe-contact-glow{position:absolute;width:360px;height:360px;inset-inline-end:-110px;top:-90px;border-radius:50%;background:rgba(153,180,170,.28)}
+.vava-fe-contact-copy{position:relative;z-index:1;padding:28px}
+.vava-fe-contact-copy h2{margin:5px 0 13px;color:#4c5949;font-family:"VAVA Display",Georgia,serif;font-size:42px}
+.vava-fe-contact-copy p{margin-bottom:22px;color:#646b64;font-size:12.5px;line-height:2;white-space:pre-line}
+.vava-fe-contact-visual{position:relative;z-index:1;height:430px;border-radius:48% 48% 26px 26px;overflow:hidden;box-shadow:0 18px 38px rgba(65,73,63,.12)}
+.vava-fe-contact-visual img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* Footer: mirrors the three-column frontend footer. */
+.vava-fe-footer{display:grid;grid-template-columns:minmax(100px,.8fr) minmax(0,2.2fr) minmax(100px,.8fr);align-items:center;gap:18px;min-height:650px;padding:46px 26px;background:rgba(107,109,67,.96);color:#fff}
+.vava-fe-footer-logo{text-align:center}
+.vava-fe-footer-logo img{display:block;width:125px;height:68px;margin:0 auto 10px;object-fit:contain;mix-blend-mode:screen}
+.vava-fe-footer-logo div{color:#f0e8da;font-size:11px}
+.vava-fe-footer-center{display:grid;gap:13px;justify-items:center;padding:0 20px;border-inline:1px solid rgba(242,222,199,.35);text-align:center}
+.vava-fe-footer-center nav{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 14px}
+.vava-fe-footer-center nav a{display:inline!important;min-height:0!important;padding:0!important;color:#fff!important;font-size:10px;font-weight:500}
+.vava-fe-footer-divider{position:relative;width:100%;height:28px}
+.vava-fe-footer-divider:before{content:"";position:absolute;inset-inline:0;top:50%;height:1px;background:rgba(242,222,199,.38)}
+.vava-fe-footer-divider span{position:absolute;left:50%;top:50%;display:grid;width:27px;height:27px;place-items:center;transform:translate(-50%,-50%);border:1px solid rgba(242,222,199,.4);border-radius:50%;background:#6b6d43;color:#f2dec7}
+.vava-fe-footer-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:7px 12px;color:rgba(255,255,255,.86);font-size:9px}
+.vava-fe-footer-meta b{font-weight:500}.vava-fe-footer-meta em{font-style:normal;font-weight:700}
+.vava-fe-social{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;direction:ltr}
+.vava-fe-social a,.vava-fe-social span{display:grid!important;width:34px;height:34px;min-height:0!important;padding:0!important;place-items:center;border:1px solid rgba(242,222,199,.45);border-radius:50%;background:rgba(255,255,255,.04);color:#fff!important}
+.vava-fe-social svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+@media (max-width:1380px) and (min-width:1181px){
+  body.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2{grid-template-columns:410px minmax(600px,1fr)}
+  .vava-fe-paths-grid,.vava-fe-shop-grid,.vava-fe-contact{gap:18px}
+  .vava-fe-paths{padding-inline:24px}.vava-fe-shop,.vava-fe-contact{padding-inline:24px}
+  .vava-fe-paths-copy h2,.vava-fe-shop-copy h2{font-size:31px}
+}
+@media (max-width:1180px){
+  #vava_live_preview_box{position:relative!important;top:auto!important;height:auto;max-height:none;min-height:0;margin-bottom:18px!important}
+  #vava_live_preview_box .vava-preview-canvas{min-height:620px!important}
+}
+@media (max-width:782px){
+  #vava_live_preview_box .vava-preview-canvas{min-height:540px!important}
+  .vava-fe-paths-grid,.vava-fe-shop-grid,.vava-fe-journal-grid,.vava-fe-contact,.vava-fe-footer{grid-template-columns:1fr}
+  .vava-fe-paths-visual,.vava-fe-shop-art,.vava-fe-contact-visual{height:270px}
+  .vava-fe-testimonial-track{grid-template-columns:1fr}.vava-fe-testimonial-track article:nth-child(n+2){display:none}
+  .vava-fe-footer-center{border:0}
+}
+@media (min-width:1181px){
+  body.rtl.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2{direction:ltr}
+  body.rtl.post-type-page.vava-homepage-classic #post-body-content,
+  body.rtl.post-type-page.vava-homepage-classic #postbox-container-1,
+  body.rtl.post-type-page.vava-homepage-classic #postbox-container-2{direction:rtl}
+}
+
+/* ===== V1R9 corrective: clean page chrome, embedded identity and readable scaled preview ===== */
+body.post-type-page.vava-homepage-classic .wrap > h1.wp-heading-inline,
+body.post-type-page.vava-homepage-classic .wrap > .page-title-action,
+body.post-type-page.vava-homepage-classic #titlediv,
+body.post-type-page.vava-homepage-classic #edit-slug-box{
+  display:none!important;
+}
+body.post-type-page.vava-homepage-classic #post-body-content{
+  display:none!important;
+}
+
+.vava-page-identity-card{
+  display:grid;
+  grid-template-columns:minmax(260px,.85fr) minmax(360px,1.15fr);
+  gap:14px;
+  margin:0 0 14px;
+  padding:15px;
+  border:1px solid #dfe5df;
+  border-radius:14px;
+  background:linear-gradient(180deg,#fff,#fbfcfa);
+  box-shadow:0 6px 18px rgba(52,63,50,.045);
+}
+.vava-page-identity-field{display:grid;gap:7px;min-width:0}
+.vava-page-identity-field label{color:#263126;font-size:13px}
+.vava-page-identity-field input{
+  min-height:42px;
+  border-color:#cfd8cf;
+  border-radius:9px;
+  background:#fff;
+  box-shadow:none;
+}
+.vava-page-identity-field input:focus{border-color:#7b8d64;box-shadow:0 0 0 1px #7b8d64}
+.vava-page-permalink-control{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:8px;align-items:center;direction:ltr}
+.vava-page-permalink-control input{color:#596259;background:#f7f9f6;cursor:text}
+.vava-page-permalink-control .button{
+  display:grid;
+  width:44px;
+  min-height:42px;
+  place-items:center;
+  padding:0;
+  border-color:#cfd8cf;
+  border-radius:9px;
+  color:#657747;
+  background:#fff;
+}
+.vava-page-permalink-control svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+@media (min-width:1181px){
+  body.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2{
+    grid-template-columns:clamp(600px,43vw,720px) minmax(640px,1fr)!important;
+    grid-template-areas:"preview editor"!important;
+    gap:20px!important;
+  }
+  body.post-type-page.vava-homepage-classic #postbox-container-1{grid-area:preview!important}
+  body.post-type-page.vava-homepage-classic #postbox-container-2{grid-area:editor!important}
+}
+
+#vava_live_preview_box{
+  top:40px!important;
+  height:calc(100vh - 58px)!important;
+  max-height:none!important;
+}
+#vava_live_preview_box>.inside{min-height:0}
+#vava_live_preview_box .vava-live-preview{min-height:0}
+#vava_live_preview_box .vava-preview-viewport{
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  padding:12px;
+  background:linear-gradient(145deg,#eef1ed,#e7ebe5);
+  scrollbar-width:thin;
+  scrollbar-color:#aeb9aa transparent;
+}
+#vava_live_preview_box .vava-preview-viewport::-webkit-scrollbar{width:8px;height:8px}
+#vava_live_preview_box .vava-preview-viewport::-webkit-scrollbar-thumb{background:#aeb9aa;border-radius:10px}
+#vava_live_preview_box .vava-preview-stage{
+  position:relative;
+  min-width:0;
+  min-height:430px;
+  margin:0 auto;
+  border-radius:12px;
+  background:#fffaf4;
+  box-shadow:0 10px 28px rgba(42,51,40,.12);
+  overflow:hidden;
+}
+#vava_live_preview_box .vava-preview-canvas{
+  position:absolute!important;
+  inset:0 auto auto 0!important;
+  flex:none!important;
+  width:900px;
+  height:auto!important;
+  overflow:visible!important;
+  transform:scale(.68);
+  transform-origin:top left;
+  will-change:transform;
+}
+#vava_live_preview_box .vava-fe-section{min-height:650px}
+
+@media (max-width:1380px) and (min-width:1181px){
+  body.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2{
+    grid-template-columns:minmax(560px,42vw) minmax(600px,1fr)!important;
+  }
+}
+@media (max-width:1180px){
+  body.post-type-page.vava-homepage-classic #post-body-content{display:none!important}
+  #vava_live_preview_box .vava-preview-viewport{min-height:520px}
+  .vava-page-identity-card{grid-template-columns:1fr}
+}
+@media (max-width:782px){
+  .vava-page-identity-card{padding:12px}
+  .vava-page-permalink-control{grid-template-columns:minmax(0,1fr) 42px}
+  #vava_live_preview_box .vava-preview-viewport{min-height:430px;padding:8px}
+}
+
+/* ===== V1R10 corrective: fully reset the native WordPress two-column shell ===== */
+@media (min-width:1181px){
+  body.post-type-page.vava-homepage-classic #poststuff{
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  body.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2{
+    display:grid!important;
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+    float:none!important;
+    clear:both!important;
+    grid-template-columns:minmax(480px,42%) minmax(0,1fr)!important;
+    grid-template-areas:"preview editor"!important;
+    align-items:start!important;
+    gap:20px!important;
+    direction:ltr!important;
+    box-sizing:border-box!important;
+  }
+  body.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2::before,
+  body.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2::after{
+    display:none!important;
+    content:none!important;
+  }
+  body.post-type-page.vava-homepage-classic #postbox-container-1,
+  body.post-type-page.vava-homepage-classic #postbox-container-2{
+    float:none!important;
+    clear:none!important;
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+    position:relative!important;
+    inset:auto!important;
+    box-sizing:border-box!important;
+    direction:rtl!important;
+  }
+  body.post-type-page.vava-homepage-classic #postbox-container-1{grid-area:preview!important}
+  body.post-type-page.vava-homepage-classic #postbox-container-2{grid-area:editor!important}
+  body.post-type-page.vava-homepage-classic #side-sortables,
+  body.post-type-page.vava-homepage-classic #normal-sortables,
+  body.post-type-page.vava-homepage-classic #advanced-sortables,
+  body.post-type-page.vava-homepage-classic #postbox-container-1 .meta-box-sortables,
+  body.post-type-page.vava-homepage-classic #postbox-container-2 .meta-box-sortables{
+    display:block!important;
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+  }
+  body.post-type-page.vava-homepage-classic #vava_live_preview_box,
+  body.post-type-page.vava-homepage-classic #vava_homepage_settings{
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin-inline:0!important;
+    box-sizing:border-box!important;
+  }
+}
+
+@media (min-width:1181px) and (max-width:1380px){
+  body.post-type-page.vava-homepage-classic #poststuff #post-body.columns-2{
+    grid-template-columns:minmax(410px,38%) minmax(0,1fr)!important;
+    gap:16px!important;
+  }
+}
+
+/* ===== V1R11: sticky preview, polished settings header, fluid tabs ===== */
+#vava_homepage_settings{
+  border:1px solid #dfe4df!important;
+  border-radius:16px!important;
+  background:#fff!important;
+  box-shadow:0 14px 34px rgba(48,57,46,.08)!important;
+  overflow:hidden!important;
+}
+#vava_homepage_settings .postbox-header{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:14px!important;
+  min-height:60px!important;
+  padding:0 16px!important;
+  border-bottom:1px solid #e1e5e0!important;
+  background:#fff!important;
+  border-radius:16px 16px 0 0!important;
+  box-sizing:border-box!important;
+  direction:rtl!important;
+}
+#vava_homepage_settings .postbox-header h2,
+#vava_homepage_settings .postbox-header .hndle{
+  flex:1 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:16px 0!important;
+  color:#1f2937!important;
+  font-size:16px!important;
+  font-weight:700!important;
+  line-height:1.35!important;
+  cursor:default!important;
+}
+#vava_homepage_settings .vava-homepage-update-button.is-in-postbox-header{
+  flex:0 0 auto!important;
+  min-width:96px!important;
+  margin:0!important;
+  margin-inline-start:auto!important;
+}
+.vava-toolbar-actions.has-header-submit .vava-homepage-update-button{display:none!important}
+.vava-admin-toolbar{
+  align-items:center!important;
+  gap:12px!important;
+  padding:12px 16px!important;
+}
+.vava-section-tabs{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  align-items:stretch!important;
+  gap:4px!important;
+  min-width:0!important;
+  overflow:visible!important;
+  scrollbar-width:none!important;
+}
+.vava-section-tabs::-webkit-scrollbar{display:none!important}
+.vava-section-tab{
+  width:100%!important;
+  min-width:0!important;
+  padding:9px 4px!important;
+  white-space:normal!important;
+  text-align:center!important;
+  line-height:1.25!important;
+}
+.vava-section-tab>span:last-child{
+  display:block!important;
+  min-width:0!important;
+  overflow-wrap:anywhere!important;
+}
+.vava-toolbar-actions{
+  flex:0 0 auto!important;
+  min-width:0!important;
+}
+
+@media (min-width:1181px){
+  body.post-type-page.vava-homepage-classic #postbox-container-1{
+    position:sticky!important;
+    top:40px!important;
+    align-self:start!important;
+    height:max-content!important;
+    overflow:visible!important;
+    z-index:8!important;
+  }
+  body.post-type-page.vava-homepage-classic #side-sortables,
+  body.post-type-page.vava-homepage-classic #postbox-container-1 .meta-box-sortables{
+    position:static!important;
+    height:auto!important;
+    overflow:visible!important;
+  }
+  body.post-type-page.vava-homepage-classic #vava_live_preview_box{
+    position:relative!important;
+    top:auto!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:calc(100vh - 58px)!important;
+    overflow:hidden!important;
+  }
+}
+#vava_live_preview_box{
+  height:auto!important;
+  min-height:0!important;
+}
+#vava_live_preview_box>.inside{
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+}
+#vava_live_preview_box .vava-live-preview{
+  height:auto!important;
+  min-height:0!important;
+}
+#vava_live_preview_box .vava-live-preview-header{
+  min-height:52px!important;
+  padding:10px 14px!important;
+}
+#vava_live_preview_box .vava-preview-viewport{
+  min-height:0!important;
+  max-height:calc(100vh - 120px)!important;
+  padding:8px!important;
+  overflow:auto!important;
+}
+
+@media (max-width:1380px) and (min-width:1181px){
+  .vava-admin-toolbar{flex-wrap:wrap!important}
+  .vava-section-tabs{order:2;flex-basis:100%!important;width:100%!important}
+  .vava-toolbar-actions{order:1;margin-inline-start:auto!important}
+}
+@media (max-width:900px){
+  .vava-section-tabs{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media (max-width:600px){
+  #vava_homepage_settings .postbox-header{padding:0 12px!important}
+  #vava_homepage_settings .vava-homepage-update-button.is-in-postbox-header{min-width:84px!important}
+  .vava-section-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+
+/* ===== V1R12: header language controls, inset content cards, clean section panels ===== */
+#vava_homepage_settings .vava-homepage-admin{
+  padding:16px!important;
+  background:#f5f7f4!important;
+  box-sizing:border-box!important;
+}
+#vava_homepage_settings .vava-postbox-header-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  flex:0 0 auto!important;
+  min-width:0!important;
+  direction:rtl!important;
+}
+#vava_homepage_settings .vava-language-switch.is-in-postbox-header{
+  margin:0!important;
+  align-self:center!important;
+  box-shadow:none!important;
+}
+#vava_homepage_settings .vava-homepage-update-button.is-in-postbox-header{
+  margin:0!important;
+}
+#vava_homepage_settings .vava-page-identity-card{
+  margin:0 0 14px!important;
+}
+#vava_homepage_settings .vava-admin-intro{
+  margin:0 0 12px!important;
+  padding:15px 18px!important;
+  border:1px solid #cfe4f6!important;
+  border-radius:12px!important;
+  background:#edf6ff!important;
+  box-shadow:0 5px 16px rgba(34,113,177,.045)!important;
+}
+#vava_homepage_settings .vava-admin-toolbar{
+  position:sticky!important;
+  top:32px!important;
+  z-index:20!important;
+  display:block!important;
+  margin:0 0 16px!important;
+  padding:8px!important;
+  border:1px solid #dfe4df!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:0 6px 18px rgba(48,57,46,.055)!important;
+}
+#vava_homepage_settings .vava-section-tabs{
+  width:100%!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  overflow:visible!important;
+}
+#vava_homepage_settings .vava-section-panels{
+  border:1px solid #e1e5e0!important;
+  border-radius:14px!important;
+  overflow:hidden!important;
+  background:var(--vava-admin-bg)!important;
+}
+#vava_homepage_settings .vava-section-panel{
+  padding:18px!important;
+}
+#vava_homepage_settings .vava-panel-heading{
+  display:none!important;
+}
+#vava_homepage_settings .vava-shared-fields{
+  margin-top:16px!important;
+}
+@media (max-width:900px){
+  #vava_homepage_settings .vava-postbox-header-actions{
+    gap:7px!important;
+  }
+  #vava_homepage_settings .vava-language-switch button{
+    padding:7px 9px!important;
+  }
+  #vava_homepage_settings .vava-section-tabs{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+}
+@media (max-width:600px){
+  #vava_homepage_settings .vava-homepage-admin{
+    padding:10px!important;
+  }
+  #vava_homepage_settings .postbox-header{
+    flex-wrap:wrap!important;
+    padding-block:8px!important;
+  }
+  #vava_homepage_settings .postbox-header h2,
+  #vava_homepage_settings .postbox-header .hndle{
+    flex-basis:100%!important;
+    padding:5px 0!important;
+  }
+  #vava_homepage_settings .vava-postbox-header-actions{
+    width:100%!important;
+    justify-content:space-between!important;
+  }
+  #vava_homepage_settings .vava-section-tabs{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+
+
+/* V1R15 — a single live testimonial card in the admin preview. */
+.vava-fe-testimonials-single-preview{
+  min-height:0!important;
+  padding:18px!important;
+  background:
+    radial-gradient(circle at 92% 12%,rgba(153,180,170,.14),transparent 32%),
+    linear-gradient(180deg,#fffaf4,#fbf3ea)!important;
+}
+.vava-fe-testimonial-single{
+  position:relative;
+  min-height:330px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  overflow:hidden;
+  padding:62px 38px 26px;
+  border:1px solid rgba(194,181,163,.5);
+  border-radius:28px;
+  background:linear-gradient(145deg,rgba(255,253,249,.99),rgba(255,248,240,.95));
+  box-shadow:0 16px 38px rgba(86,72,59,.09);
+  isolation:isolate;
+}
+.vava-fe-testimonial-single::before{
+  content:"";
+  position:absolute;
+  inset-inline-end:-92px;
+  bottom:-92px;
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  background:rgba(207,125,101,.2);
+  z-index:-1;
+}
+.vava-fe-testimonial-single::after{
+  content:"";
+  position:absolute;
+  inset-inline-end:14px;
+  bottom:8px;
+  width:95px;
+  height:150px;
+  opacity:.28;
+  background:#6b6d43;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 200'%3E%3Cg fill='none' stroke='black' stroke-linecap='round' stroke-width='2'%3E%3Cpath d='M18 190C44 132 63 78 76 12'/%3E%3Cpath d='M52 102C34 91 24 75 25 57C43 61 57 73 61 91'/%3E%3Cpath d='M67 68C55 51 55 34 62 18C79 29 86 44 82 61'/%3E%3Cpath d='M76 39C89 26 103 22 116 25C109 40 96 49 79 49'/%3E%3Cpath d='M39 137C26 132 14 121 8 108C25 107 39 114 47 126'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 200'%3E%3Cg fill='none' stroke='black' stroke-linecap='round' stroke-width='2'%3E%3Cpath d='M18 190C44 132 63 78 76 12'/%3E%3Cpath d='M52 102C34 91 24 75 25 57C43 61 57 73 61 91'/%3E%3Cpath d='M67 68C55 51 55 34 62 18C79 29 86 44 82 61'/%3E%3Cpath d='M76 39C89 26 103 22 116 25C109 40 96 49 79 49'/%3E%3Cpath d='M39 137C26 132 14 121 8 108C25 107 39 114 47 126'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
+  pointer-events:none;
+}
+.vava-fe-testimonial-quote{
+  position:absolute;
+  top:22px;
+  inset-inline-start:28px;
+  color:rgba(171,166,111,.5);
+  font-family:Georgia,serif;
+  font-size:62px;
+  line-height:1;
+}
+.vava-fe-testimonial-single>p{
+  position:relative;
+  z-index:1;
+  margin:0;
+  color:#5f5a56;
+  font-size:14px;
+  line-height:2;
+  text-align:center;
+  white-space:pre-line;
+}
+.vava-fe-testimonial-meta{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:25px;
+  padding-top:18px;
+  border-top:1px solid rgba(171,166,111,.2);
+}
+.vava-fe-testimonial-stars{
+  color:#8c8b50;
+  font-size:14px;
+  letter-spacing:3px;
+  direction:ltr;
+}
+.vava-fe-testimonial-person{display:flex;align-items:center;gap:10px;color:#6b6d43}
+.vava-fe-testimonial-person strong{font-size:12px;font-weight:700}
+.vava-fe-testimonial-avatar{
+  position:relative;
+  display:block;
+  width:48px;
+  height:48px;
+  border:5px solid rgba(255,250,242,.92);
+  border-radius:50%;
+  background:linear-gradient(145deg,rgba(171,166,111,.38),rgba(153,180,170,.25));
+  box-shadow:0 6px 16px rgba(85,78,59,.08);
+}
+.vava-fe-testimonial-avatar::before{
+  content:"";
+  position:absolute;
+  inset:22%;
+  background:#6b6d43;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5Zm0 2c-4.42 0-8 2.24-8 5v1.2c0 .44.36.8.8.8h14.4c.44 0 .8-.36.8-.8V19c0-2.76-3.58-5-8-5Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5Zm0 2c-4.42 0-8 2.24-8 5v1.2c0 .44.36.8.8.8h14.4c.44 0 .8-.36.8-.8V19c0-2.76-3.58-5-8-5Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+[data-repeater-kind="testimonials"] [data-repeater-item][data-preview-active="1"]{
+  border-color:rgba(107,109,67,.5)!important;
+  box-shadow:0 0 0 2px rgba(107,109,67,.08),0 10px 24px rgba(66,74,59,.06)!important;
+}
+.vava-preview-frontend[dir="ltr"] .vava-fe-testimonial-single{direction:ltr}
+.vava-preview-frontend[dir="rtl"] .vava-fe-testimonial-single{direction:rtl}
+@media(max-width:1200px){
+  .vava-fe-testimonial-single{min-height:280px;padding:56px 24px 24px}
+  .vava-fe-testimonial-single>p{font-size:12px;line-height:1.9}
+  .vava-fe-testimonial-meta{align-items:flex-start;flex-direction:column-reverse}
+}
+
+
+/* V1R16 — testimonial preview height follows the single edited card. */
+#vava_live_preview_box .vava-live-preview[data-preview-section="testimonials"] .vava-preview-stage,
+#vava_live_preview_box .vava-live-preview[data-preview-section="testimonials"] .vava-preview-canvas,
+#vava_live_preview_box .vava-live-preview[data-preview-section="testimonials"] .vava-fe-section{
+  min-height:0!important;
+}
+#vava_live_preview_box .vava-live-preview[data-preview-section="testimonials"] .vava-preview-stage{
+  height:auto;
+}
+#vava_live_preview_box .vava-live-preview[data-preview-section="testimonials"] .vava-preview-viewport{
+  padding:8px!important;
+}
+
+/* V1R17 — testimonial preview mirrors the fixed card without empty space. */
+.vava-fe-testimonials-single-preview{
+  min-height:0!important;
+  padding:24px 28px 34px!important;
+  overflow:visible!important;
+}
+.vava-fe-testimonial-single{
+  box-sizing:border-box!important;
+  height:330px!important;
+  min-height:330px!important;
+  max-height:330px!important;
+  justify-content:flex-start!important;
+  padding:54px 34px 22px!important;
+}
+.vava-fe-testimonial-single>p{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  padding:6px 8px 8px!important;
+  font-size:12px!important;
+  line-height:1.85!important;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(107,109,67,.28) transparent;
+}
+.vava-fe-testimonial-single>p::-webkit-scrollbar{width:5px}
+.vava-fe-testimonial-single>p::-webkit-scrollbar-thumb{background:rgba(107,109,67,.28);border-radius:999px}
+.vava-fe-testimonial-meta{
+  flex:0 0 auto!important;
+  margin-top:12px!important;
+  padding-top:14px!important;
+}
+#vava_live_preview_box .vava-live-preview[data-preview-section="testimonials"] .vava-preview-stage{
+  overflow:hidden!important;
+  box-shadow:0 10px 28px rgba(42,51,40,.12)!important;
+}
+@media(max-width:1200px){
+  .vava-fe-testimonial-single{
+    height:300px!important;
+    min-height:300px!important;
+    max-height:300px!important;
+    padding:50px 24px 20px!important;
+  }
+  .vava-fe-testimonial-single>p{font-size:11.5px!important;line-height:1.8!important}
+}
+
+/* V1R18 — vertically center short testimonial copy in the live card preview. */
+.vava-fe-testimonial-single>p{
+  display:flex!important;
+  flex-direction:column!important;
+}
+.vava-fe-testimonial-text-inner{
+  display:block;
+  width:100%;
+  margin-block:auto;
+  white-space:pre-line;
+}
+
+/* V1R19 — translated page identity follows the active AR/EN editor language. */
+.vava-page-title-pane{display:none;min-width:0}
+.vava-page-title-pane.is-active{display:grid;gap:7px}
+.vava-page-title-pane[hidden]{display:none!important}
+.vava-page-title-pane[dir="ltr"]{text-align:left}
+.vava-page-title-pane[dir="rtl"]{text-align:right}
+
+/* ===== About VAVA cumulative V1R3: compact advanced editor controls ===== */
+body.vava-advanced-page-editor #screen-meta-links,
+body.vava-advanced-page-editor #screen-options-link-wrap,
+body.vava-advanced-page-editor #contextual-help-link-wrap{display:none!important}
+
+/* Hero media type uses the same segmented-control language as AR / EN. */
+#vava_homepage_settings .vava-media-type-switch{
+  display:inline-flex!important;align-items:center!important;gap:0!important;margin:4px 0 0!important;padding:3px!important;
+  border:1px solid #d8dde3!important;border-radius:10px!important;background:#eef0f2!important;direction:rtl!important
+}
+#vava_homepage_settings .vava-media-type-switch label{display:block!important;margin:0!important}
+#vava_homepage_settings .vava-media-type-switch label>span{
+  display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;min-width:112px!important;min-height:36px!important;
+  padding:0 13px!important;border:0!important;border-radius:7px!important;background:transparent!important;color:#5c6672!important;
+  box-shadow:none!important;font-weight:600!important;transition:.16s ease!important
+}
+#vava_homepage_settings .vava-media-type-switch label>span svg{width:18px!important;height:18px!important}
+#vava_homepage_settings .vava-media-type-switch input:checked+span{
+  background:var(--vava-admin-accent)!important;color:#fff!important;box-shadow:0 2px 7px rgba(50,70,42,.2)!important
+}
+
+/* Unified media actions for every advanced page upload field. */
+#vava_homepage_settings .vava-media-actions{display:flex!important;align-items:center!important;gap:10px!important;flex-wrap:wrap!important}
+#vava_homepage_settings .vava-media-actions .vava-media-select,
+#vava_homepage_settings .vava-media-actions .vava-media-remove{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:42px!important;padding:0 18px!important;
+  border-radius:9px!important;color:#fff!important;box-shadow:0 2px 7px rgba(50,70,42,.16)!important;font-weight:700!important
+}
+#vava_homepage_settings .vava-media-actions .vava-media-select{
+  border-color:var(--vava-admin-accent)!important;background:var(--vava-admin-accent)!important
+}
+#vava_homepage_settings .vava-media-actions .vava-media-select:hover,
+#vava_homepage_settings .vava-media-actions .vava-media-select:focus{
+  border-color:#5f7150!important;background:#5f7150!important;color:#fff!important
+}
+#vava_homepage_settings .vava-media-actions .vava-media-remove{
+  border-color:#c87968!important;background:#c87968!important;color:#fff!important
+}
+#vava_homepage_settings .vava-media-actions .vava-media-remove:hover,
+#vava_homepage_settings .vava-media-actions .vava-media-remove:focus{
+  border-color:#b96858!important;background:#b96858!important;color:#fff!important
+}
+
+/* Customer testimonials open one item at a time; only the first starts open. */
+#vava_homepage_settings [data-repeater-kind="testimonials"] .vava-repeater-item.is-collapsed .vava-repeater-item-body{display:none}
+body.vava-advanced-page-editor #vava_homepage_settings .vava-admin-intro{display:none!important}
+
+/* Cumulative V1R5 — remove the nested white pills from hero media type labels. */
+#vava_homepage_settings .vava-media-type-switch label>span>span{
+  display:inline!important;
+  min-width:0!important;
+  min-height:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:inherit!important;
+  box-shadow:none!important;
+  font:inherit!important;
+  line-height:1!important;
+}
+#vava_homepage_settings .vava-media-type-switch input:checked+span>span{color:#fff!important}
+#vava_homepage_settings .vava-media-type-switch input:not(:checked)+span>span{color:#5c6672!important}
+#vava_homepage_settings .vava-media-actions .vava-media-remove{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:42px!important;padding:0 18px!important;
+  border-radius:9px!important;color:#fff!important;box-shadow:0 2px 7px rgba(50,70,42,.16)!important;font-weight:700!important
+}
+#vava_homepage_settings .vava-media-actions .vava-media-select{
+  border-color:var(--vava-admin-accent)!important;background:var(--vava-admin-accent)!important
+}
+#vava_homepage_settings .vava-media-actions .vava-media-select:hover,
+#vava_homepage_settings .vava-media-actions .vava-media-select:focus{
+  border-color:#5f7150!important;background:#5f7150!important;color:#fff!important
+}
+#vava_homepage_settings .vava-media-actions .vava-media-remove{
+  border-color:#c87968!important;background:#c87968!important;color:#fff!important
+}
+#vava_homepage_settings .vava-media-actions .vava-media-remove:hover,
+#vava_homepage_settings .vava-media-actions .vava-media-remove:focus{
+  border-color:#b96858!important;background:#b96858!important;color:#fff!important
+}
+
+/* Customer testimonials open one item at a time; only the first starts open. */
+#vava_homepage_settings [data-repeater-kind="testimonials"] .vava-repeater-item.is-collapsed .vava-repeater-item-body{display:none}
+body.vava-advanced-page-editor #vava_homepage_settings .vava-admin-intro{display:none!important}
+
+/* V1R6 — shared advanced-editor rich text and approved success toast. */
+.vava-richtext-control{width:100%;border:1px solid #d9ded7;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 2px 8px rgba(60,67,52,.025)}
+.vava-richtext-toolbar{display:flex;align-items:center;gap:4px;flex-wrap:wrap;padding:8px 10px;border-bottom:1px solid #e3e7e1;background:#fbfcfa}
+.vava-richtext-toolbar button,.vava-richtext-toolbar select{min-width:32px;height:32px;border:0;border-radius:7px;background:transparent;color:#31362f;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;line-height:1;padding:0 8px}
+.vava-richtext-toolbar button:hover,.vava-richtext-toolbar button:focus,.vava-richtext-toolbar select:hover,.vava-richtext-toolbar select:focus{background:#eef2ea;color:#657651;outline:none}
+.vava-richtext-toolbar select{min-width:108px;border-inline-end:1px solid #e0e4dd;border-radius:0;padding-inline:8px 12px}
+.vava-richtext-editor{min-height:132px;padding:16px 18px;outline:none;font-size:14px;line-height:1.9;color:#2f332d;background:#fff;overflow:auto}
+.vava-richtext-editor:focus{box-shadow:inset 0 0 0 2px rgba(116,137,89,.16)}
+.vava-richtext-editor p{margin:0 0 .8em}.vava-richtext-editor p:last-child{margin-bottom:0}.vava-richtext-editor blockquote{margin:12px 0;padding:8px 14px;border-inline-start:3px solid #87976e;background:#f6f8f3;border-radius:8px}
+.vava-richtext-editor ul,.vava-richtext-editor ol{padding-inline-start:22px}
+.vava-admin-field-textarea,.vava-repeater-field-wide{grid-column:1/-1}
+
+.vava-success-toast{
+  position:fixed;
+  z-index:100000;
+  top:104px;
+  left:50%;
+  width:min(570px,calc(100vw - 40px));
+  min-height:320px;
+  transform:translate(-50%,-22px) scale(.97);
+  opacity:0;
+  overflow:hidden;
+  border:1px solid rgba(126,132,100,.16);
+  border-radius:28px;
+  background:rgba(255,255,253,.99);
+  box-shadow:0 28px 80px rgba(67,64,48,.22);
+  text-align:center;
+  transition:opacity .24s ease,transform .24s ease;
+}
+.vava-success-toast.is-visible{opacity:1;transform:translate(-50%,0) scale(1)}
+.vava-success-toast-wave{
+  position:absolute;
+  z-index:0;
+  top:0;
+  right:-5%;
+  left:-5%;
+  height:118px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 12% 30%,rgba(255,255,255,.20) 0 2px,transparent 3px),
+    linear-gradient(135deg,#cbd8ae 0%,#9eb677 48%,#849d64 100%);
+}
+.vava-success-toast-wave:after{
+  content:"";
+  position:absolute;
+  right:-4%;
+  bottom:-56px;
+  left:-4%;
+  height:105px;
+  border-radius:50% 50% 0 0/62% 62% 0 0;
+  background:#fff;
+  transform:rotate(-1.5deg);
+}
+.vava-success-toast-wave:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(155deg,transparent 35%,rgba(255,255,255,.22) 36%,transparent 37% 60%,rgba(255,255,255,.14) 61%,transparent 62%);
+  opacity:.7;
+}
+.vava-success-toast-close{
+  position:absolute;
+  z-index:4;
+  top:16px;
+  right:18px;
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:rgba(80,96,61,.44);
+  color:#fff;
+  font-size:28px;
+  line-height:1;
+  cursor:pointer;
+  transition:background-color .2s ease,transform .2s ease;
+}
+.vava-success-toast-close:hover,.vava-success-toast-close:focus{background:rgba(64,80,47,.72);transform:rotate(5deg);outline:none}
+.vava-success-toast-check{
+  position:relative;
+  z-index:3;
+  display:grid;
+  place-items:center;
+  width:92px;
+  height:92px;
+  margin:58px auto 8px;
+  border:3px solid rgba(255,255,255,.86);
+  border-radius:50%;
+  background:linear-gradient(145deg,#a9bf83,#789454);
+  box-shadow:0 10px 28px rgba(74,92,53,.34),inset 0 1px 0 rgba(255,255,255,.45);
+}
+.vava-success-toast-check svg{width:52px;height:52px;fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.vava-success-toast-content{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:4px 36px 30px;
+  text-align:center;
+}
+.vava-success-toast-content strong{color:#39442f;font-size:27px;font-weight:700;line-height:1.35}
+.vava-success-toast-content>span{color:#73796f;font-size:15px;line-height:1.7}
+.vava-success-toast-view{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:11px;
+  min-width:166px;
+  min-height:44px;
+  margin-top:12px;
+  padding:0 22px;
+  border:1px solid #91a776;
+  border-radius:14px;
+  background:#fff;
+  color:#657a4f;
+  text-decoration:none!important;
+  font-weight:700;
+  box-shadow:0 6px 20px rgba(72,89,55,.06);
+  transition:background-color .2s ease,color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.vava-success-toast-view:hover,.vava-success-toast-view:focus{background:#839b62;color:#fff;box-shadow:0 10px 26px rgba(72,89,55,.18);transform:translateY(-1px);outline:none}
+.vava-success-toast-arrow{font-size:18px;line-height:1}
+.vava-success-toast[dir="rtl"] .vava-success-toast-arrow{transform:scaleX(-1)}
+@media(max-width:782px){
+  .vava-success-toast{top:68px;width:min(500px,calc(100vw - 24px));min-height:292px;border-radius:24px}
+  .vava-success-toast-wave{height:105px}
+  .vava-success-toast-check{width:80px;height:80px;margin-top:52px}
+  .vava-success-toast-check svg{width:45px;height:45px}
+  .vava-success-toast-content{padding-inline:20px}
+  .vava-success-toast-content strong{font-size:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .vava-success-toast,.vava-success-toast-close,.vava-success-toast-view{transition:none!important}
+}
+
+/* Show hero media controls directly, without an extra titled card. */
+.vava-hero-media-direct{margin-top:18px;padding:0;background:transparent;border:0;box-shadow:none}
+.vava-hero-media-direct>.vava-fields-grid{margin:0 0 14px}
+.vava-hero-media-direct .vava-admin-field-media-type{padding:0;border:0;background:transparent;box-shadow:none}
+.vava-hero-media-direct .vava-admin-field-media-type>label{display:none}
+.vava-hero-media-direct .vava-hero-media-grid{margin-top:10px}
+
+/* V1R6 — rich testimonial preview remains identical after replacing textarea with the visual editor. */
+.vava-fe-testimonial-single>.vava-fe-testimonial-text{
+  position:relative;
+  z-index:1;
+  display:flex!important;
+  flex:1 1 auto!important;
+  flex-direction:column!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  padding:6px 8px 8px!important;
+  color:#5f5a56;
+  font-size:12px!important;
+  line-height:1.85!important;
+  text-align:center;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(107,109,67,.28) transparent;
+}
+.vava-fe-testimonial-single>.vava-fe-testimonial-text::-webkit-scrollbar{width:5px}
+.vava-fe-testimonial-single>.vava-fe-testimonial-text::-webkit-scrollbar-thumb{background:rgba(107,109,67,.28);border-radius:999px}
+.vava-fe-testimonial-single>.vava-fe-testimonial-text .vava-fe-testimonial-text-inner{margin-block:auto}
+.vava-preview-frontend .vava-richtext-content>p:first-child{margin-top:0}
+.vava-preview-frontend .vava-richtext-content>p:last-child{margin-bottom:0}
+.vava-preview-frontend .vava-richtext-content ul,
+.vava-preview-frontend .vava-richtext-content ol{margin-block:8px;padding-inline-start:22px}
+.vava-preview-frontend .vava-richtext-content blockquote{margin:10px 0;padding:8px 12px;border-inline-start:3px solid rgba(107,109,67,.45);background:rgba(255,255,255,.38);border-radius:8px}
+.vava-richtext-toolbar button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* V1.9.9 — internal-header menu uses the same compact field pattern as footer menus. */
+.vava-internal-header-menu-field{
+	grid-column:1/-1;
+	margin:0;
+}
+.vava-internal-header-menu-field .description{margin:8px 0 0}
+.vava-internal-header-menu-field .description a{text-decoration:none}
+.vava-internal-header-menu-field select{min-height:40px}
+
+
+/* V1R20 — show the selected internal-pages header together with the Hero preview. */
+.vava-fe-internal-header-preview{
+  position:absolute;
+  z-index:8;
+  top:18px;
+  inset-inline:20px;
+  display:grid;
+  grid-template-columns:118px minmax(0,1fr) auto;
+  align-items:center;
+  min-height:62px;
+  padding:6px 14px;
+  border:1px solid rgba(255,255,255,.72);
+  border-bottom-color:rgba(107,109,67,.18);
+  border-radius:27px;
+  background:rgba(255,250,244,.9);
+  box-shadow:0 14px 34px rgba(53,58,48,.13);
+  backdrop-filter:blur(16px) saturate(1.06);
+  color:#66634f;
+}
+.vava-fe-internal-brand{display:flex;align-items:center;justify-content:flex-start;min-width:0}
+.vava-fe-internal-brand img{display:block;width:84px;height:48px;object-fit:contain}
+.vava-fe-internal-header-preview nav{
+  display:flex;
+  min-width:0;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  overflow:hidden;
+  white-space:nowrap;
+}
+.vava-fe-internal-header-preview nav a{
+  position:relative;
+  max-width:150px;
+  overflow:hidden;
+  color:#6b675d;
+  font-size:11px;
+  font-weight:600;
+  line-height:1.4;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.vava-fe-internal-header-preview nav a:first-child{color:var(--vava-fe-coral)}
+.vava-fe-internal-header-preview nav a:first-child:after{
+  content:"";
+  position:absolute;
+  inset-inline:35% 35%;
+  bottom:-7px;
+  height:2px;
+  border-radius:2px;
+  background:var(--vava-fe-coral);
+}
+.vava-fe-internal-menu-empty{color:#9a958a;font-size:10px;font-weight:600}
+.vava-fe-internal-language-preview{
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  padding:3px;
+  border:1px solid rgba(107,109,67,.2);
+  border-radius:999px;
+  background:rgba(255,255,255,.52);
+}
+.vava-fe-internal-language-preview span{
+  display:grid;
+  place-items:center;
+  min-width:32px;
+  height:25px;
+  padding:0 8px;
+  border-radius:999px;
+  color:#9a9688;
+  font-family:Arial,sans-serif;
+  font-size:9px;
+  font-weight:700;
+}
+.vava-fe-internal-language-preview span.is-active{background:var(--vava-fe-olive);color:#fff;box-shadow:0 3px 8px rgba(107,109,67,.2)}
+.vava-preview-frontend[dir="rtl"] .vava-fe-internal-brand{justify-content:flex-end}
+.vava-preview-frontend[dir="ltr"] .vava-fe-internal-header-preview{grid-template-columns:118px minmax(0,1fr) auto}
+.vava-preview-frontend[dir="ltr"] .vava-fe-internal-brand{justify-content:flex-start}
+.vava-preview-frontend[dir="ltr"] .vava-fe-internal-header-preview nav{direction:ltr}
+.vava-preview-frontend[dir="rtl"] .vava-fe-internal-header-preview nav{direction:rtl}
+.vava-preview-frontend-hero .vava-fe-hero-copy{padding-top:112px}
+
+@media (max-width:760px){
+  .vava-fe-internal-header-preview{top:12px;inset-inline:12px;grid-template-columns:86px minmax(0,1fr) auto;min-height:56px;padding:5px 10px;border-radius:22px}
+  .vava-fe-internal-brand img{width:70px;height:42px}
+  .vava-fe-internal-header-preview nav{gap:10px}
+  .vava-fe-internal-header-preview nav a{max-width:100px;font-size:9px}
+  .vava-fe-internal-language-preview span{min-width:27px;height:22px;padding:0 6px;font-size:8px}
+}
+
+/* Release 1.19.4 — reliable hero media switch and advanced styling for testimonials/footer. */
+#vava_homepage_settings [data-hero-media][hidden],
+#vava_homepage_settings [data-hero-media].is-media-hidden{display:none!important}
+#vava_homepage_settings [data-hero-media].is-media-active{display:block!important}
+.vava-section-panel--testimonials .vava-dynamic-repeater,
+.vava-section-panel--footer .vava-dynamic-repeater{display:grid;gap:13px}
+.vava-section-panel--testimonials .vava-dynamic-item,
+.vava-section-panel--footer .vava-dynamic-item{
+  overflow:hidden;
+  border:1px solid #d6dfd2!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  box-shadow:0 7px 19px rgba(66,73,55,.05)
+}
+.vava-section-panel--testimonials .vava-dynamic-item-header,
+.vava-section-panel--footer .vava-dynamic-item-header{
+  min-height:48px;
+  padding:9px 12px!important;
+  border-bottom:1px solid #dfe6dc!important;
+  background:linear-gradient(145deg,#f0f5ed,#fafcf8)!important
+}
+.vava-section-panel--testimonials .vava-testimonial-card-title{
+  overflow:hidden;
+  color:#53604c;
+  font-size:13px;
+  font-weight:800;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.vava-section-panel--testimonials .vava-testimonial-card-number{
+  display:inline-grid;
+  min-width:25px;
+  height:25px;
+  place-items:center;
+  margin-inline-end:7px;
+  border-radius:999px;
+  background:#e7eee2;
+  color:#69764f;
+  font-size:10px
+}
+.vava-section-panel--testimonials .vava-dynamic-item-body,
+.vava-section-panel--footer .vava-dynamic-item-body{padding:14px!important;background:#fff!important}
+.vava-section-panel--testimonials .wp-editor-wrap,
+.vava-section-panel--footer .wp-editor-wrap{overflow:hidden;border:1px solid #d9e1d6;border-radius:12px;background:#fff}
+.vava-section-panel--testimonials .wp-editor-tools,
+.vava-section-panel--footer .wp-editor-tools{padding:5px 8px;background:#f4f7f1}
+.vava-section-panel--testimonials .button,
+.vava-section-panel--footer .button{
+  min-height:38px;
+  padding:6px 13px;
+  border-radius:9px;
+  font-weight:700
+}
+.vava-section-panel--testimonials .vava-add-item,
+.vava-section-panel--footer .vava-add-item{
+  border-color:#758052!important;
+  background:#758052!important;
+  color:#fff!important
+}
+.vava-section-panel--footer .vava-editor-controls,
+.vava-section-panel--footer .vava-document-fields,
+.vava-section-panel--footer .vava-footer-menu-fields{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+  padding:14px;
+  border:1px solid #d7e0d4;
+  border-radius:14px;
+  background:#fbfcfa
+}
+.vava-section-panel--footer .vava-social-row{
+  display:grid!important;
+  grid-template-columns:42px minmax(160px,.8fr) minmax(200px,1.4fr) 42px!important;
+  gap:9px!important;
+  align-items:center!important;
+  padding:10px!important;
+  border:1px solid #dce4d9!important;
+  border-radius:11px!important;
+  background:#fff!important
+}
+.vava-section-panel--footer input,
+.vava-section-panel--footer select,
+.vava-section-panel--footer textarea,
+.vava-section-panel--testimonials input,
+.vava-section-panel--testimonials textarea{
+  min-height:40px!important;
+  border-color:#d4ddd1!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  box-shadow:none!important
+}
+@media(max-width:900px){
+  .vava-section-panel--footer .vava-editor-controls,
+  .vava-section-panel--footer .vava-document-fields,
+  .vava-section-panel--footer .vava-footer-menu-fields{grid-template-columns:1fr}
+  .vava-section-panel--footer .vava-social-row{grid-template-columns:36px minmax(0,1fr) 38px!important}
+  .vava-section-panel--footer .vava-social-row input[type="url"]{grid-column:2/3}
+}
+/* Selector alignment for the actual homepage repeater markup. */
+.vava-section-panel--testimonials .vava-repeater-item,
+.vava-section-panel--footer .vava-repeater-item{
+  overflow:hidden;
+  border:1px solid #d6dfd2!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  box-shadow:0 7px 19px rgba(66,73,55,.05)
+}
+.vava-section-panel--testimonials .vava-repeater-item-header{
+  min-height:48px;
+  padding:9px 12px!important;
+  border-bottom:1px solid #dfe6dc!important;
+  background:linear-gradient(145deg,#f0f5ed,#fafcf8)!important
+}
+.vava-section-panel--testimonials .vava-repeater-item-body{padding:14px!important;background:#fff!important}
+.vava-section-panel--footer .vava-social-repeater-item{
+  display:grid!important;
+  grid-template-columns:42px minmax(170px,.8fr) minmax(220px,1.4fr) 42px!important;
+  gap:9px!important;
+  align-items:center!important;
+  padding:10px!important;
+  border:1px solid #dce4d9!important;
+  border-radius:11px!important;
+  background:#fff!important
+}
+.vava-section-panel--footer .vava-social-repeater-item .vava-repeater-drag,
+.vava-section-panel--footer .vava-social-repeater-item .vava-repeater-remove{position:static!important;margin:0!important}
+.vava-section-panel--footer .vava-social-platform-cell{display:grid!important;grid-template-columns:34px minmax(0,1fr)!important;gap:8px!important;align-items:center!important}
+.vava-section-panel--footer .vava-social-repeater-item select,
+.vava-section-panel--footer .vava-social-repeater-item input{width:100%!important;min-width:0!important}
+@media(max-width:900px){
+  .vava-section-panel--footer .vava-social-repeater-item{grid-template-columns:36px minmax(0,1fr) 38px!important}
+  .vava-section-panel--footer .vava-social-repeater-item .vava-social-url-input{grid-column:2/3!important}
+}
+
+
+/* Release 1.19.5 — advanced Testimonials and Footer tabs. */
+.vava-section-panel--testimonials .vava-admin-repeaters,.vava-section-panel--footer .vava-editor-controls,.vava-section-panel--footer>.vava-social-repeater{border:1px solid #dce1d4;border-radius:18px;background:#fff;padding:16px;box-shadow:0 10px 28px rgba(59,66,45,.045)}
+.vava-section-panel--testimonials .vava-repeater-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:0 0 13px;border-bottom:1px solid #e3e7de}
+.vava-section-panel--testimonials .vava-repeater-heading h3{margin:0;color:#4e5945;font-size:16px}
+.vava-testimonial-add-button{display:inline-flex!important;min-height:42px!important;align-items:center!important;gap:7px!important;padding:7px 17px!important;border:1px solid #6f7e50!important;border-radius:11px!important;background:linear-gradient(135deg,#7e8d5b,#667548)!important;color:#fff!important;font-weight:800!important;box-shadow:0 8px 18px rgba(102,117,72,.18)!important}
+.vava-testimonial-add-button:hover{border-color:#59683e!important;background:linear-gradient(135deg,#6e7d4e,#59683e)!important;color:#fff!important;transform:translateY(-1px)}
+.vava-section-panel--testimonials .vava-repeater-list{display:grid;gap:11px}
+.vava-section-panel--testimonials .vava-repeater-item{overflow:hidden;border:1px solid #d8dece!important;border-radius:15px!important;background:#fff!important;box-shadow:none!important}
+.vava-section-panel--testimonials .vava-repeater-item-header{min-height:58px;padding:9px 12px!important;border:0!important;background:#eef3e9!important}
+.vava-section-panel--testimonials .vava-repeater-item-header>strong{display:flex;align-items:center;gap:7px;color:#4f5b43;font-size:14px}
+.vava-section-panel--testimonials .vava-testimonial-card-number{display:none!important}
+.vava-section-panel--testimonials .vava-repeater-item-body{padding:15px!important;border-top:1px solid #dde3d6;background:#fffdf9}
+.vava-section-panel--testimonials .vava-repeater-toggle,.vava-section-panel--testimonials .vava-icon-button-danger{width:35px!important;height:35px!important;border-radius:9px!important;background:#fff!important}
+.vava-section-panel--testimonials .vava-icon-button-danger{border-color:#efc7bd!important;color:#cb6d56!important;background:#fff4f0!important}
+.vava-section-panel--testimonials .vava-repeater-drag{color:#74805d!important}
+.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.vava-section-panel--footer .vava-admin-field{padding:14px;border:1px solid #dce1d6;border-radius:14px;background:#fbfcf8;box-sizing:border-box}
+.vava-section-panel--footer .vava-admin-field label{display:block;margin-bottom:8px;color:#4e5945;font-weight:800}
+.vava-section-panel--footer .vava-admin-field input,.vava-section-panel--footer .vava-admin-field select,.vava-section-panel--footer .vava-admin-field textarea{min-height:43px;border:1px solid #cfd6c8!important;border-radius:10px!important;background:#fff!important;box-shadow:none!important}
+.vava-section-panel--footer .vava-footer-document-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.vava-section-panel--footer .vava-social-repeater{margin-top:16px!important;background:#fffaf5!important;border-color:#ecd9c9!important}
+.vava-section-panel--footer .vava-social-table{overflow:hidden;border:1px solid #e3ddd3;border-radius:14px;background:#fff}
+.vava-section-panel--footer .vava-social-table-header{padding:10px 12px;background:#f4f6ef;color:#5b654d;font-weight:800}
+.vava-section-panel--footer .vava-social-item{border-top:1px solid #ebe7de!important;background:#fff!important}
+.vava-section-panel--footer .vava-social-item input,.vava-section-panel--footer .vava-social-item select{min-height:39px;border-color:#d7dccf!important;border-radius:9px!important;background:#fffdf9!important}
+.vava-section-panel--footer .vava-social-add{display:inline-flex!important;min-height:41px;align-items:center;gap:7px;margin-top:12px!important;padding:7px 15px!important;border:1px solid #788457!important;border-radius:10px!important;background:#788457!important;color:#fff!important;font-weight:800!important}
+@media(max-width:900px){.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid,.vava-section-panel--footer .vava-footer-document-row{grid-template-columns:1fr}.vava-section-panel--testimonials .vava-repeater-heading{align-items:stretch;flex-direction:column}.vava-testimonial-add-button{justify-content:center}}
+
+
+/* Release 1.19.6 — stable, roomy footer controls. */
+.vava-section-panel--footer .vava-editor-workspace{grid-template-columns:minmax(360px,.9fr) minmax(560px,1.35fr)!important}
+.vava-section-panel--footer .vava-editor-controls{min-width:0!important;padding:16px!important;box-sizing:border-box}
+.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;align-items:start!important}
+.vava-section-panel--footer .vava-admin-field{min-width:0!important;width:100%!important;padding:15px!important;box-sizing:border-box!important}
+.vava-section-panel--footer .vava-admin-field-wide{grid-column:1/-1!important}
+.vava-section-panel--footer .vava-admin-field input,
+.vava-section-panel--footer .vava-admin-field select,
+.vava-section-panel--footer .vava-admin-field textarea{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
+.vava-section-panel--footer .vava-document-control-row{display:grid!important;grid-template-columns:minmax(115px,160px) minmax(0,1fr)!important;gap:11px 14px!important;align-items:center!important}
+.vava-section-panel--footer .vava-document-control-row label{margin:0!important;align-self:center!important}
+.vava-section-panel--footer .vava-footer-menu-field{min-height:145px!important}
+.vava-section-panel--footer .vava-social-table-header,
+.vava-section-panel--footer .vava-social-repeater-item{grid-template-columns:42px minmax(190px,.8fr) minmax(260px,1.35fr) 42px!important;gap:10px!important;align-items:center!important}
+.vava-section-panel--footer .vava-social-repeater-item{padding:11px!important}
+.vava-section-panel--footer .vava-social-platform-cell{min-width:0!important}
+.vava-section-panel--footer .vava-social-url-input{min-width:0!important;width:100%!important}
+@media(max-width:1180px){.vava-section-panel--footer .vava-editor-workspace{grid-template-columns:1fr!important}.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid{grid-template-columns:1fr 1fr!important}}
+@media(max-width:782px){.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid{grid-template-columns:1fr!important}.vava-section-panel--footer .vava-document-control-row{grid-template-columns:1fr!important}.vava-section-panel--footer .vava-social-table-header{display:none!important}.vava-section-panel--footer .vava-social-repeater-item{grid-template-columns:42px minmax(0,1fr) 42px!important}.vava-section-panel--footer .vava-social-repeater-item .vava-social-url-input{grid-column:2/3!important}}
+
+/* 1.22.24 — roomy footer controls and social links without ordering. */
+.vava-section-panel--footer .vava-editor-workspace{grid-template-columns:minmax(390px,.82fr) minmax(650px,1.45fr)!important;gap:22px!important}
+.vava-section-panel--footer .vava-editor-controls{padding:20px!important}
+.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid{grid-template-columns:repeat(2,minmax(260px,1fr))!important;gap:16px!important}
+.vava-section-panel--footer .vava-admin-field{padding:16px!important}
+.vava-section-panel--footer .vava-social-table{overflow:visible!important;border:0!important;background:transparent!important}
+.vava-section-panel--footer .vava-social-table-header,.vava-section-panel--footer .vava-social-repeater-item{display:grid!important;grid-template-columns:minmax(210px,.8fr) minmax(300px,1.45fr) 46px!important;gap:12px!important;align-items:center!important}
+.vava-section-panel--footer .vava-social-table-header{padding:10px 14px!important;border:1px solid #dfe4d9!important;border-radius:12px 12px 0 0!important}
+.vava-section-panel--footer .vava-social-repeater-list{display:grid!important;gap:10px!important;margin-top:10px!important}
+.vava-section-panel--footer .vava-social-repeater-item{padding:13px 14px!important;border:1px solid #e2ded5!important;border-radius:12px!important;background:#fff!important}
+.vava-section-panel--footer .vava-social-platform-cell{display:grid!important;grid-template-columns:38px minmax(0,1fr)!important;gap:9px!important;align-items:center!important}
+.vava-section-panel--footer .vava-social-platform-icon{display:grid!important;width:38px!important;height:38px!important;place-items:center;border-radius:10px;background:#eef1e6;color:#667046}
+.vava-section-panel--footer .vava-social-platform-cell select,.vava-section-panel--footer .vava-social-url-input{min-height:44px!important}
+@media(max-width:1280px){.vava-section-panel--footer .vava-editor-workspace{grid-template-columns:1fr!important}}
+@media(max-width:782px){.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid{grid-template-columns:1fr!important}.vava-section-panel--footer .vava-social-table-header{display:none!important}.vava-section-panel--footer .vava-social-repeater-item{grid-template-columns:1fr 42px!important}.vava-section-panel--footer .vava-social-url-input{grid-column:1/-1!important;grid-row:2!important}.vava-section-panel--footer .vava-icon-button-danger{grid-column:2!important;grid-row:1!important}}
+
+/* 1.22.25 — fluid link trios and a full-width footer editor. */
+.vava-button-control{min-width:0!important;overflow:hidden!important}
+.vava-button-control-row{display:grid!important;grid-template-columns:minmax(180px,1fr) minmax(145px,.55fr) minmax(210px,1fr)!important;grid-template-rows:auto auto!important;gap:7px 14px!important;align-items:end!important;width:100%!important;min-width:0!important;box-sizing:border-box!important}
+.vava-button-control-row>label:nth-of-type(1){grid-column:1;grid-row:1}
+.vava-button-control-row>input:first-of-type{grid-column:1;grid-row:2;width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+.vava-button-control-row>label:nth-of-type(2){grid-column:2;grid-row:1}
+.vava-button-control-row>select[data-link-type-control]{grid-column:2;grid-row:2;width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+.vava-button-control-row>.vava-link-pane{grid-column:3!important;grid-row:2!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+.vava-button-control-row>.vava-link-pane[hidden]{display:none!important}
+.vava-section-panel--footer .vava-editor-workspace,.vava-section-panel--footer .vava-editor-controls{display:block!important;width:100%!important;max-width:none!important;min-width:0!important}
+.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important;max-width:none!important;gap:18px!important}
+.vava-section-panel--footer .vava-admin-field{width:100%!important;max-width:none!important;min-width:0!important}
+.vava-section-panel--footer .vava-social-repeater{width:100%!important;max-width:none!important;box-sizing:border-box!important}
+.vava-section-panel--footer .vava-social-table-header,.vava-section-panel--footer .vava-social-repeater-item{grid-template-columns:minmax(190px,.75fr) minmax(260px,1.25fr) 46px!important;width:100%!important;box-sizing:border-box!important}
+@media(max-width:1050px){.vava-button-control-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.vava-button-control-row>.vava-link-pane{grid-column:1/-1!important;grid-row:4!important}.vava-button-control-row>label:nth-of-type(1),.vava-button-control-row>label:nth-of-type(2){grid-row:1!important}.vava-button-control-row>input:first-of-type,.vava-button-control-row>select[data-link-type-control]{grid-row:2!important}}
+@media(max-width:782px){.vava-button-control-row{grid-template-columns:1fr!important;grid-template-rows:auto!important}.vava-button-control-row>*{grid-column:1!important;grid-row:auto!important}.vava-button-control-row>.vava-link-pane{grid-column:1!important;grid-row:auto!important}.vava-section-panel--footer .vava-editor-controls>.vava-fields-grid{grid-template-columns:1fr!important}}
+
+
+/* VAVA_PAGE_IDENTITY_PERMALINK_CONTAINMENT_V1 */
+.vava-page-identity-card,
+.vava-page-identity-field,
+.vava-page-title-pane,
+.vava-page-permalink-control{
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.vava-page-identity-card{overflow:hidden}
+.vava-page-permalink-control{width:100%;overflow:hidden}
+.vava-page-permalink-control input{
+  display:block;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  box-sizing:border-box;
+}
+.vava-page-permalink-control .button{flex:0 0 auto}
+@media(max-width:560px){
+  .vava-page-identity-card{padding:10px}
+  .vava-page-permalink-control{grid-template-columns:minmax(0,1fr) 40px;gap:6px}
+  .vava-page-permalink-control .button{width:40px;min-height:40px}
+}

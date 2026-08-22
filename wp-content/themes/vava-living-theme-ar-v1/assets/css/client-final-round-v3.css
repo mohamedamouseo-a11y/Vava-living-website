@@ -1,0 +1,15 @@
+/* VAVA Living — focused client fixes 1.22.59 */
+.vava-paths-entry-image,
+.vava-pathway-card-image,
+.vava-pathway-preview-image{
+  display:block;
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  border-radius:22px;
+}
+.vava-paths-entry-icon.has-client-image,
+.vava-pathway-card-visual.has-client-image{padding:0;overflow:hidden;background:transparent}
+.vava-paths-entry-image{overflow:hidden;background:#f1ede6}
+.vava-paths-entry-image img{display:block;width:100%;height:100%;object-fit:cover}
+.vava-paths-preview-pathway-image{display:block;width:100%;height:112px;object-fit:cover;border-radius:14px;margin-bottom:10px}

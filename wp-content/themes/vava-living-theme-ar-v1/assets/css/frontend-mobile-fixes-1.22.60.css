@@ -1,0 +1,87 @@
+/**
+ * VAVA Living 1.22.60 — mobile horizontal overflow guard.
+ * Scope: frontend only. Keep intentional vertical/section scrolling intact.
+ */
+
+/* Prevent off-canvas decoration/transforms from widening the viewport. */
+html,
+body.vava-homepage,
+body.vava-internal-page {
+  max-width: 100%;
+  overflow-x: clip !important;
+}
+
+@supports not (overflow: clip) {
+  html,
+  body.vava-homepage,
+  body.vava-internal-page {
+    overflow-x: hidden !important;
+  }
+}
+
+@media (max-width: 980px) {
+  body.vava-homepage,
+  body.vava-internal-page {
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+  }
+
+  body.vava-homepage .app,
+  body.vava-homepage .stage,
+  body.vava-homepage .section,
+  body.vava-internal-page main,
+  body.vava-internal-page .section,
+  body.vava-internal-page .container,
+  body.vava-internal-page .page-shell,
+  body.vava-internal-page .footer,
+  body.vava-internal-page .page-footer {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body.vava-homepage img,
+  body.vava-homepage video,
+  body.vava-homepage canvas,
+  body.vava-homepage iframe,
+  body.vava-internal-page img,
+  body.vava-internal-page video,
+  body.vava-internal-page canvas,
+  body.vava-internal-page iframe {
+    max-width: 100% !important;
+  }
+
+  /* Fixed header and mobile menu must always stay inside the viewport. */
+  body.vava-homepage .fixed-header,
+  body.vava-internal-page .fixed-header {
+    max-width: calc(100vw - 20px) !important;
+    box-sizing: border-box;
+  }
+
+  body.vava-homepage #nav,
+  body.vava-internal-page #nav {
+    max-width: calc(100vw - 20px) !important;
+    box-sizing: border-box;
+  }
+
+  /* Decorative shapes are allowed to extend visually, but never the document width. */
+  body.vava-homepage .blob,
+  body.vava-homepage .leaf,
+  body.vava-homepage .journal-organic-shape,
+  body.vava-homepage .journal-botanical,
+  body.vava-internal-page .blob,
+  body.vava-internal-page .leaf {
+    pointer-events: none;
+  }
+
+  /* Flex/grid children with long text or controls should shrink instead of widening the page. */
+  body.vava-homepage .wrap > *,
+  body.vava-homepage .single,
+  body.vava-homepage .journal-scene > *,
+  body.vava-homepage .shop-flow > *,
+  body.vava-homepage .contact-card > *,
+  body.vava-internal-page main *,
+  body.vava-internal-page .section > * {
+    min-width: 0;
+  }
+}

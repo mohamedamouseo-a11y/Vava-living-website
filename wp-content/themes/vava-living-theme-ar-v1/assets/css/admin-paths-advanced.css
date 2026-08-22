@@ -1,0 +1,763 @@
+.vava-paths-advanced-admin{--vava-admin-coral:#cf7d65;--vava-admin-olive:#6b6d43;--vava-admin-cream:#fbf8f2;--vava-admin-line:rgba(107,109,67,.16)}
+.vava-paths-advanced-admin .vava-editor-controls{display:grid;gap:18px}
+.vava-advanced-summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 20px;border:1px solid var(--vava-admin-line);border-radius:18px;background:linear-gradient(135deg,#fff,#faf6ef)}
+.vava-advanced-summary b{font-size:18px;color:#4d503f}.vava-advanced-summary p{margin:4px 0 0;color:#777266}
+.vava-pathway-admin-grid,.vava-session-editors,.vava-comparison-editors{display:grid;gap:16px}
+.vava-pathway-admin-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.vava-advanced-card{border:1px solid var(--vava-admin-line);border-radius:20px;background:#fffdf9;box-shadow:0 14px 38px rgba(75,70,55,.045);overflow:hidden}
+.vava-advanced-card>header{display:flex;align-items:center;gap:12px;padding:15px 18px;background:linear-gradient(180deg,#fff,#fbf7f0);border-bottom:1px solid var(--vava-admin-line)}
+.vava-advanced-card>header>b{flex:1;font-size:16px;color:#4d503f}.vava-advanced-card>header>div{display:flex;align-items:center;gap:12px}
+.vava-pathway-admin-card{padding-bottom:16px}.vava-pathway-admin-card .vava-fields-grid{padding:18px}.vava-pathway-admin-card>.vava-advanced-toggle{margin:0 18px}
+.vava-advanced-toggle{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:9px;min-width:145px}.vava-advanced-toggle input[type=checkbox]{position:absolute;opacity:0}.vava-advanced-toggle-ui{width:38px;height:22px;border-radius:999px;background:#d9d7ce;position:relative;transition:.2s}.vava-advanced-toggle-ui:after{content:"";position:absolute;width:16px;height:16px;top:3px;right:3px;border-radius:50%;background:#fff;box-shadow:0 2px 7px rgba(0,0,0,.16);transition:.2s}.vava-advanced-toggle input:checked+.vava-advanced-toggle-ui{background:#7c906b}.vava-advanced-toggle input:checked+.vava-advanced-toggle-ui:after{transform:translateX(-16px)}.vava-advanced-toggle b{font-size:13px}.vava-advanced-toggle small{grid-column:2/-1;color:#8a857a}
+.vava-session-editor-head{position:sticky;top:0;z-index:3}.vava-session-index{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#f2eee3;color:var(--vava-admin-olive);font-weight:700}.vava-session-tabs{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid var(--vava-admin-line);background:#fcfaf6;overflow:auto}.vava-session-tabs button{border:0;background:transparent;padding:9px 14px;border-radius:11px;cursor:pointer;color:#777166;white-space:nowrap}.vava-session-tabs button.is-active{background:#fff;border:1px solid var(--vava-admin-line);color:var(--vava-admin-coral);box-shadow:0 5px 15px rgba(0,0,0,.04)}
+.vava-session-tab-panel{display:none;padding:18px}.vava-session-tab-panel.is-active{display:block}.vava-session-tab-panel>.vava-fields-grid{margin-bottom:16px}
+.vava-session-media-preview{min-height:145px;border:1px dashed #cec8bb;border-radius:15px;background:#faf7f1;display:grid;place-items:center;overflow:hidden}.vava-session-media-preview img{width:100%;height:180px;object-fit:cover}.vava-session-media-preview em{color:#9a958a}.vava-session-media-actions{display:flex;gap:10px;margin-top:9px}
+.vava-advanced-repeater{margin-top:14px;padding:14px;border:1px solid rgba(107,109,67,.12);border-radius:16px;background:#faf8f4}.vava-repeater-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.vava-repeater-title h4{margin:0;color:#555647}.vava-repeater-items{display:grid;gap:8px}.vava-repeater-row{display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid rgba(107,109,67,.12);border-radius:13px;background:#fff}.vava-repeater-row-fields{flex:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.vava-repeater-row .vava-field{margin:0}.vava-repeater-handle{cursor:grab;color:#aaa59b;user-select:none}
+.vava-question-editor,.vava-comparison-plan{margin-top:14px}.vava-question-editor>.vava-fields-grid,.vava-comparison-plan>.vava-fields-grid{padding:16px}.vava-comparison-plan>.vava-advanced-toggle{margin:0 16px 12px}.vava-comparison-plan>.vava-advanced-repeater{margin:14px 16px}
+@media(max-width:1180px){.vava-pathway-admin-grid{grid-template-columns:1fr}.vava-repeater-row-fields{grid-template-columns:1fr}}
+
+/* V6 — unified Paths editor composition. */
+.vava-paths-advanced-admin .vava-editor-controls{gap:16px}
+.vava-paths-advanced-admin .vava-fields-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vava-paths-advanced-admin .vava-field{min-width:0;margin:0;padding:14px;border:1px solid #dfe4dc;border-radius:12px;background:#fff;box-shadow:0 5px 18px rgba(48,61,47,.025)}
+.vava-paths-advanced-admin .vava-field>span{display:block;margin:0 0 8px;color:#445141;font-weight:700}
+.vava-paths-advanced-admin .vava-field input,.vava-paths-advanced-admin .vava-field select,.vava-paths-advanced-admin .vava-field textarea{width:100%;min-height:44px;margin:0;border-color:#cfd8cc;border-radius:9px;background:#fff;box-shadow:none}
+.vava-paths-advanced-admin .vava-field textarea{min-height:118px;resize:vertical;line-height:1.8}
+.vava-paths-advanced-admin .vava-field-full{grid-column:1/-1}
+.vava-paths-advanced-admin .vava-hero-content-field{grid-column:1/-1}
+.vava-paths-advanced-admin .vava-hero-content-field textarea{min-height:230px;font-size:14px;line-height:2}
+.vava-advanced-section-card{display:grid;gap:16px;padding:18px;border:1px solid #dfe4dc;border-radius:16px;background:linear-gradient(145deg,#fff,#fbfcfa);box-shadow:0 10px 28px rgba(48,61,47,.04)}
+.vava-advanced-section-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid #e6eae4}
+.vava-advanced-section-heading b{display:block;color:#354132;font-size:16px}.vava-advanced-section-heading p,.vava-repeater-title p{margin:5px 0 0;color:#7a847a;line-height:1.65}
+.vava-pathway-admin-grid,.vava-session-editors,.vava-comparison-editors,[data-question-items]{display:grid;grid-template-columns:1fr;gap:11px}
+.vava-advanced-card{border-radius:15px;background:#fff;box-shadow:0 8px 24px rgba(48,61,47,.035)}
+.vava-advanced-card>header{display:flex;min-height:64px;align-items:center;gap:10px;padding:0 14px;background:linear-gradient(145deg,#fff,#fbfcfa)}
+.vava-advanced-accordion-toggle{display:flex;min-width:0;flex:1;align-items:center;gap:11px;padding:13px 0;border:0;background:transparent;color:#3e493d;text-align:start;cursor:pointer}
+.vava-advanced-accordion-toggle b{min-width:0;flex:1;overflow:hidden;font-size:15px;text-overflow:ellipsis;white-space:nowrap}
+.vava-advanced-chevron{display:grid;width:28px;height:28px;place-items:center;border-radius:8px;background:#f1f5ee;color:#6b6d43;font-size:18px;transition:transform .2s ease}
+[data-vava-accordion].is-open .vava-advanced-chevron{transform:rotate(180deg)}
+.vava-advanced-card-actions{display:flex;align-items:center;gap:10px}
+.vava-advanced-card-actions .vava-advanced-toggle{min-width:auto}.vava-advanced-card-actions .vava-advanced-toggle b{display:none}.vava-advanced-card-actions .vava-advanced-toggle small{display:none}
+.vava-advanced-accordion-body{display:none;padding:16px;border-top:1px solid #e3e8e0;background:#fcfdfb}
+[data-vava-accordion].is-open>.vava-advanced-accordion-body{display:block}
+.vava-advanced-footer-toggle{display:flex;flex-wrap:wrap;gap:18px;margin-top:15px;padding:13px;border:1px solid #e0e6dd;border-radius:11px;background:#f7faf5}
+.vava-session-editor-head{position:relative;top:auto}.vava-session-tabs{margin:-16px -16px 16px;padding:11px 14px;background:#f5f8f3}
+.vava-session-tab-panel{padding:0}.vava-session-tab-panel>.vava-fields-grid{margin-bottom:15px}
+.vava-advanced-repeater{margin:14px 0 0;padding:14px;border-color:#dde4d9;background:#f7faf5}
+.vava-repeater-title{align-items:flex-start}.vava-repeater-title>div{min-width:0}.vava-repeater-title h4{font-size:15px}
+.vava-repeater-row{border-color:#dce4d8;border-radius:11px;box-shadow:0 3px 10px rgba(48,61,47,.025)}
+.vava-repeater-row .vava-field{padding:10px;box-shadow:none}.vava-repeater-row .vava-field textarea{min-height:82px}
+.vava-question-editor,.vava-comparison-plan{margin-top:0}.vava-question-editor>.vava-fields-grid,.vava-comparison-plan>.vava-fields-grid{padding:0}
+.vava-comparison-plan>.vava-advanced-repeater{margin:14px 0 0}
+.vava-paths-preview-pathways-grid article{display:flex;flex-direction:column;min-height:215px}.vava-paths-preview-pathways-grid article>b{display:inline-flex;align-self:stretch;justify-content:center;margin-top:auto;padding:7px 12px;border-radius:999px;background:#f1eee1;color:#6b6d43}.vava-paths-preview-pathways-grid article.featured{border-color:#cf7d65;box-shadow:0 18px 40px rgba(207,125,101,.14)}
+.vava-paths-preview-canvas.is-session-focused .vava-paths-preview-consultation-head,.vava-paths-preview-canvas.is-session-focused .vava-paths-preview-package-guidance,.vava-paths-preview-canvas.is-session-focused .vava-paths-preview-package-grid{display:none}
+.vava-session-focused-preview{display:grid;gap:18px;padding:34px;color:#4d5043}
+.vava-session-focused-preview[hidden]{display:none!important}
+.vava-session-focused-hero{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:24px;align-items:center;padding:22px;border:1px solid rgba(107,109,67,.16);border-radius:24px;background:linear-gradient(145deg,#fffaf3,#f5f0e6)}
+.vava-session-focused-hero>[data-session-preview-image]{min-height:245px;border-radius:20px;background:#e8e3d8 center/cover no-repeat}
+.vava-session-focused-hero h3{margin:8px 0 10px;font-size:32px}.vava-session-focused-hero p{white-space:pre-line;line-height:1.9}
+.vava-session-focused-hero [data-session-preview-badge]{display:inline-flex;padding:5px 9px;border-radius:999px;background:#f7e6df;color:#cf7d65;font-size:11px}
+.vava-session-focused-facts{display:flex;flex-wrap:wrap;gap:7px}.vava-session-focused-facts span{padding:6px 10px;border-radius:999px;background:#f0f2e8;color:#6b6d43;font-size:11px}
+.vava-session-focused-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.vava-session-focused-content section,.vava-session-focused-content>h4,.vava-session-focused-content>ul{padding:15px;border:1px solid rgba(107,109,67,.14);border-radius:15px;background:#fff}.vava-session-focused-content h4{margin:0 0 9px}.vava-session-focused-content ul{margin:0;padding-inline-start:18px;line-height:1.9}.vava-session-focused-content li{display:flex;justify-content:space-between;gap:10px}
+.vava-session-focused-steps{display:flex;flex-wrap:wrap;gap:8px}.vava-session-focused-steps span{display:flex;align-items:center;gap:6px;padding:7px 9px;border-radius:999px;background:#f3f5ef}.vava-session-focused-steps i{display:grid;width:22px;height:22px;place-items:center;border-radius:50%;background:#6b6d43;color:#fff;font-style:normal}
+.vava-session-focused-actions{display:flex;justify-content:center;gap:10px}.vava-session-focused-actions b,.vava-session-focused-actions span{padding:10px 22px;border-radius:999px}.vava-session-focused-actions b{background:#cf7d65;color:#fff}.vava-session-focused-actions span{border:1px solid #6b6d43;color:#6b6d43}
+.vava-paths-question-sidebar-intro{margin:0 0 12px;color:#777166;line-height:1.7}
+@media(max-width:1000px){.vava-paths-advanced-admin .vava-fields-grid,.vava-session-focused-hero,.vava-session-focused-content{grid-template-columns:1fr}}
+@media(max-width:782px){.vava-advanced-card>header{align-items:flex-start;flex-wrap:wrap}.vava-advanced-card-actions{width:100%;justify-content:flex-end}.vava-paths-advanced-admin .vava-field-full{grid-column:auto}}
+.vava-paths-preview-hero-body{white-space:pre-line;line-height:1.9}
+
+/* V7 — reliable drag ordering, visible preview and Contact-form visual rhythm. */
+.vava-paths-advanced-admin .vava-repeater-handle{
+  display:inline-grid;
+  flex:0 0 38px;
+  width:38px;
+  height:38px;
+  place-items:center;
+  border:1px solid #d8e0d4;
+  border-radius:11px;
+  background:#f6f9f4;
+  color:#7b896f;
+  font-size:17px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-3px;
+  cursor:grab;
+  user-select:none;
+  touch-action:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.vava-paths-advanced-admin .vava-repeater-handle:hover,
+.vava-paths-advanced-admin .vava-repeater-handle:focus{
+  border-color:#aebb9f;
+  background:#eef4ea;
+  color:#5f7353;
+  outline:0;
+}
+.vava-paths-advanced-admin .vava-repeater-handle:active{cursor:grabbing}
+.vava-paths-advanced-admin .vava-advanced-accordion-toggle .vava-repeater-handle{margin-inline-end:2px}
+.vava-paths-advanced-admin .ui-sortable-helper{
+  z-index:9999!important;
+  box-shadow:0 22px 55px rgba(52,66,50,.16)!important;
+  transform:rotate(.25deg);
+}
+.vava-paths-advanced-admin .is-sorting{opacity:.96}
+.vava-paths-advanced-admin .vava-sort-placeholder{
+  min-height:66px;
+  border:2px dashed #aebba4;
+  border-radius:15px;
+  background:rgba(239,245,235,.72);
+  visibility:visible!important;
+}
+.vava-paths-advanced-admin .vava-pathway-admin-card,
+.vava-paths-advanced-admin .vava-session-editor{
+  border:1px solid #dce4d8;
+  overflow:hidden;
+}
+.vava-paths-advanced-admin .vava-pathway-admin-card>header,
+.vava-paths-advanced-admin .vava-session-editor>header{
+  padding:9px 13px;
+  background:linear-gradient(180deg,#fbfdf9 0%,#f5f8f2 100%);
+}
+.vava-paths-advanced-admin .vava-pathway-admin-card.is-open,
+.vava-paths-advanced-admin .vava-session-editor.is-open{
+  border-color:#aebe9f;
+  box-shadow:0 12px 32px rgba(57,73,54,.075);
+}
+.vava-paths-advanced-admin .vava-pathway-admin-card .vava-advanced-accordion-body,
+.vava-paths-advanced-admin .vava-session-editor .vava-advanced-accordion-body{
+  background:#fbfdfb;
+}
+.vava-paths-advanced-admin .vava-pathway-admin-card .vava-field,
+.vava-paths-advanced-admin .vava-session-editor .vava-field{
+  border-color:#dce5d9;
+  background:#fff;
+}
+#vava_live_preview_box{
+  display:block!important;
+  min-height:430px;
+  border:1px solid #dce4d8!important;
+  border-radius:16px!important;
+  background:#f1f4ef!important;
+  overflow:hidden;
+  box-shadow:0 8px 28px rgba(52,66,50,.06)!important;
+}
+#vava_live_preview_box>.inside{min-height:430px!important;margin:0!important;padding:0!important}
+#vava_live_preview_box .vava-live-preview.is-sidebar-active{display:block!important;visibility:visible!important;opacity:1!important}
+#vava_live_preview_box .vava-preview-viewport{min-height:360px}
+.vava-paths-preview-pathways-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.vava-paths-preview-pathways-grid article[style*="display: none"]{display:none!important}
+@media(max-width:1180px){.vava-paths-preview-pathways-grid{grid-template-columns:1fr}}
+
+/* V8 — unified Message Guide visual system for Paths, Sessions, Questions and Comparison. */
+.vava-paths-advanced-admin .vava-guide-builder-card{
+  padding:18px;
+  border-color:#d9e0d5;
+  background:linear-gradient(145deg,#fff 0%,#fbfcf9 100%);
+  box-shadow:0 14px 36px rgba(62,73,61,.055);
+}
+.vava-paths-advanced-admin .vava-guide-builder-heading{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:16px;
+}
+.vava-paths-advanced-admin .vava-guide-builder-heading h3{margin:0;color:#4e5a4b;font-size:16px;line-height:1.45}
+.vava-paths-advanced-admin .vava-guide-builder-heading p{margin:6px 0 0;color:#788176;line-height:1.65}
+.vava-paths-advanced-admin .vava-guide-add-button{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:38px!important;
+  padding-inline:15px!important;
+  border-color:#718066!important;
+  border-radius:10px!important;
+  background:#718066!important;
+  color:#fff!important;
+  font-weight:700!important;
+  white-space:nowrap;
+}
+.vava-paths-advanced-admin .vava-guide-add-button:hover,.vava-paths-advanced-admin .vava-guide-add-button:focus{border-color:#5f6f55!important;background:#5f6f55!important;box-shadow:0 0 0 3px rgba(111,129,95,.14)!important}
+.vava-paths-advanced-admin .vava-guide-builder-list,[data-question-items]{display:grid;gap:14px}
+.vava-paths-advanced-admin .vava-guide-card{
+  overflow:hidden;
+  border:1px solid #dde4da;
+  border-inline-start:4px solid #7b895f;
+  border-radius:15px;
+  background:#fff;
+  box-shadow:0 9px 24px rgba(67,78,66,.045);
+  transition:border-color .2s ease,box-shadow .2s ease,opacity .2s ease;
+}
+.vava-paths-advanced-admin .vava-guide-card:hover{border-color:#c7d1c2}
+.vava-paths-advanced-admin .vava-guide-card.is-open{border-color:#aebda6;box-shadow:0 15px 36px rgba(67,78,66,.08)}
+.vava-paths-advanced-admin .vava-guide-card>header,.vava-paths-advanced-admin .vava-guide-card-head{
+  display:grid!important;
+  grid-template-columns:38px minmax(0,1fr) auto;
+  align-items:center!important;
+  gap:12px!important;
+  min-height:66px!important;
+  padding:10px 13px!important;
+  background:linear-gradient(145deg,#f7f9f5,#f1f5ee)!important;
+}
+.vava-paths-advanced-admin .vava-guide-card.is-open>.vava-guide-card-head{border-bottom:1px solid #e3e9df;background:#eef4ea!important}
+.vava-paths-advanced-admin .vava-repeater-handle{
+  display:grid!important;
+  width:36px!important;
+  height:36px!important;
+  place-items:center!important;
+  gap:3px!important;
+  padding:8px 9px!important;
+  border:1px solid #dbe3d7!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:#7f8c79!important;
+  cursor:grab!important;
+  box-shadow:0 4px 12px rgba(61,72,61,.05)!important;
+  letter-spacing:0!important;
+  box-sizing:border-box;
+}
+.vava-paths-advanced-admin .vava-repeater-handle i{display:block;width:16px;height:2px;border-radius:2px;background:currentColor}
+.vava-paths-advanced-admin .vava-repeater-handle:active{cursor:grabbing!important}
+.vava-paths-advanced-admin .vava-guide-toggle{display:flex!important;align-items:center;justify-content:space-between;gap:12px;min-width:0;width:100%;padding:7px 4px!important;text-align:inherit}
+.vava-paths-advanced-admin .vava-guide-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;min-width:0;width:100%}
+.vava-paths-advanced-admin .vava-guide-summary b{overflow:hidden;color:#4d584a;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.vava-paths-advanced-admin .vava-guide-summary small,.vava-paths-advanced-admin .vava-guide-chip{padding:4px 8px;border-radius:999px;background:#fff;color:#75816f;font-size:10px;white-space:nowrap}
+.vava-paths-advanced-admin .vava-guide-toggle .vava-session-index{order:2}
+.vava-paths-advanced-admin .vava-guide-toggle .vava-advanced-chevron{order:3;flex:0 0 auto}
+.vava-paths-advanced-admin .vava-guide-actions{display:flex;align-items:center;gap:7px}
+.vava-paths-advanced-admin .vava-guide-actions .vava-advanced-toggle{min-width:auto;padding:0;background:transparent;border:0}
+.vava-paths-advanced-admin .vava-guide-actions .vava-advanced-toggle b,.vava-paths-advanced-admin .vava-guide-actions .vava-advanced-toggle small{display:none}
+.vava-paths-advanced-admin .vava-guide-delete{
+  display:grid;
+  width:35px;
+  height:35px;
+  place-items:center;
+  padding:0;
+  border:1px solid rgba(207,125,101,.25);
+  border-radius:10px;
+  background:#fff5f1;
+  color:#b9634f;
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.vava-paths-advanced-admin .vava-guide-delete svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vava-paths-advanced-admin .vava-guide-delete:hover,.vava-paths-advanced-admin .vava-guide-delete:focus{border-color:#cf7d65;background:#cf7d65;color:#fff;outline:0}
+.vava-paths-advanced-admin .vava-guide-card-body{padding:20px!important;background:#fff!important}
+.vava-paths-advanced-admin .vava-guide-card-body .vava-field{border-color:#dce5d9;background:#fff}
+.vava-paths-advanced-admin .vava-guide-nested-builder{display:grid;gap:14px;margin-top:16px;padding:16px;border:1px solid #dfe6dc;border-radius:14px;background:#f8faf6}
+.vava-paths-advanced-admin .vava-guide-nested-builder .vava-guide-builder-heading{margin:0}
+.vava-paths-advanced-admin .vava-guide-nested-list{display:grid;gap:10px}
+.vava-paths-advanced-admin .vava-guide-subcard{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px;border:1px solid #dde4da;border-inline-start:3px solid #91a184;border-radius:13px;background:#fff;box-shadow:0 5px 16px rgba(67,78,66,.035)}
+.vava-paths-advanced-admin .vava-guide-subcard-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vava-paths-advanced-admin .vava-guide-subcard .vava-field{padding:8px!important;box-shadow:none!important}
+.vava-paths-advanced-admin .vava-guide-subcard>header{display:grid;grid-column:1/-1;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;padding:0;background:transparent}
+.vava-paths-advanced-admin .vava-guide-subcard-toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:7px;border:0;background:transparent;text-align:inherit;cursor:pointer}
+.vava-paths-advanced-admin .vava-guide-subcard-toggle strong{overflow:hidden;color:#4d584a;text-overflow:ellipsis;white-space:nowrap}
+.vava-paths-advanced-admin .vava-guide-subcard-body{display:none;grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-top:12px;border-top:1px solid #e7ebe4}
+.vava-paths-advanced-admin .vava-guide-subcard.is-open .vava-guide-subcard-body{display:grid}
+.vava-paths-advanced-admin .vava-guide-subcard.is-open .vava-advanced-chevron{transform:rotate(180deg)}
+.vava-paths-advanced-admin .vava-eye-toggle{display:grid;place-items:center;width:35px;height:35px;border:1px solid #dce4d8;border-radius:10px;background:#fff;color:#76856e;cursor:pointer}
+.vava-paths-advanced-admin .vava-eye-toggle input{position:absolute;opacity:0;pointer-events:none}
+.vava-paths-advanced-admin .vava-eye-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.vava-paths-advanced-admin .vava-eye-toggle:has(input:checked){border-color:#a7b99d;background:#edf4e9;color:#53664c;box-shadow:0 0 0 3px rgba(111,129,95,.1)}
+.vava-paths-advanced-admin .vava-included-checkbox{display:flex;grid-column:1/-1;align-items:center;gap:9px;padding:11px 13px;border:1px solid #dfe6dc;border-radius:10px;background:#f5f8f2;color:#556250;font-weight:700}
+.vava-paths-advanced-admin .vava-included-checkbox input[type=checkbox]{margin:0}
+.vava-paths-advanced-admin .vava-comparison-feature-builder .vava-guide-subcard{grid-template-columns:minmax(0,1fr) auto auto}
+.vava-paths-advanced-admin .vava-answer-builder .vava-guide-subcard{grid-template-columns:minmax(0,1fr) auto}
+.vava-paths-advanced-admin .vava-answer-builder .vava-guide-subcard-fields{grid-template-columns:1.2fr .8fr}
+.vava-paths-advanced-admin .vava-booking-faq-builder .vava-guide-subcard-body>.vava-field-full{grid-column:1/-1}
+.vava-paths-advanced-admin .vava-question-builder-card{padding:18px}
+.vava-paths-advanced-admin .vava-question-editor .vava-guide-card-body{display:none}
+.vava-paths-advanced-admin .vava-question-editor.is-open .vava-guide-card-body{display:block}
+.vava-paths-advanced-admin .vava-comparison-plan .vava-guide-card-body{display:none}
+.vava-paths-advanced-admin .vava-comparison-plan.is-open .vava-guide-card-body{display:block}
+.vava-paths-advanced-admin .ui-sortable-helper.vava-guide-card{position:absolute!important;z-index:100000!important;margin:0!important;opacity:.98;box-shadow:0 20px 46px rgba(49,59,48,.18)!important;pointer-events:none}
+.vava-paths-advanced-admin .ui-sortable-helper.vava-guide-card>.vava-guide-card-body{display:none!important}
+
+/* Correct live preview for the one-question-at-a-time experience. */
+.vava-paths-preview-questions{padding:24px!important;background:radial-gradient(circle at 8% 28%,rgba(238,218,192,.55) 0 22%,transparent 22.2%),radial-gradient(circle at 96% 88%,rgba(205,218,205,.6) 0 18%,transparent 18.2%),#fbf7ef!important}
+.vava-paths-admin-question-preview{display:grid;gap:20px;color:#4f5045}
+.vava-paths-admin-question-preview>header{text-align:center}.vava-paths-admin-question-preview>header h3{margin:0 0 8px;font-size:29px}.vava-paths-admin-question-preview>header p{margin:0;color:#77736a;line-height:1.7}
+.vava-paths-admin-question-layout{display:grid;grid-template-columns:minmax(210px,.65fr) minmax(0,1.35fr);gap:18px;align-items:stretch}
+.vava-paths-admin-question-layout>aside,.vava-paths-admin-question-layout>section{padding:18px;border:1px solid rgba(107,109,67,.18);border-radius:22px;background:rgba(255,255,255,.85);box-shadow:0 12px 30px rgba(73,70,58,.055)}
+.vava-paths-admin-question-layout aside h4{margin:0 0 8px;font-size:20px}.vava-paths-admin-question-layout aside p{margin:0 0 14px;color:#7a756b;line-height:1.65}
+.vava-paths-admin-question-layout aside div{display:grid;gap:7px}.vava-paths-admin-question-layout aside div span{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border:1px solid #e5e1d8;border-radius:10px;background:#fff;color:#67655d;font-size:11px}.vava-paths-admin-question-layout aside div i{color:#cf7d65;font-style:normal}
+.vava-paths-admin-question-layout>section{display:grid;align-content:start;gap:18px;min-height:300px}.vava-admin-question-progress{display:flex;align-items:center;justify-content:space-between;color:#77736a}.vava-admin-question-progress span{display:grid;width:34px;height:34px;place-items:center;border-radius:50%;background:#eff1e6;color:#6b6d43}.vava-paths-admin-question-layout section h4{margin:0;font-size:23px}.vava-admin-question-options{display:flex;flex-wrap:wrap;gap:9px}.vava-admin-question-options span{padding:9px 14px;border:1px solid #dedbd1;border-radius:999px;background:#fff;color:#66645d}.vava-admin-question-options span:first-child{border-color:#cf7d65;background:#fff3ee;color:#bd654f}
+
+/* Comparison preview additions. */
+.vava-paths-preview-compare-basics,.vava-paths-preview-compare-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}
+.vava-paths-preview-compare-basics span,.vava-paths-preview-compare-facts span{padding:7px;border-radius:8px;background:#f5f3eb;text-align:center}.vava-paths-preview-compare-basics small,.vava-paths-preview-compare-facts small{display:block;color:#928b7c;font-size:7px}.vava-paths-preview-compare-basics b,.vava-paths-preview-compare-facts b{display:block;margin-top:3px;color:#5e604d;font-size:9px}
+.vava-paths-preview-plan-button{display:block;margin-top:9px;padding:7px 10px;border-radius:999px;background:#6b6d43;color:#fff;text-align:center;font-size:9px;font-weight:700}
+
+@media(max-width:900px){
+  .vava-paths-advanced-admin .vava-guide-builder-heading{display:grid}
+  .vava-paths-advanced-admin .vava-guide-add-button{justify-self:start}
+  .vava-paths-advanced-admin .vava-guide-card>header,.vava-paths-advanced-admin .vava-guide-card-head{grid-template-columns:34px minmax(0,1fr)}
+  .vava-paths-advanced-admin .vava-guide-actions{grid-column:1/-1;justify-content:flex-end}
+  .vava-paths-advanced-admin .vava-guide-subcard-fields,.vava-paths-advanced-admin .vava-guide-subcard-body,.vava-paths-admin-question-layout{grid-template-columns:1fr}
+}
+
+/* V9 — approved olive information tiles for session detail basics. */
+.vava-paths-advanced-admin .vava-session-basic-builder{
+  margin-top:18px;
+  padding:18px;
+  border:1px solid #d9e1d4;
+  border-radius:18px;
+  background:linear-gradient(145deg,#fff,#f7faf5);
+  box-shadow:0 12px 30px rgba(56,70,54,.045);
+}
+.vava-paths-advanced-admin .vava-session-basic-builder .vava-guide-builder-heading{
+  margin:0 0 2px;
+  padding:0 0 15px;
+  border-bottom:1px solid #e3e9df;
+}
+.vava-paths-advanced-admin .vava-session-basic-list{display:grid;gap:13px}
+.vava-paths-advanced-admin .vava-session-basic-card{
+  position:relative;
+  display:grid;
+  grid-template-columns:38px 68px minmax(0,1fr) 38px;
+  gap:13px;
+  align-items:center;
+  min-height:104px;
+  padding:14px;
+  border:1px solid #cfd9ca;
+  border-radius:18px;
+  background:linear-gradient(135deg,#f4f7ef 0%,#e9f0e3 100%);
+  box-shadow:0 9px 24px rgba(66,81,62,.065);
+  transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+.vava-paths-advanced-admin .vava-session-basic-card:hover{
+  border-color:#aab9a2;
+  box-shadow:0 14px 30px rgba(66,81,62,.1);
+  transform:translateY(-1px);
+}
+.vava-paths-advanced-admin .vava-session-basic-card .vava-repeater-handle{
+  width:36px!important;
+  height:58px!important;
+  align-self:center;
+  border-color:#cbd6c6!important;
+  background:rgba(255,255,255,.72)!important;
+  color:#71806c!important;
+}
+.vava-paths-advanced-admin .vava-session-basic-icon-picker{
+  position:relative;
+  display:grid;
+  width:64px;
+  height:64px;
+  place-items:center;
+  margin:0;
+  border:1px solid rgba(102,119,91,.16);
+  border-radius:17px;
+  background:linear-gradient(145deg,#dfe8d8,#f0f4eb);
+  color:#657258;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75),0 7px 17px rgba(68,83,64,.07);
+  cursor:pointer;
+  overflow:hidden;
+}
+.vava-paths-advanced-admin .vava-session-basic-icon-picker select{
+  position:absolute!important;
+  inset:0;
+  z-index:2;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  opacity:0;
+  cursor:pointer;
+}
+.vava-paths-advanced-admin .vava-session-basic-icon-picker [data-basic-icon-preview]{display:grid;width:34px;height:34px;place-items:center;pointer-events:none}
+.vava-paths-advanced-admin .vava-session-basic-icon-picker svg{width:31px;height:31px}
+.vava-paths-advanced-admin .vava-session-basic-fields{
+  display:grid;
+  grid-template-columns:minmax(150px,.8fr) minmax(190px,1.2fr);
+  gap:12px;
+  min-width:0;
+}
+.vava-paths-advanced-admin .vava-session-basic-fields label{display:grid;gap:6px;min-width:0;margin:0}
+.vava-paths-advanced-admin .vava-session-basic-fields label>span{color:#66705f;font-size:11px;font-weight:700}
+.vava-paths-advanced-admin .vava-session-basic-fields input{
+  width:100%;
+  min-height:48px;
+  margin:0;
+  padding:9px 12px;
+  border:1px solid rgba(111,127,101,.22);
+  border-radius:12px;
+  background:rgba(255,255,255,.86);
+  color:#3f4b3d;
+  box-shadow:0 4px 13px rgba(61,76,58,.035);
+}
+.vava-paths-advanced-admin .vava-session-basic-title input{font-size:16px;font-weight:750;color:#56634f}
+.vava-paths-advanced-admin .vava-session-basic-value input{font-size:14px}
+.vava-paths-advanced-admin .vava-session-basic-card>.vava-guide-delete{align-self:center}
+.vava-paths-advanced-admin .vava-session-basic-builder .vava-guide-add-button{
+  border-color:#75866c!important;
+  background:#75866c!important;
+  color:#fff!important;
+  box-shadow:0 9px 20px rgba(84,103,77,.16);
+}
+.vava-paths-advanced-admin .vava-session-basic-builder .vava-guide-add-button:hover{background:#65775e!important;border-color:#65775e!important}
+.vava-paths-advanced-admin .vava-session-basic-list .vava-sort-placeholder{min-height:104px;border:1px dashed #9eaf97;border-radius:18px;background:#edf3e9}
+
+/* The focused details preview uses the same icon-led information language. */
+.vava-paths-advanced-admin .vava-session-focused-facts:has(.vava-session-focused-fact){
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+  margin-top:16px;
+}
+.vava-paths-advanced-admin .vava-session-focused-facts .vava-session-focused-fact{
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr);
+  grid-template-rows:auto auto;
+  gap:2px 9px;
+  align-items:center;
+  padding:10px 12px;
+  border:1px solid #d8e0d3;
+  border-radius:13px;
+  background:linear-gradient(145deg,#f1f5ed,#e6eee0);
+  color:#56614f;
+  font-size:inherit;
+}
+.vava-paths-advanced-admin .vava-session-focused-fact i{display:grid;grid-row:1/3;width:36px;height:36px;place-items:center;border-radius:11px;background:rgba(255,255,255,.72);color:#6b785f;font-style:normal}
+.vava-paths-advanced-admin .vava-session-focused-fact i svg{width:22px;height:22px}
+.vava-paths-advanced-admin .vava-session-focused-fact small{color:#84907e;font-size:9px}
+.vava-paths-advanced-admin .vava-session-focused-fact b{overflow-wrap:anywhere;color:#4d5948;font-size:11px}
+.vava-paths-advanced-admin .vava-session-focused-fact.is-availability{background:linear-gradient(145deg,#fff5ef,#f8e9df);border-color:#ead0c4;color:#b86d57}
+
+@media(max-width:900px){
+  .vava-paths-advanced-admin .vava-session-basic-card{grid-template-columns:34px 58px minmax(0,1fr) 36px;padding:11px;gap:9px}
+  .vava-paths-advanced-admin .vava-session-basic-icon-picker{width:54px;height:54px}
+  .vava-paths-advanced-admin .vava-session-basic-fields{grid-template-columns:1fr}
+}
+
+/* V10 — questions, answers and comparison controls cleanup. */
+.vava-paths-advanced-admin .vava-answer-builder .vava-guide-nested-list{gap:11px}
+.vava-paths-advanced-admin .vava-answer-builder .vava-answer-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 38px;
+  gap:12px;
+  align-items:center;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:15px;
+  background:linear-gradient(135deg,#697653,#596647);
+  box-shadow:0 10px 24px rgba(67,78,53,.16);
+}
+.vava-paths-advanced-admin .vava-answer-builder .vava-answer-row .vava-guide-subcard-fields{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(150px,.75fr);
+  gap:12px;
+  min-width:0;
+}
+.vava-paths-advanced-admin .vava-answer-builder .vava-answer-row .vava-field{
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+.vava-paths-advanced-admin .vava-answer-builder .vava-answer-row .vava-field>span{color:#fff;margin-bottom:6px}
+.vava-paths-advanced-admin .vava-answer-builder .vava-answer-row .vava-field input{
+  border:1px solid rgba(255,255,255,.24)!important;
+  background:rgba(255,255,255,.12)!important;
+  color:#fff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+.vava-paths-advanced-admin .vava-answer-builder .vava-answer-row .vava-field input:focus{
+  border-color:rgba(255,255,255,.62)!important;
+  box-shadow:0 0 0 2px rgba(255,255,255,.12)!important;
+}
+.vava-paths-advanced-admin .vava-answer-builder .vava-answer-row .vava-guide-delete{
+  border-color:rgba(255,255,255,.35);
+  background:rgba(255,255,255,.13);
+  color:#fff;
+}
+.vava-paths-advanced-admin .vava-answer-builder .vava-answer-row .vava-guide-delete:hover{background:#fff;color:#b85d49}
+
+/* Clear, stateful accordion arrows for packages and nested comparison items. */
+.vava-paths-advanced-admin .vava-advanced-chevron{
+  position:relative;
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  border:1px solid #ccd7c7;
+  background:#f4f8f1;
+  color:#607057;
+  font-size:0!important;
+  transform:none!important;
+  box-shadow:0 3px 9px rgba(59,72,55,.06);
+}
+.vava-paths-advanced-admin .vava-advanced-chevron::before{
+  content:"";
+  width:8px;
+  height:8px;
+  border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;
+  transform:rotate(45deg) translate(-1px,-1px);
+  transition:transform .2s ease;
+}
+.vava-paths-advanced-admin [data-vava-accordion].is-open .vava-advanced-chevron::before,
+.vava-paths-advanced-admin [data-vava-subaccordion].is-open .vava-advanced-chevron::before{
+  transform:rotate(225deg) translate(-1px,-1px);
+}
+.vava-paths-advanced-admin .vava-comparison-plan .vava-guide-summary small{
+  display:inline-flex;
+  width:max-content;
+  max-width:100%;
+  margin-top:5px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#edf2e8;
+  color:#5f6d57;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.3;
+}
+.vava-paths-advanced-admin .vava-comparison-plan>.vava-guide-card-head{border-inline-start:3px solid #8b9b7b}
+.vava-paths-advanced-admin .vava-comparison-feature-card>.vava-guide-subcard-body{grid-template-columns:repeat(2,minmax(0,1fr))}
+.vava-paths-advanced-admin .vava-comparison-feature-card .vava-included-checkbox{display:none!important}
+.vava-paths-advanced-admin .vava-comparison-feature-card>header{grid-template-columns:minmax(0,1fr) 38px 38px}
+
+/* The Questions tab always shows a complete, correctly scaled live preview. */
+.vava-paths-preview-root[data-preview-section="questions"] .vava-preview-canvas,
+.vava-paths-preview-root[data-preview-section="questions"] .vava-paths-preview-canvas{min-height:520px}
+.vava-paths-preview-root[data-preview-section="questions"] .vava-paths-admin-question-preview{display:grid!important;min-height:470px}
+
+@media(max-width:900px){
+  .vava-paths-advanced-admin .vava-answer-builder .vava-answer-row .vava-guide-subcard-fields{grid-template-columns:1fr}
+  .vava-paths-advanced-admin .vava-answer-builder .vava-answer-row{grid-template-columns:minmax(0,1fr) 38px}
+}
+[data-paths-preview-root][data-preview-section="questions"] .vava-preview-canvas,
+[data-paths-preview-root][data-preview-section="questions"] .vava-paths-preview-canvas{min-height:520px}
+[data-paths-preview-root][data-preview-section="questions"] .vava-paths-admin-question-preview{display:grid!important;min-height:470px}
+
+/* V12 — clearer tabs, compact journey lists and one source for session facts. */
+.vava-paths-advanced-admin .vava-admin-toolbar{align-items:stretch}
+.vava-paths-advanced-admin .vava-section-tabs{display:grid!important;grid-template-columns:repeat(5,minmax(145px,1fr));gap:8px;flex:1;max-width:none!important;width:auto!important}
+.vava-paths-advanced-admin .vava-section-tab{width:100%;justify-content:center;min-height:48px}
+.vava-paths-advanced-admin .vava-toolbar-actions{flex:0 0 auto}
+.vava-paths-advanced-admin .vava-session-tabs{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));overflow:visible}
+.vava-paths-advanced-admin .vava-session-tabs button{width:100%;text-align:center}
+.vava-paths-advanced-admin .vava-pathway-admin-card{padding-bottom:0!important}
+.vava-paths-advanced-admin .vava-pathway-admin-card>.vava-advanced-accordion-body{padding-bottom:0!important}
+.vava-paths-advanced-admin .vava-pathway-admin-card .vava-guide-card-body>.vava-advanced-footer-toggle{margin-bottom:16px}
+.vava-paths-advanced-admin .vava-guide-toggle .vava-session-index,.vava-paths-advanced-admin .vava-session-index{display:none!important}
+.vava-paths-advanced-admin .vava-session-basic-builder{margin-top:16px}
+.vava-paths-advanced-admin .vava-auto-booking-note{background:#f1f5ee!important;border-color:#d7e0d2!important}
+.vava-paths-advanced-admin .vava-auto-booking-note p{margin:0;color:#687061;line-height:1.8}
+.vava-paths-advanced-admin .vava-compact-list-builder,.vava-paths-advanced-admin .vava-content-accordion-builder{padding:16px;border:1px solid #dce4d8;border-radius:16px;background:#f7faf5}
+.vava-paths-advanced-admin .vava-compact-list-builder .vava-repeater-title,.vava-paths-advanced-admin .vava-content-accordion-builder .vava-repeater-title{margin-bottom:14px}
+.vava-paths-advanced-admin .vava-compact-list-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:9px;padding:9px;border:1px solid #dce4d8;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(48,61,47,.025)}
+.vava-paths-advanced-admin .vava-compact-list-row input{min-height:44px;border:0!important;background:#f4f7f2!important;box-shadow:none!important}
+.vava-paths-advanced-admin .vava-content-accordion-item{display:grid;grid-template-columns:1fr!important;padding:0!important;overflow:hidden}
+.vava-paths-advanced-admin .vava-content-accordion-item>header{padding:8px 9px!important}
+.vava-paths-advanced-admin .vava-content-accordion-item>.vava-guide-subcard-body{padding:14px;border-top:1px solid #e4e9e1}
+.vava-paths-advanced-admin .vava-content-accordion-item>.vava-guide-subcard-body>.vava-field{grid-column:1/-1}
+.vava-paths-advanced-admin .vava-content-accordion-item .vava-guide-delete{align-self:center}
+.vava-paths-advanced-admin .vava-compact-list-builder .vava-guide-delete{width:38px;height:38px}
+@media(max-width:1260px){.vava-paths-advanced-admin .vava-admin-toolbar{flex-direction:column}.vava-paths-advanced-admin .vava-section-tabs{grid-template-columns:repeat(3,minmax(150px,1fr))}.vava-paths-advanced-admin .vava-toolbar-actions{justify-content:space-between}}
+@media(max-width:782px){.vava-paths-advanced-admin .vava-section-tabs{grid-template-columns:1fr 1fr}.vava-paths-advanced-admin .vava-session-tabs{grid-template-columns:1fr 1fr}.vava-paths-advanced-admin .vava-toolbar-actions{flex-direction:column;align-items:stretch}}
+
+/* V4R3 — session preview mirrors the simplified public card. */
+.vava-paths-preview-package-card.is-simple{
+  min-height:145px;
+  justify-content:space-between;
+}
+.vava-paths-preview-package-card.is-simple>strong{
+  margin-top:4px;
+}
+
+/* V4R4 — roomy one-line main tabs and clearer booking controls. */
+.vava-paths-advanced-admin .vava-admin-toolbar{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:14px!important;
+}
+.vava-paths-advanced-admin .vava-section-tabs{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(120px,1fr))!important;
+  gap:12px!important;
+  width:100%!important;
+  max-width:none!important;
+  overflow-x:auto;
+  padding-bottom:3px;
+}
+.vava-paths-advanced-admin .vava-section-tab{
+  min-width:120px;
+  min-height:52px;
+  padding-inline:14px!important;
+  white-space:nowrap!important;
+}
+.vava-paths-advanced-admin .vava-section-tab>span:last-child{white-space:nowrap!important}
+.vava-paths-advanced-admin .vava-toolbar-actions{
+  width:100%;
+  display:flex;
+  flex-direction:row!important;
+  justify-content:space-between!important;
+  align-items:center!important;
+}
+.vava-paths-advanced-admin .vava-session-booking-panel .vava-booking-enabled-row{margin:0 0 12px}
+.vava-paths-advanced-admin .vava-session-booking-panel .vava-auto-booking-note{margin:0 0 16px}
+.vava-paths-advanced-admin .vava-session-booking-panel .vava-booking-copy-grid .vava-field-full{grid-column:1/-1!important}
+@media(max-width:782px){
+  .vava-paths-advanced-admin .vava-section-tabs{grid-template-columns:repeat(5,minmax(120px,1fr))!important}
+  .vava-paths-advanced-admin .vava-toolbar-actions{flex-direction:column!important;align-items:stretch!important}
+}
+.vava-paths-preview-guidance-note .vava-paths-guidance-session-link{
+  color:#d97f63!important;
+  text-decoration:none!important;
+  font-weight:700;
+}
+
+
+/* V4R5R1 — make Paths tabs match the stable Homepage tab distribution. */
+.vava-paths-advanced-admin .vava-admin-toolbar{
+  display:block!important;
+  margin:0 0 16px!important;
+  padding:8px!important;
+  border:1px solid #dfe4df!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:0 6px 18px rgba(48,57,46,.055)!important;
+}
+.vava-paths-advanced-admin .vava-section-tabs{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  align-items:stretch!important;
+  gap:4px!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+.vava-paths-advanced-admin .vava-section-tab{
+  width:100%!important;
+  min-width:0!important;
+  min-height:58px!important;
+  padding:9px 5px!important;
+  white-space:normal!important;
+  text-align:center!important;
+  line-height:1.2!important;
+  justify-content:center!important;
+}
+.vava-paths-advanced-admin .vava-section-tab>span:last-child{
+  display:block!important;
+  min-width:0!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  font-size:12px!important;
+}
+.vava-paths-advanced-admin .vava-toolbar-actions{
+  width:100%!important;
+  margin-top:10px!important;
+  display:flex!important;
+  flex-direction:row!important;
+  justify-content:space-between!important;
+  align-items:center!important;
+}
+@media(max-width:900px){
+  .vava-paths-advanced-admin .vava-section-tabs{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+}
+@media(max-width:600px){
+  .vava-paths-advanced-admin .vava-section-tabs{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .vava-paths-advanced-admin .vava-toolbar-actions{
+    flex-direction:column!important;
+    align-items:stretch!important;
+  }
+}
+
+/* V4R5R2 — exact Homepage-style distribution for the five Paths tabs. */
+#vava_homepage_settings .vava-paths-advanced-admin .vava-admin-toolbar{
+  display:block!important;
+  margin:0 0 16px!important;
+  padding:8px!important;
+  border:1px solid #dfe4df!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:0 6px 18px rgba(48,57,46,.055)!important;
+}
+#vava_homepage_settings .vava-paths-advanced-admin .vava-section-tabs{
+  display:grid!important;
+  grid-template-columns:.72fr 1.18fr 1.24fr 1.12fr 1.04fr!important;
+  align-items:stretch!important;
+  gap:8px!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+#vava_homepage_settings .vava-paths-advanced-admin .vava-section-tab{
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:62px!important;
+  padding:9px 3px!important;
+  gap:5px!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+  line-height:1.25!important;
+  justify-content:center!important;
+}
+#vava_homepage_settings .vava-paths-advanced-admin .vava-section-tab .vava-tab-icon{
+  display:grid!important;
+  flex:0 0 22px!important;
+  width:22px!important;
+  height:22px!important;
+  place-items:center!important;
+}
+#vava_homepage_settings .vava-paths-advanced-admin .vava-section-tab>span:last-child{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-overflow:clip!important;
+  font-size:11px!important;
+  font-weight:600!important;
+  line-height:1.25!important;
+  letter-spacing:0!important;
+}
+#vava_homepage_settings .vava-paths-advanced-admin[data-active-language="en"] .vava-section-tab>span:last-child{
+  font-size:10.5px!important;
+}
+#vava_homepage_settings .vava-paths-advanced-admin .vava-toolbar-actions{
+  width:100%!important;
+  margin-top:10px!important;
+}
+@media(max-width:900px){
+  #vava_homepage_settings .vava-paths-advanced-admin .vava-section-tabs{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+  #vava_homepage_settings .vava-paths-advanced-admin .vava-section-tab>span:last-child{
+    font-size:11px!important;
+  }
+}
+@media(max-width:600px){
+  #vava_homepage_settings .vava-paths-advanced-admin .vava-section-tabs{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+
+/* V4R6 — comparison status controls and compact preview footer. */
+.vava-paths-advanced-admin .vava-comparison-feature-card .vava-eye-toggle{position:relative;font-size:0}
+.vava-paths-advanced-admin .vava-comparison-feature-card .vava-eye-toggle svg{display:none!important}
+.vava-paths-advanced-admin .vava-comparison-feature-card .vava-eye-toggle::before{content:'×';display:grid;place-items:center;width:100%;height:100%;font-size:18px;font-weight:800;line-height:1;color:#b65f4c}
+.vava-paths-advanced-admin .vava-comparison-feature-card .vava-eye-toggle:has(input:checked)::before{content:'✓';color:#53664c}
+.vava-paths-preview-feature-list li.is-unavailable{opacity:.82}
+.vava-paths-preview-feature-mark.no{background:rgba(190,94,76,.10)!important;color:#b65f4c!important}
+.vava-paths-preview-plan-action{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px;align-items:center;margin-top:9px}
+.vava-paths-preview-plan-price{display:flex;align-items:center;justify-content:center;min-height:29px;padding:5px 8px;border-radius:999px;background:#f2efe5;color:#606348;font-size:9px;white-space:nowrap}
+.vava-paths-preview-plan-button{margin-top:0!important}

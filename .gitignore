@@ -1,0 +1,30 @@
+# Secrets and server-specific configuration
+wp-config.php
+.private/
+.env
+.env.*
+*.pem
+*.key
+
+# User uploads and generated/cache data
+wp-content/uploads/
+wp-content/litespeed/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup*
+wp-content/ai1wm-backups/
+
+# Large archives and media backups
+*.zip
+*.tar
+*.gz
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.pdf
+*.sql
+*.log
+*.bak
+*.bk
+.DS_Store

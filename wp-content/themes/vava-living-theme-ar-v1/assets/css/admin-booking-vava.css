@@ -1,0 +1,932 @@
+body.post-type-page.vava-booking-classic #screen-meta-links,
+body.post-type-page.vava-booking-classic #postdivrich,
+body.post-type-page.vava-booking-classic #postimagediv,
+body.post-type-page.vava-booking-classic #pageparentdiv,
+body.post-type-page.vava-booking-classic #submitdiv,
+body.post-type-page.vava-booking-classic .wrap>h1.wp-heading-inline,
+body.post-type-page.vava-booking-classic .wrap>.page-title-action,
+body.post-type-page.vava-booking-classic #titlediv,
+body.post-type-page.vava-booking-classic #edit-slug-box{display:none!important}
+
+.vava-booking-admin{--booking-olive:#70794f;--booking-olive-dark:#59633d;--booking-coral:#cf7d65;--booking-sage:#99b4aa;--booking-cream:#fbf7f0;--booking-line:#dce4d8;direction:rtl;color:#485043;font-family:"Cairo Soft","Cairo",Tahoma,sans-serif}
+.vava-booking-admin[dir=ltr],.vava-booking-language-pane[dir=ltr]{direction:ltr}
+.vava-booking-postbox-actions{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.vava-booking-postbox-actions.is-in-postbox-header{margin:0;margin-inline-start:auto;direction:rtl}
+.vava-booking-language{display:flex;align-items:center;gap:5px;padding:3px;border:1px solid #dce3d8;border-radius:11px;background:#eef2eb}
+.vava-booking-language button{display:flex;align-items:center;gap:7px;min-height:34px;padding:5px 10px;border:0;border-radius:8px;background:transparent;color:#66705f;font-weight:700;cursor:pointer}
+.vava-booking-language button b{display:grid;min-width:27px;height:22px;place-items:center;border-radius:6px;background:#fff;color:#66705f;font-size:10px;box-shadow:0 2px 7px rgba(56,67,54,.06)}
+.vava-booking-language button.is-active{background:#74805f;color:#fff;box-shadow:0 4px 10px rgba(73,88,64,.16)}
+.vava-booking-language button.is-active b{color:#74805f}
+#vava_homepage_settings .vava-booking-update-button{min-width:88px!important}
+
+#vava_homepage_settings .vava-booking-admin{padding:16px!important;background:#f5f7f4!important}
+#vava_homepage_settings .vava-booking-admin-toolbar{position:sticky!important;top:32px!important;z-index:18!important;display:block!important;margin:0 0 16px!important;padding:8px!important;border:1px solid #dfe5dc!important;border-radius:13px!important;background:#fff!important;box-shadow:0 7px 20px rgba(48,60,46,.055)!important}
+#vava_homepage_settings .vava-booking-admin-tabs{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:7px!important;width:100%!important}
+#vava_homepage_settings .vava-booking-admin-tabs button{display:flex!important;min-width:0!important;min-height:78px!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:10px 7px!important;border:0!important;border-radius:10px!important;background:transparent!important;color:#687261!important;cursor:pointer!important;font-weight:700!important;line-height:1.3!important;text-align:center!important;transition:.18s ease!important}
+#vava_homepage_settings .vava-booking-admin-tabs button>span{display:grid!important;width:28px!important;height:28px!important;flex:0 0 28px!important;place-items:center!important;border-radius:8px!important;background:#f1f4ee!important;color:#78836c!important;font-size:13px!important;line-height:1!important}
+#vava_homepage_settings .vava-booking-admin-tabs button>b{display:block!important;width:100%!important;min-width:0!important;overflow:visible!important;font-size:12px!important;line-height:1.35!important;text-align:center!important;text-overflow:clip!important;white-space:normal!important;overflow-wrap:anywhere!important}
+#vava_homepage_settings .vava-booking-admin-tabs button:hover{background:#f5f8f3!important;color:#59654f!important}
+#vava_homepage_settings .vava-booking-admin-tabs button.is-active{background:#edf3e9!important;color:#5b694d!important;box-shadow:inset 0 -2px 0 #75825f!important}
+#vava_homepage_settings .vava-booking-admin-tabs button.is-active>span{background:#74805f;color:#fff}
+
+.vava-booking-section-panels{overflow:hidden;border:1px solid #e0e6dd;border-radius:15px;background:#f7f9f6}
+.vava-booking-language-pane,.vava-booking-admin-panel{display:none}
+.vava-booking-language-pane.is-active{display:block}
+.vava-booking-admin-panel.is-active{display:block}
+.vava-booking-admin-panel{scroll-margin-top:130px}
+.vava-booking-admin-card{padding:18px;background:#f7f9f6}
+.vava-booking-card-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:16px;padding:17px 18px;border:1px solid #dce4d8;border-radius:14px;background:linear-gradient(145deg,#fff,#fafcf9);box-shadow:0 8px 22px rgba(52,65,49,.035)}
+.vava-booking-card-heading small{display:block;margin-bottom:4px;color:#a26e5e;font-weight:700}
+.vava-booking-card-heading h3{margin:0;color:#414d3d;font-size:19px;line-height:1.45}
+.vava-booking-card-heading p{max-width:700px;margin:6px 0 0;color:#788176;line-height:1.75}
+.vava-booking-source-badge{display:inline-flex;align-items:center;min-height:32px;padding:6px 11px;border-radius:999px;background:#edf3e8;color:#65734f;font-size:11px;font-weight:700;white-space:nowrap}
+.vava-booking-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vava-booking-admin-field{display:grid;gap:7px;min-width:0;padding:14px;border:1px solid #dce4d8;border-radius:12px;background:#fff;box-shadow:0 4px 15px rgba(52,65,49,.025)}
+.vava-booking-admin-field.is-full{grid-column:1/-1}
+.vava-booking-admin-field>span{color:#4b5847;font-size:13px;font-weight:700}
+.vava-booking-admin input[type=text],.vava-booking-admin input[type=email],.vava-booking-admin input[type=password],.vava-booking-admin input[type=number],.vava-booking-admin input[type=time],.vava-booking-admin input[readonly],.vava-booking-admin textarea,.vava-booking-admin select{width:100%;min-height:43px;margin:0;border:1px solid #ccd7c9!important;border-radius:9px!important;background:#fff!important;box-shadow:none!important;color:#475044!important}
+.vava-booking-admin textarea{min-height:104px;resize:vertical;line-height:1.8}
+.vava-booking-admin input:focus,.vava-booking-admin textarea:focus,.vava-booking-admin select:focus{border-color:#7b8a68!important;box-shadow:0 0 0 1px #7b8a68!important}
+.vava-booking-subsection{margin-top:16px;padding:16px;border:1px solid #dce4d8;border-radius:14px;background:#fff}
+.vava-booking-subsection-heading{margin-bottom:13px;padding-bottom:12px;border-bottom:1px solid #e5eae2}
+.vava-booking-subsection-heading h4{margin:0;color:#4b5847;font-size:15px}
+.vava-booking-subsection-heading p{margin:5px 0 0;color:#7b8478;line-height:1.65}
+.vava-booking-field-card{margin-top:10px;padding:14px;border:1px solid #dce4d8;border-inline-start:4px solid #7a8865;border-radius:13px;background:#f8faf7;box-shadow:0 5px 16px rgba(54,65,51,.025)}
+.vava-booking-field-card>header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.vava-booking-field-card>header>strong{color:#4d5949;font-size:14px}
+.vava-booking-check{display:inline-flex;align-items:center;gap:8px;color:#596653;font-weight:700}
+.vava-booking-check input[type=checkbox]{width:18px!important;height:18px!important;margin:0!important}
+.vava-booking-check.is-full{grid-column:1/-1}
+
+.vava-booking-days{display:grid;gap:9px}
+.vava-booking-day{display:grid;grid-template-columns:minmax(130px,1fr) minmax(140px,.6fr) minmax(140px,.6fr);align-items:center;gap:12px;padding:12px 14px;border:1px solid #e0e6dd;border-radius:12px;background:#f7f9f6}
+.vava-booking-day>label:not(.vava-booking-check){display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px;color:#687263;font-size:12px;font-weight:700}
+.vava-booking-service-schedules{margin-top:16px}
+.vava-booking-service-schedule{margin-top:9px;overflow:hidden;border:1px solid #dce4d8;border-radius:13px;background:#f8faf7}
+.vava-booking-service-schedule summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;cursor:pointer;list-style:none}
+.vava-booking-service-schedule summary::-webkit-details-marker{display:none}
+.vava-booking-service-schedule summary span{display:grid;gap:3px}.vava-booking-service-schedule summary strong{color:#4c5848}.vava-booking-service-schedule summary small{color:#8a9286;direction:ltr;text-align:start}.vava-booking-service-schedule summary>b{display:grid;width:28px;height:28px;place-items:center;border-radius:8px;background:#edf2e9;color:#69765a;transition:.18s}.vava-booking-service-schedule[open] summary>b{transform:rotate(180deg)}
+.vava-booking-service-schedule>.vava-booking-admin-grid{padding:0 15px 15px}
+.vava-booking-payment-methods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.vava-booking-payment-toggle{display:block;cursor:pointer}
+.vava-booking-payment-toggle>input{position:absolute;opacity:0;pointer-events:none}
+.vava-booking-payment-toggle>span{display:grid;grid-template-columns:26px 1fr;gap:4px 10px;min-height:95px;padding:15px;border:1px solid #dce4d8;border-radius:13px;background:#fff;box-shadow:0 5px 16px rgba(54,65,51,.025);transition:.18s}
+.vava-booking-payment-toggle>span>i{grid-row:1/3;width:21px;height:21px;margin-top:1px;border:2px solid #c7d2c2;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 4px #fff}
+.vava-booking-payment-toggle>span>b{color:#4d5949;font-size:14px}.vava-booking-payment-toggle>span>small{color:#838b80;line-height:1.55}
+.vava-booking-payment-toggle>input:checked+span{border-color:#91a382;background:#f2f6ef;box-shadow:0 8px 20px rgba(82,101,73,.07)}
+.vava-booking-payment-toggle>input:checked+span>i{border-color:#71815f;background:#71815f}
+.vava-booking-auto-note{grid-column:1/-1;margin:0;padding:12px 14px;border-radius:11px;background:#f0f4ec;color:#66725d;line-height:1.7}
+
+#vava_live_preview_box .vava-booking-live-preview{display:flex!important;visibility:visible!important;opacity:1!important}
+#vava_live_preview_box .vava-booking-preview-canvas{width:900px!important;transform:scale(.68)!important;transform-origin:top left!important}
+.vava-booking-preview-page{min-height:760px;padding:44px;background:radial-gradient(circle at 100% 0,rgba(153,180,170,.16),transparent 30%),linear-gradient(145deg,#fffaf4,#f7efe6);color:#4e4a43;font-family:"Cairo",Tahoma,sans-serif;box-sizing:border-box}
+.vava-booking-preview-page *{box-sizing:border-box}
+.vava-booking-preview-progress{display:flex;align-items:center;justify-content:center;gap:13px;margin-bottom:30px}
+.vava-booking-preview-progress>i{width:86px;height:2px;background:#ddd9cc}
+.vava-booking-preview-progress>span{display:flex;align-items:center;gap:8px;color:#918c80}
+.vava-booking-preview-progress>span>b{display:grid;width:36px;height:36px;place-items:center;border-radius:50%;background:#ece9df;color:#858173}
+.vava-booking-preview-progress>span>em{font-style:normal;font-size:12px;white-space:nowrap}
+.vava-booking-preview-progress>span.is-active b,.vava-booking-preview-progress>span.is-complete b{background:#747b52;color:#fff}
+.vava-booking-preview-progress>span.is-active em{color:#646a48;font-weight:700}
+.vava-booking-preview-heading{max-width:640px;margin:0 auto 24px;text-align:center}
+.vava-booking-preview-heading>small{color:#b46f59;font-weight:700}.vava-booking-preview-heading h3{margin:7px 0 9px;color:#4a473f;font-family:"VAVA Display",Georgia,serif;font-size:34px}.vava-booking-preview-heading p{margin:0;color:#7a746b;line-height:1.8}
+.vava-booking-preview-step{display:none}.vava-booking-preview-step.is-active{display:block}
+.vava-booking-preview-service{display:grid;grid-template-columns:230px 1fr;gap:22px;padding:20px;border:1px solid rgba(130,120,98,.18);border-radius:22px;background:rgba(255,255,255,.72);box-shadow:0 14px 32px rgba(80,73,61,.05)}
+.vava-booking-preview-image{min-height:180px;border-radius:17px;background:linear-gradient(145deg,#d6d9cb,#f1e6da)}
+.vava-booking-preview-service small{color:#b66e58;font-weight:700}.vava-booking-preview-service strong{display:block;margin:9px 0 7px;font-family:"VAVA Display",Georgia,serif;font-size:26px}.vava-booking-preview-service p{color:#777169;line-height:1.8}.vava-booking-preview-service>div:last-child>div{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}.vava-booking-preview-service span{padding:6px 9px;border-radius:999px;background:#eef2e8;color:#6a7253;font-size:11px}
+.vava-booking-preview-form{margin-top:16px;padding:20px;border:1px solid rgba(130,120,98,.18);border-radius:22px;background:rgba(255,255,255,.74)}
+.vava-booking-preview-form h4,.vava-booking-preview-appointment h4,.vava-booking-preview-confirm h4{margin:0 0 14px;font-size:18px}.vava-booking-preview-form>div{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.vava-booking-preview-form label{display:grid;gap:7px;color:#69645d;font-size:11px}.vava-booking-preview-form label.is-wide{grid-column:1/-1}.vava-booking-preview-form label i{height:42px;border:1px solid #d8d4c9;border-radius:10px;background:#fff}
+.vava-booking-preview-appointment{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:24px;border:1px solid rgba(130,120,98,.18);border-radius:24px;background:rgba(255,255,255,.76)}
+.vava-booking-preview-calendar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}.vava-booking-preview-calendar span,.vava-booking-preview-times span{display:grid;min-height:46px;place-items:center;border:1px solid #ddd8cd;border-radius:11px;background:#fff}.vava-booking-preview-calendar span.is-active,.vava-booking-preview-times span.is-active{border-color:#78805a;background:#78805a;color:#fff}.vava-booking-preview-times{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.vava-booking-preview-confirm{display:grid;grid-template-columns:1fr 1fr;gap:18px}.vava-booking-preview-summary,.vava-booking-preview-payment{padding:21px;border:1px solid rgba(130,120,98,.18);border-radius:22px;background:rgba(255,255,255,.76)}.vava-booking-preview-summary p{display:flex;justify-content:space-between;gap:12px;margin:0;padding:11px 0;border-bottom:1px solid #ebe6dc}.vava-booking-preview-summary p:last-child{border:0}.vava-booking-preview-payment label{display:flex;align-items:flex-start;gap:10px;margin-top:9px;padding:13px;border:1px solid #ddd8cd;border-radius:12px;background:#fff}.vava-booking-preview-payment label.is-active{border-color:#84906e;background:#f1f5ee}.vava-booking-preview-payment label>i{width:18px;height:18px;flex:0 0 18px;border:2px solid #c8d0c2;border-radius:50%}.vava-booking-preview-payment label.is-active>i{border-color:#74805f;background:#74805f;box-shadow:inset 0 0 0 4px #f1f5ee}.vava-booking-preview-payment label span{display:grid;gap:3px}.vava-booking-preview-payment label small{color:#817b72;line-height:1.6}
+.vava-booking-preview-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.vava-booking-preview-actions button{min-height:42px;padding:0 22px;border:0;border-radius:999px;background:#c97862;color:#fff;font-weight:700}.vava-booking-preview-actions button.is-secondary{border:1px solid #77805a;background:transparent;color:#697149}
+.vava-booking-live-preview[data-preview-language=en] .vava-booking-preview-canvas{direction:ltr}
+
+@media(max-width:1380px) and (min-width:1181px){#vava_homepage_settings .vava-booking-admin-tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:1100px){.vava-booking-admin-grid,.vava-booking-payment-methods{grid-template-columns:1fr}.vava-booking-admin-field.is-full{grid-column:auto}.vava-booking-day{grid-template-columns:1fr 1fr}.vava-booking-day>.vava-booking-check{grid-column:1/-1}}
+@media(max-width:900px){#vava_homepage_settings .vava-booking-admin-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}#vava_homepage_settings .vava-booking-admin-tabs button{min-height:72px!important;padding:9px 6px!important}.vava-booking-card-heading{flex-direction:column}.vava-booking-source-badge{align-self:flex-start}}
+@media(max-width:600px){#vava_homepage_settings .vava-booking-admin{padding:10px!important}.vava-booking-postbox-actions.is-in-postbox-header{width:100%;justify-content:space-between}.vava-booking-language button span{display:none}.vava-booking-day{grid-template-columns:1fr}.vava-booking-day>.vava-booking-check{grid-column:auto}}
+
+/* V17 — protected payment configuration */
+.vava-booking-manage-bookings{align-self:flex-start!important;min-height:38px!important;display:inline-flex!important;align-items:center!important}
+.vava-booking-config-warning,.vava-booking-security-note{margin:0 0 14px;padding:13px 15px;border:1px solid #e8c98c;border-radius:12px;background:#fff7e6;color:#79591f}
+.vava-booking-config-warning strong,.vava-booking-security-note strong{display:block;margin-bottom:4px}.vava-booking-config-warning p,.vava-booking-security-note p{margin:0;line-height:1.7}
+.vava-booking-security-note{border-color:#cbd8c6;background:#f0f5ed;color:#53624e}
+
+/* V18 — bilingual compact payment and availability administration */
+.vava-booking-manage-bookings{
+  gap:8px!important;
+  min-height:42px!important;
+  padding:0 17px!important;
+  border-color:#66734d!important;
+  border-radius:10px!important;
+  background:#70794f!important;
+  color:#fff!important;
+  font-weight:800!important;
+  text-decoration:none!important;
+  box-shadow:0 7px 16px rgba(74,87,57,.18)!important;
+}
+.vava-booking-manage-bookings:hover,.vava-booking-manage-bookings:focus{
+  border-color:#59633d!important;
+  background:#59633d!important;
+  color:#fff!important;
+}
+.vava-booking-payment-heading{align-items:flex-start}
+
+.vava-booking-payment-accordions,.vava-booking-compact-settings{display:grid;gap:11px}
+.vava-booking-payment-method-card,.vava-booking-compact-setting{
+  overflow:hidden;
+  border:1px solid #dce4d8;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 5px 18px rgba(54,65,51,.035);
+  transition:border-color .18s,box-shadow .18s,background .18s;
+}
+.vava-booking-payment-method-card.is-open,.vava-booking-compact-setting.is-open{
+  border-color:#98a88b;
+  box-shadow:0 10px 24px rgba(73,91,64,.075);
+}
+.vava-booking-payment-method-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;background:#f8faf7}
+.vava-booking-payment-method-head>button,.vava-booking-compact-setting-head{
+  width:100%;
+  margin:0;
+  padding:15px 16px;
+  border:0;
+  background:transparent;
+  color:inherit;
+  font:inherit;
+  text-align:inherit;
+  cursor:pointer;
+}
+.vava-booking-payment-method-head>button{
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr) auto 28px;
+  align-items:center;
+  gap:12px;
+}
+.vava-booking-payment-method-icon{
+  display:grid;
+  width:36px;
+  height:36px;
+  place-items:center;
+  border-radius:10px;
+  background:#edf2e9;
+  color:#687555;
+  font-weight:900;
+}
+.vava-booking-payment-method-copy{display:grid;gap:3px;min-width:0}
+.vava-booking-payment-method-copy strong{color:#495546;font-size:15px}
+.vava-booking-payment-method-copy small{overflow:hidden;color:#858d82;line-height:1.45;text-overflow:ellipsis;white-space:nowrap}
+.vava-booking-payment-method-state{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:66px;
+  min-height:28px;
+  padding:3px 9px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+}
+.vava-booking-payment-method-state.is-enabled{background:#e9f1e4;color:#567047}
+.vava-booking-payment-method-state.is-disabled{background:#f2f0ec;color:#8a857d}
+.vava-booking-payment-chevron,.vava-booking-compact-setting-head>b{
+  display:grid;
+  width:28px;
+  height:28px;
+  place-items:center;
+  border-radius:8px;
+  background:#edf2e9;
+  color:#69765a;
+  transition:transform .18s;
+}
+.vava-booking-payment-method-card.is-open .vava-booking-payment-chevron,.vava-booking-compact-setting.is-open .vava-booking-compact-setting-head>b{transform:rotate(180deg)}
+.vava-booking-switch{position:relative;display:inline-flex;margin-inline:10px 15px;cursor:pointer}
+.vava-booking-switch input{position:absolute!important;opacity:0!important;pointer-events:none!important}
+.vava-booking-switch i{
+  position:relative;
+  display:block;
+  width:45px;
+  height:25px;
+  border:1px solid #cbd4c6;
+  border-radius:999px;
+  background:#e7ebe4;
+  transition:.18s;
+}
+.vava-booking-switch i:after{
+  position:absolute;
+  top:3px;
+  inset-inline-start:3px;
+  width:17px;
+  height:17px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 6px rgba(54,65,51,.2);
+  content:"";
+  transition:.18s;
+}
+.vava-booking-switch input:checked+i{border-color:#74805f;background:#74805f}
+.vava-booking-switch input:checked+i:after{inset-inline-start:23px}
+.vava-booking-payment-method-body,.vava-booking-compact-setting-body{display:none;border-top:1px solid #e2e7df;background:#fff}
+.vava-booking-payment-method-card.is-open .vava-booking-payment-method-body,.vava-booking-compact-setting.is-open .vava-booking-compact-setting-body{display:block}
+.vava-booking-payment-method-body{padding:18px}
+.vava-booking-payment-method-body>.vava-booking-subsection-heading{margin-bottom:15px}
+
+.vava-booking-compact-settings{margin-bottom:18px}
+.vava-booking-compact-setting-head{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#f8faf7}
+.vava-booking-compact-setting-copy{display:grid;gap:4px;min-width:0}
+.vava-booking-compact-setting-copy strong{color:#4b5748;font-size:14px}
+.vava-booking-compact-setting-copy small{color:#718063;font-weight:800;direction:ltr;text-align:start}
+.vava-booking-compact-setting-body{padding:15px}
+.vava-booking-compact-setting-body .vava-booking-admin-field{max-width:100%;margin:0}
+.vava-booking-localized-value[hidden]{display:none!important}
+
+.vava-booking-admin[data-active-language="en"] .vava-booking-payment-method-copy small,
+.vava-booking-admin[data-active-language="en"] .vava-booking-card-heading,
+.vava-booking-admin[data-active-language="en"] .vava-booking-subsection-heading,
+.vava-booking-admin[data-active-language="en"] .vava-booking-admin-field,
+.vava-booking-admin[data-active-language="en"] .vava-booking-day{direction:ltr;text-align:left}
+.vava-booking-admin[data-active-language="ar"] .vava-booking-payment-method-copy small,
+.vava-booking-admin[data-active-language="ar"] .vava-booking-card-heading,
+.vava-booking-admin[data-active-language="ar"] .vava-booking-subsection-heading,
+.vava-booking-admin[data-active-language="ar"] .vava-booking-admin-field,
+.vava-booking-admin[data-active-language="ar"] .vava-booking-day{direction:rtl;text-align:right}
+
+@media(max-width:900px){
+  .vava-booking-payment-method-head>button{grid-template-columns:34px minmax(0,1fr) 28px}
+  .vava-booking-payment-method-state{grid-column:2;justify-self:start}
+  .vava-booking-payment-chevron{grid-column:3;grid-row:1/3}
+  .vava-booking-payment-method-copy small{white-space:normal}
+}
+@media(max-width:600px){
+  .vava-booking-payment-method-head{grid-template-columns:minmax(0,1fr) auto}
+  .vava-booking-payment-method-head>button{padding:13px 10px;gap:8px}
+  .vava-booking-switch{margin-inline:4px 10px}
+  .vava-booking-payment-heading .vava-booking-manage-bookings{width:100%;justify-content:center}
+}
+
+
+/* V19 — select-driven availability and message editors */
+.vava-booking-select-editor{display:grid;grid-template-columns:minmax(240px,.85fr) minmax(0,1.35fr);align-items:start;gap:14px;margin-bottom:18px;padding:15px;border:1px solid #dce4d8;border-radius:14px;background:#fff;box-shadow:0 5px 18px rgba(54,65,51,.03)}
+.vava-booking-select-editor-choice{display:grid;gap:7px;min-width:0;padding:14px;border:1px solid #dce4d8;border-radius:12px;background:#f8faf7}
+.vava-booking-select-editor-choice>span{color:#4b5847;font-size:13px;font-weight:800}
+.vava-booking-select-editor-fields{min-width:0}
+.vava-booking-select-editor-field{display:none!important;height:100%;margin:0}
+.vava-booking-select-editor-field.is-active{display:grid!important}
+.vava-booking-value-with-unit{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px}
+.vava-booking-value-with-unit>small{display:inline-flex;min-height:38px;align-items:center;justify-content:center;padding:0 12px;border-radius:8px;background:#edf2e9;color:#617052;font-size:12px;font-weight:800;white-space:nowrap}
+.vava-booking-select-editor.is-messages .vava-booking-select-editor-field textarea{min-height:150px}
+.vava-booking-preview-message{margin-top:16px;padding:16px 18px;border:1px solid #d6dfd1;border-radius:16px;background:#f1f5ee;color:#58644f}
+.vava-booking-preview-message[hidden]{display:none!important}
+.vava-booking-preview-message small{display:block;margin-bottom:5px;color:#8a6f64;font-weight:800}
+.vava-booking-preview-message p{margin:0;line-height:1.75}
+@media(max-width:900px){.vava-booking-select-editor{grid-template-columns:1fr}}
+@media(max-width:600px){.vava-booking-select-editor{padding:10px}.vava-booking-value-with-unit{grid-template-columns:1fr}.vava-booking-value-with-unit>small{justify-self:start}}
+
+/* V1R7 — streamlined booking settings and About-style embedded live preview */
+body.post-type-page.vava-booking-classic #poststuff,
+body.post-type-page.vava-booking-classic #post-body,
+body.post-type-page.vava-booking-classic #postbox-container-2{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  float:none!important;
+}
+body.post-type-page.vava-booking-classic #poststuff #post-body.columns-2{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+}
+body.post-type-page.vava-booking-classic #postbox-container-1,
+body.post-type-page.vava-booking-classic #side-sortables{
+  display:none!important;
+}
+body.post-type-page.vava-booking-classic #vava_homepage_settings{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+}
+body.post-type-page.vava-booking-classic #vava_homepage_settings>.inside{
+  margin:0!important;
+  padding:0!important;
+}
+#vava_homepage_settings .vava-booking-admin{
+  padding:16px!important;
+}
+#vava_homepage_settings .vava-booking-admin-tabs{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.vava-booking-editor-workspace{
+  display:grid;
+  grid-template-columns:minmax(390px,42%) minmax(0,1fr);
+  align-items:start;
+  gap:20px;
+  min-width:0;
+}
+.vava-booking-editor-controls{min-width:0}
+.vava-booking-editor-workspace>.vava-booking-live-preview{
+  position:sticky;
+  top:104px;
+  display:flex!important;
+  min-width:0;
+  height:calc(100vh - 126px);
+  min-height:560px;
+  overflow:hidden;
+  border:1px solid #d9e1d6;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(50,62,48,.08);
+}
+.vava-booking-editor-workspace>.vava-booking-live-preview .vava-live-preview-header{
+  flex:0 0 auto;
+}
+.vava-booking-editor-workspace>.vava-booking-live-preview .vava-preview-viewport{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  padding:12px;
+  background:linear-gradient(145deg,#eef1ed,#e7ebe5);
+  scrollbar-width:thin;
+  scrollbar-color:#aeb9aa transparent;
+}
+.vava-booking-editor-workspace>.vava-booking-live-preview .vava-preview-stage{
+  position:relative;
+  width:100%;
+  min-height:500px;
+  margin:0 auto;
+  overflow:hidden;
+  border-radius:12px;
+  background:#fffaf4;
+  box-shadow:0 10px 28px rgba(42,51,40,.12);
+}
+.vava-booking-editor-workspace>.vava-booking-live-preview .vava-booking-preview-canvas{
+  position:absolute!important;
+  inset:0 auto auto 0!important;
+  width:900px!important;
+  height:auto!important;
+  overflow:visible!important;
+  transform:scale(.61)!important;
+  transform-origin:top left!important;
+}
+body.rtl .vava-booking-editor-workspace>.vava-booking-live-preview .vava-booking-preview-canvas{
+  inset:0 0 auto auto!important;
+  transform-origin:top right!important;
+}
+.vava-booking-customer-requirements{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+}
+.vava-booking-field-card.is-compact{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  min-height:78px;
+  margin:0;
+  padding:14px 16px;
+  border-inline-start-width:1px;
+  background:#fff;
+}
+.vava-booking-field-card-copy{
+  display:grid;
+  gap:4px;
+  min-width:0;
+}
+.vava-booking-field-card-copy strong{
+  color:#4d5949;
+  font-size:14px;
+}
+.vava-booking-field-card-copy small{
+  color:#858d82;
+  line-height:1.55;
+}
+.vava-booking-field-card.is-compact .vava-booking-check{
+  flex:0 0 auto;
+}
+.vava-booking-section-panels{
+  min-height:560px;
+}
+@media(max-width:1380px){
+  .vava-booking-editor-workspace{grid-template-columns:minmax(350px,40%) minmax(0,1fr)}
+  .vava-booking-editor-workspace>.vava-booking-live-preview .vava-booking-preview-canvas{transform:scale(.54)!important}
+  #vava_homepage_settings .vava-booking-admin-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:1120px){
+  .vava-booking-editor-workspace{grid-template-columns:1fr}
+  .vava-booking-editor-workspace>.vava-booking-live-preview{
+    position:relative;
+    top:auto;
+    height:auto;
+    min-height:560px;
+  }
+  .vava-booking-editor-workspace>.vava-booking-live-preview .vava-preview-stage{min-height:510px}
+  .vava-booking-editor-workspace>.vava-booking-live-preview .vava-booking-preview-canvas{transform:scale(.66)!important}
+}
+@media(max-width:760px){
+  .vava-booking-customer-requirements{grid-template-columns:1fr}
+  .vava-booking-editor-workspace>.vava-booking-live-preview{min-height:470px}
+  .vava-booking-editor-workspace>.vava-booking-live-preview .vava-preview-stage{min-height:420px}
+  .vava-booking-editor-workspace>.vava-booking-live-preview .vava-booking-preview-canvas{transform:scale(.45)!important}
+}
+.vava-booking-preview-review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vava-booking-preview-review-grid article{padding:16px;border:1px solid rgba(130,120,98,.18);border-radius:18px;background:rgba(255,255,255,.8)}
+.vava-booking-preview-review-grid h4{margin:0 0 9px;color:#54564a;font-size:15px}
+.vava-booking-preview-review-grid p{display:flex;justify-content:space-between;gap:10px;margin:0;padding:7px 0;border-bottom:1px solid #ebe7de;font-size:9px}
+.vava-booking-preview-review-grid p:last-child{border-bottom:0}
+.vava-booking-preview-review-grid span{color:#949085}.vava-booking-preview-review-grid b{color:#55574a;font-weight:700}
+.vava-booking-preview-review-bottom{display:grid;grid-template-columns:.8fr 1.3fr;gap:14px;margin-top:14px}
+.vava-booking-preview-review-bottom>strong,.vava-booking-preview-review-bottom>span{display:flex;align-items:center;justify-content:space-between;min-height:64px;padding:13px 16px;border:1px solid rgba(130,120,98,.18);border-radius:16px;background:rgba(255,255,255,.82);color:#646653;font-size:11px}
+.vava-booking-preview-review-bottom>strong b{font-size:19px;color:#687041}
+
+
+/* VAVA_BOOKING_REVIEW_FOOTER_PREVIEW_V1R8 */
+.vava-booking-editor-workspace{
+  grid-template-areas:"preview controls";
+}
+.vava-booking-editor-workspace>.vava-booking-live-preview{grid-area:preview}
+.vava-booking-editor-workspace>.vava-booking-editor-controls{grid-area:controls}
+.vava-booking-editor-workspace>.vava-booking-live-preview{
+  flex-direction:column!important;
+}
+.vava-booking-editor-workspace>.vava-booking-live-preview .vava-live-preview-header{
+  width:100%;
+}
+.vava-booking-preview-review-footer{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(150px,.7fr) minmax(180px,.9fr);
+  gap:12px;
+  margin-top:14px;
+}
+.vava-booking-preview-review-footer>span,
+.vava-booking-preview-review-footer>strong{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:76px;
+  padding:13px 16px;
+  border:1px solid rgba(130,120,98,.18);
+  border-radius:16px;
+  background:rgba(255,255,255,.82);
+  color:#646653;
+  font-size:11px;
+}
+.vava-booking-preview-review-footer>strong b{font-size:19px;color:#687041}
+.vava-booking-preview-review-footer>div{display:grid;gap:8px}
+.vava-booking-preview-review-footer button{
+  min-height:34px;
+  border:0;
+  border-radius:10px;
+  background:#778052;
+  color:#fff;
+  font:inherit;
+  font-weight:700;
+}
+.vava-booking-preview-review-footer button.is-secondary{
+  border:1px solid #778052;
+  background:#fff;
+  color:#687149;
+}
+@media(max-width:1120px){
+  .vava-booking-editor-workspace{grid-template-areas:"controls" "preview"}
+}
+
+/* VAVA_BOOKING_FINAL_LAYOUT_AND_SIDEBAR_PREVIEW_V1R9 */
+body.post-type-page.vava-booking-classic #postbox-container-1,
+body.post-type-page.vava-booking-classic #side-sortables{
+  display:block!important;
+}
+body.post-type-page.vava-booking-classic #vava_live_preview_box>.postbox-header{
+  display:none!important;
+}
+body.post-type-page.vava-booking-classic #vava_live_preview_box>.inside{
+  margin:0!important;
+  padding:0!important;
+}
+.vava-booking-editor-workspace{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+}
+.vava-booking-editor-controls{
+  width:100%!important;
+  min-width:0!important;
+}
+body.post-type-page.vava-booking-classic #vava_live_preview_box .vava-booking-live-preview{
+  position:relative!important;
+  top:auto!important;
+  display:flex!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  flex-direction:column!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+}
+body.post-type-page.vava-booking-classic #vava_live_preview_box .vava-preview-viewport{
+  min-height:0!important;
+  max-height:calc(100vh - 120px)!important;
+  padding:8px!important;
+  overflow:auto!important;
+  background:linear-gradient(145deg,#eef1ed,#e7ebe5)!important;
+}
+body.post-type-page.vava-booking-classic #vava_live_preview_box .vava-preview-stage{
+  min-height:520px!important;
+  border-radius:12px!important;
+  background:#fffaf4!important;
+  box-shadow:0 10px 28px rgba(42,51,40,.12)!important;
+}
+body.post-type-page.vava-booking-classic #vava_live_preview_box .vava-booking-preview-canvas{
+  position:absolute!important;
+  inset:0 auto auto 0!important;
+  width:900px!important;
+  height:auto!important;
+  overflow:visible!important;
+  transform:scale(.68)!important;
+  transform-origin:top left!important;
+}
+body.rtl.post-type-page.vava-booking-classic #vava_live_preview_box .vava-booking-preview-canvas{
+  inset:0 0 auto auto!important;
+  transform-origin:top right!important;
+}
+@media(min-width:1181px){
+  body.post-type-page.vava-booking-classic #poststuff,
+  body.post-type-page.vava-booking-classic #post-body{
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  body.post-type-page.vava-booking-classic #poststuff #post-body.columns-2{
+    display:grid!important;
+    grid-template-columns:minmax(480px,42%) minmax(0,1fr)!important;
+    grid-template-areas:"preview editor"!important;
+    align-items:start!important;
+    gap:20px!important;
+    direction:ltr!important;
+    float:none!important;
+    clear:both!important;
+  }
+  body.post-type-page.vava-booking-classic #postbox-container-1{
+    grid-area:preview!important;
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+    float:none!important;
+    position:sticky!important;
+    top:40px!important;
+    align-self:start!important;
+    direction:rtl!important;
+  }
+  body.post-type-page.vava-booking-classic #postbox-container-2{
+    grid-area:editor!important;
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+    float:none!important;
+    direction:rtl!important;
+  }
+  body.post-type-page.vava-booking-classic #side-sortables,
+  body.post-type-page.vava-booking-classic #normal-sortables,
+  body.post-type-page.vava-booking-classic #postbox-container-1 .meta-box-sortables,
+  body.post-type-page.vava-booking-classic #postbox-container-2 .meta-box-sortables{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+  }
+}
+@media(max-width:1180px){
+  body.post-type-page.vava-booking-classic #postbox-container-1{
+    display:block!important;
+    position:relative!important;
+    top:auto!important;
+    width:100%!important;
+    margin:0 0 18px!important;
+  }
+  body.post-type-page.vava-booking-classic #vava_live_preview_box .vava-preview-viewport{min-height:520px!important}
+}
+@media(max-width:782px){
+  body.post-type-page.vava-booking-classic #vava_live_preview_box .vava-preview-viewport{min-height:430px!important}
+  body.post-type-page.vava-booking-classic #vava_live_preview_box .vava-booking-preview-canvas{transform:scale(.54)!important}
+}
+.vava-booking-preview-step[data-preview-pane="4"].is-active~.vava-booking-preview-actions{display:none!important}
+.vava-booking-preview-review-footer{
+  grid-template-columns:minmax(0,1.35fr) minmax(150px,.7fr) minmax(230px,1fr)!important;
+}
+.vava-booking-preview-review-footer>div{display:grid;gap:8px}
+.vava-booking-preview-secondary-actions{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px!important;
+}
+.vava-booking-preview-secondary-actions button{
+  min-width:0;
+  min-height:34px;
+  padding:5px 7px;
+  line-height:1.4;
+}
+@media(max-width:1120px){
+  .vava-booking-preview-review-footer{grid-template-columns:1fr 1fr!important}
+  .vava-booking-preview-review-footer>div{grid-column:1/-1}
+}
+
+/* VAVA_BOOKING_SETTINGS_AND_STAGE_ONE_POLISH_V1R10 */
+.vava-booking-admin,
+.vava-booking-admin *{box-sizing:border-box}
+.vava-booking-admin input:not([type]),
+.vava-booking-admin input[type="text"],
+.vava-booking-admin input[type="email"],
+.vava-booking-admin input[type="password"],
+.vava-booking-admin input[type="number"],
+.vava-booking-admin input[type="url"],
+.vava-booking-admin input[type="tel"],
+.vava-booking-admin input[type="time"],
+.vava-booking-admin input[type="date"],
+.vava-booking-admin input[readonly],
+.vava-booking-admin select{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  min-height:44px!important;
+  height:44px;
+  margin:0!important;
+  padding:0 13px!important;
+  overflow:hidden;
+  border:1px solid #ccd7c9!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  color:#475044!important;
+  font-size:13px!important;
+  line-height:1.5!important;
+  text-overflow:ellipsis;
+}
+.vava-booking-admin textarea{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  min-height:110px!important;
+  margin:0!important;
+  padding:12px 13px!important;
+  border:1px solid #ccd7c9!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  color:#475044!important;
+  font-size:13px!important;
+  line-height:1.8!important;
+}
+.vava-booking-admin input:not([type]):focus,
+.vava-booking-admin input[type="text"]:focus,
+.vava-booking-admin input[type="email"]:focus,
+.vava-booking-admin input[type="password"]:focus,
+.vava-booking-admin input[type="number"]:focus,
+.vava-booking-admin input[type="url"]:focus,
+.vava-booking-admin input[type="tel"]:focus,
+.vava-booking-admin input[type="time"]:focus,
+.vava-booking-admin input[type="date"]:focus,
+.vava-booking-admin textarea:focus,
+.vava-booking-admin select:focus{
+  border-color:#778661!important;
+  box-shadow:0 0 0 3px rgba(119,134,97,.12)!important;
+  outline:0!important;
+}
+.vava-booking-admin[data-active-language="ar"] input:not([dir="ltr"]),
+.vava-booking-admin[data-active-language="ar"] textarea,
+.vava-booking-admin[data-active-language="ar"] select{direction:rtl;text-align:right}
+.vava-booking-admin[data-active-language="en"] input:not([dir="rtl"]),
+.vava-booking-admin[data-active-language="en"] textarea,
+.vava-booking-admin[data-active-language="en"] select{direction:ltr;text-align:left}
+.vava-booking-admin input[dir="ltr"],
+.vava-booking-admin input[name*="[paymob]"],
+.vava-booking-admin input[name*="[integration_ids]"],
+.vava-booking-admin input[name*="[account_number]"],
+.vava-booking-admin input[name*="[iban]"],
+.vava-booking-admin input[name*="[swift]"],
+.vava-booking-admin input[name*="[currency]"],
+.vava-booking-admin input[type="url"],
+.vava-booking-admin input[type="email"]{
+  direction:ltr!important;
+  unicode-bidi:plaintext;
+  text-align:left!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;
+}
+.vava-booking-admin-field{min-width:0;overflow:hidden}
+.vava-booking-admin-field>span{line-height:1.55}
+
+/* V1.13 — customer-field cards and crisp numbered tabs. */
+#vava_homepage_settings .vava-booking-admin-tabs button>span{
+  display:grid!important;width:34px!important;height:34px!important;place-items:center!important;
+  border:1px solid rgba(116,122,78,.28)!important;border-radius:50%!important;
+  background:#f3f6ef!important;color:#69724f!important;
+  font:800 15px/1 Arial,sans-serif!important;
+}
+#vava_homepage_settings .vava-booking-admin-tabs button.is-active>span{border-color:#747a4e!important;background:#747a4e!important;color:#fff!important}
+.vava-booking-customer-requirements{display:grid;gap:11px}
+.vava-booking-field-card.is-compact{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;padding:16px 18px;border:1px solid #d5dfcf;border-radius:14px;background:#eef3e9}
+.vava-booking-field-card-copy{display:grid;gap:5px}.vava-booking-field-card-copy strong{color:#4e5948;font-size:14px}.vava-booking-field-card-copy small{color:#7d8878;line-height:1.6}
+.vava-booking-field-switch{position:relative;display:grid;grid-template-columns:1fr;min-width:62px;cursor:pointer}
+.vava-booking-field-switch input{position:absolute!important;opacity:0!important;pointer-events:none!important}
+.vava-booking-field-switch i{position:relative;display:block;width:54px;height:29px;border:1px solid #c4cec0;border-radius:999px;background:#dfe5dc;transition:.18s}
+.vava-booking-field-switch i:after{content:"";position:absolute;top:3px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(55,65,50,.2);transition:left .18s ease,right .18s ease,transform .18s ease}
+.vava-booking-field-switch input:checked+i{border-color:#747a4e;background:#747a4e}
+/* Do not inherit WordPress admin's outer RTL direction. The active content
+ * language alone controls the knob position, so English toggles cannot flip
+ * outside their track while the dashboard itself is Arabic. */
+.vava-booking-admin[data-active-language="en"] .vava-booking-field-switch i:after{left:4px;right:auto;transform:none}
+.vava-booking-admin[data-active-language="en"] .vava-booking-field-switch input:checked+i:after{left:29px;right:auto;transform:none}
+.vava-booking-admin[data-active-language="ar"] .vava-booking-field-switch i:after{right:4px;left:auto;transform:none}
+.vava-booking-admin[data-active-language="ar"] .vava-booking-field-switch input:checked+i:after{right:29px;left:auto;transform:none}
+.vava-booking-field-switch>span{position:absolute;top:8px;font:800 9px/1 Arial,sans-serif;pointer-events:none}.vava-booking-field-switch .is-on{inset-inline-start:8px;color:#fff;opacity:0}.vava-booking-field-switch .is-off{inset-inline-end:7px;color:#737b70}.vava-booking-field-switch input:checked~.is-on{opacity:1}.vava-booking-field-switch input:checked~.is-off{opacity:0}
+.vava-booking-protected-iban{display:grid;gap:7px;padding:12px;border:1px solid #cbd8c6;border-radius:11px;background:#f0f5ed}.vava-booking-protected-iban strong{color:#53624e;letter-spacing:.08em}.vava-booking-protected-iban small{color:#758170;line-height:1.55}
+
+.vava-booking-preview-service{
+  display:grid!important;
+  grid-template-columns:230px minmax(0,1fr)!important;
+  gap:0!important;
+  padding:0!important;
+  overflow:hidden;
+  direction:ltr;
+}
+.vava-booking-preview-service-aside{
+  display:grid;
+  align-content:stretch;
+  padding:10px 18px;
+  background:#747a4e;
+  color:#fff;
+  direction:rtl;
+}
+.vava-booking-preview-service-aside>span{
+  display:grid!important;
+  gap:3px!important;
+  margin:0!important;
+  padding:13px 0!important;
+  border-bottom:1px solid rgba(255,255,255,.2);
+  border-radius:0!important;
+  background:transparent!important;
+  color:#fff!important;
+}
+.vava-booking-preview-service-aside>span:last-child{border-bottom:0}
+.vava-booking-preview-service-aside small{color:rgba(255,255,255,.72)!important;font-size:11px!important}
+.vava-booking-preview-service-aside b{color:#fff;font-size:16px;line-height:1.45}
+.vava-booking-preview-service-main{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  min-width:0;
+  padding:20px;
+  background:rgba(255,255,255,.76);
+  direction:rtl;
+}
+.vava-booking-preview-service-main>.vava-booking-preview-image{
+  flex:0 0 180px;
+  width:180px;
+  min-height:180px;
+}
+.vava-booking-preview-service-main>div:last-child{
+  display:block!important;
+  flex:1;
+  min-width:0;
+  margin:0!important;
+}
+.vava-booking-preview-service-main strong{font-size:24px}
+.vava-booking-preview-service-main p{margin:7px 0 0}
+.vava-booking-preview-form>div{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.vava-booking-preview-form label.is-wide{grid-column:1/-1!important}
+.vava-booking-preview-actions button[data-preview-secondary]{display:none!important}
+
+/* VAVA_BOOKING_WHATSAPP_COUNTRY_SELECTOR_PREVIEW_V1 */
+.vava-booking-preview-form .vava-booking-preview-whatsapp{
+  grid-column:1/-1;
+  display:grid;
+  gap:7px;
+  color:#69645d;
+  font-size:11px;
+}
+.vava-booking-preview-whatsapp>div{
+  display:grid;
+  grid-template-columns:minmax(230px,.9fr) minmax(0,1.1fr);
+  gap:10px;
+}
+.vava-booking-preview-whatsapp i{
+  min-height:42px;
+  border:1px solid #d8d4c9;
+  border-radius:10px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+  color:#7d796f;
+  font-style:normal;
+  font-size:10px;
+}
+.vava-booking-preview-whatsapp i:last-child{direction:ltr;justify-content:flex-start}
+
+/* V1.15 — working-day switches match customer-field toggles, without ON/OFF text. */
+.vava-booking-days{gap:11px}
+.vava-booking-day{
+  grid-template-columns:minmax(180px,1fr) minmax(150px,.65fr) minmax(150px,.65fr);
+  min-height:74px;
+  padding:14px 16px;
+  border-color:#d5dfcf;
+  border-radius:14px;
+  background:#eef3e9;
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease,opacity .18s ease;
+}
+.vava-booking-day-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.vava-booking-day-heading>strong{color:#4e5948;font-size:14px;font-weight:800}
+.vava-booking-day-switch{flex:0 0 auto;min-width:54px}
+.vava-booking-day.is-open{border-color:#c8d5c1;box-shadow:0 6px 18px rgba(70,82,60,.04)}
+.vava-booking-day.is-closed{border-color:#e0e2dc;background:#f4f4f1;box-shadow:none}
+.vava-booking-day.is-closed .vava-booking-day-heading>strong{color:#858a81}
+.vava-booking-day.is-closed>label:not(.vava-booking-day-switch){opacity:.55}
+.vava-booking-day.is-closed input[type="time"]{
+  pointer-events:none;
+  border-color:#dedfd9!important;
+  background:#ecece8!important;
+  color:#969991!important;
+  cursor:not-allowed!important;
+}
+.vava-booking-day input[type="time"][aria-disabled="false"]{opacity:1}
+@media(max-width:1100px){
+  .vava-booking-day{grid-template-columns:1fr 1fr}
+  .vava-booking-day-heading{grid-column:1/-1}
+}
+@media(max-width:600px){
+  .vava-booking-day{grid-template-columns:1fr}
+  .vava-booking-day-heading{grid-column:auto}
+}
+
+/* VAVA_BOOKING_STAGE2_CORAL_PREVIEW_V1 */
+.vava-booking-preview-progress>span:nth-of-type(2).is-active b,
+.vava-booking-preview-progress>span:nth-of-type(2).is-complete b,
+.vava-booking-preview-progress>span:nth-of-type(4).is-active b{
+  background:#db7d61!important;
+  color:#fff!important;
+}
+.vava-booking-preview-progress>span:nth-of-type(2).is-complete b{
+  font-size:0!important;
+}
+.vava-booking-preview-progress>span:nth-of-type(2).is-complete b::before{
+  content:"✓";
+  color:#fff;
+  font-size:16px;
+  line-height:1;
+}
+
+/* VAVA_BOOKING_QUESTIONNAIRE_ADMIN_ACCORDIONS_V1 */
+.vava-questionnaire-admin-panel:not(.is-active){display:none}.vava-questionnaire-admin-accordions{display:grid;gap:14px}.vava-questionnaire-admin-accordion{border:1px solid #dfe1d1;border-radius:18px;background:#fff;overflow:hidden}.vava-questionnaire-admin-accordion>header{display:flex;align-items:center;gap:12px;padding:14px;background:#fbfbf6}.vava-questionnaire-admin-accordion>header>button{flex:1;border:0;background:transparent;display:flex;align-items:center;gap:12px;text-align:start;cursor:pointer}.vava-questionnaire-admin-accordion>header>button>span{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#f1f2e8;font-size:21px}.vava-questionnaire-admin-accordion>header h4{margin:0 0 3px;font-size:18px;color:#4d503a}.vava-questionnaire-admin-accordion>header p{margin:0;color:#767266;font-size:12px}.vava-questionnaire-admin-accordion>header i{margin-inline-start:auto;font-style:normal;transition:transform .2s}.vava-questionnaire-admin-accordion.is-open>header i{transform:rotate(180deg)}.vava-questionnaire-admin-body{padding:16px;border-top:1px solid #e8e8dc}.vava-questionnaire-group-accordions{display:grid;gap:8px;margin-top:15px}.vava-questionnaire-group-accordion{border:1px solid #e4e4d8;border-radius:13px;overflow:hidden}.vava-questionnaire-group-accordion>button{width:100%;border:0;background:#fafaf5;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:start}.vava-questionnaire-group-accordion>button b{color:#55583f}.vava-questionnaire-group-accordion>button span{margin-inline-start:auto;background:#eef0e5;border-radius:99px;padding:4px 9px;font-size:11px}.vava-questionnaire-group-accordion>button i{font-style:normal}.vava-questionnaire-group-admin-body{padding:14px;background:#fff}.vava-questionnaire-field-admin-list{display:grid;gap:8px;margin-top:12px}.vava-questionnaire-field-admin-row{display:grid;grid-template-columns:minmax(110px,.45fr) auto minmax(220px,1fr);gap:10px;align-items:center;padding:9px;border:1px solid #ecece2;border-radius:10px}.vava-questionnaire-field-admin-row>span{font-family:monospace;color:#888}.vava-questionnaire-field-admin-row>label{display:flex;align-items:center;gap:5px;font-size:11px}.vava-questionnaire-field-admin-row>input{width:100%;min-height:39px}.vava-questionnaire-lang-copy[hidden],.vava-questionnaire-admin-language[hidden]{display:none!important}.vava-questionnaire-admin-accordion:not(.is-open) .vava-questionnaire-admin-body,.vava-questionnaire-group-accordion:not(.is-open) .vava-questionnaire-group-admin-body{display:none}.vava-booking-questionnaire-detail dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.vava-booking-questionnaire-detail dl>div{padding:10px;background:#f8f8f2;border-radius:10px}.vava-booking-questionnaire-detail dt{font-size:11px;color:#817c70}.vava-booking-questionnaire-detail dd{margin:5px 0 0;font-weight:700;color:#4f4d44}.vava-booking-questionnaire-meta{color:#858073;font-size:12px}
+@media(max-width:900px){.vava-questionnaire-field-admin-row{grid-template-columns:1fr}.vava-booking-questionnaire-detail dl{grid-template-columns:1fr}}
+.vava-questionnaire-option-admin-list{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:9px;background:#f7f7f1;border-radius:9px}.vava-questionnaire-option-admin-list>small{grid-column:1/-1;color:#787469;font-weight:700}.vava-questionnaire-option-admin-list label input{width:100%}@media(max-width:720px){.vava-questionnaire-option-admin-list{grid-template-columns:1fr}}
+
+/* VAVA_BOOKING_ADMIN_TABS_SINGLE_ROW_CORRECTIVE_V1
+ * All booking-settings tabs stay in one row; small screens scroll horizontally.
+ */
+#vava_homepage_settings .vava-booking-admin-toolbar{
+  overflow:hidden!important;
+}
+#vava_homepage_settings .vava-booking-admin-tabs{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  align-items:stretch!important;
+  gap:7px!important;
+  width:100%!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  scrollbar-width:thin!important;
+  scroll-snap-type:x proximity;
+}
+#vava_homepage_settings .vava-booking-admin-tabs button{
+  flex:1 0 118px!important;
+  width:auto!important;
+  min-width:118px!important;
+  min-height:78px!important;
+  scroll-snap-align:start;
+}
+#vava_homepage_settings .vava-booking-admin-tabs button>b{
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+@media(min-width:1180px){
+  #vava_homepage_settings .vava-booking-admin-tabs button{
+    flex:1 1 0!important;
+    min-width:0!important;
+  }
+}

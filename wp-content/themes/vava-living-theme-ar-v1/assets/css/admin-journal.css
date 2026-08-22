@@ -1,0 +1,248 @@
+/* Advanced VAVA Journal editor. */
+.vava-journal-admin .vava-field-full{grid-column:1/-1}
+@media(min-width:901px){#vava_homepage_settings .vava-journal-admin .vava-section-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+.vava-journal-admin .vava-journal-media-field{display:block!important;padding:16px;border:1px solid var(--vava-admin-line);border-radius:10px;background:#fff}
+.vava-journal-admin .vava-journal-media-field .vava-media-field{height:auto;padding:0;border:0;background:transparent}
+.vava-journal-admin .vava-journal-media-field .vava-media-dropzone{display:block;width:100%;min-height:210px;padding:0;border:2px dashed #b9c4ce;border-radius:13px;background:#fafcfd;cursor:pointer;overflow:hidden}
+.vava-journal-admin .vava-journal-media-field .vava-media-dropzone:hover,.vava-journal-admin .vava-journal-media-field .vava-media-dropzone:focus{border-color:var(--vava-admin-accent);background:#f3f8f0;outline:0;box-shadow:0 0 0 3px rgba(111,129,95,.12)}
+.vava-journal-admin .vava-journal-media-field .vava-media-preview{display:grid;place-items:center;min-height:206px;padding:14px;background:transparent}
+.vava-journal-admin .vava-journal-media-field .vava-media-preview img{display:block;width:100%;height:220px;max-height:220px;object-fit:contain;border-radius:9px;background:#edf0f2}
+.vava-journal-admin .vava-journal-media-field .vava-media-actions{display:flex;gap:10px;margin-top:11px}
+
+.vava-journal-query-settings{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.75fr);gap:16px;align-items:start}
+.vava-journal-query-settings>.vava-admin-field,.vava-journal-query-side>.vava-admin-field{padding:17px;border:1px solid #dfe4dc;border-radius:12px;background:#fff}
+.vava-journal-query-side{display:grid;gap:16px}
+.vava-journal-query-settings .description{margin:7px 0 13px;color:#6f7a70;line-height:1.65}
+.vava-journal-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-height:320px;padding:2px;overflow:auto}
+.vava-journal-category-option{position:relative;display:flex;align-items:center;gap:10px;min-width:0;padding:12px;border:1px solid #dfe4dc;border-radius:11px;background:#fbfcfa;cursor:pointer;transition:border-color .18s ease,background .18s ease,box-shadow .18s ease}
+.vava-journal-category-option:hover{border-color:#aebba7;background:#f5f8f3}
+.vava-journal-category-option:has(input:checked){border-color:#718160;background:#f1f5ee;box-shadow:0 0 0 2px rgba(111,129,95,.09)}
+.vava-journal-category-option input{margin:0}
+.vava-journal-category-option span{display:grid;min-width:0;gap:3px}
+.vava-journal-category-option strong{overflow:hidden;color:#465442;text-overflow:ellipsis;white-space:nowrap}
+.vava-journal-category-option small{color:#7b867c;font-size:11px}
+.vava-journal-featured-field{position:relative;min-width:0}
+.vava-journal-featured-picker{position:relative;min-width:0;margin-top:9px}
+.vava-journal-featured-native{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.vava-journal-featured-trigger{display:flex;width:100%;min-width:0;min-height:46px;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;border:1px solid #b8c4b3;border-radius:10px;background:#fff;color:#344034;text-align:start;cursor:pointer;box-shadow:0 1px 2px rgba(45,57,45,.04);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+.vava-journal-featured-trigger:hover,.vava-journal-featured-trigger:focus{border-color:#718160;background:#fbfdf9;outline:0;box-shadow:0 0 0 3px rgba(111,129,95,.12)}
+.vava-journal-featured-trigger>span{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+.vava-journal-featured-trigger svg{flex:0 0 auto;width:18px;height:18px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2;transition:transform .18s ease}
+.vava-journal-featured-picker.is-open .vava-journal-featured-trigger svg{transform:rotate(180deg)}
+.vava-journal-featured-popover{position:fixed;z-index:100000;width:min(580px,calc(100vw - 32px));max-width:calc(100vw - 32px);max-height:calc(100vh - 32px);margin:0;padding:12px;overflow:hidden;border:1px solid #d9e0d5;border-radius:15px;background:#fff;box-shadow:0 28px 80px rgba(42,51,41,.24)}
+.vava-journal-featured-popover[hidden]{display:none!important}
+.vava-journal-featured-search-wrap{display:flex;align-items:center;gap:8px;padding:0 10px;border:1px solid #d9e0d5;border-radius:9px;background:#f8faf7}
+.vava-journal-featured-search-wrap svg{width:17px;height:17px;fill:none;stroke:#718160;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}
+.vava-journal-featured-search-wrap input{width:100%;min-width:0;height:40px;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}
+.vava-journal-featured-options{display:grid;gap:6px;max-height:min(520px,calc(100vh - 126px));margin-top:9px;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.vava-journal-featured-option{display:grid;width:100%;min-width:0;gap:3px;padding:10px 11px;border:1px solid transparent;border-radius:9px;background:transparent;color:#3f493e;text-align:start;cursor:pointer}
+.vava-journal-featured-option[hidden],.vava-journal-featured-option.is-filtered-out{display:none!important}
+.vava-journal-featured-option:hover,.vava-journal-featured-option:focus{border-color:#d8e0d4;background:#f5f8f3;outline:0}
+.vava-journal-featured-option.is-selected{border-color:#9eae95;background:#eef4eb;box-shadow:inset 3px 0 0 #718160}
+[dir=rtl] .vava-journal-featured-option.is-selected{box-shadow:inset -3px 0 0 #718160}
+.vava-journal-featured-option-title{display:-webkit-box;min-width:0;overflow:hidden;font-weight:700;line-height:1.5;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+.vava-journal-featured-option small{color:#7c877d;font-size:11px}
+.vava-journal-featured-no-match{margin:8px 0 0;padding:12px;border-radius:8px;background:#fafbf9;color:#768078;text-align:center}
+.vava-journal-count-field input{width:110px!important;min-height:44px;font-size:18px;font-weight:700;text-align:center}
+.vava-journal-no-categories{padding:20px;border:1px dashed #c7d0c3;border-radius:10px;color:#788378;text-align:center;background:#fafcf9}
+
+#vava_live_preview_box .vava-journal-preview{width:900px;min-height:500px}
+#vava_live_preview_box .vava-live-preview[data-journal-preview-panel] .vava-preview-stage{min-height:0}
+#vava_live_preview_box .vava-live-preview[data-journal-preview-panel] .vava-preview-viewport{background:linear-gradient(145deg,#eef1ed,#e7ebe5)}
+.vava-journal-preview{position:relative;min-height:500px;padding:42px;overflow:hidden;background:radial-gradient(circle at 12% 8%,rgba(225,184,162,.2),transparent 28%),radial-gradient(circle at 90% 0%,rgba(153,180,170,.2),transparent 30%),#f7f1e8;color:#575247;box-sizing:border-box}
+.vava-journal-preview h3,.vava-journal-preview h4{margin:0;color:#4b473b;font-family:Georgia,"Times New Roman",serif;font-weight:500;line-height:1.35}
+.vava-journal-preview p,.vava-journal-preview small{color:#657064;line-height:1.8;white-space:pre-line}
+.vava-journal-preview-hero{display:grid;grid-template-columns:1.04fr .96fr;gap:52px;align-items:center}
+.vava-journal-preview-hero-copy span{display:block;margin-bottom:12px;color:#6f815f;font-size:13px;font-weight:700;letter-spacing:.08em}
+.vava-journal-preview-hero-copy h3{font-size:44px}
+.vava-journal-preview-hero-copy p{margin:18px 0 0;font-size:15px}
+.vava-journal-preview-hero-copy small{display:block;margin-top:12px;font-size:12px}
+.vava-journal-preview-hero-image{min-height:390px;border:1px solid rgba(255,255,255,.68);border-radius:44px;background-position:center;background-size:cover;box-shadow:0 22px 62px rgba(85,78,59,.11)}
+
+.vava-journal-preview-articles{display:block;padding:38px 30px 42px}
+.vava-journal-preview-articles-head{max-width:700px;margin:0 auto 26px;text-align:center}
+.vava-journal-preview-articles-head h3{font-size:38px}
+.vava-journal-preview-articles-head p{margin:12px 0 0;font-size:13px}
+.vava-journal-preview-editorial{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1.42fr);gap:14px;align-items:stretch}
+.vava-journal-preview[dir="rtl"] .vava-journal-preview-editorial{direction:rtl}
+.vava-journal-preview[dir="ltr"] .vava-journal-preview-editorial{direction:ltr}
+.vava-journal-preview-featured-column{display:flex;min-width:0;min-height:0;align-self:stretch}
+.vava-journal-preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch;align-content:start;margin-top:0!important;direction:inherit}
+.vava-journal-preview-grid.is-full-width{grid-column:1/-1;grid-template-columns:repeat(4,minmax(0,1fr))}
+.vava-journal-preview-card{--preview-tint:rgba(153,180,170,.12);--preview-line:rgba(118,148,137,.23);--preview-cta:#cf7d65;--preview-cta-shadow:rgba(207,125,101,.16);position:relative;display:flex;min-width:0;height:100%;flex-direction:column;padding:11px;overflow:hidden;border:1px solid var(--preview-line);border-radius:22px;background:linear-gradient(145deg,rgba(255,251,244,.96),var(--preview-tint));box-shadow:0 12px 38px rgba(62,70,58,.055)}
+.vava-journal-preview-grid .vava-journal-preview-card:nth-child(even){--preview-cta:#6b6d43;--preview-cta-shadow:rgba(107,109,67,.18)}
+.vava-journal-preview-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.55),transparent 42%);pointer-events:none}
+.vava-journal-preview-card.is-featured{height:100%;min-height:100%;--preview-tint:rgba(188,177,123,.14);--preview-line:rgba(151,148,98,.27)}
+.vava-journal-preview-grid .vava-journal-preview-card:nth-child(3n+2){--preview-tint:rgba(207,125,101,.1);--preview-line:rgba(207,125,101,.21)}
+.vava-journal-preview-grid .vava-journal-preview-card:nth-child(3n){--preview-tint:rgba(188,177,123,.15);--preview-line:rgba(171,166,111,.25)}
+.vava-journal-preview-grid .vava-journal-preview-card:nth-child(4n){--preview-tint:rgba(242,222,199,.23);--preview-line:rgba(207,183,154,.24)}
+.vava-journal-preview-thumb{position:relative;z-index:1;width:100%;aspect-ratio:16/9;overflow:hidden;border:1px solid rgba(255,255,255,.58);border-radius:15px;background:#e9ece6 center/cover no-repeat}
+.vava-journal-preview-card.is-featured .vava-journal-preview-thumb{flex:1 1 auto;height:auto;min-height:250px;max-height:none;aspect-ratio:auto;border-radius:18px}
+.vava-journal-preview-featured{position:absolute;top:10px;inset-inline-start:10px;padding:6px 10px;border-radius:999px;background:#cf7d65;color:#fff;font-size:8px;font-weight:700;box-shadow:0 7px 18px rgba(207,125,101,.2)}
+.vava-journal-preview-featured::before{content:"✦";margin-inline-end:4px;font-size:7px}
+.vava-journal-preview-card-body{position:relative;z-index:1;display:flex;flex:1;flex-direction:column;padding:10px 2px 2px}
+.vava-journal-preview-card.is-featured .vava-journal-preview-card-body{flex:none;padding:14px 5px 3px}
+.vava-journal-preview-card-footer{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-top:auto;padding-top:2px}
+.vava-journal-preview-category{min-width:0;color:#6f815f;font-size:8px;font-weight:700;line-height:1.4}
+.vava-journal-preview-card h4{font-size:14px;line-height:1.45}
+.vava-journal-preview-card.is-featured h4{font-size:23px}
+.vava-journal-preview-card p{display:-webkit-box;overflow:hidden;margin:7px 0 10px;font-size:8px;line-height:1.65;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+.vava-journal-preview-card.is-featured p{font-size:10px;-webkit-line-clamp:4}
+.vava-journal-preview-card b{position:relative;display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;gap:5px;min-height:26px;padding:5px 10px;border-radius:999px;background:var(--preview-cta);color:#fff;font-size:8px;font-weight:700;font-style:normal;box-shadow:0 6px 15px var(--preview-cta-shadow)}
+.vava-journal-preview-card b i{font-style:normal}.vava-journal-preview[dir="ltr"] .vava-journal-preview-card b i{transform:scaleX(-1)}
+.vava-journal-preview-empty{grid-column:1/-1;padding:30px;border:1px dashed rgba(111,129,95,.28);border-radius:20px;text-align:center}
+.vava-journal-preview-pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:24px}.vava-journal-preview[dir="rtl"] .vava-journal-preview-pagination{direction:rtl}.vava-journal-preview[dir="ltr"] .vava-journal-preview-pagination{direction:ltr}
+.vava-journal-preview-pagination i,.vava-journal-preview-pagination button{display:inline-flex;align-items:center;justify-content:center;gap:4px;width:27px;height:27px;padding:0;border:1px solid rgba(111,129,95,.2);border-radius:999px;background:#fff;color:#6f815f;font-style:normal;font-size:8px;font-weight:700;box-sizing:border-box}
+.vava-journal-preview-pagination button{width:auto;min-width:70px;padding:0 9px;border-color:rgba(107,109,67,.32);background:#6b6d43;color:#fff}
+.vava-journal-preview-pagination button span{font-size:11px}.vava-journal-preview-pagination i.is-current{border-color:#6b6d43;background:#6b6d43;color:#fff}
+
+@media(max-width:1000px){.vava-journal-query-settings{grid-template-columns:1fr}.vava-journal-category-grid{grid-template-columns:1fr}}
+@media(max-width:782px){
+  .vava-journal-featured-popover{width:calc(100vw - 32px)!important;max-height:calc(100vh - 32px)}
+  .vava-journal-featured-options{max-height:calc(100vh - 126px)}
+  .vava-journal-admin .vava-field-full{grid-column:auto}
+  .vava-journal-preview-hero{grid-template-columns:1fr}
+  .vava-journal-preview-editorial{grid-template-columns:1fr;align-items:start}
+  .vava-journal-preview-featured-column{display:block;align-self:start}
+  .vava-journal-preview-card.is-featured{height:auto;min-height:0}
+  .vava-journal-preview-card.is-featured .vava-journal-preview-thumb{flex:none;height:250px;min-height:0;max-height:250px}
+  .vava-journal-preview-grid,.vava-journal-preview-grid.is-full-width{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vava-journal-admin .vava-journal-media-field .vava-media-preview img{height:170px;max-height:170px}
+}
+
+/* V1.9.0 — approved Journal settings composition. */
+.vava-journal-admin .vava-journal-copy-settings{display:grid;gap:16px;grid-column:1/-1}
+.vava-journal-admin .vava-journal-copy-card{padding:18px;border:1px solid #dfe4dc;border-radius:15px;background:linear-gradient(145deg,#fff,#fbfcfa);box-shadow:0 10px 28px rgba(48,61,47,.045)}
+.vava-journal-admin .vava-journal-copy-heading{display:flex;align-items:flex-start;gap:12px;margin-bottom:15px}
+.vava-journal-admin .vava-journal-copy-heading h3{margin:0;color:#354132;font-size:16px}
+.vava-journal-admin .vava-journal-copy-heading p{margin:5px 0 0;color:#7a847a;line-height:1.65}
+.vava-journal-admin .vava-journal-copy-icon,.vava-journal-admin .vava-journal-field-icon{display:grid;flex:0 0 auto;place-items:center;width:38px;height:38px;border-radius:10px;background:#eef4eb;color:#6b6d43}
+.vava-journal-admin .vava-journal-copy-icon svg,.vava-journal-admin .vava-journal-field-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8}
+.vava-journal-admin .vava-journal-copy-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vava-journal-admin .vava-journal-copy-row-large{align-items:stretch}
+.vava-journal-admin .vava-journal-copy-field{position:relative;min-width:0;padding:15px;border:1px solid #e1e6df;border-radius:12px;background:#fff}
+.vava-journal-admin .vava-journal-copy-field>.vava-journal-field-icon{position:absolute;top:12px;inset-inline-end:12px;width:32px;height:32px}
+.vava-journal-admin .vava-journal-copy-field>.vava-field{padding:0;border:0;background:transparent}
+.vava-journal-admin .vava-journal-copy-field>.vava-journal-field-icon+.vava-field label{padding-inline-end:42px}
+.vava-journal-admin .vava-journal-copy-field textarea{min-height:160px;resize:vertical}
+.vava-journal-admin .vava-journal-copy-field input{min-height:46px}
+
+.vava-journal-query-settings{grid-template-columns:minmax(0,1.6fr) minmax(290px,.72fr);gap:18px;align-items:start}
+.vava-journal-query-settings>.vava-admin-field,.vava-journal-query-side>.vava-admin-field{border-radius:15px;background:linear-gradient(145deg,#fff,#fbfcfa);box-shadow:0 10px 28px rgba(48,61,47,.045)}
+.vava-journal-categories-field{min-width:0}
+.vava-journal-query-heading{display:flex;justify-content:space-between;gap:16px}
+.vava-journal-featured-count-card{display:grid!important;gap:18px}
+.vava-journal-featured-count-card .vava-journal-count-field{padding-top:17px;border-top:1px solid #e2e7df}
+.vava-journal-featured-count-card .vava-journal-count-field label{display:block;margin-bottom:8px}
+.vava-journal-display-mode{margin-top:18px;padding-top:18px;border-top:1px solid #e2e7df}
+.vava-journal-display-mode h4,.vava-journal-category-priority h4{margin:0 0 10px;color:#40503d;font-size:14px}
+.vava-journal-mode-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.vava-journal-mode-option{display:flex;align-items:flex-start;gap:10px;min-width:0;padding:12px;border:1px solid #dfe4dc;border-radius:11px;background:#fbfcfa;cursor:pointer;transition:.18s ease}
+.vava-journal-mode-option:hover{border-color:#aebba7;background:#f5f8f3}
+.vava-journal-mode-option:has(input:checked){border-color:#718160;background:#eef4eb;box-shadow:0 0 0 2px rgba(111,129,95,.08)}
+.vava-journal-mode-option input{margin-top:3px}
+.vava-journal-mode-option span{display:grid;gap:3px;min-width:0}
+.vava-journal-mode-option strong{color:#465442}
+.vava-journal-mode-option small{color:#79847a;line-height:1.55}
+.vava-journal-category-priority{margin-top:16px;padding:15px;border:1px solid #e0e6dd;border-radius:12px;background:#f8faf7;transition:opacity .18s ease}
+.vava-journal-category-priority.is-disabled{opacity:.48;pointer-events:none}
+.vava-journal-priority-list{display:grid;gap:7px}
+.vava-journal-priority-item{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;padding:9px 11px;border:1px solid #d9e1d5;border-radius:9px;background:#fff;color:#445241;cursor:grab;box-shadow:0 2px 8px rgba(52,65,50,.035)}
+.vava-journal-priority-item:active{cursor:grabbing}
+.vava-journal-priority-handle{color:#83907f;font-weight:700;letter-spacing:-2px}
+.vava-journal-priority-item small{display:grid;place-items:center;min-width:25px;height:25px;border-radius:999px;background:#eef3eb;color:#66755f;font-size:11px}
+.vava-journal-priority-placeholder{height:45px;border:1px dashed #91a28a;border-radius:9px;background:#f0f5ed}
+.vava-journal-priority-empty{margin:0;padding:12px;border:1px dashed #cbd4c7;border-radius:9px;color:#7b867c;text-align:center;background:#fff}
+.vava-journal-priority-empty[hidden]{display:none!important}
+
+@media(max-width:1000px){.vava-journal-query-settings{grid-template-columns:1fr}.vava-journal-mode-options{grid-template-columns:1fr}}
+@media(max-width:782px){.vava-journal-admin .vava-journal-copy-row{grid-template-columns:1fr}}
+
+/* VAVA_JOURNAL_ARTICLE_VISIBILITY_LAYOUT_V1 */
+.vava-journal-query-settings.is-stacked{
+  display:grid;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:16px;
+}
+.vava-journal-query-settings.is-stacked>.vava-admin-field{
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+}
+.vava-journal-query-settings.is-stacked .vava-journal-featured-count-card{
+  order:1;
+  grid-template-columns:minmax(0,1fr) minmax(180px,.32fr);
+  align-items:start;
+}
+.vava-journal-query-settings.is-stacked .vava-journal-featured-count-card .vava-journal-count-field{
+  padding-top:0;
+  padding-inline-start:18px;
+  border-top:0;
+  border-inline-start:1px solid #e2e7df;
+}
+.vava-journal-query-settings.is-stacked .vava-journal-categories-field{order:2}
+.vava-journal-copy-row-single{grid-template-columns:minmax(0,1fr)!important}
+.vava-journal-show-articles-toggle{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  align-items:center;
+  gap:13px;
+  margin:0 0 14px;
+  padding:14px;
+  border:1px solid #dce4d8;
+  border-radius:12px;
+  background:#f6f9f4;
+  cursor:pointer;
+}
+.vava-journal-show-articles-toggle input{
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+}
+.vava-journal-toggle-ui{
+  position:relative;
+  display:block;
+  width:48px;
+  height:26px;
+  border-radius:999px;
+  background:#c7cec2;
+  box-shadow:inset 0 0 0 1px rgba(63,76,60,.08);
+  transition:.18s ease;
+}
+.vava-journal-toggle-ui::after{
+  content:"";
+  position:absolute;
+  top:4px;
+  inset-inline-start:4px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 6px rgba(40,50,39,.18);
+  transition:.18s ease;
+}
+.vava-journal-show-articles-toggle input:checked+.vava-journal-toggle-ui{background:#718160}
+.vava-journal-show-articles-toggle input:checked+.vava-journal-toggle-ui::after{transform:translateX(22px)}
+[dir=rtl] .vava-journal-show-articles-toggle input:checked+.vava-journal-toggle-ui::after{transform:translateX(-22px)}
+.vava-journal-show-articles-toggle>span:last-child{display:grid;gap:4px;min-width:0}
+.vava-journal-show-articles-toggle strong{color:#3d4a39;font-size:14px}
+.vava-journal-show-articles-toggle small{color:#737f73;line-height:1.55}
+.vava-journal-admin.is-articles-disabled .vava-journal-query-settings{
+  opacity:.72;
+}
+.vava-journal-admin.is-articles-disabled .vava-journal-featured-count-card,
+.vava-journal-admin.is-articles-disabled .vava-journal-categories-field{
+  filter:saturate(.75);
+}
+@media(max-width:900px){
+  .vava-journal-query-settings.is-stacked .vava-journal-featured-count-card{grid-template-columns:1fr}
+  .vava-journal-query-settings.is-stacked .vava-journal-featured-count-card .vava-journal-count-field{
+    padding-top:17px;
+    padding-inline-start:0;
+    border-top:1px solid #e2e7df;
+    border-inline-start:0;
+  }
+}

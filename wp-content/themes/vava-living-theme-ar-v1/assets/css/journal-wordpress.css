@@ -1,0 +1,404 @@
+/* WordPress integration for the approved bilingual VAVA Journal page. */
+html[data-page="journal.html"] body.vava-journal-page,
+html[data-page="journal-en.html"] body.vava-journal-page{overflow-x:hidden}
+
+html[data-page="journal.html"] .vava-journal-hero-visual,
+html[data-page="journal-en.html"] .vava-journal-hero-visual{background-position:center;background-size:cover}
+
+html[data-page="journal.html"] .vava-journal-articles,
+html[data-page="journal-en.html"] .vava-journal-articles{min-height:auto;padding-top:82px;padding-bottom:110px;align-items:flex-start}
+
+html[data-page="journal.html"] .journal-section-head,
+html[data-page="journal-en.html"] .journal-section-head{max-width:760px;margin-inline:auto;margin-bottom:36px;text-align:center}
+
+html[data-page="journal.html"] .vava-journal-results,
+html[data-page="journal-en.html"] .vava-journal-results{position:relative;overflow-anchor:none;transition:opacity .22s ease,filter .22s ease}
+html[data-page="journal.html"] .vava-journal-results.is-loading,
+html[data-page="journal-en.html"] .vava-journal-results.is-loading{opacity:.48;filter:saturate(.75);pointer-events:none}
+html[data-page="journal.html"] .vava-journal-results.has-error,
+html[data-page="journal-en.html"] .vava-journal-results.has-error{opacity:1}
+
+/* Fixed editorial composition: featured article is independent from the paginated grid. */
+html[data-page="journal.html"] .vava-journal-editorial-layout,
+html[data-page="journal-en.html"] .vava-journal-editorial-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1.42fr);gap:22px;align-items:stretch}
+html[data-page="journal.html"] .vava-journal-editorial-layout{direction:rtl}
+html[data-page="journal-en.html"] .vava-journal-editorial-layout{direction:ltr}
+html[data-page="journal.html"] .vava-journal-featured-column,
+html[data-page="journal-en.html"] .vava-journal-featured-column{display:flex;min-width:0;min-height:0;align-self:stretch}
+html[data-page="journal.html"] .vava-journal-featured-column>.vava-journal-card-link,
+html[data-page="journal-en.html"] .vava-journal-featured-column>.vava-journal-card-link{display:flex;flex:1 1 auto;height:100%}
+
+html[data-page="journal.html"] .vava-journal-grid,
+html[data-page="journal-en.html"] .vava-journal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:stretch;align-content:start;margin-top:0!important;direction:inherit}
+html[data-page="journal.html"] .vava-journal-grid.is-full-width,
+html[data-page="journal-en.html"] .vava-journal-grid.is-full-width{grid-column:1/-1;grid-template-columns:repeat(4,minmax(0,1fr))}
+
+html[data-page="journal.html"] .vava-journal-card-link,
+html[data-page="journal-en.html"] .vava-journal-card-link{--journal-cta:#cf7d65;--journal-cta-hover:#c66f58;--journal-cta-shadow:rgba(207,125,101,.18);display:block;min-width:0;height:100%;color:inherit;text-decoration:none;outline:none}
+html[data-page="journal.html"] .vava-journal-grid .vava-journal-card-link:nth-child(even),
+html[data-page="journal-en.html"] .vava-journal-grid .vava-journal-card-link:nth-child(even){--journal-cta:#6b6d43;--journal-cta-hover:#5d6039;--journal-cta-shadow:rgba(107,109,67,.2)}
+html[data-page="journal.html"] .vava-journal-card-link.is-featured,
+html[data-page="journal-en.html"] .vava-journal-card-link.is-featured{display:flex;height:100%}
+
+html[data-page="journal.html"] .vava-journal-card,
+html[data-page="journal-en.html"] .vava-journal-card{
+  --journal-tint:rgba(153,180,170,.13);
+  --journal-line:rgba(118,148,137,.23);
+  position:relative;display:flex;height:100%;min-width:0;flex-direction:column;padding:15px;overflow:hidden;
+  border:1px solid var(--journal-line);border-radius:30px;
+  background:linear-gradient(145deg,rgba(255,251,244,.97),var(--journal-tint));
+  box-shadow:0 14px 44px rgba(85,78,59,.055);
+  transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease,background .35s ease;
+}
+html[data-page="journal.html"] .vava-journal-card.is-featured,
+html[data-page="journal-en.html"] .vava-journal-card.is-featured{height:100%;min-height:100%;--journal-tint:rgba(188,177,123,.14);--journal-line:rgba(151,148,98,.27)}
+html[data-page="journal.html"] .vava-journal-card::before,
+html[data-page="journal-en.html"] .vava-journal-card::before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,rgba(255,255,255,.58),transparent 42%);opacity:.7;pointer-events:none}
+html[data-page="journal.html"] .vava-journal-grid .vava-journal-card-link:nth-child(3n+2) .vava-journal-card,
+html[data-page="journal-en.html"] .vava-journal-grid .vava-journal-card-link:nth-child(3n+2) .vava-journal-card{--journal-tint:rgba(207,125,101,.105);--journal-line:rgba(207,125,101,.22)}
+html[data-page="journal.html"] .vava-journal-grid .vava-journal-card-link:nth-child(3n) .vava-journal-card,
+html[data-page="journal-en.html"] .vava-journal-grid .vava-journal-card-link:nth-child(3n) .vava-journal-card{--journal-tint:rgba(188,177,123,.15);--journal-line:rgba(171,166,111,.26)}
+html[data-page="journal.html"] .vava-journal-grid .vava-journal-card-link:nth-child(4n) .vava-journal-card,
+html[data-page="journal-en.html"] .vava-journal-grid .vava-journal-card-link:nth-child(4n) .vava-journal-card{--journal-tint:rgba(242,222,199,.24);--journal-line:rgba(207,183,154,.25)}
+html[data-page="journal.html"] .vava-journal-card-link:hover .vava-journal-card,
+html[data-page="journal.html"] .vava-journal-card-link:focus-visible .vava-journal-card,
+html[data-page="journal-en.html"] .vava-journal-card-link:hover .vava-journal-card,
+html[data-page="journal-en.html"] .vava-journal-card-link:focus-visible .vava-journal-card{transform:translateY(-7px);border-color:rgba(207,125,101,.34);box-shadow:0 28px 72px rgba(85,78,59,.12)}
+
+html[data-page="journal.html"] .vava-journal-card-thumb,
+html[data-page="journal-en.html"] .vava-journal-card-thumb{position:relative;z-index:1;width:100%;aspect-ratio:16/9;margin-bottom:0;overflow:hidden;border:1px solid rgba(255,255,255,.64);border-radius:22px;background-color:#e9ece6;background-position:center;background-repeat:no-repeat;background-size:cover;box-shadow:0 10px 30px rgba(85,78,59,.045);transition:transform .55s cubic-bezier(.2,.7,.2,1),filter .35s ease}
+html[data-page="journal.html"] .vava-journal-card.is-featured .vava-journal-card-thumb,
+html[data-page="journal-en.html"] .vava-journal-card.is-featured .vava-journal-card-thumb{flex:1 1 auto;height:auto;aspect-ratio:auto;min-height:clamp(300px,28vw,410px);max-height:none;border-radius:25px}
+html[data-page="journal.html"] .vava-journal-card-link:hover .vava-journal-card-thumb,
+html[data-page="journal.html"] .vava-journal-card-link:focus-visible .vava-journal-card-thumb,
+html[data-page="journal-en.html"] .vava-journal-card-link:hover .vava-journal-card-thumb,
+html[data-page="journal-en.html"] .vava-journal-card-link:focus-visible .vava-journal-card-thumb{transform:scale(1.018);filter:saturate(1.04)}
+
+html[data-page="journal.html"] .vava-journal-featured-badge,
+html[data-page="journal-en.html"] .vava-journal-featured-badge{position:absolute;top:16px;inset-inline-start:16px;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid rgba(255,255,255,.34);border-radius:999px;background:#cf7d65;color:#fff;font-size:12px;font-weight:700;line-height:1;box-shadow:0 9px 24px rgba(207,125,101,.22);backdrop-filter:blur(7px)}
+html[data-page="journal.html"] .vava-journal-featured-badge::before,
+html[data-page="journal-en.html"] .vava-journal-featured-badge::before{content:"✦";font-size:10px}
+
+html[data-page="journal.html"] .vava-journal-card-content,
+html[data-page="journal-en.html"] .vava-journal-card-content{position:relative;z-index:1;display:flex;flex:1;flex-direction:column;padding:18px 5px 5px}
+html[data-page="journal.html"] .vava-journal-card.is-featured .vava-journal-card-content,
+html[data-page="journal-en.html"] .vava-journal-card.is-featured .vava-journal-card-content{flex:none;padding:24px 10px 9px}
+html[data-page="journal.html"] .vava-journal-card-footer,
+html[data-page="journal-en.html"] .vava-journal-card-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:3px}
+html[data-page="journal.html"] .vava-journal-card-category,
+html[data-page="journal-en.html"] .vava-journal-card-category{display:inline-flex;align-items:center;min-width:0;color:var(--olive);font-size:12px;font-weight:700;line-height:1.45}
+html[data-page="journal.html"] .vava-journal-card h3,
+html[data-page="journal-en.html"] .vava-journal-card h3{min-height:0!important;margin:0 0 10px!important;color:var(--ink);font-size:clamp(18px,1.3vw,23px)!important;line-height:1.5!important}
+html[data-page="journal.html"] .vava-journal-card.is-featured h3,
+html[data-page="journal-en.html"] .vava-journal-card.is-featured h3{font-size:clamp(25px,2.15vw,36px)!important;line-height:1.42!important}
+html[data-page="journal.html"] .vava-journal-card p,
+html[data-page="journal-en.html"] .vava-journal-card p{display:-webkit-box;overflow:hidden;margin:0 0 18px!important;color:rgba(87,82,71,.76)!important;font-size:13px!important;line-height:1.82!important;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+html[data-page="journal.html"] .vava-journal-card.is-featured p,
+html[data-page="journal-en.html"] .vava-journal-card.is-featured p{font-size:15px!important;line-height:1.9!important;-webkit-line-clamp:4}
+
+/* Coral article CTA with a restrained shine. */
+html[data-page="journal.html"] .vava-journal-read-more,
+html[data-page="journal-en.html"] .vava-journal-read-more{position:relative;display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:10px 18px;overflow:hidden;border:1px solid color-mix(in srgb,var(--journal-cta) 32%,transparent);border-radius:999px;background:var(--journal-cta);color:#fff;font-size:13px;font-weight:700;box-shadow:0 9px 24px var(--journal-cta-shadow);transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+html[data-page="journal.html"] .vava-journal-read-more::before,
+html[data-page="journal-en.html"] .vava-journal-read-more::before{content:"";position:absolute;top:-55%;bottom:-55%;left:-48%;width:38%;transform:skewX(-24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.48),transparent);transition:left .55s ease}
+html[data-page="journal.html"] .vava-journal-card-link:hover .vava-journal-read-more,
+html[data-page="journal.html"] .vava-journal-card-link:focus-visible .vava-journal-read-more,
+html[data-page="journal-en.html"] .vava-journal-card-link:hover .vava-journal-read-more,
+html[data-page="journal-en.html"] .vava-journal-card-link:focus-visible .vava-journal-read-more{transform:translateY(-2px);background:var(--journal-cta-hover);box-shadow:0 13px 30px var(--journal-cta-shadow)}
+html[data-page="journal.html"] .vava-journal-card-link:hover .vava-journal-read-more::before,
+html[data-page="journal.html"] .vava-journal-card-link:focus-visible .vava-journal-read-more::before,
+html[data-page="journal-en.html"] .vava-journal-card-link:hover .vava-journal-read-more::before,
+html[data-page="journal-en.html"] .vava-journal-card-link:focus-visible .vava-journal-read-more::before{left:112%}
+html[data-page="journal-en.html"] .vava-journal-read-more>span[aria-hidden="true"]{transform:scaleX(-1)}
+
+html[data-page="journal.html"] .vava-journal-empty,
+html[data-page="journal-en.html"] .vava-journal-empty{grid-column:1/-1;padding:40px;border:1px dashed rgba(107,109,67,.28);border-radius:28px;background:linear-gradient(145deg,rgba(255,251,244,.94),rgba(153,180,170,.1));text-align:center}
+html[data-page="journal.html"] .vava-journal-empty p,
+html[data-page="journal-en.html"] .vava-journal-empty p{margin:0;color:var(--muted)}
+
+/* Editorial AJAX pagination. */
+html[data-page="journal.html"] .vava-journal-pagination,
+html[data-page="journal-en.html"] .vava-journal-pagination{display:grid;justify-items:center;gap:12px;margin-top:48px}
+html[data-page="journal.html"] .vava-journal-pagination-controls,
+html[data-page="journal-en.html"] .vava-journal-pagination-controls{display:flex;align-items:center;justify-content:center;gap:10px;padding:8px;border:1px solid rgba(209,199,181,.65);border-radius:999px;background:rgba(255,251,244,.72);box-shadow:0 16px 44px rgba(85,78,59,.06);backdrop-filter:blur(8px)}
+html[data-page="journal.html"] .vava-journal-pagination-controls{direction:rtl}
+html[data-page="journal-en.html"] .vava-journal-pagination-controls{direction:ltr}
+html[data-page="journal.html"] .vava-journal-page-numbers,
+html[data-page="journal-en.html"] .vava-journal-page-numbers{display:flex;align-items:center;gap:7px}
+html[data-page="journal.html"] .vava-journal-pagination button,
+html[data-page="journal-en.html"] .vava-journal-pagination button{--journal-page-shine:rgba(107,109,67,.18);position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:42px;height:42px;padding:0 13px;overflow:hidden;border:1px solid rgba(107,109,67,.19);border-radius:999px;background:rgba(255,252,247,.92);color:var(--olive);font:700 13px/1 inherit;cursor:pointer;transition:background .22s ease,color .22s ease,border-color .22s ease}
+html[data-page="journal.html"] .vava-journal-page-number,
+html[data-page="journal-en.html"] .vava-journal-page-number{width:42px;padding:0;border-radius:50%}
+html[data-page="journal.html"] .vava-journal-page-arrow,
+html[data-page="journal-en.html"] .vava-journal-page-arrow{min-width:112px;--journal-page-shine:rgba(255,255,255,.5);border-color:rgba(107,109,67,.34);background:#6b6d43;color:#fff;box-shadow:0 9px 22px rgba(107,109,67,.16)}
+html[data-page="journal.html"] .vava-journal-pagination button::before,
+html[data-page="journal-en.html"] .vava-journal-pagination button::before{content:"";position:absolute;top:-65%;bottom:-65%;left:-55%;width:38%;transform:skewX(-24deg);background:linear-gradient(90deg,transparent,var(--journal-page-shine),transparent);transition:left .52s ease}
+html[data-page="journal.html"] .vava-journal-pagination button:hover:not(:disabled),
+html[data-page="journal-en.html"] .vava-journal-pagination button:hover:not(:disabled){transform:none}
+html[data-page="journal.html"] .vava-journal-pagination button:hover:not(:disabled)::before,
+html[data-page="journal-en.html"] .vava-journal-pagination button:hover:not(:disabled)::before{left:115%}
+html[data-page="journal.html"] .vava-journal-pagination button.is-current,
+html[data-page="journal-en.html"] .vava-journal-pagination button.is-current{--journal-page-shine:rgba(255,255,255,.5);border-color:#6b6d43;background:#6b6d43;color:#fff;box-shadow:0 10px 24px rgba(107,109,67,.2)}
+html[data-page="journal.html"] .vava-journal-pagination button:disabled,
+html[data-page="journal-en.html"] .vava-journal-pagination button:disabled{cursor:default;opacity:.42}
+html[data-page="journal.html"] .vava-journal-pagination button.is-current:disabled,
+html[data-page="journal-en.html"] .vava-journal-pagination button.is-current:disabled{opacity:1}
+html[data-page="journal.html"] .vava-journal-page-ellipsis,
+html[data-page="journal-en.html"] .vava-journal-page-ellipsis{display:grid;place-items:center;width:24px;color:var(--muted)}
+html[data-page="journal.html"] .vava-journal-loader,
+html[data-page="journal-en.html"] .vava-journal-loader{display:flex;justify-content:center;gap:7px;margin-top:18px}
+html[data-page="journal.html"] .vava-journal-loader[hidden],
+html[data-page="journal-en.html"] .vava-journal-loader[hidden]{display:none!important}
+html[data-page="journal.html"] .vava-journal-loader span,
+html[data-page="journal-en.html"] .vava-journal-loader span{width:7px;height:7px;border-radius:50%;background:#cf7d65;animation:vavaJournalLoader .8s ease-in-out infinite alternate}
+html[data-page="journal.html"] .vava-journal-loader span:nth-child(2),
+html[data-page="journal-en.html"] .vava-journal-loader span:nth-child(2){animation-delay:.14s}
+html[data-page="journal.html"] .vava-journal-loader span:nth-child(3),
+html[data-page="journal-en.html"] .vava-journal-loader span:nth-child(3){animation-delay:.28s}
+@keyframes vavaJournalLoader{to{transform:translateY(-6px);opacity:.45}}
+
+@media(max-width:1100px){
+  html[data-page="journal.html"] .vava-journal-editorial-layout,
+  html[data-page="journal-en.html"] .vava-journal-editorial-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.16fr)}
+  html[data-page="journal.html"] .vava-journal-grid.is-full-width,
+  html[data-page="journal-en.html"] .vava-journal-grid.is-full-width{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:900px){
+  html[data-page="journal.html"] .vava-journal-editorial-layout,
+  html[data-page="journal-en.html"] .vava-journal-editorial-layout{grid-template-columns:1fr}
+  html[data-page="journal.html"] .vava-journal-featured-column,
+  html[data-page="journal-en.html"] .vava-journal-featured-column{display:block;grid-column:1/-1;align-self:start}
+  html[data-page="journal.html"] .vava-journal-featured-column>.vava-journal-card-link,
+  html[data-page="journal-en.html"] .vava-journal-featured-column>.vava-journal-card-link,
+  html[data-page="journal.html"] .vava-journal-card-link.is-featured,
+  html[data-page="journal-en.html"] .vava-journal-card-link.is-featured{display:block;height:auto}
+  html[data-page="journal.html"] .vava-journal-card.is-featured,
+  html[data-page="journal-en.html"] .vava-journal-card.is-featured{height:auto;min-height:0}
+  html[data-page="journal.html"] .vava-journal-card.is-featured .vava-journal-card-thumb,
+  html[data-page="journal-en.html"] .vava-journal-card.is-featured .vava-journal-card-thumb{flex:none;height:clamp(280px,45vw,420px);min-height:0;max-height:420px}
+  html[data-page="journal.html"] .vava-journal-grid.is-full-width,
+  html[data-page="journal-en.html"] .vava-journal-grid.is-full-width{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  html[data-page="journal.html"] .vava-journal-grid,
+  html[data-page="journal-en.html"] .vava-journal-grid,
+  html[data-page="journal.html"] .vava-journal-grid.is-full-width,
+  html[data-page="journal-en.html"] .vava-journal-grid.is-full-width{grid-template-columns:1fr}
+  html[data-page="journal.html"] .vava-journal-card.is-featured,
+  html[data-page="journal-en.html"] .vava-journal-card.is-featured{display:flex}
+  html[data-page="journal.html"] .vava-journal-card.is-featured .vava-journal-card-thumb,
+  html[data-page="journal-en.html"] .vava-journal-card.is-featured .vava-journal-card-thumb{height:clamp(240px,58vw,340px);min-height:0;max-height:340px;aspect-ratio:auto}
+  html[data-page="journal.html"] .vava-journal-pagination-controls,
+  html[data-page="journal-en.html"] .vava-journal-pagination-controls{max-width:100%;gap:5px;padding:6px}
+  html[data-page="journal.html"] .vava-journal-page-arrow,
+  html[data-page="journal-en.html"] .vava-journal-page-arrow{min-width:44px;padding:0 11px}
+  html[data-page="journal.html"] .vava-journal-page-arrow b,
+  html[data-page="journal-en.html"] .vava-journal-page-arrow b{display:none}
+  html[data-page="journal.html"] .vava-journal-pagination button,
+  html[data-page="journal-en.html"] .vava-journal-pagination button{height:40px;min-width:40px}
+  html[data-page="journal.html"] .vava-journal-page-number,
+  html[data-page="journal-en.html"] .vava-journal-page-number{width:40px}
+  html[data-page="journal.html"] .vava-journal-card-footer,
+  html[data-page="journal-en.html"] .vava-journal-card-footer{align-items:flex-end;gap:9px}
+  html[data-page="journal.html"] .vava-journal-read-more,
+  html[data-page="journal-en.html"] .vava-journal-read-more{min-height:40px;padding:9px 14px;font-size:12px}
+  html[data-page="journal.html"] .vava-journal-articles,
+  html[data-page="journal-en.html"] .vava-journal-articles{padding-top:60px;padding-bottom:80px}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-page="journal.html"] .vava-journal-card,
+  html[data-page="journal-en.html"] .vava-journal-card,
+  html[data-page="journal.html"] .vava-journal-card-thumb,
+  html[data-page="journal-en.html"] .vava-journal-card-thumb,
+  html[data-page="journal.html"] .vava-journal-read-more,
+  html[data-page="journal-en.html"] .vava-journal-read-more,
+  html[data-page="journal.html"] .vava-journal-pagination button,
+  html[data-page="journal-en.html"] .vava-journal-pagination button{transition:none!important}
+  html[data-page="journal.html"] .vava-journal-read-more::before,
+  html[data-page="journal-en.html"] .vava-journal-read-more::before,
+  html[data-page="journal.html"] .vava-journal-pagination button::before,
+  html[data-page="journal-en.html"] .vava-journal-pagination button::before{display:none}
+}
+
+/* --------------------------------------------------------------------------
+ * Inline Journal article reader — approved concept 01 with olive toolbar.
+ * ----------------------------------------------------------------------- */
+html[data-page="journal.html"] body.vava-journal-reader-open,
+html[data-page="journal-en.html"] body.vava-journal-reader-open{overscroll-behavior:none}
+
+html[data-page="journal.html"] .vava-journal-reader[hidden],
+html[data-page="journal-en.html"] .vava-journal-reader[hidden]{display:none!important}
+html[data-page="journal.html"] .vava-journal-reader,
+html[data-page="journal-en.html"] .vava-journal-reader{position:fixed;inset:0;z-index:99990;display:grid;place-items:center;padding:clamp(20px,4vh,48px) clamp(14px,3vw,38px);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease}
+html[data-page="journal.html"] .vava-journal-reader.is-open,
+html[data-page="journal-en.html"] .vava-journal-reader.is-open{opacity:1;visibility:visible}
+html[data-page="journal.html"] .vava-journal-reader-backdrop,
+html[data-page="journal-en.html"] .vava-journal-reader-backdrop{position:absolute;inset:0;background:rgba(51,48,37,.54);backdrop-filter:blur(7px) saturate(.8);-webkit-backdrop-filter:blur(7px) saturate(.8)}
+html[data-page="journal.html"] .vava-journal-reader-dialog,
+html[data-page="journal-en.html"] .vava-journal-reader-dialog{position:relative;z-index:1;width:min(1120px,100%);max-height:calc(100vh - clamp(40px,8vh,96px));overflow:auto;border:1px solid rgba(255,255,255,.58);border-radius:34px;background:#fffaf3;box-shadow:0 42px 120px rgba(35,32,24,.32);outline:none;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(107,109,67,.45) transparent;transform:translateY(18px) scale(.985);transition:transform .34s cubic-bezier(.2,.72,.25,1)}
+html[data-page="journal.html"] .vava-journal-reader.is-open .vava-journal-reader-dialog,
+html[data-page="journal-en.html"] .vava-journal-reader.is-open .vava-journal-reader-dialog{transform:translateY(0) scale(1)}
+html[data-page="journal.html"] .vava-journal-reader-dialog::-webkit-scrollbar,
+html[data-page="journal-en.html"] .vava-journal-reader-dialog::-webkit-scrollbar{width:8px}
+html[data-page="journal.html"] .vava-journal-reader-dialog::-webkit-scrollbar-thumb,
+html[data-page="journal-en.html"] .vava-journal-reader-dialog::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:rgba(107,109,67,.42);background-clip:padding-box}
+html[data-page="journal.html"] .vava-journal-reader-output,
+html[data-page="journal-en.html"] .vava-journal-reader-output{min-height:240px}
+
+html[data-page="journal.html"] .vava-journal-reader-loading,
+html[data-page="journal-en.html"] .vava-journal-reader-loading{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;gap:9px;min-height:260px;background:linear-gradient(145deg,#fffaf3,#f6f0e6)}
+html[data-page="journal.html"] .vava-journal-reader-loading[hidden],
+html[data-page="journal-en.html"] .vava-journal-reader-loading[hidden]{display:none!important}
+html[data-page="journal.html"] .vava-journal-reader-loading span,
+html[data-page="journal-en.html"] .vava-journal-reader-loading span{width:9px;height:9px;border-radius:50%;background:#cf7d65;animation:vavaJournalReaderLoader .72s ease-in-out infinite alternate}
+html[data-page="journal.html"] .vava-journal-reader-loading span:nth-child(2),
+html[data-page="journal-en.html"] .vava-journal-reader-loading span:nth-child(2){animation-delay:.12s}
+html[data-page="journal.html"] .vava-journal-reader-loading span:nth-child(3),
+html[data-page="journal-en.html"] .vava-journal-reader-loading span:nth-child(3){animation-delay:.24s}
+@keyframes vavaJournalReaderLoader{to{transform:translateY(-8px);opacity:.42}}
+
+html[data-page="journal.html"] .vava-journal-reader-article,
+html[data-page="journal-en.html"] .vava-journal-reader-article{position:relative;min-width:0;color:var(--ink);background:linear-gradient(145deg,rgba(255,251,245,.99),rgba(245,240,230,.98))}
+html[data-page="journal.html"] .vava-journal-reader-body,
+html[data-page="journal-en.html"] .vava-journal-reader-body{display:grid;align-items:start;gap:0;min-width:0;padding:clamp(24px,3.3vw,44px)}
+html[data-page="journal.html"] .vava-journal-reader-body{grid-template-columns:minmax(270px,.82fr) minmax(0,1.18fr);grid-template-areas:"media copy";direction:ltr}
+html[data-page="journal-en.html"] .vava-journal-reader-body{grid-template-columns:minmax(0,1.18fr) minmax(270px,.82fr);grid-template-areas:"copy media";direction:ltr}
+html[data-page="journal.html"] .vava-journal-reader-copy,
+html[data-page="journal-en.html"] .vava-journal-reader-copy{grid-area:copy;min-width:0;padding:clamp(12px,2.8vw,36px) clamp(20px,3.5vw,48px);text-align:start}
+html[data-page="journal.html"] .vava-journal-reader-copy{direction:rtl}
+html[data-page="journal-en.html"] .vava-journal-reader-copy{direction:ltr}
+html[data-page="journal.html"] .vava-journal-reader-media,
+html[data-page="journal-en.html"] .vava-journal-reader-media{grid-area:media;position:sticky;top:24px;align-self:start;min-width:0;margin:0;overflow:hidden;border:1px solid rgba(255,255,255,.72);border-radius:27px;background:#e9e5db;box-shadow:0 22px 56px rgba(74,67,50,.13)}
+html[data-page="journal.html"] .vava-journal-reader-media img,
+html[data-page="journal-en.html"] .vava-journal-reader-media img{display:block;width:100%;height:clamp(410px,61vh,650px);object-fit:cover;object-position:center}
+html[data-page="journal.html"] .vava-journal-reader-category,
+html[data-page="journal-en.html"] .vava-journal-reader-category{display:inline-flex;align-items:center;margin-bottom:14px;color:#cf7d65;font-size:12px;font-weight:800;letter-spacing:.02em}
+html[data-page="journal.html"] .vava-journal-reader-copy h2,
+html[data-page="journal-en.html"] .vava-journal-reader-copy h2{margin:0 0 22px!important;color:#4e493f;font-family:var(--font-display,inherit);font-size:clamp(29px,3vw,47px)!important;font-weight:500!important;line-height:1.35!important;text-wrap:balance}
+html[data-page="journal.html"] .vava-journal-reader-content,
+html[data-page="journal-en.html"] .vava-journal-reader-content{color:rgba(75,70,60,.88);font-size:clamp(15px,1.2vw,17px);line-height:2}
+html[data-page="journal.html"] .vava-journal-reader-content>*:first-child,
+html[data-page="journal-en.html"] .vava-journal-reader-content>*:first-child{margin-top:0}
+html[data-page="journal.html"] .vava-journal-reader-content>*:last-child,
+html[data-page="journal-en.html"] .vava-journal-reader-content>*:last-child{margin-bottom:0}
+html[data-page="journal.html"] .vava-journal-reader-content p,
+html[data-page="journal-en.html"] .vava-journal-reader-content p{margin:0 0 1.25em;color:inherit;font-size:inherit;line-height:inherit}
+html[data-page="journal.html"] .vava-journal-reader-content h2,
+html[data-page="journal.html"] .vava-journal-reader-content h3,
+html[data-page="journal.html"] .vava-journal-reader-content h4,
+html[data-page="journal-en.html"] .vava-journal-reader-content h2,
+html[data-page="journal-en.html"] .vava-journal-reader-content h3,
+html[data-page="journal-en.html"] .vava-journal-reader-content h4{margin:1.55em 0 .65em!important;color:#4e493f;font-size:clamp(21px,1.8vw,29px)!important;line-height:1.45!important}
+html[data-page="journal.html"] .vava-journal-reader-content img,
+html[data-page="journal-en.html"] .vava-journal-reader-content img{max-width:100%;height:auto;border-radius:18px}
+html[data-page="journal.html"] .vava-journal-reader-content blockquote,
+html[data-page="journal-en.html"] .vava-journal-reader-content blockquote{margin:1.7em 0;padding:18px 22px;border-inline-start:3px solid #cf7d65;border-radius:14px;background:rgba(207,125,101,.08);color:#5a5145}
+html[data-page="journal.html"] .vava-journal-reader-content ul,
+html[data-page="journal.html"] .vava-journal-reader-content ol,
+html[data-page="journal-en.html"] .vava-journal-reader-content ul,
+html[data-page="journal-en.html"] .vava-journal-reader-content ol{margin:1em 0 1.35em;padding-inline-start:1.5em}
+html[data-page="journal.html"] .vava-journal-reader-content a,
+html[data-page="journal-en.html"] .vava-journal-reader-content a{color:#a95f4c;text-decoration-thickness:1px;text-underline-offset:4px}
+html[data-page="journal.html"] .vava-journal-reader-terms,
+html[data-page="journal-en.html"] .vava-journal-reader-terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
+html[data-page="journal.html"] .vava-journal-reader-terms span,
+html[data-page="journal-en.html"] .vava-journal-reader-terms span{display:inline-flex;align-items:center;min-height:31px;padding:6px 12px;border:1px solid rgba(107,109,67,.12);border-radius:999px;background:rgba(107,109,67,.065);color:#6b6d43;font-size:11px;font-weight:700}
+
+/* The approved single bottom control strip: previous, close, next. */
+html[data-page="journal.html"] .vava-journal-reader-toolbar,
+html[data-page="journal-en.html"] .vava-journal-reader-toolbar{position:sticky;z-index:4;bottom:-1px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;gap:14px;min-height:88px;padding:12px clamp(14px,2.5vw,28px);border-top:1px solid rgba(255,255,255,.18);background:#6b6d43;color:#fff;box-shadow:0 -15px 42px rgba(57,58,36,.16)}
+html[data-page="journal.html"] .vava-journal-reader-toolbar{direction:ltr}
+html[data-page="journal-en.html"] .vava-journal-reader-toolbar{direction:ltr}
+html[data-page="journal.html"] .vava-journal-reader-destination,
+html[data-page="journal-en.html"] .vava-journal-reader-destination{position:relative;display:flex;align-items:center;gap:12px;min-width:0;margin:0;padding:8px 2px;border:0;background:transparent;color:#fff;font:inherit;text-align:start;cursor:pointer}
+html[data-page="journal.html"] .vava-journal-reader-destination.is-next,
+html[data-page="journal-en.html"] .vava-journal-reader-destination.is-next{justify-content:flex-end;text-align:end}
+html[data-page="journal.html"] .vava-journal-reader-destination.is-empty,
+html[data-page="journal-en.html"] .vava-journal-reader-destination.is-empty{cursor:default}
+html[data-page="journal.html"] .vava-journal-reader-destination-copy,
+html[data-page="journal-en.html"] .vava-journal-reader-destination-copy{display:grid;min-width:0;gap:4px}
+html[data-page="journal.html"] .vava-journal-reader-destination-copy small,
+html[data-page="journal-en.html"] .vava-journal-reader-destination-copy small{color:rgba(255,255,255,.68);font-size:10px;font-weight:700;letter-spacing:.02em}
+html[data-page="journal.html"] .vava-journal-reader-destination-copy b,
+html[data-page="journal-en.html"] .vava-journal-reader-destination-copy b{display:-webkit-box;overflow:hidden;color:#fff;font-size:12px;font-weight:700;line-height:1.55;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+html[data-page="journal.html"] .vava-journal-reader-arrow,
+html[data-page="journal-en.html"] .vava-journal-reader-arrow{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border:1px solid rgba(255,255,255,.46);border-radius:50%;color:#fff;font-size:22px;line-height:1;transition:background .22s ease,border-color .22s ease}
+html[data-page="journal.html"] .vava-journal-reader-destination:hover .vava-journal-reader-arrow,
+html[data-page="journal.html"] .vava-journal-reader-destination:focus-visible .vava-journal-reader-arrow,
+html[data-page="journal-en.html"] .vava-journal-reader-destination:hover .vava-journal-reader-arrow,
+html[data-page="journal-en.html"] .vava-journal-reader-destination:focus-visible .vava-journal-reader-arrow{border-color:#fff;background:rgba(255,255,255,.14)}
+html[data-page="journal.html"] .vava-journal-reader-close,
+html[data-page="journal-en.html"] .vava-journal-reader-close{position:relative;align-self:center;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:154px;min-height:46px;padding:10px 20px;overflow:hidden;border:1px solid rgba(255,255,255,.5);border-radius:999px;background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:12px;font-weight:800;line-height:1.2;cursor:pointer;transition:background .22s ease,border-color .22s ease}
+html[data-page="journal.html"] .vava-journal-reader-close::before,
+html[data-page="journal-en.html"] .vava-journal-reader-close::before{content:"";position:absolute;top:-70%;bottom:-70%;left:-50%;width:34%;transform:skewX(-24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent);transition:left .55s ease}
+html[data-page="journal.html"] .vava-journal-reader-close:hover,
+html[data-page="journal.html"] .vava-journal-reader-close:focus-visible,
+html[data-page="journal-en.html"] .vava-journal-reader-close:hover,
+html[data-page="journal-en.html"] .vava-journal-reader-close:focus-visible{border-color:#fff;background:rgba(255,255,255,.17)}
+html[data-page="journal.html"] .vava-journal-reader-close:hover::before,
+html[data-page="journal.html"] .vava-journal-reader-close:focus-visible::before,
+html[data-page="journal-en.html"] .vava-journal-reader-close:hover::before,
+html[data-page="journal-en.html"] .vava-journal-reader-close:focus-visible::before{left:118%}
+html[data-page="journal.html"] .vava-journal-reader-close>span:last-child,
+html[data-page="journal-en.html"] .vava-journal-reader-close>span:last-child{font-size:20px;font-weight:400;line-height:.8}
+
+@media(max-width:900px){
+  html[data-page="journal.html"] .vava-journal-reader,
+  html[data-page="journal-en.html"] .vava-journal-reader{padding:18px 12px}
+  html[data-page="journal.html"] .vava-journal-reader-dialog,
+  html[data-page="journal-en.html"] .vava-journal-reader-dialog{max-height:calc(100vh - 36px);border-radius:27px}
+  html[data-page="journal.html"] .vava-journal-reader-body,
+  html[data-page="journal-en.html"] .vava-journal-reader-body{grid-template-columns:1fr;grid-template-areas:"media" "copy";padding:18px}
+  html[data-page="journal.html"] .vava-journal-reader-media,
+  html[data-page="journal-en.html"] .vava-journal-reader-media{position:relative;top:auto}
+  html[data-page="journal.html"] .vava-journal-reader-media img,
+  html[data-page="journal-en.html"] .vava-journal-reader-media img{height:clamp(250px,52vw,420px)}
+  html[data-page="journal.html"] .vava-journal-reader-copy,
+  html[data-page="journal-en.html"] .vava-journal-reader-copy{padding:28px 8px 18px}
+}
+@media(max-width:650px){
+  html[data-page="journal.html"] .vava-journal-reader,
+  html[data-page="journal-en.html"] .vava-journal-reader{padding:8px}
+  html[data-page="journal.html"] .vava-journal-reader-dialog,
+  html[data-page="journal-en.html"] .vava-journal-reader-dialog{max-height:calc(100vh - 16px);border-radius:23px}
+  html[data-page="journal.html"] .vava-journal-reader-body,
+  html[data-page="journal-en.html"] .vava-journal-reader-body{padding:12px}
+  html[data-page="journal.html"] .vava-journal-reader-copy,
+  html[data-page="journal-en.html"] .vava-journal-reader-copy{padding:24px 7px 16px}
+  html[data-page="journal.html"] .vava-journal-reader-copy h2,
+  html[data-page="journal-en.html"] .vava-journal-reader-copy h2{font-size:clamp(26px,8vw,35px)!important}
+  html[data-page="journal.html"] .vava-journal-reader-content,
+  html[data-page="journal-en.html"] .vava-journal-reader-content{font-size:14px;line-height:1.9}
+  html[data-page="journal.html"] .vava-journal-reader-toolbar,
+  html[data-page="journal-en.html"] .vava-journal-reader-toolbar{grid-template-columns:44px minmax(130px,1fr) 44px;gap:8px;min-height:70px;padding:9px 11px}
+  html[data-page="journal.html"] .vava-journal-reader-destination-copy,
+  html[data-page="journal-en.html"] .vava-journal-reader-destination-copy{display:none}
+  html[data-page="journal.html"] .vava-journal-reader-destination,
+  html[data-page="journal-en.html"] .vava-journal-reader-destination{justify-content:center!important;padding:0}
+  html[data-page="journal.html"] .vava-journal-reader-arrow,
+  html[data-page="journal-en.html"] .vava-journal-reader-arrow{flex-basis:40px;width:40px;height:40px}
+  html[data-page="journal.html"] .vava-journal-reader-close,
+  html[data-page="journal-en.html"] .vava-journal-reader-close{width:100%;min-width:0;min-height:43px;padding:9px 13px}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-page="journal.html"] .vava-journal-reader,
+  html[data-page="journal-en.html"] .vava-journal-reader,
+  html[data-page="journal.html"] .vava-journal-reader-dialog,
+  html[data-page="journal-en.html"] .vava-journal-reader-dialog,
+  html[data-page="journal.html"] .vava-journal-reader-arrow,
+  html[data-page="journal-en.html"] .vava-journal-reader-arrow,
+  html[data-page="journal.html"] .vava-journal-reader-close,
+  html[data-page="journal-en.html"] .vava-journal-reader-close{transition:none!important}
+  html[data-page="journal.html"] .vava-journal-reader-close::before,
+  html[data-page="journal-en.html"] .vava-journal-reader-close::before{display:none}
+}
+
+/* V1.9.6: tags only, inside a soft white block; category stays above the article title. */
+html[data-page="journal.html"] .vava-journal-reader-tags-block,
+html[data-page="journal-en.html"] .vava-journal-reader-tags-block{margin-top:30px;padding:16px 18px;border:1px solid rgba(107,109,67,.12);border-radius:18px;background:rgba(255,255,255,.92);box-shadow:0 12px 30px rgba(73,66,49,.055)}
+html[data-page="journal.html"] .vava-journal-reader-tags-block>strong,
+html[data-page="journal-en.html"] .vava-journal-reader-tags-block>strong{display:block;margin-bottom:10px;color:#5f6041;font-size:12px;font-weight:800}
+html[data-page="journal.html"] .vava-journal-reader-tags-block .vava-journal-reader-terms,
+html[data-page="journal-en.html"] .vava-journal-reader-tags-block .vava-journal-reader-terms{margin-top:0}
+html[data-page="journal.html"] .vava-journal-reader-tags-block .vava-journal-reader-terms span,
+html[data-page="journal-en.html"] .vava-journal-reader-tags-block .vava-journal-reader-terms span{background:#f5f2e8;border-color:rgba(107,109,67,.14)}

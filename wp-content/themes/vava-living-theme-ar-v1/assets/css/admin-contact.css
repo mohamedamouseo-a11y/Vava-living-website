@@ -1,0 +1,391 @@
+/* Advanced VAVA Contact editor. */
+@media(min-width:901px){#vava_homepage_settings .vava-contact-admin .vava-section-tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+.vava-contact-admin .vava-field-full{grid-column:1/-1}
+.vava-contact-admin .vava-contact-media-field{display:block!important;padding:16px;border:1px solid var(--vava-admin-line);border-radius:12px;background:#fff}
+.vava-contact-admin .vava-contact-media-field .vava-media-field{height:auto;padding:0;border:0;background:transparent}
+.vava-contact-admin .vava-contact-media-field .vava-media-dropzone{display:block;width:100%;min-height:210px;padding:0;border:2px dashed #b9c4ce;border-radius:13px;background:#fafcfd;cursor:pointer;overflow:hidden}
+.vava-contact-admin .vava-contact-media-field .vava-media-dropzone:hover,.vava-contact-admin .vava-contact-media-field .vava-media-dropzone:focus{border-color:var(--vava-admin-accent);background:#f3f8f0;outline:0;box-shadow:0 0 0 3px rgba(111,129,95,.12)}
+.vava-contact-admin .vava-contact-media-field .vava-media-preview{display:grid;place-items:center;min-height:206px;padding:14px}
+.vava-contact-admin .vava-contact-media-field .vava-media-preview img{display:block;width:100%;height:220px;max-height:220px;object-fit:contain;border-radius:9px;background:#edf0f2}
+.vava-contact-admin .vava-contact-media-field .vava-media-actions{display:flex;gap:10px;margin-top:11px}
+.vava-contact-admin .vava-contact-recipient-settings .vava-admin-field{padding:16px;border:1px solid #dfe4dc;border-radius:12px;background:#fff}
+.vava-contact-admin .vava-contact-recipient-settings .description{margin:8px 0 0;color:#738074;line-height:1.65}
+.vava-contact-shared-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+.vava-contact-hold-settings{display:grid;align-content:start;gap:13px}
+.vava-contact-hold-settings>label{display:flex;align-items:center;gap:9px;color:#5d685b}
+.vava-contact-hold-settings input[type="number"]{width:90px;margin-inline-start:auto}
+.vava-contact-guide-fields{display:grid;grid-column:1/-1;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.vava-contact-guide-card-fields{padding:15px;border:1px solid #dfe4dc;border-radius:12px;background:linear-gradient(145deg,#fff,#fbfcfa)}
+.vava-contact-guide-card-fields h4{margin:0 0 12px;color:#5a6655}
+.vava-contact-guide-card-fields .vava-field{margin-top:10px}
+.vava-contact-guide-card-fields textarea{min-height:120px}
+
+.vava-contact-form-copy-card,.vava-contact-message-card,.vava-contact-builder-card{padding:18px;border:1px solid #dfe4dc;border-radius:15px;background:linear-gradient(145deg,#fff,#fbfcfa);box-shadow:0 10px 30px rgba(61,72,61,.035)}
+.vava-contact-card-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:15px}
+.vava-contact-card-heading h3{margin:0;color:#4e5a4b;font-size:16px}
+.vava-contact-card-heading p{margin:6px 0 0;color:#788176;line-height:1.65}
+.vava-contact-selector-row{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(280px,1.2fr);gap:14px}
+.vava-contact-selector-row.is-message{grid-template-columns:minmax(220px,.65fr) minmax(320px,1.35fr)}
+.vava-contact-selector-row label{display:grid;gap:8px}
+.vava-contact-selector-row textarea{min-height:105px}
+.vava-contact-field-builder{display:grid;gap:10px}
+.vava-contact-additional-list{display:grid;gap:10px;padding:5px 0}
+.vava-contact-empty-fields{margin:0;padding:14px 16px;border:1px dashed #cbd5c5;border-radius:12px;background:#f7faf5;color:#7c8778;text-align:center;line-height:1.7}
+.vava-contact-field-card{border:1px solid #dde4da;border-radius:14px;background:#fff;overflow:hidden;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease}
+.vava-contact-field-card:hover{border-color:#c6d1c0}
+.vava-contact-field-card.is-open{border-color:#aebda6;background:linear-gradient(145deg,#fff,#fbfdf9);box-shadow:0 14px 34px rgba(67,78,66,.08)}
+.vava-contact-field-card.is-protected{background:linear-gradient(145deg,#fff,#f5f8f2)}
+.vava-contact-field-card-head{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:60px;padding:8px 12px;background:rgba(246,249,244,.82)}
+.vava-contact-field-card.is-open .vava-contact-field-card-head{border-bottom:1px solid #e7ece4;background:#f2f6ef}
+.vava-contact-drag,.vava-contact-field-lock{display:grid;place-items:center;width:32px;height:32px;padding:0;border:0;border-radius:9px;background:transparent;color:#879383}
+.vava-contact-drag{gap:3px;cursor:grab;touch-action:none}
+.vava-contact-drag:hover,.vava-contact-drag:focus{background:#eaf0e6;color:#667361;outline:0}
+.vava-contact-drag:active{cursor:grabbing}
+.vava-contact-drag span{display:block;width:16px;height:2px;border-radius:2px;background:currentColor}
+.vava-contact-field-lock svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vava-contact-field-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;width:100%;padding:7px 4px;border:0;background:transparent;text-align:inherit;cursor:pointer}
+.vava-contact-field-toggle:focus{outline:2px solid rgba(111,129,95,.25);outline-offset:3px;border-radius:8px}
+.vava-contact-field-summary{display:grid;min-width:0;gap:4px}
+.vava-contact-field-summary strong{overflow:hidden;color:#4d584a;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.vava-contact-field-summary small{color:#8a9487;font-size:11px}
+.vava-contact-field-chevron{width:9px;height:9px;flex:0 0 auto;border-inline-end:2px solid #7f8b7b;border-bottom:2px solid #7f8b7b;transform:rotate(45deg);transition:transform .2s ease}
+[dir="rtl"] .vava-contact-field-chevron{transform:rotate(45deg)}
+.vava-contact-field-card.is-open .vava-contact-field-chevron{transform:rotate(225deg)}
+.vava-contact-protected-badge{max-width:165px;padding:5px 9px;border-radius:999px;background:#e7efe2;color:#617056;font-size:10px;font-weight:700;white-space:nowrap}
+.vava-contact-delete-field{display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid rgba(207,125,101,.25);border-radius:10px;background:#fff5f1;color:#b9634f;cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease}
+.vava-contact-delete-field svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vava-contact-delete-field:hover,.vava-contact-delete-field:focus{border-color:#cf7d65;background:#cf7d65;color:#fff;outline:0}
+.vava-contact-field-card-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:15px}
+.vava-contact-field-card-body[hidden]{display:none!important}
+.vava-contact-field-card-body>label{display:grid;gap:7px}
+.vava-contact-field-card-body .vava-contact-options{grid-column:1/-1}
+.vava-contact-field-card-body .vava-contact-options.is-hidden{display:none}
+.vava-contact-field-toggles{display:flex;align-items:center;gap:18px;padding-top:22px}
+.vava-contact-field-toggles label{display:flex;align-items:center;gap:7px;color:#5d685b}
+.vava-contact-field-card.ui-sortable-helper{box-shadow:0 22px 50px rgba(61,72,61,.18);transform:rotate(.3deg)}
+.vava-contact-additional-list .ui-sortable-placeholder{height:62px!important;border:2px dashed #9fb294;border-radius:14px;background:#eef5e9;visibility:visible!important}
+
+#vava_live_preview_box .vava-contact-preview{width:900px;min-height:500px}
+#vava_live_preview_box .vava-live-preview[data-contact-preview-panel] .vava-preview-stage{min-height:0}
+#vava_live_preview_box .vava-live-preview[data-contact-preview-panel] .vava-preview-viewport{background:linear-gradient(145deg,#eef1ed,#e7ebe5)}
+.vava-contact-preview{position:relative;min-height:500px;padding:42px;overflow:hidden;background:radial-gradient(circle at 12% 8%,rgba(225,184,162,.22),transparent 30%),radial-gradient(circle at 90% 0%,rgba(153,180,170,.18),transparent 31%),#f7f1e8;color:#575247;box-sizing:border-box}
+.vava-contact-preview h3{margin:0;color:#4b473b;font-family:Georgia,"Times New Roman",serif;font-weight:500;line-height:1.35}
+.vava-contact-preview p,.vava-contact-preview small{color:#657064;line-height:1.8;white-space:pre-line}
+.vava-contact-preview-hero{display:grid;grid-template-columns:1.04fr .96fr;gap:52px;align-items:center}
+.vava-contact-preview-hero-copy>span,.vava-contact-preview-guide>span{display:block;margin-bottom:12px;color:#6f815f;font-size:13px;font-weight:700;letter-spacing:.08em}
+.vava-contact-preview-hero-copy h3{font-size:44px}.vava-contact-preview-hero-copy p{margin:18px 0 0;font-size:15px}.vava-contact-preview-hero-copy small{display:block;margin-top:12px;font-size:12px}
+.vava-contact-preview-hero-image{min-height:390px;border:1px solid rgba(255,255,255,.68);border-radius:44px;background-position:center;background-size:cover;box-shadow:0 22px 62px rgba(85,78,59,.11)}
+.vava-contact-preview-form{display:grid;place-items:center;padding:38px}
+.vava-contact-preview-form-card{width:min(720px,100%);padding:30px;border:1px solid rgba(111,129,95,.19);border-radius:28px;background:rgba(255,252,246,.92);box-shadow:0 22px 60px rgba(75,71,57,.08)}
+.vava-contact-preview-form-card h3{font-size:32px}
+.vava-contact-preview-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:20px}
+.vava-contact-preview-form-grid label{display:grid;gap:6px;color:#657064;font-size:11px}
+.vava-contact-preview-form-grid label.is-wide{grid-column:1/-1}
+.vava-contact-preview-form-grid i{display:block;height:42px;border:1px solid rgba(111,129,95,.18);border-radius:10px;background:#fff}
+.vava-contact-preview-form-grid .is-message i{height:100px}
+.vava-contact-preview-hold{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;margin-top:15px;padding:12px 16px;overflow:hidden;border:1px solid rgba(111,129,95,.2);border-radius:999px;background:#fff;color:#586454;font-size:11px}
+.vava-contact-preview-hold span{display:block;width:55px;height:6px;border-radius:999px;background:linear-gradient(90deg,#cf7d65 45%,#e7e9e2 45%)}
+.vava-contact-preview-form-card>button{display:inline-flex;min-width:130px;min-height:40px;align-items:center;justify-content:center;margin-top:12px;border:0;border-radius:999px;background:#cf7d65;color:#fff;font-weight:700}
+.vava-contact-preview-social{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(111,129,95,.16)}
+.vava-contact-preview-social b{color:#6f815f;font-size:11px}.vava-contact-preview-social>div{display:flex;gap:7px}.vava-contact-preview-social i{display:grid;place-items:center;width:32px;height:32px;border:1px solid rgba(111,129,95,.25);border-radius:999px;color:#6f815f;font-style:normal}.vava-contact-preview-social svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7}
+.vava-contact-preview-guide{max-width:720px;margin:auto;text-align:center}.vava-contact-preview-guide h3{font-size:36px}.vava-contact-preview-guide>p{max-width:610px;margin:14px auto 0;font-size:13px}.vava-contact-preview-guide-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:24px}.vava-contact-preview-guide-list article{padding:18px;border:1px solid rgba(111,129,95,.19);border-radius:20px;background:linear-gradient(145deg,rgba(255,252,246,.98),rgba(240,244,236,.78));text-align:start}.vava-contact-preview-guide-list strong{color:#4d5849;font-size:15px}.vava-contact-preview-guide-list p{margin:9px 0 0;font-size:10px}
+.vava-contact-preview-statuses{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.vava-contact-preview-statuses p{margin:0;padding:8px 10px;border-radius:9px;font-size:8px;line-height:1.5}.vava-contact-preview-statuses .is-success{border:1px solid rgba(111,129,95,.25);background:#eef4eb;color:#506149}.vava-contact-preview-statuses .is-error{border:1px solid rgba(207,125,101,.25);background:#fceee9;color:#995846}
+@media(max-width:1100px){.vava-contact-shared-grid{grid-template-columns:1fr}.vava-contact-selector-row,.vava-contact-selector-row.is-message{grid-template-columns:1fr}}
+@media(max-width:900px){.vava-contact-guide-fields{grid-template-columns:1fr}.vava-contact-preview-hero{grid-template-columns:1fr}.vava-contact-preview-guide-list{grid-template-columns:1fr}.vava-contact-field-card-body{grid-template-columns:1fr}.vava-contact-field-card-body .vava-contact-options{grid-column:auto}}
+@media(max-width:782px){.vava-contact-admin .vava-field-full{grid-column:auto}.vava-contact-preview-form-grid{grid-template-columns:1fr}.vava-contact-preview-form-grid label.is-wide{grid-column:auto}.vava-contact-preview-statuses{grid-template-columns:1fr}.vava-contact-field-card-head{grid-template-columns:32px minmax(0,1fr) auto}.vava-contact-protected-badge{display:none}.vava-contact-card-heading{display:grid}.vava-contact-card-heading .button{justify-self:start}}
+
+/* V1.9.3 — reliable sorting, unified copy editor, and dynamic guide cards. */
+.vava-contact-admin .vava-contact-form-copy-card,.vava-contact-admin .vava-contact-builder-card,.vava-contact-admin .vava-contact-guide-builder-card{position:relative;overflow:visible;border-color:#d9e0d5;background:linear-gradient(145deg,#fff 0%,#fbfcf9 100%);box-shadow:0 14px 36px rgba(62,73,61,.055)}
+.vava-contact-admin .vava-contact-selector-row{align-items:end;padding:14px;border:1px solid #e5e9e2;border-radius:13px;background:#f8faf6}
+.vava-contact-admin .vava-contact-selector-row select,.vava-contact-admin .vava-contact-selector-row input,.vava-contact-admin .vava-contact-selector-row textarea{min-height:44px;border-color:#cfd8cb;border-radius:10px;background:#fff;box-shadow:none}
+.vava-contact-admin .vava-contact-selector-row textarea{min-height:116px;padding:12px 14px;line-height:1.75;resize:vertical}
+.vava-contact-admin .vava-contact-styled-select,.vava-contact-admin .vava-contact-field-card select{appearance:none;padding-inline:14px 42px;background-color:#fff;background-image:linear-gradient(45deg,transparent 50%,#718066 50%),linear-gradient(135deg,#718066 50%,transparent 50%);background-position:calc(18px) 50%,calc(13px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.vava-contact-admin [dir="ltr"] .vava-contact-styled-select,.vava-contact-admin [dir="ltr"] .vava-contact-field-card select{background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%}
+.vava-contact-admin .vava-contact-add-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding-inline:15px!important;border-color:#718066!important;border-radius:10px!important;background:#718066!important;color:#fff!important;font-weight:700}
+.vava-contact-admin .vava-contact-add-button:hover,.vava-contact-admin .vava-contact-add-button:focus{border-color:#5f6f55!important;background:#5f6f55!important;color:#fff!important;box-shadow:0 0 0 3px rgba(111,129,95,.14)!important}
+.vava-contact-admin .vava-contact-field-builder{gap:14px}
+.vava-contact-admin .vava-contact-additional-list{position:relative;gap:12px;padding:10px;border:1px dashed #c9d4c4;border-radius:16px;background:linear-gradient(145deg,rgba(244,248,241,.78),rgba(255,255,255,.92))}
+.vava-contact-admin .vava-contact-field-card{box-shadow:0 8px 20px rgba(67,78,66,.035)}
+.vava-contact-admin .vava-contact-field-card.is-additional{border-inline-start:4px solid #cf7d65}
+.vava-contact-admin .vava-contact-field-card.is-protected{border-inline-start:4px solid #7b895f}
+.vava-contact-admin .vava-contact-field-card-head{grid-template-columns:38px minmax(0,1fr) auto;min-height:64px;padding:9px 13px}
+.vava-contact-admin .vava-contact-drag{width:36px;height:36px;border:1px solid #dbe3d7;background:#fff;box-shadow:0 4px 12px rgba(61,72,61,.05)}
+.vava-contact-admin .vava-contact-drag:hover,.vava-contact-admin .vava-contact-drag:focus{border-color:#9fb294;background:#eef4ea;box-shadow:0 0 0 3px rgba(111,129,95,.12)}
+.vava-contact-admin .vava-contact-field-summary{grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-items:center}
+.vava-contact-admin .vava-contact-field-summary strong{font-size:14px;line-height:1.45}
+.vava-contact-admin .vava-contact-field-summary small{padding:4px 8px;border-radius:999px;background:#edf2e9;color:#66735f;white-space:nowrap}
+.vava-contact-admin .vava-contact-field-card-body{padding:18px;background:#fff}
+.vava-contact-admin .vava-contact-field-card-body input,.vava-contact-admin .vava-contact-field-card-body select,.vava-contact-admin .vava-contact-field-card-body textarea{min-height:42px;border-color:#d4dcd0;border-radius:9px;box-shadow:none}
+.vava-contact-admin .vava-contact-field-card-body textarea{padding:10px 12px;line-height:1.65}
+.vava-contact-admin .vava-contact-field-card.ui-sortable-helper,.vava-contact-admin .vava-contact-guide-card.ui-sortable-helper{z-index:100000!important;width:min(760px,calc(100vw - 80px))!important;opacity:.96;box-shadow:0 28px 70px rgba(49,59,48,.24)!important;transform:rotate(.35deg)}
+.vava-contact-admin .vava-contact-additional-list .ui-sortable-placeholder,.vava-contact-admin .vava-contact-guide-builder .ui-sortable-placeholder{min-height:66px!important;border:2px dashed #8fa482!important;border-radius:14px!important;background:linear-gradient(145deg,#edf4e9,#f8fbf5)!important;visibility:visible!important;box-shadow:inset 0 0 0 4px rgba(111,129,95,.05)}
+
+.vava-contact-admin .vava-contact-guide-builder{display:grid;gap:12px;padding-top:3px}
+.vava-contact-admin .vava-contact-guide-card{overflow:hidden;border:1px solid #dde4da;border-inline-start:4px solid #7b895f;border-radius:14px;background:#fff;box-shadow:0 8px 22px rgba(67,78,66,.04);transition:border-color .2s ease,box-shadow .2s ease}
+.vava-contact-admin .vava-contact-guide-card:hover{border-color:#c7d1c2}
+.vava-contact-admin .vava-contact-guide-card.is-open{border-color:#aebda6;box-shadow:0 15px 36px rgba(67,78,66,.08)}
+.vava-contact-admin .vava-contact-guide-card-head{display:grid;grid-template-columns:38px minmax(0,1fr) 36px;align-items:center;gap:10px;min-height:64px;padding:9px 13px;background:linear-gradient(145deg,#f7f9f5,#f1f5ee)}
+.vava-contact-admin .vava-contact-guide-card.is-open .vava-contact-guide-card-head{border-bottom:1px solid #e3e9df;background:#eef4ea}
+.vava-contact-admin .vava-contact-guide-drag{display:grid;place-items:center;gap:3px;width:36px;height:36px;padding:0;border:1px solid #dbe3d7;border-radius:9px;background:#fff;color:#7f8c79;cursor:grab;touch-action:none;box-shadow:0 4px 12px rgba(61,72,61,.05)}
+.vava-contact-admin .vava-contact-guide-drag:active{cursor:grabbing}
+.vava-contact-admin .vava-contact-guide-drag span{display:block;width:16px;height:2px;border-radius:2px;background:currentColor}
+.vava-contact-admin .vava-contact-guide-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;width:100%;padding:7px 4px;border:0;background:transparent;text-align:inherit;cursor:pointer}
+.vava-contact-admin .vava-contact-guide-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;min-width:0;width:100%}
+.vava-contact-admin .vava-contact-guide-summary strong{overflow:hidden;color:#4d584a;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.vava-contact-admin .vava-contact-guide-summary small{padding:4px 8px;border-radius:999px;background:#fff;color:#75816f;font-size:10px;white-space:nowrap}
+.vava-contact-admin .vava-contact-guide-card.is-open .vava-contact-field-chevron{transform:rotate(225deg)}
+.vava-contact-admin .vava-contact-delete-guide{display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid rgba(207,125,101,.25);border-radius:10px;background:#fff5f1;color:#b9634f;cursor:pointer}
+.vava-contact-admin .vava-contact-delete-guide svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vava-contact-admin .vava-contact-delete-guide:hover,.vava-contact-admin .vava-contact-delete-guide:focus{border-color:#cf7d65;background:#cf7d65;color:#fff;outline:0}
+.vava-contact-admin .vava-contact-guide-card-body{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;background:#fff}
+.vava-contact-admin .vava-contact-guide-card-body[hidden]{display:none!important}
+.vava-contact-admin .vava-contact-guide-card-body>label{display:grid;gap:7px}
+.vava-contact-admin .vava-contact-guide-card-body>.is-wide,.vava-contact-admin .vava-contact-guide-links{grid-column:1/-1}
+.vava-contact-admin .vava-contact-guide-card-body input[type="text"],.vava-contact-admin .vava-contact-guide-card-body textarea{border-color:#d4dcd0;border-radius:9px;box-shadow:none}
+.vava-contact-admin .vava-contact-guide-links{margin:0;padding:14px;border:1px solid #e0e6dc;border-radius:12px;background:#f8faf6}
+.vava-contact-admin .vava-contact-guide-links legend{padding-inline:6px;color:#4f5b4c;font-weight:700}
+.vava-contact-admin .vava-contact-guide-links .description{margin:0 0 10px;color:#7d877a}
+.vava-contact-admin .vava-contact-guide-field-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.vava-contact-admin .vava-contact-guide-field-choices label{display:flex;align-items:center;gap:8px;min-height:36px;padding:7px 10px;border:1px solid #e1e7de;border-radius:9px;background:#fff;color:#5c6858}
+.vava-contact-admin .vava-contact-guide-field-choices label:has(input:checked){border-color:#a8b99f;background:#edf4e9;color:#4e6048}
+.vava-contact-admin .vava-contact-guide-visible{display:flex!important;align-items:center;gap:8px;align-self:end;padding:10px 12px;border-radius:10px;background:#f2f6ef}
+.vava-contact-admin .vava-contact-preview-guide-list{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.vava-contact-admin .vava-contact-preview-guide-list article small{display:block;margin-top:10px;padding-top:8px;border-top:1px solid rgba(111,129,95,.14);color:#7a8675;font-size:8px}
+
+@media(max-width:900px){.vava-contact-admin .vava-contact-guide-card-body{grid-template-columns:1fr}.vava-contact-admin .vava-contact-guide-card-body>.is-wide,.vava-contact-admin .vava-contact-guide-links{grid-column:auto}.vava-contact-admin .vava-contact-guide-field-choices{grid-template-columns:1fr}}
+
+
+/* V1.9.4 — constrained sorting, aligned copy messages, and refined guide-card controls. */
+.vava-contact-admin .vava-contact-selector-row{align-items:start}
+.vava-contact-admin .vava-contact-selector-row>label{align-content:start;align-self:start;min-width:0}
+.vava-contact-admin .vava-contact-selector-row>label>strong{min-height:20px;line-height:20px}
+.vava-contact-admin .vava-contact-selector-row>label:last-child{grid-template-rows:auto auto}
+.vava-contact-admin .vava-contact-selector-row [data-contact-copy-input-long]{width:100%;margin:0}
+.vava-contact-admin .vava-contact-selector-row [data-contact-copy-input-long][hidden],.vava-contact-admin .vava-contact-selector-row [data-contact-copy-input-short][hidden]{display:none!important}
+
+.vava-contact-admin .vava-contact-additional-list,.vava-contact-admin .vava-contact-guide-builder{isolation:isolate;overflow:visible}
+.vava-contact-admin .vava-contact-additional-list.is-sorting,.vava-contact-admin .vava-contact-guide-builder.is-sorting{cursor:grabbing}
+.vava-contact-admin .vava-contact-field-card.ui-sortable-helper,.vava-contact-admin .vava-contact-guide-card.ui-sortable-helper{position:absolute!important;z-index:20!important;margin:0!important;overflow:hidden!important;opacity:.98;box-sizing:border-box!important;box-shadow:0 20px 46px rgba(49,59,48,.18)!important;transform:none!important;pointer-events:none}
+.vava-contact-admin .vava-contact-field-card.ui-sortable-helper .vava-contact-field-card-body,.vava-contact-admin .vava-contact-guide-card.ui-sortable-helper .vava-contact-guide-card-body{display:none!important}
+.vava-contact-admin .vava-contact-field-card.ui-sortable-helper .vava-contact-field-card-head,.vava-contact-admin .vava-contact-guide-card.ui-sortable-helper .vava-contact-guide-card-head{border-bottom:0!important}
+.vava-contact-admin .vava-contact-additional-list .ui-sortable-placeholder,.vava-contact-admin .vava-contact-guide-builder .ui-sortable-placeholder{box-sizing:border-box!important;min-height:64px!important;margin:0!important;border:2px dashed #8fa482!important;border-radius:14px!important;background:linear-gradient(145deg,#edf4e9,#f8fbf5)!important;visibility:visible!important;box-shadow:inset 0 0 0 4px rgba(111,129,95,.05)}
+
+.vava-contact-admin .vava-contact-guide-builder-card{padding:18px}
+.vava-contact-admin .vava-contact-guide-builder{gap:14px}
+.vava-contact-admin .vava-contact-guide-card{border-radius:15px;box-shadow:0 9px 24px rgba(67,78,66,.045)}
+.vava-contact-admin .vava-contact-guide-card.is-hidden-card{opacity:.62;border-style:dashed;filter:saturate(.72)}
+.vava-contact-admin .vava-contact-guide-card.is-hidden-card:hover,.vava-contact-admin .vava-contact-guide-card.is-hidden-card.is-open{opacity:.82}
+.vava-contact-admin .vava-contact-guide-card-head{grid-template-columns:38px minmax(0,1fr) auto;gap:12px;min-height:66px;padding:10px 13px}
+.vava-contact-admin .vava-contact-guide-actions{display:flex;align-items:center;gap:7px}
+.vava-contact-admin .vava-contact-guide-visibility,.vava-contact-admin .vava-contact-delete-guide{display:grid;place-items:center;width:35px;height:35px;padding:0;border-radius:10px;background:#fff;cursor:pointer;transition:background .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease}
+.vava-contact-admin .vava-contact-guide-visibility{border:1px solid #cfd9ca;color:#6f805f}
+.vava-contact-admin .vava-contact-guide-visibility.is-hidden{border-color:#d8ddd5;background:#f4f5f2;color:#9aa298}
+.vava-contact-admin .vava-contact-guide-visibility:hover,.vava-contact-admin .vava-contact-guide-visibility:focus{border-color:#7b895f;background:#edf4e9;color:#53644b;outline:0;box-shadow:0 0 0 3px rgba(111,129,95,.12)}
+.vava-contact-admin .vava-contact-guide-visibility svg,.vava-contact-admin .vava-contact-delete-guide svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vava-contact-admin .vava-contact-guide-summary{grid-template-columns:minmax(0,1fr) auto;gap:12px}
+.vava-contact-admin .vava-contact-guide-summary strong{font-size:14px;line-height:1.5}
+.vava-contact-admin .vava-contact-guide-summary small{max-width:170px;padding:5px 9px;overflow:hidden;border:1px solid #e2e8de;background:#fff;color:#6d7968;text-overflow:ellipsis;font-size:10px;font-weight:700}
+.vava-contact-admin .vava-contact-guide-card-body{gap:16px;padding:20px}
+.vava-contact-admin .vava-contact-guide-card-body>label strong{color:#4f5b4c}
+.vava-contact-admin .vava-contact-guide-card-body input[type="text"],.vava-contact-admin .vava-contact-guide-card-body textarea{min-height:43px;padding:10px 12px;background:#fff}
+.vava-contact-admin .vava-contact-guide-links{padding:16px;border-color:#dbe3d7;background:linear-gradient(145deg,#f8faf6,#f3f7f0)}
+.vava-contact-admin .vava-contact-guide-field-choices{gap:9px}
+.vava-contact-admin .vava-contact-guide-field-choices label{min-height:39px;padding:8px 11px;transition:border-color .18s ease,background .18s ease,box-shadow .18s ease}
+.vava-contact-admin .vava-contact-guide-field-choices label:hover{border-color:#bcc9b6;box-shadow:0 4px 12px rgba(67,78,66,.04)}
+.vava-contact-admin .vava-contact-guide-field-choices label:has(input:checked){border-color:#94aa88;background:#eaf2e6;box-shadow:inset 0 0 0 1px rgba(111,129,95,.06)}
+
+@media(max-width:782px){
+  .vava-contact-admin .vava-contact-guide-card-head{grid-template-columns:34px minmax(0,1fr);align-items:start}
+  .vava-contact-admin .vava-contact-guide-actions{grid-column:1/-1;justify-content:flex-end;padding-top:2px}
+  .vava-contact-admin .vava-contact-guide-summary{grid-template-columns:1fr;gap:5px}
+  .vava-contact-admin .vava-contact-guide-summary small{justify-self:start;max-width:100%}
+}
+
+/* V1.21 — dedicated Email settings tab and VAVA toggle controls. */
+@media(min-width:901px){
+  #vava_homepage_settings .vava-contact-admin .vava-section-tabs{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+.vava-contact-admin .vava-contact-mail-settings{
+  display:grid;
+  gap:18px;
+  width:100%;
+  padding:22px;
+  box-sizing:border-box;
+  border:1px solid #dde4da;
+  border-radius:18px;
+  background:linear-gradient(145deg,#fbfcf9,#f4f7f1);
+  color:#4f5a4c;
+}
+.vava-contact-admin .vava-contact-mail-settings>header{
+  display:grid;
+  gap:5px;
+  padding:2px 2px 15px;
+  border-bottom:1px solid #dce4d8;
+}
+.vava-contact-admin .vava-contact-mail-settings>header small{color:#c86f58;font-size:10px;font-weight:900;letter-spacing:.14em}
+.vava-contact-admin .vava-contact-mail-settings>header h2{margin:0;color:#4b5748;font-size:24px;line-height:1.35}
+.vava-contact-admin .vava-contact-mail-settings>header p{max-width:760px;margin:0;color:#788275;line-height:1.75}
+.vava-contact-admin .vava-contact-mail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.vava-contact-admin .vava-contact-mail-card{
+  display:grid;
+  align-content:start;
+  gap:13px;
+  min-width:0;
+  padding:19px;
+  border:1px solid #dce4d8;
+  border-radius:15px;
+  background:#fff;
+  box-shadow:0 9px 25px rgba(62,74,60,.045);
+}
+.vava-contact-admin .vava-contact-mail-card h3{margin:0 0 2px;color:#4f5c4c;font-size:16px}
+.vava-contact-admin .vava-contact-mail-card>label,
+.vava-contact-admin .vava-contact-mail-label-grid>label{display:grid;gap:7px;min-width:0;color:#5b6758;font-weight:700}
+.vava-contact-admin .vava-contact-mail-card input[type="text"]{
+  min-height:44px;
+  padding:9px 12px;
+  border:1px solid #d3ddd0;
+  border-radius:10px;
+  background:#fff;
+  box-shadow:none;
+}
+.vava-contact-admin .vava-contact-mail-card input[type="text"]:focus{border-color:#80916f;box-shadow:0 0 0 3px rgba(111,129,95,.13);outline:0}
+.vava-contact-admin .vava-contact-mail-language-fields{display:grid;grid-template-columns:1fr;gap:11px}
+.vava-contact-admin .vava-contact-mail-language-fields>label{display:grid;gap:7px;min-width:0;color:#5b6758;font-weight:700}
+.vava-contact-admin .vava-contact-mail-language-fields>label[hidden]{display:none!important}
+.vava-contact-admin .vava-contact-mail-settings[dir="rtl"] [data-mail-language-field="ar"]{direction:rtl;text-align:right}
+.vava-contact-admin .vava-contact-mail-settings[dir="ltr"] [data-mail-language-field="en"]{direction:ltr;text-align:left}
+.vava-contact-admin .vava-contact-mail-label-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.vava-contact-admin .vava-contact-readonly-field{
+  display:grid;
+  grid-template-columns:minmax(130px,.7fr) minmax(0,1.3fr);
+  align-items:center;
+  gap:4px 12px;
+  min-height:62px;
+  padding:11px 13px;
+  border:1px solid #e1e7de;
+  border-radius:11px;
+  background:#f8faf6;
+}
+.vava-contact-admin .vava-contact-readonly-field>span{color:#727d6f;font-size:11px;font-weight:700}
+.vava-contact-admin .vava-contact-readonly-field>strong{min-width:0;overflow-wrap:anywhere;color:#4d5b49;font-size:13px}
+.vava-contact-admin .vava-contact-readonly-field>small{grid-column:1/-1;color:#8b9488;font-size:9px}
+.vava-contact-admin .vava-contact-mail-card.is-notifications{gap:15px}
+.vava-contact-admin .vava-contact-toggle-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.vava-contact-admin .vava-contact-toggle-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:15px;
+  min-height:74px;
+  padding:13px 14px;
+  border:1px solid #dce4d8;
+  border-radius:13px;
+  background:#fbfcfa;
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.vava-contact-admin .vava-contact-toggle-row.is-enabled{border-color:#b9c8b2;background:#f5f9f2;box-shadow:inset 3px 0 0 #748763}
+.vava-contact-admin[dir="rtl"] .vava-contact-toggle-row.is-enabled,.vava-contact-admin .vava-contact-mail-settings[dir="rtl"] .vava-contact-toggle-row.is-enabled{box-shadow:inset -3px 0 0 #748763}
+.vava-contact-admin .vava-contact-toggle-row>div{display:grid;gap:4px;min-width:0}
+.vava-contact-admin .vava-contact-toggle-row>div strong{color:#4f5b4c;font-size:13px}
+.vava-contact-admin .vava-contact-toggle-row>div p{margin:0;color:#7d877a;font-size:10px;line-height:1.55}
+.vava-contact-admin .vava-contact-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.vava-contact-admin .vava-contact-toggle input{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.vava-contact-admin .vava-contact-toggle-track{
+  position:relative;
+  display:block;
+  width:48px;
+  height:26px;
+  flex:0 0 48px;
+  border:1px solid #cbd4c7;
+  border-radius:999px;
+  background:#e8ece6;
+  transition:.2s ease;
+}
+.vava-contact-admin .vava-contact-toggle-track i{
+  position:absolute;
+  top:3px;
+  inset-inline-start:3px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 7px rgba(60,70,58,.18);
+  transition:transform .2s ease;
+}
+.vava-contact-admin .vava-contact-toggle input:checked+.vava-contact-toggle-track{border-color:#748763;background:#748763}
+.vava-contact-admin .vava-contact-toggle input:checked+.vava-contact-toggle-track i{transform:translateX(22px)}
+.vava-contact-admin [dir="rtl"] .vava-contact-toggle input:checked+.vava-contact-toggle-track i,
+.vava-contact-admin[dir="rtl"] .vava-contact-toggle input:checked+.vava-contact-toggle-track i{transform:translateX(-22px)}
+.vava-contact-admin .vava-contact-toggle input:focus-visible+.vava-contact-toggle-track{outline:0;box-shadow:0 0 0 3px rgba(111,129,95,.18)}
+.vava-contact-admin .vava-contact-toggle em{min-width:23px;color:#858e82;font-size:10px;font-style:normal;font-weight:900;text-transform:uppercase}
+.vava-contact-admin .vava-contact-toggle input:checked~em{color:#657656}
+.vava-contact-admin .vava-contact-form-behaviour{display:grid;gap:12px}
+.vava-contact-admin .vava-contact-hold-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,.35fr);align-items:center;gap:14px}
+.vava-contact-admin .vava-contact-hold-duration{display:grid;gap:7px;min-width:0;padding:12px;border:1px solid #dce4d8;border-radius:12px;background:#fff;color:#566253;font-weight:700}
+.vava-contact-admin .vava-contact-hold-duration input{width:100%;min-height:42px;border-color:#d2dcd0;border-radius:9px;box-shadow:none}
+.vava-contact-admin .vava-contact-hold-duration.is-hidden{display:none!important}
+@media(max-width:1000px){
+  .vava-contact-admin .vava-contact-mail-grid,.vava-contact-admin .vava-contact-toggle-list{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .vava-contact-admin .vava-contact-mail-settings{padding:14px}
+  .vava-contact-admin .vava-contact-mail-label-grid,.vava-contact-admin .vava-contact-hold-card{grid-template-columns:1fr}
+  .vava-contact-admin .vava-contact-readonly-field{grid-template-columns:1fr}
+  .vava-contact-admin .vava-contact-readonly-field>small{grid-column:auto}
+  .vava-contact-admin .vava-contact-toggle-row{grid-template-columns:1fr}
+  .vava-contact-admin .vava-contact-toggle{justify-self:start}
+}
+
+
+/* V1.21.1 — mail preview, complete bilingual layout, and hold controls inside Form Copy. */
+.vava-contact-admin .vava-contact-copy-hold{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(170px,.34fr);
+  align-items:stretch;
+  gap:12px;
+  margin:0 0 15px;
+  padding:13px;
+  border:1px solid #dce4d8;
+  border-radius:13px;
+  background:linear-gradient(145deg,#f4f8f1,#fbfcf9);
+}
+.vava-contact-admin .vava-contact-copy-hold .vava-contact-toggle-row{min-height:66px;background:#fff}
+.vava-contact-admin .vava-contact-copy-hold .vava-contact-hold-duration{align-content:center;margin:0}
+.vava-contact-admin .vava-contact-mail-settings[dir="ltr"]{text-align:left}
+.vava-contact-admin .vava-contact-mail-settings[dir="rtl"]{text-align:right}
+.vava-contact-admin .vava-contact-mail-settings[dir="ltr"] .vava-contact-toggle-row.is-enabled{box-shadow:inset 3px 0 0 #748763}
+.vava-contact-admin .vava-contact-mail-settings[dir="rtl"] .vava-contact-toggle-row.is-enabled{box-shadow:inset -3px 0 0 #748763}
+.vava-contact-preview-mail{
+  min-height:590px;
+  padding:54px;
+  background:linear-gradient(145deg,#f7f2e8,#eef3e9);
+}
+.vava-contact-mail-preview-card{
+  display:grid;
+  gap:17px;
+  max-width:610px;
+  margin:0 auto;
+  padding:38px;
+  border:1px solid rgba(111,129,95,.22);
+  border-radius:28px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 24px 60px rgba(74,84,68,.12);
+}
+.vava-contact-mail-preview-card>small{color:#c86f58;font-size:12px;font-weight:900;letter-spacing:.15em}
+.vava-contact-mail-preview-card>h3{margin:0;color:#4d5949;font-size:30px;line-height:1.3}
+.vava-contact-mail-preview-phone{display:grid;gap:7px;padding:17px;border:1px solid #dce4d8;border-radius:15px;background:#f8faf6}
+.vava-contact-mail-preview-phone span{color:#7c8778;font-size:12px;font-weight:700}
+.vava-contact-mail-preview-phone strong{color:#4e5b4b;font-size:19px}
+.vava-contact-mail-preview-card>button,.vava-contact-mail-preview-card>a{display:flex;align-items:center;justify-content:center;min-height:48px;padding:10px 18px;border:0;border-radius:13px;text-decoration:none;font-size:14px;font-weight:900}
+.vava-contact-mail-preview-card>button{background:#6f815f;color:#fff}
+.vava-contact-mail-preview-card>a{border:1px solid #d4ddcf;background:#fff;color:#627257}
+.vava-contact-mail-preview-notifications{display:grid;gap:8px;padding-top:4px}
+.vava-contact-mail-preview-notifications>b{color:#586654;font-size:13px}
+.vava-contact-mail-preview-notifications p{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;margin:0;padding:10px 12px;border:1px solid #e1e7de;border-radius:11px;background:#fbfcfa;color:#647060;font-size:11px}
+.vava-contact-mail-preview-notifications p em{padding:5px 9px;border-radius:999px;background:#ecefe9;color:#879083;font-size:9px;font-style:normal;font-weight:900}
+.vava-contact-mail-preview-notifications p.is-enabled em{background:#e5eddf;color:#657756}
+@media(max-width:680px){
+  .vava-contact-admin .vava-contact-copy-hold{grid-template-columns:1fr}
+  .vava-contact-preview-mail{padding:28px}
+  .vava-contact-mail-preview-card{padding:25px}
+}

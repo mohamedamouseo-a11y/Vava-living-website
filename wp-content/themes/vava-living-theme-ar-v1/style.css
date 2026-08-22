@@ -1,0 +1,51 @@
+/*
+Theme Name: VAVA Living Arabic
+Author: VAVA Living
+Description: قالب WordPress مخصص للنسخة العربية من موقع VAVA Living. الإصدار الأول يحوّل الصفحة الرئيسية الثابتة إلى front-page.php مع الحفاظ على التصميم والحركات.
+Version: 1.22.13
+Requires at least: 6.4
+Requires PHP: 8.0
+Text Domain: vava-living
+*/
+
+/* WordPress integration helpers that do not alter the approved homepage design. */
+.home-logo-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+}
+.admin-bar .fixed-header {
+	top: 50px;
+}
+@media screen and (max-width: 782px) {
+	.admin-bar .fixed-header {
+		top: 56px;
+	}
+}
+
+/* Dynamic homepage footer social links. */
+.footer.page-footer .social a{display:inline-flex;color:inherit;text-decoration:none;border:0;box-shadow:none}
+.footer.page-footer .social a:hover,.footer.page-footer .social a:focus{color:inherit;text-decoration:none}
+
+/* Shared output from the VAVA visual text editor. */
+.vava-richtext-content{min-width:0}
+.vava-richtext-content>p:first-child{margin-top:0}
+.vava-richtext-content>p:last-child{margin-bottom:0}
+.vava-richtext-content ul,.vava-richtext-content ol{padding-inline-start:1.4em}
+.vava-richtext-content blockquote{margin:1em 0;padding:.65em 1em;border-inline-start:3px solid rgba(107,109,67,.42);background:rgba(255,250,242,.32);border-radius:10px}
+.vava-richtext-content a{text-decoration:underline;text-underline-offset:3px}
+
+/* VAVA customer account entry in every site header. */
+.vava-account-link{
+  display:inline-grid;width:38px;height:38px;place-items:center;flex:0 0 38px;
+  border:1px solid rgba(115,121,74,.28);border-radius:50%;background:rgba(255,255,255,.46);
+  color:#747a4e;text-decoration:none!important;transition:.22s ease;box-sizing:border-box;
+}
+.vava-account-link svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.vava-account-link:hover,.vava-account-link:focus-visible{background:#747a4e;color:#fff7ed;border-color:#747a4e;transform:translateY(-1px)}
+.vava-account-link:hover svg circle,.vava-account-link:focus-visible svg circle{fill:#fff;stroke:#fff}
+.vava-account-link:hover svg path,.vava-account-link:focus-visible svg path{stroke:#fff}
+.vava-account-link.is-logged-in{background:#eef1e7}
+.header-tools{display:flex;align-items:center;gap:9px}
+@media(max-width:760px){.vava-account-link{width:34px;height:34px;flex-basis:34px}.vava-account-link svg{width:18px;height:18px}}

@@ -1,0 +1,1088 @@
+/* VAVA Selections — WordPress additions layered on top of the approved store page. */
+html[data-page="store.html"] body.vava-selections-page,
+html[data-page="store-en.html"] body.vava-selections-page{overflow-x:hidden}
+
+html[data-page="store.html"] .vava-selections-browser,
+html[data-page="store-en.html"] .vava-selections-browser{
+  min-height:auto;
+  padding-top:68px;
+  padding-bottom:96px;
+  align-items:flex-start
+}
+
+/* Approved modern alternating presentation for the two main collections. */
+html[data-page="store.html"] .vava-selection-blocks,
+html[data-page="store-en.html"] .vava-selection-blocks{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:58px;
+  width:min(1120px,100%);
+  margin-inline:auto;
+  align-items:stretch
+}
+
+html[data-page="store.html"] .vava-selection-block,
+html[data-page="store-en.html"] .vava-selection-block{
+  position:relative;
+  display:grid;
+  min-height:330px;
+  padding:18px 0;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  isolation:isolate
+}
+
+html[data-page="store.html"] .vava-selection-block-image,
+html[data-page="store-en.html"] .vava-selection-block-image{
+  width:70%;
+  height:294px;
+  min-height:0;
+  border:1px solid rgba(132,124,94,.16);
+  border-radius:38px;
+  background-position:center;
+  background-size:cover;
+  box-shadow:0 22px 65px rgba(85,78,59,.09);
+  position:relative;
+  overflow:hidden;
+  z-index:1;
+  transition:transform .35s ease,box-shadow .35s ease,filter .35s ease
+}
+
+html[data-page="store.html"] .vava-selection-block-image:after,
+html[data-page="store-en.html"] .vava-selection-block-image:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,250,242,.02),rgba(107,109,67,.1));
+  pointer-events:none
+}
+
+html[data-page="store.html"] .vava-selection-block:nth-child(1) .vava-selection-block-image,
+html[data-page="store-en.html"] .vava-selection-block:nth-child(1) .vava-selection-block-image{justify-self:end}
+
+html[data-page="store.html"] .vava-selection-block:nth-child(2) .vava-selection-block-image,
+html[data-page="store-en.html"] .vava-selection-block:nth-child(2) .vava-selection-block-image{justify-self:start}
+
+html[data-page="store.html"] .vava-selection-block-copy,
+html[data-page="store-en.html"] .vava-selection-block-copy{
+  position:absolute;
+  top:50%;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  width:min(430px,43%);
+  min-height:244px;
+  padding:34px 38px;
+  border:1px solid rgba(132,124,94,.17);
+  border-radius:34px;
+  background:rgba(255,252,247,.94);
+  box-shadow:0 22px 68px rgba(85,78,59,.1);
+  backdrop-filter:blur(14px);
+  transform:translateY(-50%);
+  box-sizing:border-box;
+  transition:border-color .3s ease,background .35s ease,box-shadow .3s ease,transform .3s ease
+}
+
+html[data-page="store.html"] .vava-selection-block:nth-child(1) .vava-selection-block-copy,
+html[data-page="store-en.html"] .vava-selection-block:nth-child(1) .vava-selection-block-copy{left:0}
+
+html[data-page="store.html"] .vava-selection-block:nth-child(2) .vava-selection-block-copy,
+html[data-page="store-en.html"] .vava-selection-block:nth-child(2) .vava-selection-block-copy{right:0}
+
+html[data-page="store.html"] .vava-selection-block-copy h2,
+html[data-page="store-en.html"] .vava-selection-block-copy h2{
+  margin:0 0 13px!important;
+  font-size:clamp(27px,2.5vw,38px)!important;
+  line-height:1.25
+}
+
+html[data-page="store.html"] .vava-selection-block-copy p,
+html[data-page="store-en.html"] .vava-selection-block-copy p{
+  max-width:34ch;
+  margin:0 0 25px;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.95
+}
+
+html[data-page="store.html"] .vava-selection-block-copy .btn,
+html[data-page="store-en.html"] .vava-selection-block-copy .btn{
+  min-width:210px;
+  margin-top:auto;
+  border:0;
+  font-family:inherit;
+  justify-content:center
+}
+
+html[data-page="store.html"] .vava-selection-block-copy h2,
+html[data-page="store-en.html"] .vava-selection-block-copy h2,
+html[data-page="store.html"] .vava-selection-block-copy p,
+html[data-page="store-en.html"] .vava-selection-block-copy p,
+html[data-page="store.html"] .vava-selection-block-copy .btn,
+html[data-page="store-en.html"] .vava-selection-block-copy .btn{
+  transition:color .3s ease,background-color .3s ease,border-color .3s ease,box-shadow .3s ease
+}
+
+html[data-page="store.html"] .vava-selection-block.is-active .vava-selection-block-copy,
+html[data-page="store-en.html"] .vava-selection-block.is-active .vava-selection-block-copy{
+  border-color:rgba(107,109,67,.72);
+  background:linear-gradient(145deg,#74774a 0%,var(--olive) 56%,#5e6039 100%);
+  box-shadow:0 28px 82px rgba(78,80,46,.26);
+  transform:translateY(-50%) scale(1.012)
+}
+
+html[data-page="store.html"] .vava-selection-block.is-active .vava-selection-block-copy h2,
+html[data-page="store-en.html"] .vava-selection-block.is-active .vava-selection-block-copy h2{
+  color:#fff!important
+}
+
+html[data-page="store.html"] .vava-selection-block.is-active .vava-selection-block-copy p,
+html[data-page="store-en.html"] .vava-selection-block.is-active .vava-selection-block-copy p{
+  color:rgba(255,255,255,.86)
+}
+
+html[data-page="store.html"] .vava-selection-block.is-active .vava-selection-toggle,
+html[data-page="store-en.html"] .vava-selection-block.is-active .vava-selection-toggle{
+  border-color:rgba(255,255,255,.78)!important;
+  background:#fff!important;
+  color:var(--olive)!important;
+  box-shadow:0 14px 34px rgba(44,45,25,.2)
+}
+
+html[data-page="store.html"] .vava-selection-block.is-active .vava-selection-toggle:hover,
+html[data-page="store-en.html"] .vava-selection-block.is-active .vava-selection-toggle:hover,
+html[data-page="store.html"] .vava-selection-block.is-active .vava-selection-toggle:focus-visible,
+html[data-page="store-en.html"] .vava-selection-block.is-active .vava-selection-toggle:focus-visible{
+  background:var(--paper)!important;
+  color:#565833!important
+}
+
+/* Tangible selections use their own coral active identity; olive remains exclusive to digital products. */
+.vava-digital-product-cover{display:grid;min-height:300px;place-items:center;overflow:hidden;background:#eef1ea;color:#747a4e;font-weight:800}
+.vava-digital-product-cover img{display:block;width:100%;height:100%;min-height:300px;object-fit:cover}
+@media(max-width:680px){.vava-digital-product-cover,.vava-digital-product-cover img{min-height:240px}}
+html[data-page="store.html"] .vava-selection-block:nth-child(2).is-active .vava-selection-block-copy,
+html[data-page="store-en.html"] .vava-selection-block:nth-child(2).is-active .vava-selection-block-copy{
+  border-color:rgba(207,125,101,.78);
+  background:#cf7d65;
+  box-shadow:0 28px 82px rgba(159,84,63,.24)
+}
+
+html[data-page="store.html"] .vava-selection-block:nth-child(2).is-active .vava-selection-toggle,
+html[data-page="store-en.html"] .vava-selection-block:nth-child(2).is-active .vava-selection-toggle{
+  border-color:rgba(255,255,255,.82)!important;
+  background:#fff!important;
+  color:#cf7d65!important;
+  box-shadow:0 14px 34px rgba(126,64,47,.2)
+}
+
+html[data-page="store.html"] .vava-selection-block:nth-child(2).is-active .vava-selection-toggle:hover,
+html[data-page="store-en.html"] .vava-selection-block:nth-child(2).is-active .vava-selection-toggle:hover,
+html[data-page="store.html"] .vava-selection-block:nth-child(2).is-active .vava-selection-toggle:focus-visible,
+html[data-page="store-en.html"] .vava-selection-block:nth-child(2).is-active .vava-selection-toggle:focus-visible{
+  background:var(--paper)!important;
+  color:#a95f4b!important
+}
+
+html[data-page="store.html"] .vava-selection-block.is-active .vava-selection-block-image,
+html[data-page="store-en.html"] .vava-selection-block.is-active .vava-selection-block-image{
+  transform:scale(1.008);
+  box-shadow:0 26px 78px rgba(85,78,59,.13);
+  filter:saturate(1.03)
+}
+
+html[data-page="store.html"] .vava-selection-panels,
+html[data-page="store-en.html"] .vava-selection-panels{
+  width:min(1120px,100%);
+  margin:42px auto 0;
+  overflow-anchor:none
+}
+
+html[data-page="store.html"] .vava-selection-panel,
+html[data-page="store-en.html"] .vava-selection-panel{
+  padding:38px;
+  border:1px solid rgba(107,109,67,.16);
+  border-radius:38px;
+  background:rgba(255,250,242,.58);
+  box-shadow:0 20px 65px rgba(85,78,59,.055);
+  animation:vavaSelectionReveal .34s ease both;
+  overflow-anchor:none
+}
+
+html[data-page="store.html"] .vava-selection-panel[hidden],
+html[data-page="store-en.html"] .vava-selection-panel[hidden]{display:none!important}
+
+html[data-page="store.html"] .vava-selection-panel-heading,
+html[data-page="store-en.html"] .vava-selection-panel-heading{max-width:720px;margin:0 auto 28px;text-align:center}
+
+html[data-page="store.html"] .vava-selection-panel-heading h2,
+html[data-page="store-en.html"] .vava-selection-panel-heading h2{margin-top:7px!important}
+
+html[data-page="store.html"] .vava-selection-empty,
+html[data-page="store-en.html"] .vava-selection-empty{
+  padding:28px;
+  border:1px dashed rgba(107,109,67,.28);
+  border-radius:24px;
+  background:rgba(255,255,255,.42);
+  color:var(--muted);
+  text-align:center;
+  font-size:16px;
+  line-height:1.8
+}
+
+html[data-page="store.html"] .vava-selection-panel .product .details-link,
+html[data-page="store-en.html"] .vava-selection-panel .product .details-link{align-self:flex-start}
+
+@keyframes vavaSelectionReveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+@media(max-width:1050px){
+  html[data-page="store.html"] .vava-selection-blocks,
+  html[data-page="store-en.html"] .vava-selection-blocks{gap:46px}
+
+  html[data-page="store.html"] .vava-selection-block,
+  html[data-page="store-en.html"] .vava-selection-block{min-height:312px}
+
+  html[data-page="store.html"] .vava-selection-block-image,
+  html[data-page="store-en.html"] .vava-selection-block-image{width:72%;height:270px;border-radius:32px}
+
+  html[data-page="store.html"] .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block-copy{width:min(400px,46%);min-height:226px;padding:30px 32px;border-radius:30px}
+}
+
+@media(max-width:780px){
+  html[data-page="store.html"] .vava-selections-browser,
+  html[data-page="store-en.html"] .vava-selections-browser{padding-top:46px;padding-bottom:72px}
+
+  html[data-page="store.html"] .vava-selection-blocks,
+  html[data-page="store-en.html"] .vava-selection-blocks{gap:30px}
+
+  html[data-page="store.html"] .vava-selection-block,
+  html[data-page="store-en.html"] .vava-selection-block{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    padding:0;
+    overflow:hidden;
+    border:1px solid rgba(132,124,94,.16);
+    border-radius:30px;
+    background:rgba(255,252,247,.82);
+    box-shadow:0 18px 55px rgba(85,78,59,.075)
+  }
+
+  html[data-page="store.html"] .vava-selection-block-image,
+  html[data-page="store-en.html"] .vava-selection-block-image{
+    order:1;
+    width:100%;
+    height:220px;
+    border:0;
+    border-radius:0;
+    box-shadow:none
+  }
+
+  html[data-page="store.html"] .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block-copy,
+  html[data-page="store.html"] .vava-selection-block:nth-child(1) .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block:nth-child(1) .vava-selection-block-copy,
+  html[data-page="store.html"] .vava-selection-block:nth-child(2) .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block:nth-child(2) .vava-selection-block-copy{
+    position:static;
+    order:2;
+    width:100%;
+    min-height:0;
+    padding:27px;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    transform:none
+  }
+
+  html[data-page="store.html"] .vava-selection-block.is-active .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block.is-active .vava-selection-block-copy{
+    background:linear-gradient(145deg,#74774a 0%,var(--olive) 56%,#5e6039 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+    transform:none
+  }
+
+  html[data-page="store.html"] .vava-selection-block-copy .btn,
+  html[data-page="store-en.html"] .vava-selection-block-copy .btn{min-width:0;width:100%}
+
+  html[data-page="store.html"] .vava-selection-panel,
+  html[data-page="store-en.html"] .vava-selection-panel{padding:24px 18px;border-radius:28px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html[data-page="store.html"] .vava-selection-block-image,
+  html[data-page="store-en.html"] .vava-selection-block-image,
+  html[data-page="store.html"] .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block-copy{transition:none}
+  html[data-page="store.html"] .vava-selection-panel,
+  html[data-page="store-en.html"] .vava-selection-panel{animation:none}
+}
+
+
+/* Release 1.18.12 — approved shared-cover digital product cards. */
+html[data-page="store.html"] .vava-selection-panel[data-selection-panel="digital"] .product-grid,
+html[data-page="store-en.html"] .vava-selection-panel[data-selection-panel="digital"] .product-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:26px;
+  align-items:stretch
+}
+
+html[data-page="store.html"] .vava-digital-product-card,
+html[data-page="store-en.html"] .vava-digital-product-card{
+  min-height:392px;
+  padding:24px 22px 20px;
+  border:1px solid rgba(222,224,216,.94);
+  border-radius:34px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.06) 35%,rgba(255,255,255,.14) 100%),
+    url('../images/vava-digital-product-card-cover.png') center/cover no-repeat;
+  box-shadow:0 18px 55px rgba(85,78,59,.08);
+  transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease;
+  overflow:hidden
+}
+
+html[data-page="store.html"] .vava-digital-product-card:hover,
+html[data-page="store-en.html"] .vava-digital-product-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 22px 60px rgba(85,78,59,.1);
+  border-color:rgba(107,109,67,.24)
+}
+
+html[data-page="store.html"] .vava-digital-product-card-body,
+html[data-page="store-en.html"] .vava-digital-product-card-body{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  min-height:0
+}
+
+html[data-page="store.html"] .vava-digital-product-card h3,
+html[data-page="store-en.html"] .vava-digital-product-card h3{
+  margin:88px 0 16px;
+  text-align:center;
+  font-size:clamp(28px,1.9vw,37px);
+  line-height:1.45;
+  color:#334038
+}
+
+html[data-page="store.html"] .vava-digital-product-card .small,
+html[data-page="store-en.html"] .vava-digital-product-card .small{
+  flex:1;
+  margin:0;
+  text-align:center;
+  line-height:2;
+  color:#62685f;
+  font-size:17px
+}
+
+html[data-page="store.html"] .vava-digital-product-card-meta,
+html[data-page="store-en.html"] .vava-digital-product-card-meta{
+  display:flex;
+  align-items:stretch;
+  gap:12px;
+  margin-top:24px;
+  flex-wrap:nowrap
+}
+
+html[data-page="store.html"] .vava-digital-product-card .details-link,
+html[data-page="store-en.html"] .vava-digital-product-card .details-link{
+  flex:1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:62px;
+  padding:0 24px;
+  border:2px solid #68703f;
+  border-radius:999px;
+  background:rgba(255,255,255,.92);
+  color:#596139;
+  text-decoration:none;
+  font-size:24px;
+  font-weight:600
+}
+
+html[data-page="store.html"] .vava-digital-product-card .price-tag,
+html[data-page="store-en.html"] .vava-digital-product-card .price-tag{
+  min-width:126px;
+  min-height:62px;
+  padding:0 18px;
+  border:0;
+  border-radius:999px;
+  background:linear-gradient(145deg,#73784b 0%,#646a41 100%);
+  color:#fff;
+  font-size:22px;
+  gap:6px
+}
+
+html[data-page="store.html"] .vava-digital-product-card .price-tag strong,
+html[data-page="store-en.html"] .vava-digital-product-card .price-tag strong{font-size:42px;line-height:1;font-weight:500;color:inherit}
+
+html[data-page="store.html"] .vava-digital-product-card .price-tag span,
+html[data-page="store-en.html"] .vava-digital-product-card .price-tag span{color:inherit}
+
+html[data-page="store.html"] .vava-digital-product-card .price-tag.price-text,
+html[data-page="store-en.html"] .vava-digital-product-card .price-tag.price-text{min-width:auto;padding-inline:22px;font-size:20px}
+
+@media(max-width:1050px){
+  html[data-page="store.html"] .vava-selection-panel[data-selection-panel="digital"] .product-grid,
+  html[data-page="store-en.html"] .vava-selection-panel[data-selection-panel="digital"] .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  html[data-page="store.html"] .vava-digital-product-card,
+  html[data-page="store-en.html"] .vava-digital-product-card{min-height:370px}
+  html[data-page="store.html"] .vava-digital-product-card h3,
+  html[data-page="store-en.html"] .vava-digital-product-card h3{font-size:clamp(24px,2.2vw,31px)}
+  html[data-page="store.html"] .vava-digital-product-card .small,
+  html[data-page="store-en.html"] .vava-digital-product-card .small{font-size:15px}
+  html[data-page="store.html"] .vava-digital-product-card .details-link,
+  html[data-page="store-en.html"] .vava-digital-product-card .details-link{min-height:56px;font-size:20px}
+  html[data-page="store.html"] .vava-digital-product-card .price-tag strong,
+  html[data-page="store-en.html"] .vava-digital-product-card .price-tag strong{font-size:34px}
+}
+
+@media(max-width:780px){
+  html[data-page="store.html"] .vava-selection-panel[data-selection-panel="digital"] .product-grid,
+  html[data-page="store-en.html"] .vava-selection-panel[data-selection-panel="digital"] .product-grid{grid-template-columns:1fr;gap:18px}
+  html[data-page="store.html"] .vava-digital-product-card,
+  html[data-page="store-en.html"] .vava-digital-product-card{min-height:0;padding:22px 18px 18px;border-radius:28px}
+  html[data-page="store.html"] .vava-digital-product-card h3,
+  html[data-page="store-en.html"] .vava-digital-product-card h3{margin-top:74px;font-size:29px}
+  html[data-page="store.html"] .vava-digital-product-card .small,
+  html[data-page="store-en.html"] .vava-digital-product-card .small{font-size:15px}
+  html[data-page="store.html"] .vava-digital-product-card .details-link,
+  html[data-page="store-en.html"] .vava-digital-product-card .details-link{min-height:52px;font-size:19px}
+  html[data-page="store.html"] .vava-digital-product-card .price-tag,
+  html[data-page="store-en.html"] .vava-digital-product-card .price-tag{min-width:112px;min-height:52px;font-size:18px}
+  html[data-page="store.html"] .vava-digital-product-card .price-tag strong,
+  html[data-page="store-en.html"] .vava-digital-product-card .price-tag strong{font-size:32px}
+}
+
+/* Release 1.18.13 — restore approved connected price/details control. */
+html[data-page="store.html"] .vava-digital-product-card-meta,
+html[data-page="store-en.html"] .vava-digital-product-card-meta{
+  display:flex!important;
+  align-items:stretch!important;
+  gap:0!important;
+  min-height:62px;
+  margin-top:24px;
+  overflow:hidden;
+  border:2px solid #68703f;
+  border-radius:999px;
+  background:#68703f;
+  flex-wrap:nowrap!important
+}
+
+html[data-page="store.html"] .vava-digital-product-card .details-link,
+html[data-page="store-en.html"] .vava-digital-product-card .details-link{
+  flex:1 1 auto;
+  min-width:0;
+  min-height:58px;
+  padding:0 24px;
+  border:0!important;
+  border-radius:0!important;
+  background:#fff!important;
+  color:#596139!important;
+  box-shadow:none!important;
+  transition:background-color .24s ease,color .24s ease
+}
+
+html[data-page="store.html"] .vava-digital-product-card .price-tag,
+html[data-page="store-en.html"] .vava-digital-product-card .price-tag{
+  flex:0 0 auto;
+  min-width:126px;
+  min-height:58px;
+  margin:0!important;
+  padding:0 18px;
+  border:0!important;
+  border-radius:0!important;
+  background:linear-gradient(145deg,#73784b 0%,#646a41 100%)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  transition:none!important
+}
+
+/* Card hover changes the details segment only. */
+html[data-page="store.html"] .vava-digital-product-card:hover .details-link,
+html[data-page="store-en.html"] .vava-digital-product-card:hover .details-link{
+  background:#dfe6c5!important;
+  color:#4f5834!important
+}
+
+/* Direct button hover has priority; price segment remains unchanged. */
+html[data-page="store.html"] .vava-digital-product-card .details-link:hover,
+html[data-page="store.html"] .vava-digital-product-card .details-link:focus-visible,
+html[data-page="store-en.html"] .vava-digital-product-card .details-link:hover,
+html[data-page="store-en.html"] .vava-digital-product-card .details-link:focus-visible{
+  background:#596139!important;
+  color:#fff!important
+}
+
+@media(max-width:1050px){
+  html[data-page="store.html"] .vava-digital-product-card-meta,
+  html[data-page="store-en.html"] .vava-digital-product-card-meta{min-height:56px}
+  html[data-page="store.html"] .vava-digital-product-card .details-link,
+  html[data-page="store-en.html"] .vava-digital-product-card .details-link,
+  html[data-page="store.html"] .vava-digital-product-card .price-tag,
+  html[data-page="store-en.html"] .vava-digital-product-card .price-tag{min-height:52px}
+}
+
+@media(max-width:780px){
+  html[data-page="store.html"] .vava-digital-product-card-meta,
+  html[data-page="store-en.html"] .vava-digital-product-card-meta{min-height:52px;margin-top:20px}
+  html[data-page="store.html"] .vava-digital-product-card .details-link,
+  html[data-page="store-en.html"] .vava-digital-product-card .details-link,
+  html[data-page="store.html"] .vava-digital-product-card .price-tag,
+  html[data-page="store-en.html"] .vava-digital-product-card .price-tag{min-height:48px}
+}
+
+
+/* Release 1.18.14 — inline product reader, matching the approved Journal experience. */
+html[data-page="store.html"] .vava-selection-panel-heading h2,
+html[data-page="store-en.html"] .vava-selection-panel-heading h2{max-width:860px;margin:10px auto 0!important;color:#4e493f;font-size:clamp(23px,2.6vw,38px)!important;font-weight:500!important;line-height:1.55!important;text-wrap:balance}
+html[data-page="store.html"] body.vava-product-reader-open,
+html[data-page="store-en.html"] body.vava-product-reader-open{overscroll-behavior:none}
+html[data-page="store.html"] .vava-product-reader[hidden],
+html[data-page="store-en.html"] .vava-product-reader[hidden],
+html[data-page="store.html"] .vava-product-reader-article[hidden],
+html[data-page="store-en.html"] .vava-product-reader-article[hidden]{display:none!important}
+html[data-page="store.html"] .vava-product-reader,
+html[data-page="store-en.html"] .vava-product-reader{position:fixed;inset:0;z-index:99990;display:grid;place-items:center;padding:clamp(20px,4vh,48px) clamp(14px,3vw,38px);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease}
+html[data-page="store.html"] .vava-product-reader.is-open,
+html[data-page="store-en.html"] .vava-product-reader.is-open{opacity:1;visibility:visible}
+html[data-page="store.html"] .vava-product-reader-backdrop,
+html[data-page="store-en.html"] .vava-product-reader-backdrop{position:absolute;inset:0;background:rgba(51,48,37,.54);backdrop-filter:blur(7px) saturate(.8);-webkit-backdrop-filter:blur(7px) saturate(.8);cursor:pointer}
+html[data-page="store.html"] .vava-product-reader-dialog,
+html[data-page="store-en.html"] .vava-product-reader-dialog{position:relative;z-index:1;width:min(1120px,100%);max-height:calc(100vh - clamp(40px,8vh,96px));overflow:auto;border:1px solid rgba(255,255,255,.58);border-radius:34px;background:#fffaf3;box-shadow:0 42px 120px rgba(35,32,24,.32);outline:none;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(107,109,67,.45) transparent;transform:translateY(18px) scale(.985);transition:transform .34s cubic-bezier(.2,.72,.25,1)}
+html[data-page="store.html"] .vava-product-reader.is-open .vava-product-reader-dialog,
+html[data-page="store-en.html"] .vava-product-reader.is-open .vava-product-reader-dialog{transform:translateY(0) scale(1)}
+html[data-page="store.html"] .vava-product-reader-dialog::-webkit-scrollbar,
+html[data-page="store-en.html"] .vava-product-reader-dialog::-webkit-scrollbar{width:8px}
+html[data-page="store.html"] .vava-product-reader-dialog::-webkit-scrollbar-thumb,
+html[data-page="store-en.html"] .vava-product-reader-dialog::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:rgba(107,109,67,.42);background-clip:padding-box}
+html[data-page="store.html"] .vava-product-reader-article,
+html[data-page="store-en.html"] .vava-product-reader-article{position:relative;min-width:0;color:var(--ink);background:linear-gradient(145deg,rgba(255,251,245,.99),rgba(245,240,230,.98))}
+html[data-page="store.html"] .vava-product-reader-body,
+html[data-page="store-en.html"] .vava-product-reader-body{display:grid;align-items:start;gap:0;min-width:0;padding:clamp(24px,3.3vw,44px);direction:ltr}
+html[data-page="store.html"] .vava-product-reader-body{grid-template-columns:minmax(270px,.82fr) minmax(0,1.18fr);grid-template-areas:"media copy"}
+html[data-page="store-en.html"] .vava-product-reader-body{grid-template-columns:minmax(0,1.18fr) minmax(270px,.82fr);grid-template-areas:"copy media"}
+html[data-page="store.html"] .vava-product-reader-copy,
+html[data-page="store-en.html"] .vava-product-reader-copy{grid-area:copy;min-width:0;padding:clamp(12px,2.8vw,36px) clamp(20px,3.5vw,48px);text-align:start}
+html[data-page="store.html"] .vava-product-reader-copy{direction:rtl}
+html[data-page="store-en.html"] .vava-product-reader-copy{direction:ltr}
+html[data-page="store.html"] .vava-product-reader-category,
+html[data-page="store-en.html"] .vava-product-reader-category{display:inline-flex;align-items:center;margin-bottom:14px;color:#cf7d65;font-size:12px;font-weight:800;letter-spacing:.02em}
+html[data-page="store.html"] .vava-product-reader-copy h2,
+html[data-page="store-en.html"] .vava-product-reader-copy h2{margin:0 0 20px!important;color:#4e493f;font-family:var(--font-display,inherit);font-size:clamp(29px,3vw,47px)!important;font-weight:500!important;line-height:1.35!important;text-wrap:balance}
+html[data-page="store.html"] .vava-product-reader-description,
+html[data-page="store-en.html"] .vava-product-reader-description{margin:0;color:rgba(75,70,60,.88);font-size:clamp(15px,1.2vw,17px);line-height:2}
+html[data-page="store.html"] .vava-product-reader-question,
+html[data-page="store-en.html"] .vava-product-reader-question{display:grid;gap:8px;margin-top:26px;padding:20px 22px;border:1px solid rgba(153,180,170,.3);border-radius:21px;background:linear-gradient(145deg,rgba(153,180,170,.13),rgba(255,250,242,.72));box-shadow:0 12px 34px rgba(85,78,59,.045)}
+html[data-page="store.html"] .vava-product-reader-question span,
+html[data-page="store-en.html"] .vava-product-reader-question span{color:#777a68;font-size:11px;font-weight:700}
+html[data-page="store.html"] .vava-product-reader-question strong,
+html[data-page="store-en.html"] .vava-product-reader-question strong{color:#646b43;font-size:clamp(18px,1.8vw,25px);font-weight:600;line-height:1.55}
+html[data-page="store.html"] .vava-product-reader-sections,
+html[data-page="store-en.html"] .vava-product-reader-sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:24px}
+html[data-page="store.html"] .vava-product-reader-sections section,
+html[data-page="store-en.html"] .vava-product-reader-sections section{padding:20px;border:1px solid rgba(107,109,67,.12);border-radius:20px;background:rgba(255,255,255,.78);box-shadow:0 10px 28px rgba(73,66,49,.045)}
+html[data-page="store.html"] .vava-product-reader-sections h3,
+html[data-page="store-en.html"] .vava-product-reader-sections h3,
+html[data-page="store.html"] .vava-product-reader-details h3,
+html[data-page="store-en.html"] .vava-product-reader-details h3{margin:0 0 13px!important;color:#565b3b;font-size:18px!important;font-weight:700!important;line-height:1.5!important}
+html[data-page="store.html"] .vava-product-reader-sections ul,
+html[data-page="store-en.html"] .vava-product-reader-sections ul{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+html[data-page="store.html"] .vava-product-reader-sections li,
+html[data-page="store-en.html"] .vava-product-reader-sections li{position:relative;padding-inline-start:17px;color:#646258;font-size:13px;line-height:1.8}
+html[data-page="store.html"] .vava-product-reader-sections li:before,
+html[data-page="store-en.html"] .vava-product-reader-sections li:before{content:"";position:absolute;inset-inline-start:0;top:.72em;width:7px;height:7px;border-radius:50%;background:#9eb49a}
+html[data-page="store.html"] .vava-product-reader-details,
+html[data-page="store-en.html"] .vava-product-reader-details{margin-top:24px;padding:21px;border:1px solid rgba(107,109,67,.12);border-radius:21px;background:rgba(255,255,255,.72)}
+html[data-page="store.html"] .vava-product-reader-facts,
+html[data-page="store-en.html"] .vava-product-reader-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+html[data-page="store.html"] .vava-product-reader-facts>div,
+html[data-page="store-en.html"] .vava-product-reader-facts>div{display:grid;gap:4px;padding:12px 14px;border-radius:14px;background:#f4f1e8}
+html[data-page="store.html"] .vava-product-reader-facts span,
+html[data-page="store-en.html"] .vava-product-reader-facts span{color:#888578;font-size:10px;font-weight:700}
+html[data-page="store.html"] .vava-product-reader-facts strong,
+html[data-page="store-en.html"] .vava-product-reader-facts strong{color:#565b3b;font-size:13px}
+html[data-page="store.html"] .vava-product-reader-rights,
+html[data-page="store-en.html"] .vava-product-reader-rights,
+html[data-page="store.html"] .vava-product-reader-disclaimer,
+html[data-page="store-en.html"] .vava-product-reader-disclaimer{margin:15px 0 0;color:#817e73;font-size:11px;line-height:1.8}
+html[data-page="store.html"] .vava-product-reader-disclaimer,
+html[data-page="store-en.html"] .vava-product-reader-disclaimer{padding-top:12px;border-top:1px solid rgba(107,109,67,.1)}
+html[data-page="store.html"] .vava-product-reader-media,
+html[data-page="store-en.html"] .vava-product-reader-media{grid-area:media;position:sticky;top:24px;align-self:start;min-width:0;padding:16px;overflow:hidden;border:1px solid rgba(255,255,255,.72);border-radius:27px;background:#ece8df;box-shadow:0 22px 56px rgba(74,67,50,.13)}
+html[data-page="store.html"] .vava-product-reader-cover,
+html[data-page="store-en.html"] .vava-product-reader-cover{display:grid;place-items:center;min-height:390px;overflow:hidden;border-radius:19px;background:linear-gradient(180deg,#fffdf9,#e9e4da)}
+html[data-page="store.html"] .vava-product-reader-cover img,
+html[data-page="store-en.html"] .vava-product-reader-cover img{display:block;width:100%;height:clamp(390px,58vh,610px);object-fit:contain;object-position:center}
+html[data-page="store.html"] .vava-product-reader-price,
+html[data-page="store-en.html"] .vava-product-reader-price{display:flex;align-items:baseline;justify-content:center;gap:8px;padding:19px 10px 5px;color:#646a41}
+html[data-page="store.html"] .vava-product-reader-price strong,
+html[data-page="store-en.html"] .vava-product-reader-price strong{font-family:Georgia,serif;font-size:42px;font-weight:500;line-height:1}
+html[data-page="store.html"] .vava-product-reader-price span,
+html[data-page="store-en.html"] .vava-product-reader-price span{color:#777a68;font-size:14px}
+html[data-page="store.html"] .vava-product-reader-price.is-price-text span,
+html[data-page="store-en.html"] .vava-product-reader-price.is-price-text span{font-size:18px;font-weight:700;color:#646a41}
+html[data-page="store.html"] .vava-product-reader-toolbar,
+html[data-page="store-en.html"] .vava-product-reader-toolbar{position:sticky;z-index:4;bottom:-1px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;gap:14px;min-height:88px;padding:12px clamp(14px,2.5vw,28px);border-top:1px solid rgba(255,255,255,.18);background:#6b6d43;color:#fff;box-shadow:0 -15px 42px rgba(57,58,36,.16);direction:ltr}
+html[data-page="store.html"] .vava-product-reader-destination,
+html[data-page="store-en.html"] .vava-product-reader-destination{position:relative;display:flex;align-items:center;gap:12px;min-width:0;margin:0;padding:8px 2px;border:0;background:transparent;color:#fff;font:inherit;text-align:start;cursor:pointer}
+html[data-page="store.html"] .vava-product-reader-destination.is-next,
+html[data-page="store-en.html"] .vava-product-reader-destination.is-next{justify-content:flex-end;text-align:end}
+html[data-page="store.html"] .vava-product-reader-destination.is-empty,
+html[data-page="store-en.html"] .vava-product-reader-destination.is-empty{cursor:default}
+html[data-page="store.html"] .vava-product-reader-destination-copy,
+html[data-page="store-en.html"] .vava-product-reader-destination-copy{display:grid;min-width:0;gap:4px}
+html[data-page="store.html"] .vava-product-reader-destination-copy small,
+html[data-page="store-en.html"] .vava-product-reader-destination-copy small{color:rgba(255,255,255,.68);font-size:10px;font-weight:700}
+html[data-page="store.html"] .vava-product-reader-destination-copy b,
+html[data-page="store-en.html"] .vava-product-reader-destination-copy b{display:-webkit-box;overflow:hidden;color:#fff;font-size:12px;font-weight:700;line-height:1.55;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+html[data-page="store.html"] .vava-product-reader-arrow,
+html[data-page="store-en.html"] .vava-product-reader-arrow{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border:1px solid rgba(255,255,255,.46);border-radius:50%;color:#fff;font-size:22px;line-height:1;transition:background .22s ease,border-color .22s ease}
+html[data-page="store.html"] .vava-product-reader-destination:hover .vava-product-reader-arrow,
+html[data-page="store.html"] .vava-product-reader-destination:focus-visible .vava-product-reader-arrow,
+html[data-page="store-en.html"] .vava-product-reader-destination:hover .vava-product-reader-arrow,
+html[data-page="store-en.html"] .vava-product-reader-destination:focus-visible .vava-product-reader-arrow{border-color:#fff;background:rgba(255,255,255,.14)}
+html[data-page="store.html"] .vava-product-reader-close,
+html[data-page="store-en.html"] .vava-product-reader-close{position:relative;align-self:center;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:154px;min-height:46px;padding:10px 20px;overflow:hidden;border:1px solid rgba(255,255,255,.5);border-radius:999px;background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:12px;font-weight:800;line-height:1.2;cursor:pointer;transition:background .22s ease,border-color .22s ease}
+html[data-page="store.html"] .vava-product-reader-close::before,
+html[data-page="store-en.html"] .vava-product-reader-close::before{content:"";position:absolute;top:-70%;bottom:-70%;left:-50%;width:34%;transform:skewX(-24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent);transition:left .55s ease}
+html[data-page="store.html"] .vava-product-reader-close:hover,
+html[data-page="store.html"] .vava-product-reader-close:focus-visible,
+html[data-page="store-en.html"] .vava-product-reader-close:hover,
+html[data-page="store-en.html"] .vava-product-reader-close:focus-visible{border-color:#fff;background:rgba(255,255,255,.17)}
+html[data-page="store.html"] .vava-product-reader-close:hover::before,
+html[data-page="store.html"] .vava-product-reader-close:focus-visible::before,
+html[data-page="store-en.html"] .vava-product-reader-close:hover::before,
+html[data-page="store-en.html"] .vava-product-reader-close:focus-visible::before{left:118%}
+html[data-page="store.html"] .vava-product-reader-close>span:last-child,
+html[data-page="store-en.html"] .vava-product-reader-close>span:last-child{font-size:20px;font-weight:400;line-height:.8}
+@media(max-width:900px){
+  html[data-page="store.html"] .vava-product-reader,html[data-page="store-en.html"] .vava-product-reader{padding:18px 12px}
+  html[data-page="store.html"] .vava-product-reader-dialog,html[data-page="store-en.html"] .vava-product-reader-dialog{max-height:calc(100vh - 36px);border-radius:27px}
+  html[data-page="store.html"] .vava-product-reader-body,html[data-page="store-en.html"] .vava-product-reader-body{grid-template-columns:1fr;grid-template-areas:"media" "copy";padding:18px}
+  html[data-page="store.html"] .vava-product-reader-media,html[data-page="store-en.html"] .vava-product-reader-media{position:relative;top:auto}
+  html[data-page="store.html"] .vava-product-reader-cover img,html[data-page="store-en.html"] .vava-product-reader-cover img{height:clamp(280px,60vw,440px)}
+  html[data-page="store.html"] .vava-product-reader-copy,html[data-page="store-en.html"] .vava-product-reader-copy{padding:28px 8px 18px}
+}
+@media(max-width:650px){
+  html[data-page="store.html"] .vava-product-reader,html[data-page="store-en.html"] .vava-product-reader{padding:8px}
+  html[data-page="store.html"] .vava-product-reader-dialog,html[data-page="store-en.html"] .vava-product-reader-dialog{max-height:calc(100vh - 16px);border-radius:23px}
+  html[data-page="store.html"] .vava-product-reader-body,html[data-page="store-en.html"] .vava-product-reader-body{padding:12px}
+  html[data-page="store.html"] .vava-product-reader-copy,html[data-page="store-en.html"] .vava-product-reader-copy{padding:24px 7px 16px}
+  html[data-page="store.html"] .vava-product-reader-copy h2,html[data-page="store-en.html"] .vava-product-reader-copy h2{font-size:clamp(26px,8vw,35px)!important}
+  html[data-page="store.html"] .vava-product-reader-sections,html[data-page="store-en.html"] .vava-product-reader-sections,html[data-page="store.html"] .vava-product-reader-facts,html[data-page="store-en.html"] .vava-product-reader-facts{grid-template-columns:1fr}
+  html[data-page="store.html"] .vava-product-reader-toolbar,html[data-page="store-en.html"] .vava-product-reader-toolbar{grid-template-columns:44px minmax(130px,1fr) 44px;gap:8px;min-height:70px;padding:9px 11px}
+  html[data-page="store.html"] .vava-product-reader-destination-copy,html[data-page="store-en.html"] .vava-product-reader-destination-copy{display:none}
+  html[data-page="store.html"] .vava-product-reader-destination,html[data-page="store-en.html"] .vava-product-reader-destination{justify-content:center!important;padding:0}
+  html[data-page="store.html"] .vava-product-reader-arrow,html[data-page="store-en.html"] .vava-product-reader-arrow{flex-basis:40px;width:40px;height:40px}
+  html[data-page="store.html"] .vava-product-reader-close,html[data-page="store-en.html"] .vava-product-reader-close{width:100%;min-width:0;min-height:43px;padding:9px 13px}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-page="store.html"] .vava-product-reader,html[data-page="store-en.html"] .vava-product-reader,html[data-page="store.html"] .vava-product-reader-dialog,html[data-page="store-en.html"] .vava-product-reader-dialog,html[data-page="store.html"] .vava-product-reader-arrow,html[data-page="store-en.html"] .vava-product-reader-arrow,html[data-page="store.html"] .vava-product-reader-close,html[data-page="store-en.html"] .vava-product-reader-close{transition:none!important}
+  html[data-page="store.html"] .vava-product-reader-close::before,html[data-page="store-en.html"] .vava-product-reader-close::before{display:none}
+}
+
+/* Release 1.22.49 — direct collection jumps and approved tangible coming-soon state. */
+html[data-page="store.html"] .vava-selection-panel,
+html[data-page="store-en.html"] .vava-selection-panel{
+  scroll-margin-top:clamp(108px,11vw,154px)
+}
+
+html[data-page="store.html"] .vava-selection-panel.is-tangible-coming-soon,
+html[data-page="store-en.html"] .vava-selection-panel.is-tangible-coming-soon{
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon,
+html[data-page="store-en.html"] .vava-tangible-coming-soon{
+  position:relative;
+  display:grid;
+  justify-items:center;
+  min-height:620px;
+  padding:58px 32px 50px;
+  overflow:hidden;
+  border:1px solid rgba(132,124,94,.2);
+  border-radius:46px;
+  background:
+    radial-gradient(circle at 50% 37%,rgba(231,183,157,.2),transparent 31%),
+    linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,250,242,.68));
+  box-shadow:0 24px 76px rgba(85,78,59,.08);
+  isolation:isolate
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon:before,
+html[data-page="store-en.html"] .vava-tangible-coming-soon:before{
+  content:"";
+  position:absolute;
+  width:520px;
+  height:520px;
+  left:-260px;
+  bottom:-285px;
+  border-radius:50%;
+  background:rgba(231,183,157,.14);
+  pointer-events:none
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon:after,
+html[data-page="store-en.html"] .vava-tangible-coming-soon:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  opacity:.32;
+  background-image:radial-gradient(circle,rgba(107,109,67,.18) 1px,transparent 1px);
+  background-size:17px 17px;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 22%,#000 84%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 22%,#000 84%,transparent 100%);
+  pointer-events:none
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-visual,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual{
+  position:relative;
+  z-index:1;
+  display:grid;
+  width:min(610px,92%);
+  place-items:center;
+  margin-inline:auto
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-visual img,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:28px;
+  filter:drop-shadow(0 22px 34px rgba(91,80,53,.09));
+  animation:vavaTangibleGiftFloat 5.8s ease-in-out infinite;
+  mix-blend-mode:multiply
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-orbit,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-orbit{
+  position:absolute;
+  z-index:2;
+  width:72%;
+  aspect-ratio:1.85/1;
+  border:1px solid rgba(207,125,101,.36);
+  border-radius:50%;
+  transform:rotate(-9deg);
+  animation:vavaTangibleOrbit 10s linear infinite;
+  pointer-events:none
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-orbit:after,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-orbit:after{
+  content:"";
+  position:absolute;
+  top:9%;
+  left:11%;
+  width:9px;
+  height:9px;
+  border:3px solid rgba(255,252,247,.94);
+  border-radius:50%;
+  background:#cf7d65;
+  box-shadow:0 0 0 1px rgba(207,125,101,.26)
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-spark,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-spark{
+  position:absolute;
+  z-index:3;
+  width:16px;
+  height:16px;
+  color:#cf7d65;
+  animation:vavaTangibleSpark 2.7s ease-in-out infinite
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-spark:before,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-spark:before,
+html[data-page="store.html"] .vava-tangible-coming-soon-spark:after,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-spark:after{
+  content:"";
+  position:absolute;
+  inset:7px 0;
+  border-radius:99px;
+  background:currentColor
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-spark:after,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-spark:after{
+  transform:rotate(90deg)
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-spark.spark-one,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-spark.spark-one{top:27%;right:20%}
+html[data-page="store.html"] .vava-tangible-coming-soon-spark.spark-two,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-spark.spark-two{top:43%;left:19%;animation-delay:-1.15s;color:#7e8050}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-copy,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-copy{
+  position:relative;
+  z-index:2;
+  max-width:680px;
+  margin-top:-6px;
+  text-align:center
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-copy h2,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-copy h2{
+  margin:0!important;
+  color:#cf7d65!important;
+  font-size:clamp(48px,7vw,82px)!important;
+  font-weight:500!important;
+  line-height:1.05!important;
+  letter-spacing:-.035em
+}
+
+html[data-page="store-en.html"] .vava-tangible-coming-soon-copy h2{letter-spacing:-.045em}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-dots,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-dots{
+  display:block;
+  margin:2px 0 10px;
+  color:rgba(207,125,101,.62);
+  font-size:22px;
+  letter-spacing:.22em;
+  line-height:1
+}
+
+html[data-page="store.html"] .vava-tangible-coming-soon-copy p,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-copy p{
+  margin:0;
+  color:#555047;
+  font-size:clamp(17px,2vw,23px);
+  line-height:1.8
+}
+
+@keyframes vavaTangibleGiftFloat{
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(0,-10px,0)}
+}
+
+@keyframes vavaTangibleOrbit{
+  from{transform:rotate(-9deg)}
+  to{transform:rotate(351deg)}
+}
+
+@keyframes vavaTangibleSpark{
+  0%,100%{opacity:.28;transform:scale(.72) rotate(45deg)}
+  50%{opacity:1;transform:scale(1.12) rotate(45deg)}
+}
+
+@media(max-width:780px){
+  html[data-page="store.html"] .vava-selection-panel,
+  html[data-page="store-en.html"] .vava-selection-panel{scroll-margin-top:104px}
+
+  html[data-page="store.html"] .vava-tangible-coming-soon,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon{
+    min-height:480px;
+    padding:42px 18px 40px;
+    border-radius:30px
+  }
+
+  html[data-page="store.html"] .vava-tangible-coming-soon-visual,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-visual{width:min(520px,110%)}
+
+  html[data-page="store.html"] .vava-tangible-coming-soon-orbit,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-orbit{width:78%}
+
+  html[data-page="store.html"] .vava-tangible-coming-soon-spark.spark-one,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-spark.spark-one{right:10%}
+  html[data-page="store.html"] .vava-tangible-coming-soon-spark.spark-two,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-spark.spark-two{left:10%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html[data-page="store.html"] .vava-tangible-coming-soon-visual img,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-visual img,
+  html[data-page="store.html"] .vava-tangible-coming-soon-orbit,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-orbit,
+  html[data-page="store.html"] .vava-tangible-coming-soon-spark,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-spark{animation:none}
+}
+
+
+/* Release 1.22.50 — static, frameless tangible coming-soon content. */
+html[data-page="store.html"] .vava-tangible-coming-soon,
+html[data-page="store-en.html"] .vava-tangible-coming-soon{
+  min-height:0;
+  padding:40px 24px 44px
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-visual,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual{
+  width:min(560px,94%);
+  margin:0 auto;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-visual img,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual img{
+  border-radius:0;
+  filter:none;
+  animation:none!important;
+  transform:none!important;
+  mix-blend-mode:multiply
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-orbit,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-orbit,
+html[data-page="store.html"] .vava-tangible-coming-soon-spark,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-spark,
+html[data-page="store.html"] .vava-tangible-coming-soon-dots,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-dots{display:none!important}
+html[data-page="store.html"] .vava-tangible-coming-soon-copy,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-copy{
+  margin-top:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-copy h2,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-copy h2{animation:none!important;transform:none!important}
+@media(max-width:680px){
+  html[data-page="store.html"] .vava-tangible-coming-soon,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon{padding:28px 16px 34px}
+}
+
+
+/* Release 1.22.51 — no outer frame and natural, uncropped tangible artwork. */
+html[data-page="store.html"] .vava-selection-panel.is-tangible-coming-soon,
+html[data-page="store-en.html"] .vava-selection-panel.is-tangible-coming-soon{
+  overflow:visible!important
+}
+html[data-page="store.html"] .vava-tangible-coming-soon,
+html[data-page="store-en.html"] .vava-tangible-coming-soon{
+  display:flex!important;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:0!important;
+  padding:20px 0 34px!important;
+  overflow:visible!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  isolation:auto!important
+}
+html[data-page="store.html"] .vava-tangible-coming-soon::before,
+html[data-page="store-en.html"] .vava-tangible-coming-soon::before,
+html[data-page="store.html"] .vava-tangible-coming-soon::after,
+html[data-page="store-en.html"] .vava-tangible-coming-soon::after{
+  content:none!important;
+  display:none!important
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-visual,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual{
+  display:block!important;
+  width:min(670px,100%)!important;
+  max-width:100%!important;
+  margin:0 auto 2px!important;
+  padding:0!important;
+  overflow:visible!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-visual img,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual img{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  height:auto!important;
+  aspect-ratio:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  margin:0 auto!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
+  transform:none!important;
+  animation:none!important;
+  mix-blend-mode:normal!important
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-copy,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-copy{
+  margin:0!important;
+  padding:0!important
+}
+@media(max-width:680px){
+  html[data-page="store.html"] .vava-tangible-coming-soon,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon{padding:12px 0 28px!important}
+  html[data-page="store.html"] .vava-tangible-coming-soon-visual,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-visual{width:100%!important}
+}
+
+/* Release 1.22.52 — transparent, fully visible tangible coming-soon artwork. */
+html[data-page="store.html"] .vava-selection-panel.is-tangible-coming-soon,
+html[data-page="store-en.html"] .vava-selection-panel.is-tangible-coming-soon,
+html[data-page="store.html"] .vava-tangible-coming-soon,
+html[data-page="store-en.html"] .vava-tangible-coming-soon,
+html[data-page="store.html"] .vava-tangible-coming-soon-visual,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual{
+  overflow:visible!important
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-visual,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual{
+  width:min(560px,100%)!important;
+  max-width:100%!important;
+  height:auto!important;
+  margin:0 auto 4px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  clip-path:none!important;
+  -webkit-mask:none!important;
+  mask:none!important
+}
+html[data-page="store.html"] .vava-tangible-coming-soon-visual img,
+html[data-page="store-en.html"] .vava-tangible-coming-soon-visual img{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  margin:0 auto!important;
+  padding:0!important;
+  overflow:visible!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  filter:none!important;
+  clip-path:none!important;
+  -webkit-mask:none!important;
+  mask:none!important;
+  transform:none!important;
+  animation:none!important;
+  mix-blend-mode:normal!important
+}
+@media(max-width:680px){
+  html[data-page="store.html"] .vava-tangible-coming-soon-visual,
+  html[data-page="store-en.html"] .vava-tangible-coming-soon-visual{
+    width:min(460px,100%)!important
+  }
+}

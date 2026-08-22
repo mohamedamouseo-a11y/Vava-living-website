@@ -1,0 +1,599 @@
+.vava-about-admin .vava-repeater-card{margin-top:18px;padding:18px;border:1px solid #dfe4dc;border-radius:14px;background:#fff}
+.vava-about-admin .vava-repeater-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+.vava-about-admin .vava-repeater-heading h3{margin:0 0 4px;color:#44513f;font-size:15px}
+.vava-about-admin .vava-repeater-heading p{margin:0;color:#7a8377;font-size:12px}
+.vava-about-admin .vava-repeater-list{display:grid;gap:10px}
+.vava-about-admin .vava-repeater-item{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:start;padding:13px;border:1px solid #e2e6df;border-radius:11px;background:#f9faf8}
+.vava-about-admin .vava-repeater-handle{padding-top:25px;color:#9ba398;font-size:19px;cursor:move;user-select:none}
+.vava-about-admin .vava-repeater-fields{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:10px}
+.vava-about-admin .vava-repeater-fields label{display:grid;gap:5px}
+.vava-about-admin .vava-repeater-fields label:first-child:last-child,.vava-about-admin .vava-repeater-fields label:has(textarea){grid-column:auto}
+.vava-about-admin .vava-repeater-fields span{color:#596356;font-size:12px;font-weight:700}
+.vava-about-admin .vava-repeater-placeholder{min-height:90px;border:1px dashed #9aaa91;border-radius:11px;background:#f1f5ef}
+.vava-about-admin .vava-about-media-field{gap:10px}
+.vava-about-admin .vava-about-media-field .vava-media-dropzone{display:grid;grid-template-columns:170px 1fr;align-items:center;gap:16px;width:100%;padding:12px;border:1px dashed #b9c3b4;border-radius:14px;background:#fbfcfa;text-align:start;cursor:pointer}
+.vava-about-admin .vava-about-media-field .vava-media-preview{height:110px;overflow:hidden;border-radius:10px;background:#eef1ec}
+.vava-about-admin .vava-about-media-field img{width:100%;height:100%;object-fit:cover}
+.vava-about-admin .vava-media-actions{display:grid;gap:5px;color:#566252}
+.vava-about-admin .vava-media-actions small{color:#7d867a}
+.vava-about-admin .vava-link-choice{display:grid;grid-template-columns:170px minmax(0,1fr);gap:10px}
+.vava-about-admin .vava-link-choice input{grid-column:2}
+.vava-about-preview{position:relative;display:grid;min-height:500px;padding:36px;gap:24px;overflow:hidden;background:linear-gradient(145deg,#f8f3eb,#edf2ec);color:#575247;box-sizing:border-box}
+.vava-about-preview h3{margin:5px 0 12px;color:#4b473b;font-family:Georgia,serif;font-size:34px;font-weight:500;line-height:1.3}
+.vava-about-preview span{color:#6f815f;font-size:12px;font-weight:700;letter-spacing:.08em}
+.vava-about-preview p,.vava-about-preview small{display:block;margin:0 0 10px;color:#657064;font-size:13px;line-height:1.75;white-space:pre-line}
+.vava-about-preview-hero{grid-template-columns:1.1fr .9fr;align-items:center}
+.vava-about-preview-copy{position:relative;z-index:1}
+.vava-about-preview-copy>small{margin-top:9px;color:#778076;font-size:11px}
+.vava-about-preview-image{min-height:390px;border-radius:48% 48% 18px 18px;background-position:center;background-size:cover;box-shadow:0 18px 45px rgba(62,70,58,.12)}
+.vava-about-preview-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+.vava-about-preview-tags b,.vava-about-preview-invite b{padding:8px 11px;border-radius:999px;background:rgba(111,129,95,.12);color:#5e6c55;font-size:10px}
+.vava-about-preview-story{grid-template-columns:.68fr 1.32fr;align-items:start}
+.vava-about-preview-side{padding:12px}
+.vava-about-preview-list{display:grid;gap:9px}
+.vava-about-preview-list p{padding:8px 0;margin:0}
+.vava-about-preview-list p.soft{padding:14px;border-radius:16px;background:rgba(255,255,255,.72);border:1px solid rgba(111,129,95,.12)}
+.vava-about-preview-list p.whisper{padding-inline-start:13px;border-inline-start:2px solid rgba(207,125,101,.32);font-size:11px}
+.vava-about-preview-list p.poetic{color:#b66e5c;font-family:Georgia,serif;font-size:15px}
+.vava-about-preview-why{grid-template-columns:.9fr 1.1fr;align-items:center}
+.vava-about-preview-why .vava-about-preview-image{min-height:360px;border-radius:34px}
+.vava-about-preview-features,.vava-about-preview-vision{display:block;text-align:center}
+.vava-about-preview-heading{max-width:680px;margin:0 auto 22px}
+.vava-about-preview-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vava-about-preview-cards article{padding:18px;border:1px solid rgba(111,129,95,.16);border-radius:18px;background:rgba(255,255,255,.7);text-align:start}
+.vava-about-preview-cards strong{display:block;margin-bottom:7px;color:#4b5748;font-family:Georgia,serif;font-size:17px}
+.vava-about-preview-cards p{font-size:11px}
+.vava-about-preview-dream{margin:18px auto 0;padding:16px;border-radius:18px;background:rgba(153,180,170,.14);color:#687368;font-size:11px;line-height:1.75}
+.vava-about-preview-invite{align-self:center;max-width:650px;margin:auto;padding:45px;border:1px solid rgba(255,255,255,.8);border-radius:32px;background:rgba(255,255,255,.7);text-align:center;box-shadow:0 20px 55px rgba(62,70,58,.08)}
+.vava-about-preview-invite>div{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:18px}
+.vava-about-preview-invite b:nth-child(3){background:rgba(207,125,101,.16);color:#a66150}
+@media(max-width:1100px){.vava-about-admin .vava-repeater-fields{grid-template-columns:1fr}.vava-about-admin .vava-link-choice{grid-template-columns:1fr}.vava-about-admin .vava-link-choice input{grid-column:auto}}
+@media(max-width:782px){.vava-about-admin .vava-repeater-item{grid-template-columns:22px 1fr}.vava-about-admin .vava-repeater-item>.button-link-delete{grid-column:2}.vava-about-admin .vava-about-media-field .vava-media-dropzone{grid-template-columns:1fr}.vava-about-preview-hero,.vava-about-preview-story,.vava-about-preview-why{grid-template-columns:1fr}.vava-about-preview-image{min-height:230px}.vava-about-preview-cards{grid-template-columns:1fr}}
+
+/* Corrective V1R1 — use the same polished editor shell as the homepage. */
+.vava-about-admin .vava-field{
+  min-width:0;
+  margin:0;
+  padding:15px;
+  border:1px solid var(--vava-admin-line);
+  border-radius:10px;
+  background:#fff;
+  box-sizing:border-box;
+}
+.vava-about-admin .vava-field-full{grid-column:1/-1}
+.vava-about-admin .vava-field>label{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.vava-about-admin .vava-field input[type="text"],
+.vava-about-admin .vava-field input[type="url"],
+.vava-about-admin .vava-field textarea,
+.vava-about-admin .vava-field select{
+  width:100%;
+  min-height:42px;
+  border-color:#cfd5dc;
+  border-radius:7px;
+  background:#fff;
+  box-shadow:none;
+  box-sizing:border-box;
+}
+.vava-about-admin .vava-field textarea{min-height:116px;resize:vertical}
+.vava-about-admin .vava-shared-fields{margin-top:16px}
+.vava-about-admin .vava-editor-workspace{display:block}
+.vava-about-admin .vava-editor-controls{width:100%;min-width:0}
+#vava_homepage_settings .vava-about-admin .vava-section-panels{margin-top:0}
+#vava_live_preview_box .vava-about-preview{width:900px;min-height:500px}
+#vava_live_preview_box .vava-live-preview[data-about-preview-panel] .vava-preview-stage{min-height:0}
+#vava_live_preview_box .vava-live-preview[data-about-preview-panel] .vava-preview-viewport{background:linear-gradient(145deg,#eef1ed,#e7ebe5)}
+@media(min-width:901px){
+  #vava_homepage_settings .vava-about-admin .vava-section-tabs{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+}
+@media(max-width:782px){
+  .vava-about-admin .vava-field-full{grid-column:auto}
+}
+
+/* ===== Cumulative V1R3: approved story controls and homepage-style media ===== */
+.vava-about-admin .vava-about-media-field{display:block!important;gap:0!important}
+.vava-about-admin .vava-about-media-field .vava-media-field{position:relative!important;height:auto!important;padding:0!important;border:0!important;background:transparent!important}
+.vava-about-admin .vava-about-media-field .vava-media-dropzone{
+  display:block!important;width:100%!important;min-height:210px!important;padding:0!important;border:1px dashed #aeb9c3!important;
+  border-radius:12px!important;background:#fafbfc!important;text-align:center!important;cursor:pointer!important;overflow:hidden!important
+}
+.vava-about-admin .vava-about-media-field .vava-media-dropzone:hover,
+.vava-about-admin .vava-about-media-field .vava-media-dropzone:focus,
+.vava-about-admin .vava-about-media-field .vava-media-dropzone.is-dragover{
+  border-color:var(--vava-admin-accent)!important;background:#f4f8f1!important;outline:0!important
+}
+.vava-about-admin .vava-about-media-field .vava-media-preview{
+  display:grid!important;place-items:center!important;align-content:center!important;width:auto!important;height:auto!important;min-height:206px!important;
+  margin:0!important;padding:14px!important;border-radius:0!important;background:transparent!important;overflow:visible!important;box-sizing:border-box!important
+}
+.vava-about-admin .vava-about-media-field .vava-media-preview img{
+  display:block!important;width:100%!important;max-width:100%!important;height:220px!important;max-height:220px!important;object-fit:contain!important;
+  border-radius:9px!important;background:#edf0f2!important
+}
+.vava-about-admin .vava-about-media-field .vava-media-actions{display:flex!important;align-items:center!important;gap:10px!important;margin-top:11px!important}
+
+.vava-about-admin .vava-about-delete-icon{
+  display:inline-grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid #e3b5ad;border-radius:8px;
+  background:#fff;color:#c26858;cursor:pointer;box-shadow:none;align-self:start
+}
+.vava-about-admin .vava-about-delete-icon:hover,.vava-about-admin .vava-about-delete-icon:focus{border-color:#c26858;background:#fff5f3;color:#aa5547;outline:0}
+.vava-about-admin .vava-about-delete-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* Approved paragraph-card layout: number/drag, full text, format below, icon delete. */
+.vava-about-admin .vava-story-paragraph-item{
+  display:grid!important;grid-template-columns:58px minmax(0,1fr) 42px!important;gap:14px!important;align-items:start!important;
+  padding:15px!important;border:1px solid #e0e4dd!important;border-radius:12px!important;background:#fff!important
+}
+.vava-about-admin .vava-story-paragraph-item .vava-repeater-handle{
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;
+  padding:4px 0 0!important;color:#7f8b78!important;cursor:grab!important
+}
+.vava-about-admin .vava-story-paragraph-item .vava-repeater-handle:active{cursor:grabbing!important}
+.vava-about-admin .vava-story-paragraph-item .vava-repeater-handle>span{font-size:18px!important;line-height:1!important}
+.vava-about-admin .vava-story-paragraph-item .vava-repeater-handle b{
+  display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#edf3e9;color:var(--vava-admin-accent);font-size:12px;font-weight:800
+}
+.vava-about-admin .vava-story-paragraph-item .vava-repeater-fields{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;min-width:0!important}
+.vava-about-admin .vava-story-paragraph-item .vava-story-text-field{display:grid!important;grid-template-columns:1fr!important;gap:6px!important;grid-column:1!important}
+.vava-about-admin .vava-story-paragraph-item .vava-story-text-field textarea{
+  width:100%!important;min-height:112px!important;padding:12px 14px!important;border-color:#ccd3ca!important;border-radius:8px!important;background:#fff!important;
+  box-shadow:none!important;resize:vertical!important;box-sizing:border-box!important
+}
+.vava-about-admin .vava-story-paragraph-item .vava-story-format-field{
+  display:grid!important;grid-template-columns:auto minmax(190px,260px)!important;align-items:center!important;justify-content:start!important;gap:10px!important;grid-column:1!important
+}
+.vava-about-admin .vava-story-paragraph-item .vava-story-format-field select{
+  width:100%!important;min-height:40px!important;border-color:#ccd3ca!important;border-radius:8px!important;background:#fff!important;box-shadow:none!important
+}
+.vava-about-admin .vava-story-paragraph-item>.vava-about-delete-icon{grid-column:3!important;grid-row:1!important}
+
+/* Hero phrase actions remain compact and icon-only. */
+.vava-about-admin .vava-repeater-card[data-kind="phrases"] .vava-repeater-item{grid-template-columns:28px minmax(0,1fr) 42px!important}
+.vava-about-admin .vava-repeater-card[data-kind="phrases"] .vava-repeater-fields{grid-template-columns:1fr!important}
+
+@media(max-width:782px){
+  .vava-about-admin .vava-story-paragraph-item{grid-template-columns:44px minmax(0,1fr) 38px!important;gap:9px!important;padding:11px!important}
+  .vava-about-admin .vava-story-paragraph-item .vava-story-format-field{grid-template-columns:1fr!important}
+  .vava-about-admin .vava-about-media-field .vava-media-preview img{height:170px!important;max-height:170px!important}
+}
+
+/* ===== Cumulative V1R4: single text blocks, story image, compact feature preview ===== */
+.vava-about-admin .vava-about-single-text-field textarea{
+  min-height:320px!important;
+  line-height:1.9!important;
+  padding:14px 16px!important;
+  white-space:pre-wrap!important;
+}
+.vava-about-preview-text-block{
+  align-self:start;
+  min-height:0;
+  padding:20px 22px;
+  border:1px solid rgba(111,129,95,.14);
+  border-radius:20px;
+  background:rgba(255,255,255,.76);
+  color:#657064;
+  font-size:13px;
+  line-height:1.9;
+  white-space:pre-line;
+  box-shadow:0 14px 38px rgba(62,70,58,.055);
+}
+.vava-about-preview-story-image{
+  min-height:235px;
+  margin-top:20px;
+  border-radius:34px 34px 18px 18px;
+  background-position:center;
+  background-size:cover;
+  box-shadow:0 16px 42px rgba(62,70,58,.11);
+}
+.vava-about-preview-story-image.is-empty{display:none}
+.vava-about-preview-story{grid-template-columns:.72fr 1.28fr;gap:28px}
+.vava-about-preview-story .vava-about-preview-side{padding:4px 10px}
+.vava-about-preview-why .vava-about-preview-text-block{margin-top:16px}
+.vava-about-preview-features .vava-about-preview-cards{
+  width:min(640px,100%);
+  margin-inline:auto;
+  gap:18px 22px;
+}
+.vava-about-preview-features .vava-about-preview-feature-card{
+  position:relative;
+  min-height:92px;
+  padding:32px 16px 14px!important;
+  border-radius:16px!important;
+  text-align:center!important;
+}
+.vava-about-preview-features .vava-about-preview-feature-card strong{
+  position:absolute;
+  top:0;
+  left:50%;
+  min-width:130px;
+  margin:0!important;
+  padding:7px 15px;
+  border:1px solid rgba(132,124,94,.16);
+  border-radius:999px;
+  background:#faf6ee;
+  transform:translate(-50%,-50%);
+  font-family:inherit;
+  font-size:13px;
+  white-space:nowrap;
+}
+.vava-about-preview-features .vava-about-preview-feature-card p{
+  margin:0!important;
+  font-size:11px;
+  line-height:1.75;
+}
+@media(max-width:782px){
+  .vava-about-admin .vava-about-single-text-field textarea{min-height:240px!important}
+  .vava-about-preview-story-image{min-height:190px}
+}
+
+/* ===== Cumulative V1R5: fixed feature/vision accordions and unified CTA buttons ===== */
+.vava-about-admin .vava-about-fixed-cards{
+  margin-top:18px;
+  padding:18px;
+  border:1px solid #dde3da;
+  border-radius:16px;
+  background:linear-gradient(180deg,#fff,#fbfcfa);
+}
+.vava-about-admin .vava-about-fixed-cards .vava-repeater-heading{
+  align-items:flex-start;
+  margin-bottom:15px;
+}
+.vava-about-admin .vava-about-fixed-count{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:0 12px;
+  border:1px solid #d8dfd4;
+  border-radius:999px;
+  background:#f4f7f2;
+  color:#60705a;
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.vava-about-admin .vava-about-fixed-cards .vava-repeater-list{gap:12px}
+.vava-about-admin .vava-about-fixed-card{
+  display:block;
+  padding:0;
+  overflow:hidden;
+  border:1px solid #e0e4dd;
+  border-radius:13px;
+  background:#fff;
+  box-shadow:0 4px 16px rgba(62,70,58,.035);
+}
+.vava-about-admin .vava-about-fixed-card-header{
+  display:grid;
+  grid-template-columns:32px 42px minmax(0,1fr);
+  align-items:center;
+  min-height:58px;
+  padding:0 14px;
+  background:linear-gradient(180deg,#fffdf9,#faf7f0);
+  border-bottom:1px solid transparent;
+}
+.vava-about-admin .vava-about-fixed-card.is-open .vava-about-fixed-card-header{
+  border-bottom-color:#e5e1d8;
+  background:linear-gradient(180deg,#fffaf3,#f8f3e9);
+}
+.vava-about-admin .vava-about-fixed-card .vava-repeater-handle{
+  display:grid;
+  place-items:center;
+  align-self:stretch;
+  padding:0;
+  color:#8b9586;
+  font-size:18px;
+  cursor:grab;
+}
+.vava-about-admin .vava-about-fixed-card .vava-repeater-handle:active{cursor:grabbing}
+.vava-about-admin .vava-about-fixed-card-number{
+  color:#8a8172;
+  font-size:12px;
+  font-weight:700;
+  text-align:center;
+}
+.vava-about-admin .vava-about-fixed-card-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  width:100%;
+  min-height:58px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#3f493d;
+  text-align:start;
+  cursor:pointer;
+}
+.vava-about-admin .vava-about-fixed-card-toggle strong{
+  overflow:hidden;
+  font-size:14px;
+  line-height:1.4;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.vava-about-admin .vava-about-fixed-card-toggle svg{
+  flex:0 0 auto;
+  width:19px;
+  height:19px;
+  fill:none;
+  stroke:#7b8577;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  transition:transform .18s ease;
+}
+.vava-about-admin .vava-about-fixed-card.is-open .vava-about-fixed-card-toggle svg{transform:rotate(180deg)}
+.vava-about-admin .vava-about-fixed-card-body{padding:18px}
+.vava-about-admin .vava-about-fixed-card-body[hidden]{display:none!important}
+.vava-about-admin .vava-about-fixed-card .vava-repeater-fields{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+.vava-about-admin .vava-about-fixed-card .vava-repeater-fields label{
+  display:grid;
+  gap:7px;
+  min-width:0;
+}
+.vava-about-admin .vava-about-fixed-card .vava-repeater-fields label:first-child{
+  width:min(62%,620px);
+  min-width:320px;
+}
+.vava-about-admin .vava-about-fixed-card .vava-repeater-fields input,
+.vava-about-admin .vava-about-fixed-card .vava-repeater-fields textarea{
+  width:100%;
+  border-color:#ccd3ca;
+  border-radius:8px;
+  background:#fff;
+  box-shadow:none;
+  box-sizing:border-box;
+}
+.vava-about-admin .vava-about-fixed-card .vava-repeater-fields input{min-height:42px}
+.vava-about-admin .vava-about-fixed-card .vava-repeater-fields textarea{
+  min-height:112px;
+  padding:12px 14px;
+  resize:vertical;
+}
+
+.vava-about-admin .vava-about-button-settings{
+  display:grid;
+  gap:12px;
+  margin-top:18px;
+}
+.vava-about-admin .vava-about-button-config{
+  padding:16px;
+  border:1px solid #dfe4dc;
+  border-radius:13px;
+  background:#fff;
+}
+.vava-about-admin .vava-about-button-config h3{
+  margin:0 0 12px;
+  color:#44513f;
+  font-size:14px;
+}
+.vava-about-admin .vava-about-button-row{
+  display:grid;
+  grid-template-columns:minmax(190px,1fr) minmax(150px,.72fr) minmax(260px,1.35fr);
+  gap:12px;
+  align-items:end;
+}
+.vava-about-admin .vava-about-button-row label{
+  display:grid;
+  gap:7px;
+  min-width:0;
+  color:#596356;
+  font-size:12px;
+  font-weight:700;
+}
+.vava-about-admin .vava-about-button-row input,
+.vava-about-admin .vava-about-button-row select{
+  width:100%;
+  min-height:42px;
+  border-color:#cfd5dc;
+  border-radius:8px;
+  background:#fff;
+  box-shadow:none;
+  box-sizing:border-box;
+}
+.vava-about-admin .vava-about-button-destination{min-width:0}
+
+@media(max-width:1100px){
+  .vava-about-admin .vava-about-button-row{grid-template-columns:1fr 1fr}
+  .vava-about-admin .vava-about-button-destination{grid-column:1/-1}
+}
+@media(max-width:782px){
+  .vava-about-admin .vava-about-fixed-card-header{grid-template-columns:28px 36px minmax(0,1fr);padding-inline:10px}
+  .vava-about-admin .vava-about-fixed-card-body{padding:14px}
+  .vava-about-admin .vava-about-fixed-card .vava-repeater-fields label:first-child{width:100%;min-width:0}
+  .vava-about-admin .vava-about-button-row{grid-template-columns:1fr}
+  .vava-about-admin .vava-about-button-destination{grid-column:auto}
+}
+
+/* V1R6 — visual editor descriptions use the full accordion width. */
+.vava-about-admin .vava-about-fixed-card .vava-repeater-fields label:nth-child(2){width:100%;grid-column:1/-1}
+.vava-about-admin .vava-about-fixed-card .vava-richtext-control{width:100%;min-width:0}
+.vava-about-admin .vava-about-preview-cards article>div{font-size:inherit;line-height:inherit;color:inherit}
+.vava-about-admin .vava-about-preview-cards article>div>p:first-child{margin-top:0}
+.vava-about-admin .vava-about-preview-cards article>div>p:last-child{margin-bottom:0}
+
+/* V1.6.5 — keep the approved fixed cards and align the remaining previews with the live page. */
+#vava_homepage_settings .vava-about-admin .vava-richtext-toolbar select.vava-richtext-format{
+  width:auto!important;
+  min-width:108px!important;
+  min-height:32px!important;
+  height:32px!important;
+  padding:0 12px!important;
+  border:0!important;
+  border-inline-end:1px solid #e0e4dd!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  line-height:32px!important;
+}
+#vava_homepage_settings .vava-about-admin .vava-richtext-toolbar select.vava-richtext-format:focus{
+  background:#eef2ea!important;
+  color:#657651!important;
+  outline:none!important;
+}
+.vava-about-admin .vava-about-plain-textarea{
+  min-height:118px!important;
+  padding:13px 15px!important;
+  line-height:1.85!important;
+  resize:vertical!important;
+}
+.vava-about-admin [data-preview-output="hero-lead"],
+.vava-about-admin [data-preview-output="story-intro"],
+.vava-about-admin [data-preview-output="features-intro"],
+.vava-about-admin [data-preview-output="vision-intro"]{white-space:pre-line}
+
+/* These groups remain fixed: no add, delete, or fixed-count label. */
+.vava-about-admin .vava-about-fixed-count,
+.vava-about-admin .vava-about-card-remove,
+.vava-about-admin .vava-about-fixed-cards [data-about-add-item]{display:none!important}
+.vava-about-admin .vava-about-fixed-card-header{grid-template-columns:32px 42px minmax(0,1fr)}
+
+/* Vision preview mirrors the three-column live section. */
+.vava-about-preview-vision{display:block;padding:44px 36px;text-align:center}
+.vava-about-preview-vision-shell{width:100%;margin:auto}
+.vava-about-preview-vision .vava-about-preview-heading{max-width:690px;margin:0 auto 28px}
+.vava-about-preview-vision-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:34px;text-align:start}
+.vava-about-preview-vision-step{
+  min-height:210px;
+  padding:25px;
+  border:1px solid rgba(132,124,94,.12);
+  border-radius:30px;
+  background:rgba(255,250,242,.58);
+  box-shadow:0 14px 42px rgba(85,78,59,.045);
+}
+.vava-about-preview-vision-step strong{display:block;margin-bottom:12px;color:#4d4a3d;font:500 22px/1.45 Georgia,"Times New Roman",serif}
+.vava-about-preview-vision-step div{color:#6f6a61;font-size:12px;line-height:1.9}
+.vava-about-preview-vision-step p{font-size:inherit;line-height:inherit}
+.vava-about-preview-vision .vava-about-preview-dream{
+  max-width:760px;
+  margin:25px auto 0;
+  padding:21px 26px;
+  border:1px solid rgba(107,109,67,.12);
+  border-radius:28px;
+  background:linear-gradient(135deg,rgba(171,166,111,.12),rgba(231,239,234,.28));
+  color:#686b61;
+  font-size:12px;
+  line-height:1.9;
+}
+
+/* Invitation preview mirrors the live gradient panel and three CTA styles. */
+.vava-about-preview-invite{display:grid;place-items:center;padding:44px}
+.vava-about-preview-invite-panel{
+  position:relative;
+  width:min(760px,100%);
+  padding:58px 48px;
+  overflow:hidden;
+  border:1px solid rgba(132,124,94,.14);
+  border-radius:48px;
+  background:linear-gradient(135deg,rgba(255,250,242,.86),rgba(231,239,234,.58));
+  text-align:center;
+  box-shadow:0 20px 70px rgba(85,78,59,.06);
+}
+.vava-about-preview-invite-panel:after{
+  content:"";
+  position:absolute;
+  left:6%;
+  bottom:-62px;
+  width:180px;
+  height:230px;
+  border:1px solid rgba(207,125,101,.16);
+  border-radius:60% 40% 60% 40%;
+  transform:rotate(-22deg);
+}
+.vava-about-preview-invite-panel>*{position:relative;z-index:1}
+.vava-about-preview-invite-panel h3{margin:8px 0 14px;font-size:38px}
+.vava-about-preview-invite-description{max-width:650px;margin:auto;color:#6c675f;font-size:13px;line-height:1.9}
+.vava-about-preview-btn-row{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:25px}
+.vava-about-preview-btn-row b{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 18px;border-radius:999px;font-size:11px;font-weight:700}
+.vava-about-preview-btn-row .is-primary{background:#72784e;color:#fff}
+.vava-about-preview-btn-row .is-secondary{border:1px solid rgba(107,109,67,.28);background:rgba(255,255,255,.55);color:#626842}
+.vava-about-preview-btn-row .is-coral{background:#cf7d65;color:#fff}
+
+@media(max-width:782px){
+  .vava-about-admin .vava-about-fixed-card-header{grid-template-columns:28px 34px minmax(0,1fr)}
+  .vava-about-preview-vision-steps{grid-template-columns:1fr}
+}
+
+
+
+/* Release 1.19.5 — fixed About cards and unified invitation buttons. */
+.vava-about-fixed-cards{padding:16px!important;border:1px solid #dce2d5!important;border-radius:18px!important;background:#fff!important;box-shadow:0 10px 28px rgba(61,67,47,.045)!important}
+.vava-about-fixed-cards>.vava-repeater-heading{margin-bottom:13px;padding-bottom:12px;border-bottom:1px solid #e3e8df}
+.vava-about-fixed-cards .vava-repeater-list{display:grid;gap:11px}
+.vava-about-fixed-card{overflow:hidden;border:1px solid #d4dccb!important;border-radius:15px!important;background:#fff!important}
+.vava-about-fixed-card-header{display:flex;min-height:58px;align-items:center;gap:9px;padding:8px 12px!important;background:#edf3e9!important;border:0!important}
+.vava-about-fixed-card-number{display:none!important}
+.vava-about-fixed-card-toggle{display:flex;min-width:0;flex:1;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px!important;border:0!important;background:transparent!important;color:#4e5943!important;text-align:start!important;font-size:14px;font-weight:800;cursor:pointer}
+.vava-about-fixed-card-toggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .18s ease}
+.vava-about-fixed-card.is-open .vava-about-fixed-card-toggle svg{transform:rotate(180deg)}
+.vava-about-fixed-card-body{padding:15px!important;border-top:1px solid #dce3d6;background:#fffdf9}
+.vava-about-fixed-card-body .vava-repeater-fields{display:grid;grid-template-columns:1fr;gap:13px}
+.vava-about-fixed-card-body label>span{display:block;margin-bottom:7px;color:#515b48;font-weight:800}
+.vava-about-fixed-card-body input{min-height:43px;border:1px solid #cfd6c8!important;border-radius:10px!important;background:#fff!important;box-shadow:none!important}
+.vava-about-buttons-block{overflow:hidden;margin-top:16px;border:1px solid #d9e0d2;border-radius:18px;background:#fff;box-shadow:0 10px 28px rgba(61,67,47,.045)}
+.vava-about-buttons-block-heading{padding:14px 16px;border-bottom:1px solid #e1e6dc;background:#f2f5ed}
+.vava-about-buttons-block-heading h3{margin:0;color:#4e5944;font-size:16px}
+.vava-about-button-config{display:grid!important;grid-template-columns:82px minmax(0,1fr);gap:13px;align-items:start;margin:0!important;padding:15px 16px!important;border:0!important;border-bottom:1px solid #e7e9e2!important;border-radius:0!important;background:#fff!important}
+.vava-about-button-config:last-child{border-bottom:0!important}
+.vava-about-button-index{display:flex;min-height:42px;align-items:center;justify-content:center;padding:7px 10px;border-radius:10px;background:#edf2e8;color:#596649;font-weight:800}
+.vava-about-button-row{display:grid!important;grid-template-columns:minmax(180px,1.1fr) minmax(150px,.8fr) minmax(220px,1.35fr)!important;gap:12px!important;align-items:start}
+.vava-about-button-row label{display:grid;gap:7px;color:#525d49;font-weight:800}
+.vava-about-button-row input,.vava-about-button-row select{width:100%;min-height:43px;border:1px solid #cfd6c8!important;border-radius:10px!important;background:#fff!important;box-shadow:none!important;box-sizing:border-box}
+.vava-about-preview-invite{display:grid!important;place-items:center!important;padding:22px!important;background:linear-gradient(145deg,#fffaf4,#f5f7ef)!important}
+.vava-about-preview-invite-panel{width:min(100%,760px)!important;min-height:300px!important;padding:40px 46px!important;border:1px solid #e1d9cd!important;border-radius:30px!important;background:rgba(255,255,255,.8)!important;box-shadow:0 22px 50px rgba(71,66,49,.08)!important;text-align:center!important;box-sizing:border-box}
+.vava-about-preview-btn-row{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:10px!important;margin-top:20px!important}
+.vava-about-preview-btn-row b{display:inline-flex!important;min-height:40px!important;align-items:center!important;justify-content:center!important;padding:7px 16px!important;border-radius:999px!important;white-space:nowrap!important}
+@media(max-width:980px){.vava-about-button-row{grid-template-columns:1fr!important}.vava-about-button-config{grid-template-columns:1fr}.vava-about-button-index{justify-self:start;min-width:72px}.vava-about-preview-invite-panel{padding:30px 22px!important}}
+
+
+/* Release 1.19.6 — visible fixed-card titles and label-free CTA rows. */
+.vava-about-admin .vava-about-fixed-card-header{display:grid!important;grid-template-columns:34px minmax(0,1fr)!important;gap:8px!important}
+.vava-about-admin .vava-about-fixed-card-toggle{grid-column:2!important;min-width:0!important;width:100%!important}
+.vava-about-admin .vava-about-fixed-card-toggle strong{display:block!important;min-width:0!important;overflow:hidden!important;color:#46523f!important;font-size:14px!important;font-weight:800!important;line-height:1.45!important;text-overflow:ellipsis!important;white-space:nowrap!important;opacity:1!important;visibility:visible!important}
+.vava-about-button-config{grid-template-columns:minmax(0,1fr)!important;padding:15px 16px!important}
+.vava-about-button-index{display:none!important}
+.vava-about-button-row{width:100%!important}
+
+/* Release 1.22.54 — vision preview parity with the compact live cards. */
+.vava-about-preview-vision-steps{
+  width:min(100%,900px);
+  margin:36px auto 0;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:30px 20px;
+  text-align:center;
+}
+.vava-about-preview-vision-step{
+  position:relative;
+  min-height:112px;
+  padding:35px 16px 15px;
+  overflow:visible;
+  border-radius:18px;
+  background:rgba(255,250,242,.58);
+  text-align:center;
+}
+.vava-about-preview-vision-step strong{
+  position:absolute;
+  top:0;
+  left:50%;
+  min-width:120px;
+  max-width:86%;
+  margin:0;
+  padding:7px 15px;
+  border:1px solid rgba(132,124,94,.15);
+  border-radius:999px;
+  background:#fffaf2;
+  color:#4d5145;
+  font:600 16px/1.3 inherit;
+  white-space:nowrap;
+  transform:translate(-50%,-50%);
+  box-shadow:0 7px 20px rgba(85,78,59,.04);
+}
+.vava-about-preview-vision-step div,
+.vava-about-preview-vision-step p{font-size:12px;line-height:1.75;color:#6f6a61}
+@media(max-width:782px){
+  .vava-about-preview-vision-steps{grid-template-columns:1fr;max-width:520px;gap:34px;margin-top:40px}
+}
+.vava-about-preview-btn-row .is-secondary{border-color:rgba(107,109,67,.30)!important;background:rgba(171,166,111,.25)!important;color:#5f613b!important}

@@ -1,0 +1,1152 @@
+/*
+  VAVA Living — Unified Typography System
+  Purpose: keep the same calm, premium font treatment across Arabic and English pages
+  without changing layout, content, images, links, or JavaScript behavior.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600&display=swap");
+
+:root{
+  --vava-font-main:"VAVA Body","IBM Plex Sans Arabic","Noto Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  --vava-font-display:"VAVA Display","Noto Kufi Arabic",serif;
+  --vava-font-size-xs:clamp(12px,.78vw,13px);
+  --vava-font-size-sm:clamp(13px,.86vw,14px);
+  --vava-font-size-base:clamp(15px,.96vw,16px);
+  --vava-font-size-md:clamp(16px,1.08vw,18px);
+  --vava-font-size-lg:clamp(17px,1.18vw,20px);
+  --vava-font-size-h3:clamp(17px,1.55vw,22px);
+  --vava-font-size-h2:clamp(23px,2.7vw,34px);
+  --vava-font-size-h1:clamp(30px,3.7vw,48px);
+  --vava-font-size-content-h2:clamp(23px,2.1vw,30px);
+  --vava-line-tight:1.28;
+  --vava-line-title:1.48;
+  --vava-line-body:1.92;
+  --vava-weight-regular:400;
+  --vava-weight-medium:500;
+  --vava-weight-semibold:600;
+}
+
+html[data-page]{
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+
+html[data-page],
+html[data-page] body,
+html[data-page] button,
+html[data-page] input,
+html[data-page] select,
+html[data-page] textarea,
+html[data-page] optgroup,
+html[data-page] h1,
+html[data-page] h2,
+html[data-page] h3,
+html[data-page] h4,
+html[data-page] h5,
+html[data-page] h6,
+html[data-page] p,
+html[data-page] a,
+html[data-page] span,
+html[data-page] small,
+html[data-page] strong,
+html[data-page] b,
+html[data-page] em,
+html[data-page] label,
+html[data-page] li,
+html[data-page] td,
+html[data-page] th,
+html[data-page] .eyebrow,
+html[data-page] .btn,
+html[data-page] .lang,
+html[data-page] .tag,
+html[data-page] .status,
+html[data-page] .num,
+html[data-page] .price,
+html[data-page] .summary-price,
+html[data-page] .price-tag,
+html[data-page] .details-link,
+html[data-page] .intro-text{
+  font-family:var(--vava-font-main) !important;
+}
+
+html[data-page] body{
+  font-size:var(--vava-font-size-base);
+  font-weight:var(--vava-weight-regular);
+  line-height:var(--vava-line-body);
+}
+
+html[data-page][lang="en"] body{
+  line-height:1.78;
+  letter-spacing:.002em;
+}
+
+html[data-page] h1,
+html[data-page] h2,
+html[data-page] h3,
+html[data-page] h4,
+html[data-page] h5,
+html[data-page] h6{
+  font-family:var(--vava-font-display) !important;
+  color:var(--ink,#4b473b);
+  font-weight:var(--vava-weight-medium) !important;
+  letter-spacing:0 !important;
+  text-wrap:balance;
+}
+
+html[data-page][lang="en"] h1,
+html[data-page][lang="en"] h2,
+html[data-page][lang="en"] h3,
+html[data-page][lang="en"] h4,
+html[data-page][lang="en"] h5,
+html[data-page][lang="en"] h6{
+  letter-spacing:-.018em !important;
+}
+
+html[data-page] h1{
+  font-size:var(--vava-font-size-h1) !important;
+  line-height:var(--vava-line-tight) !important;
+}
+
+html[data-page] h2{
+  font-size:var(--vava-font-size-h2) !important;
+  line-height:var(--vava-line-title) !important;
+}
+
+html[data-page] h3{
+  font-size:var(--vava-font-size-h3) !important;
+  line-height:1.42 !important;
+}
+
+html[data-page] h4,
+html[data-page] h5,
+html[data-page] h6{
+  font-size:var(--vava-font-size-lg) !important;
+  line-height:1.5 !important;
+}
+
+html[data-page] p,
+html[data-page] li,
+html[data-page] .small,
+html[data-page] .small-text,
+html[data-page] .quiet-note,
+html[data-page] .policy-card li,
+html[data-page] .faq-card p,
+html[data-page] .detail-list li,
+html[data-page] .about-flow p,
+html[data-page] .why-copy .poetic,
+html[data-page] .why-copy .soft-line,
+html[data-page] .vision-step p,
+html[data-page] .vision-dream,
+html[data-page] .about-hero-mini{
+  font-size:var(--vava-font-size-base) !important;
+  font-weight:var(--vava-weight-regular) !important;
+  line-height:var(--vava-line-body) !important;
+}
+
+html[data-page][lang="en"] p,
+html[data-page][lang="en"] li,
+html[data-page][lang="en"] .small,
+html[data-page][lang="en"] .small-text,
+html[data-page][lang="en"] .quiet-note,
+html[data-page][lang="en"] .policy-card li,
+html[data-page][lang="en"] .faq-card p,
+html[data-page][lang="en"] .detail-list li,
+html[data-page][lang="en"] .about-flow p,
+html[data-page][lang="en"] .why-copy .poetic,
+html[data-page][lang="en"] .why-copy .soft-line,
+html[data-page][lang="en"] .vision-step p,
+html[data-page][lang="en"] .vision-dream,
+html[data-page][lang="en"] .about-hero-mini{
+  line-height:1.78 !important;
+}
+
+html[data-page] .hero p,
+html[data-page] .about-hero-lead,
+html[data-page] .what-card-main,
+html[data-page] .single > p,
+html[data-page] .section-head p,
+html[data-page] .product-detail-copy > p,
+html[data-page] .purchase-card > p{
+  font-size:var(--vava-font-size-md) !important;
+  line-height:1.95 !important;
+}
+
+html[data-page][lang="en"] .hero p,
+html[data-page][lang="en"] .about-hero-lead,
+html[data-page][lang="en"] .what-card-main,
+html[data-page][lang="en"] .single > p,
+html[data-page][lang="en"] .section-head p,
+html[data-page][lang="en"] .product-detail-copy > p,
+html[data-page][lang="en"] .purchase-card > p{
+  line-height:1.82 !important;
+}
+
+html[data-page] .eyebrow,
+html[data-page] .intro-text,
+html[data-page] .tag,
+html[data-page] .status,
+html[data-page] .price-tag,
+html[data-page] .details-link,
+html[data-page] .lang,
+html[data-page] nav a,
+html[data-page] .scroll-hint,
+html[data-page] .scroll-cue small,
+html[data-page] .footer-policy-links a{
+  font-size:var(--vava-font-size-sm) !important;
+  font-weight:var(--vava-weight-medium) !important;
+  line-height:1.55 !important;
+}
+
+html[data-page] .eyebrow,
+html[data-page] .intro-text{
+  letter-spacing:.04em !important;
+}
+
+html[data-page][lang="ar"] .eyebrow,
+html[data-page][lang="ar"] .intro-text{
+  letter-spacing:.01em !important;
+}
+
+html[data-page] .btn,
+html[data-page] button,
+html[data-page] input,
+html[data-page] select,
+html[data-page] textarea,
+html[data-page] label,
+html[data-page] .field input,
+html[data-page] .field select,
+html[data-page] .field textarea{
+  font-size:var(--vava-font-size-base) !important;
+  font-weight:var(--vava-weight-medium) !important;
+  line-height:1.55 !important;
+}
+
+html[data-page] .card .tag,
+html[data-page] .product .num,
+html[data-page] .vision-step .num,
+html[data-page] .info-card span,
+html[data-page] .testimonial-slide b:after{
+  font-family:var(--vava-font-main),"Apple Color Emoji","Segoe UI Emoji",sans-serif !important;
+}
+
+html[data-page] .purchase-panel .price,
+html[data-page] .summary-price{
+  font-family:var(--vava-font-main) !important;
+  font-size:clamp(32px,3.1vw,44px) !important;
+  font-weight:var(--vava-weight-medium) !important;
+  line-height:1.12 !important;
+}
+
+html[data-page] .purchase-panel .price small{
+  font-size:var(--vava-font-size-sm) !important;
+  font-weight:var(--vava-weight-regular) !important;
+}
+
+html[data-page] strong,
+html[data-page] b{
+  font-weight:var(--vava-weight-semibold) !important;
+}
+
+html[data-page] ::placeholder{
+  font-family:var(--vava-font-main) !important;
+  font-weight:var(--vava-weight-regular);
+  opacity:.72;
+}
+
+@media(max-width:760px){
+  :root{
+    --vava-font-size-h1:30px;
+    --vava-font-size-h2:24px;
+    --vava-font-size-h3:18px;
+    --vava-font-size-content-h2:23px;
+    --vava-font-size-base:15px;
+    --vava-font-size-md:16px;
+  }
+  html[data-page] body{
+    line-height:1.86;
+  }
+  html[data-page] .hero p,
+  html[data-page] .about-hero-lead,
+  html[data-page] .what-card-main,
+  html[data-page] .single > p,
+  html[data-page] .section-head p,
+  html[data-page] .product-detail-copy > p,
+  html[data-page] .purchase-card > p{
+    font-size:16px !important;
+  }
+}
+
+/* High-specificity safeguards for older page-level rules that used !important. */
+:root{
+  --display:var(--vava-font-main);
+  --body:var(--vava-font-main);
+}
+
+html[data-page] body main h1,
+html[data-page] body main .hero-copy h1,
+html[data-page] body main .article-hero h1,
+html[data-page] body main .slide h1,
+html[data-page] body main .hero h1{
+  font-family:var(--vava-font-display) !important;
+  font-size:var(--vava-font-size-h1) !important;
+  line-height:var(--vava-line-tight) !important;
+  font-weight:var(--vava-weight-medium) !important;
+}
+
+html[data-page] body main h2,
+html[data-page] body main .open-text h2,
+html[data-page] body main .text-panel h2,
+html[data-page] body main .about-kicker h2,
+html[data-page] body main .why-copy h2,
+html[data-page] body main .invite-panel h2,
+html[data-page] body main .shop-copy h2,
+html[data-page] body main .article-body h2,
+html[data-page] body main .purchase-card h2{
+  font-family:var(--vava-font-display) !important;
+  font-size:var(--vava-font-size-h2) !important;
+  line-height:var(--vava-line-title) !important;
+  font-weight:var(--vava-weight-medium) !important;
+}
+
+html[data-page] body main h3,
+html[data-page] body main .card h3,
+html[data-page] body main .product h3,
+html[data-page] body main .journal-card h3,
+html[data-page] body main .info-card h3,
+html[data-page] body main .faq-card h3,
+html[data-page] body main .policy-card h3,
+html[data-page] body main .aside-card h3,
+html[data-page] body main .purchase-card h3,
+html[data-page] body main .purchase-summary h3{
+  font-family:var(--vava-font-display) !important;
+  font-size:var(--vava-font-size-h3) !important;
+  line-height:1.42 !important;
+  font-weight:var(--vava-weight-medium) !important;
+}
+
+html[data-page] body main p,
+html[data-page] body main li,
+html[data-page] body main .article-body p,
+html[data-page] body main .article-body .intro,
+html[data-page] body main .article-lead,
+html[data-page] body main .article-quote,
+html[data-page] body main .aside-card li,
+html[data-page] body main #journal .article div:last-child,
+html[data-page] body main #journal .article .small-text{
+  font-family:var(--vava-font-main) !important;
+  font-size:var(--vava-font-size-base) !important;
+  line-height:var(--vava-line-body) !important;
+  font-weight:var(--vava-weight-regular) !important;
+  letter-spacing:0 !important;
+}
+
+html[data-page][lang="en"] body main p,
+html[data-page][lang="en"] body main li,
+html[data-page][lang="en"] body main .article-body p,
+html[data-page][lang="en"] body main .article-body .intro,
+html[data-page][lang="en"] body main .article-lead,
+html[data-page][lang="en"] body main .article-quote,
+html[data-page][lang="en"] body main .aside-card li,
+html[data-page][lang="en"] body main #journal .article div:last-child,
+html[data-page][lang="en"] body main #journal .article .small-text{
+  line-height:1.78 !important;
+}
+
+html[data-page] body main .hero p,
+html[data-page] body main .about-hero-lead,
+html[data-page] body main .what-card-main,
+html[data-page] body main .single > p,
+html[data-page] body main .section-head p,
+html[data-page] body main .product-detail-copy > p,
+html[data-page] body main .purchase-card > p{
+  font-family:var(--vava-font-main) !important;
+  font-size:var(--vava-font-size-md) !important;
+  line-height:1.95 !important;
+  font-weight:var(--vava-weight-regular) !important;
+}
+
+html[data-page][lang="en"] body main .hero p,
+html[data-page][lang="en"] body main .about-hero-lead,
+html[data-page][lang="en"] body main .what-card-main,
+html[data-page][lang="en"] body main .single > p,
+html[data-page][lang="en"] body main .section-head p,
+html[data-page][lang="en"] body main .product-detail-copy > p,
+html[data-page][lang="en"] body main .purchase-card > p{
+  line-height:1.82 !important;
+}
+
+html[data-page][lang="en"] #booking-form .purchase-card h2,
+html[data-page][lang="en"] #booking-form .purchase-card h3,
+html[data-page][lang="en"] .purchase-card h2,
+html[data-page][lang="en"] .purchase-card h3,
+html[data-page][lang="en"] .purchase-summary h3{
+  font-family:var(--vava-font-display) !important;
+  font-weight:var(--vava-weight-medium) !important;
+}
+
+html[data-page][lang="en"] #booking-form .purchase-card h2,
+html[data-page][lang="en"] .purchase-card h2{
+  font-size:var(--vava-font-size-h2) !important;
+  line-height:var(--vava-line-title) !important;
+}
+
+html[data-page][lang="en"] #booking-form .purchase-card h3,
+html[data-page][lang="en"] .purchase-card h3,
+html[data-page][lang="en"] .purchase-summary h3{
+  font-size:var(--vava-font-size-h3) !important;
+  line-height:1.42 !important;
+}
+
+
+/* Typography refinement v2: calmer headline rhythm after visual review.
+   These rules keep hero and section titles elegant without dominating the page,
+   and keep article body headings closer to reading scale. */
+html[data-page] body main .article-body h2{
+  font-size:var(--vava-font-size-content-h2) !important;
+  line-height:1.55 !important;
+  margin:34px 0 12px !important;
+  font-weight:var(--vava-weight-medium) !important;
+}
+
+html[data-page] body main .article-body .intro,
+html[data-page] body main .article-lead{
+  font-size:var(--vava-font-size-md) !important;
+  line-height:1.9 !important;
+}
+
+html[data-page] body main .article-quote{
+  font-size:var(--vava-font-size-lg) !important;
+  line-height:1.85 !important;
+}
+
+html[data-page] body main .hero-copy h1,
+html[data-page] body main .article-hero h1,
+html[data-page] body main .slide h1,
+html[data-page] body main .about-hero-panel h1{
+  max-width:11.5em;
+  margin-inline:auto;
+}
+
+html[data-page] body main .text-panel h2,
+html[data-page] body main .open-text h2,
+html[data-page] body main .contact-open-heading h2,
+html[data-page] body main .section-head h2{
+  max-width:13em;
+  margin-inline:auto;
+}
+
+html[data-page] body main .info-card h3,
+html[data-page] body main .vision-step h3,
+html[data-page] body main .card h3,
+html[data-page] body main .product h3,
+html[data-page] body main .journal-card h3{
+  line-height:1.5 !important;
+}
+
+@media(max-width:760px){
+  html[data-page] body main .article-body h2{
+    margin:30px 0 10px !important;
+  }
+}
+
+/* ===== VAVA footer and closing refinements ===== */
+.footer .footer-logo img{
+  height:96px;
+  width:178px;
+  object-fit:contain;
+  opacity:.96;
+  mix-blend-mode:normal;
+  filter:brightness(0) invert(1);
+}
+.footer .footer-logo{
+  display:flex;
+  align-items:center;
+}
+html[dir="rtl"] .footer .footer-logo{justify-content:flex-end;}
+html[dir="ltr"] .footer .footer-logo{justify-content:flex-start;}
+.footer-document{
+  color:rgba(255,255,255,.72);
+  font-size:12px;
+  line-height:1.7;
+  margin-top:2px;
+  letter-spacing:.01em;
+}
+html[dir="rtl"] .footer-document{letter-spacing:0;}
+.footer-document span{
+  color:rgba(255,255,255,.88);
+  font-weight:600;
+}
+.closing-panel{
+  text-align:center;
+}
+.closing-panel h2,
+.closing-panel p{
+  margin-left:auto;
+  margin-right:auto;
+}
+.closing-panel .btn-row{
+  justify-content:center;
+}
+@media(max-width:760px){
+  .footer .footer-logo img{height:84px;width:160px;}
+  .footer-document{font-size:11px;}
+}
+/* ===== End VAVA footer and closing refinements ===== */
+
+
+/* ===== VAVA title alignment refinement =====
+   Keep section introductions centered, while card/panel titles align with their reading direction. */
+html[data-page] body main .container.text-panel.open-text,
+html[data-page] body main .text-panel.contact-message-panel,
+html[data-page] body main .message-guide{
+  text-align:start !important;
+}
+
+html[data-page] body main .container.text-panel.open-text h2,
+html[data-page] body main .container.text-panel.open-text p,
+html[data-page] body main .text-panel.contact-message-panel h2,
+html[data-page] body main .text-panel.contact-message-panel p,
+html[data-page] body main .message-guide h3,
+html[data-page] body main .message-guide p{
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+
+html[dir="ltr"] body main .container.text-panel.open-text h2,
+html[dir="ltr"] body main .container.text-panel.open-text p,
+html[dir="ltr"] body main .text-panel.contact-message-panel h2,
+html[dir="ltr"] body main .text-panel.contact-message-panel p,
+html[dir="ltr"] body main .message-guide h3,
+html[dir="ltr"] body main .message-guide p{
+  text-align:left !important;
+}
+
+html[dir="rtl"] body main .container.text-panel.open-text h2,
+html[dir="rtl"] body main .container.text-panel.open-text p,
+html[dir="rtl"] body main .text-panel.contact-message-panel h2,
+html[dir="rtl"] body main .text-panel.contact-message-panel p,
+html[dir="rtl"] body main .message-guide h3,
+html[dir="rtl"] body main .message-guide p{
+  text-align:right !important;
+}
+
+html[data-page] body main .container.text-panel.open-text .eyebrow,
+html[data-page] body main .text-panel.contact-message-panel .eyebrow,
+html[data-page] body main .message-guide .eyebrow{
+  display:block;
+  text-align:inherit !important;
+}
+
+/* CTA panels keep their buttons calm and centered while text reads naturally. */
+html[data-page] body main .closing-panel .btn-row,
+html[data-page] body main .invite-panel .btn-row{
+  justify-content:center !important;
+}
+
+/* Preserve centered standalone section headings such as FAQ and journal intro areas. */
+html[data-page] body main .section-head,
+html[data-page] body main .section-head h2,
+html[data-page] body main .section-head p,
+html[data-page] body main .faq-panel > .open-text,
+html[data-page] body main .about-features-head{
+  text-align:center !important;
+}
+html[data-page] body main .section-head h2,
+html[data-page] body main .faq-panel > .open-text h2,
+html[data-page] body main .about-features-head h2{
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+/* ===== End VAVA title alignment refinement ===== */
+
+
+/* ===== Journal section heading center refinement ===== */
+html[data-page="journal-en.html"] body main .journal-section-head,
+html[data-page="journal.html"] body main .journal-section-head{
+  max-width:840px;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+}
+html[data-page="journal-en.html"] body main .journal-section-head h2,
+html[data-page="journal-en.html"] body main .journal-section-head p,
+html[data-page="journal.html"] body main .journal-section-head h2,
+html[data-page="journal.html"] body main .journal-section-head p{
+  text-align:center !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+/* ===== End Journal section heading center refinement ===== */
+
+
+/* ===== Center selected text-panel cards ===== */
+html[data-page="paths-vava.html"] body main .container.text-panel.open-text,
+html[data-page="store.html"] body main .container.text-panel.open-text,
+html[data-page="journal.html"] body main .container.text-panel.open-text,
+html[data-page="paths-vava-en.html"] body main .container.text-panel.open-text,
+html[data-page="store-en.html"] body main .container.text-panel.open-text,
+html[data-page="journal-en.html"] body main .container.text-panel.open-text{
+  text-align:center !important;
+}
+html[data-page="paths-vava.html"] body main .container.text-panel.open-text h2,
+html[data-page="paths-vava.html"] body main .container.text-panel.open-text p,
+html[data-page="store.html"] body main .container.text-panel.open-text h2,
+html[data-page="store.html"] body main .container.text-panel.open-text p,
+html[data-page="journal.html"] body main .container.text-panel.open-text h2,
+html[data-page="journal.html"] body main .container.text-panel.open-text p,
+html[data-page="paths-vava-en.html"] body main .container.text-panel.open-text h2,
+html[data-page="paths-vava-en.html"] body main .container.text-panel.open-text p,
+html[data-page="store-en.html"] body main .container.text-panel.open-text h2,
+html[data-page="store-en.html"] body main .container.text-panel.open-text p,
+html[data-page="journal-en.html"] body main .container.text-panel.open-text h2,
+html[data-page="journal-en.html"] body main .container.text-panel.open-text p{
+  text-align:center !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+html[data-page="paths-vava.html"] body main .container.text-panel.open-text .btn-row,
+html[data-page="paths-vava-en.html"] body main .container.text-panel.open-text .btn-row{
+  justify-content:center !important;
+}
+/* ===== End center selected text-panel cards ===== */
+
+
+
+/* ===== VAVA compact footer redesign ===== */
+html[data-page] .footer{
+  width:100%;
+  padding:22px clamp(22px,4vw,42px);
+  background:rgba(107,109,67,.96);
+  color:#fff;
+  border-radius:36px 36px 0 0;
+  display:grid;
+  grid-template-columns:minmax(120px,.9fr) minmax(0,2fr) minmax(130px,.9fr);
+  align-items:center;
+  gap:22px;
+  min-height:auto;
+  box-shadow:0 -18px 52px rgba(107,109,67,.18);
+  position:relative;
+  z-index:2;
+}
+html[data-page] .footer .footer-logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-align:center;
+}
+html[data-page] .footer .footer-logo img{
+  height:74px;
+  width:auto;
+  max-width:150px;
+  object-fit:contain;
+  opacity:.96;
+  mix-blend-mode:normal;
+  filter:brightness(0) invert(1);
+}
+html[data-page] .footer .footer-tagline{
+  color:rgba(255,255,255,.84);
+  font-size:13px;
+  line-height:1.4;
+  letter-spacing:.02em;
+  white-space:nowrap;
+}
+html[dir="rtl"][data-page] .footer .footer-tagline{letter-spacing:0;}
+html[data-page] .footer .footer-center{
+  display:grid;
+  gap:10px;
+  justify-items:center;
+  text-align:center;
+  line-height:1.6;
+}
+html[data-page] .footer .footer-main-links,
+html[data-page] .footer .footer-policy-links{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  column-gap:24px;
+  row-gap:8px;
+}
+html[data-page] .footer .footer-main-links a,
+html[data-page] .footer .footer-policy-links a,
+html[data-page] .footer .footer-copy,
+html[data-page] .footer .footer-document,
+html[data-page] .footer .footer-document span{
+  color:rgba(255,255,255,.88);
+  text-decoration:none;
+}
+html[data-page] .footer .footer-main-links a,
+html[data-page] .footer .footer-policy-links a{
+  font-size:14px;
+  transition:opacity .2s ease, transform .2s ease;
+}
+html[data-page] .footer .footer-main-links a:hover,
+html[data-page] .footer .footer-policy-links a:hover{
+  opacity:1;
+  transform:translateY(-1px);
+}
+html[data-page] .footer .footer-policy-links{
+  opacity:.9;
+}
+html[data-page] .footer .footer-copy{
+  font-size:13px;
+  color:rgba(255,255,255,.82);
+}
+html[data-page] .footer .footer-document{
+  color:rgba(255,255,255,.72);
+  font-size:11.5px;
+  line-height:1.7;
+  margin-top:0;
+}
+html[data-page] .footer .footer-document span{
+  color:rgba(255,255,255,.88);
+  font-weight:600;
+}
+html[data-page] .footer .social{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+html[data-page] .footer .social i{
+  width:38px;
+  height:38px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.28);
+  color:#fff;
+  background:rgba(255,255,255,.06);
+}
+html[data-page] .footer .social svg{
+  width:18px;
+  height:18px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.7;
+}
+html[dir="rtl"][data-page] .footer{grid-template-columns:minmax(130px,.9fr) minmax(0,2fr) minmax(120px,.9fr);}
+@media (max-width: 860px){
+  html[data-page] .footer{
+    grid-template-columns:1fr;
+    text-align:center;
+    border-radius:28px 28px 0 0;
+    gap:16px;
+    padding:24px 18px 22px;
+  }
+  html[data-page] .footer .footer-logo,
+  html[data-page] .footer .footer-center,
+  html[data-page] .footer .social{
+    justify-self:center;
+  }
+  html[data-page] .footer .footer-main-links,
+  html[data-page] .footer .footer-policy-links{
+    column-gap:16px;
+  }
+}
+/* ===== End VAVA compact footer redesign ===== */
+
+
+
+/* ===== VAVA Arabic typography + homepage language switch ===== */
+html[data-page][lang="ar"]{
+  /* "Cairo Soft" treatment: official Cairo family with lighter, softer weights. */
+  --vava-font-main:"Cairo","VAVA Body","IBM Plex Sans Arabic","Noto Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  /* Preserve the original typeface used by the intro phrase "مساحة للعودة" for primary titles. */
+  --vava-font-display:"VAVA Body","VAVA Display","Noto Kufi Arabic",serif;
+}
+
+html[data-page][lang="ar"] .intro-text,
+html[data-page][lang="ar"] h1,
+html[data-page][lang="ar"] h2,
+html[data-page][lang="ar"] body main h1,
+html[data-page][lang="ar"] body main h2{
+  font-family:var(--vava-font-display) !important;
+}
+
+html[data-page][lang="ar"] h3,
+html[data-page][lang="ar"] h4,
+html[data-page][lang="ar"] h5,
+html[data-page][lang="ar"] h6,
+html[data-page][lang="ar"] body main h3,
+html[data-page][lang="ar"] body main h4,
+html[data-page][lang="ar"] body main h5,
+html[data-page][lang="ar"] body main h6{
+  font-family:var(--vava-font-main) !important;
+}
+
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .header-tools{
+  direction:ltr;
+  display:flex;
+  align-items:center;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-switch{
+  display:inline-grid;
+  grid-template-columns:repeat(2,minmax(48px,1fr));
+  align-items:stretch;
+  gap:3px;
+  padding:3px;
+  border:1px solid rgba(107,109,67,.22);
+  border-radius:999px;
+  background:rgba(255,255,255,.38);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.58);
+  backdrop-filter:blur(10px);
+  white-space:nowrap;
+}
+
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-option{
+  min-height:30px;
+  padding:4px 9px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  color:rgba(75,71,59,.62);
+  text-decoration:none;
+  font-family:var(--vava-font-main) !important;
+  font-size:10px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:.02em;
+  transition:background-color .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease;
+}
+
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) a.language-option:hover{
+  color:var(--olive);
+  background:rgba(107,109,67,.08);
+  transform:translateY(-1px);
+}
+
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-option.is-active{
+  color:#fff;
+  background:var(--olive);
+  box-shadow:0 4px 14px rgba(107,109,67,.22);
+  cursor:default;
+}
+
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-code{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.04em;
+}
+
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-state{
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:.05em;
+  opacity:.88;
+}
+
+@media(max-width:980px){
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-switch{
+    grid-template-columns:repeat(2,minmax(43px,1fr));
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-option{
+    min-height:28px;
+    padding-inline:7px;
+    gap:4px;
+  }
+}
+
+@media(max-width:420px){
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-switch{
+    grid-template-columns:repeat(2,minmax(39px,1fr));
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-option{
+    padding-inline:6px;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-state{
+    display:none;
+  }
+}
+
+/* ===== VAVA Living Arabic homepage V2: approved Paths showcase ===== */
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-switch{
+  grid-template-columns:repeat(2,minmax(42px,1fr));
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-option{
+  gap:0;
+  padding-inline:10px;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-state{
+  display:none!important;
+}
+
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) #paths.paths-showcase-section{
+  position:relative;
+  background:#fffaf5;
+  padding:108px clamp(28px,5vw,76px) 46px;
+  overflow:hidden;
+  isolation:isolate;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) #paths.paths-showcase-section:before{
+  background:
+    radial-gradient(circle at 73% 34%,rgba(242,222,199,.28),transparent 31%),
+    linear-gradient(135deg,#fffdf9 0%,#fffaf5 48%,#fdf4ee 100%);
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) #paths.paths-showcase-section:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:radial-gradient(circle at 30% 42%,rgba(255,255,255,.82),transparent 48%);
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase{
+  width:min(1280px,100%);
+  min-height:min(74vh,730px);
+  margin:auto;
+  display:grid;
+  grid-template-columns:minmax(410px,.93fr) minmax(470px,1.07fr);
+  align-items:center;
+  gap:clamp(42px,5vw,82px);
+  direction:ltr;
+  position:relative;
+  z-index:3;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-copy{
+  direction:rtl;
+  text-align:center;
+  width:min(590px,100%);
+  justify-self:center;
+  padding:10px 0 28px;
+  position:relative;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-copy h2{
+  margin:18px 0 12px!important;
+  font-size:clamp(36px,4.2vw,62px)!important;
+  line-height:1.28!important;
+  color:#50465d!important;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-copy p{
+  max-width:570px;
+  margin:28px auto 0!important;
+  font-size:clamp(16px,1.12vw,18px)!important;
+  line-height:2.15!important;
+  color:#6a5d67!important;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  color:#d4a369;
+  opacity:.78;
+  margin-inline:auto;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider span{
+  display:block;
+  width:84px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(197,147,94,.72));
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider span:last-child{
+  transform:scaleX(-1);
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider-top{
+  width:min(300px,76%);
+  margin-bottom:4px;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider-top svg{
+  width:28px;
+  height:28px;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider-bottom{
+  width:min(190px,55%);
+  margin-top:0;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider-bottom span{
+  width:42px;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider-bottom svg{
+  width:58px;
+  height:26px;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-cta{
+  min-width:270px!important;
+  margin-top:32px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  border-radius:999px!important;
+  padding:15px 28px!important;
+  background:linear-gradient(135deg,#d28d82,#bd716a)!important;
+  border-color:rgba(170,93,86,.18)!important;
+  box-shadow:0 18px 34px rgba(164,92,84,.20)!important;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-cta:hover{
+  background:linear-gradient(135deg,#c98076,#ad625d)!important;
+  transform:translateY(-3px);
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-cta svg{
+  width:25px;
+  height:25px;
+  flex:0 0 auto;
+  opacity:.86;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-visual{
+  width:min(580px,45vw);
+  height:min(73vh,735px);
+  min-height:500px;
+  margin:0;
+  justify-self:end;
+  border-radius:48px;
+  overflow:hidden;
+  position:relative;
+  background:#f5e7dc;
+  border:1px solid rgba(255,255,255,.78);
+  box-shadow:0 28px 80px rgba(113,91,72,.10);
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-visual:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
+  background:linear-gradient(150deg,rgba(255,250,242,.12),transparent 42%,rgba(207,125,101,.04));
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-visual img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-botanical-shadow{
+  position:absolute;
+  z-index:0;
+  top:-20px;
+  left:-18px;
+  width:min(31vw,430px);
+  height:auto;
+  color:#826d5c;
+  opacity:.12;
+  filter:blur(1.6px);
+  transform:rotate(-8deg);
+  pointer-events:none;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-botanical-shadow svg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-wave-art{
+  position:absolute;
+  z-index:1;
+  left:-4%;
+  bottom:-7%;
+  width:66%;
+  height:57%;
+  pointer-events:none;
+}
+:is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-wave-art svg{
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+
+@media(max-width:1100px){
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase{
+    grid-template-columns:minmax(370px,.92fr) minmax(410px,1.08fr);
+    gap:34px;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-visual{
+    width:min(520px,46vw);
+    min-height:460px;
+  }
+}
+
+@media(max-width:980px){
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) #paths.paths-showcase-section{
+    padding:98px 18px 34px;
+    align-items:flex-start;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase{
+    min-height:auto;
+    grid-template-columns:1fr;
+    gap:24px;
+    direction:rtl;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-copy{
+    width:min(680px,100%);
+    padding:0;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-copy h2{
+    font-size:clamp(32px,8vw,48px)!important;
+    margin-top:10px!important;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-copy p{
+    margin-top:18px!important;
+    font-size:16px!important;
+    line-height:2!important;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-cta{
+    margin-top:22px;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-visual{
+    width:min(680px,100%);
+    height:clamp(270px,43vh,420px);
+    min-height:0;
+    justify-self:center;
+    border-radius:32px;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-visual img{
+    object-position:center 58%;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-wave-art{
+    width:110%;
+    height:43%;
+    left:-20%;
+    bottom:-6%;
+    opacity:.72;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-botanical-shadow{
+    width:min(52vw,310px);
+    opacity:.09;
+  }
+}
+
+@media(max-width:520px){
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-switch{
+    grid-template-columns:repeat(2,minmax(38px,1fr));
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .language-option{
+    min-height:27px;
+    padding-inline:7px;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-divider-top span{
+    width:52px;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-cta{
+    min-width:230px!important;
+    width:auto;
+  }
+  :is(html[data-page="index.html"],html[data-page="index-en.html"]) .paths-showcase-visual{
+    height:300px;
+  }
+}
+/* ===== End VAVA Living Arabic homepage V2 ===== */
+
+
+/* V1R14: English direction corrections for the shared approved homepage components. */
+html[data-page="index-en.html"] .paths-showcase-copy{
+  direction:ltr;
+}
+@media(max-width:980px){
+  html[data-page="index-en.html"] .paths-showcase{
+    direction:ltr;
+  }
+}

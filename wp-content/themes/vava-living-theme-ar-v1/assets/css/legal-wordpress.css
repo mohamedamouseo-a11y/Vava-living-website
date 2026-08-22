@@ -1,0 +1,254 @@
+/* VAVA Living legal pages — approved shared design for privacy and terms. */
+.vava-legal-page{
+  --vl-bg:#fbf7ef;
+  --vl-card:#fffdf9;
+  --vl-card-soft:#f7f5ed;
+  --vl-text:#4f4a40;
+  --vl-muted:#817a6e;
+  --vl-olive:#777d50;
+  --vl-olive-dark:#5e653b;
+  --vl-olive-soft:#eef2e7;
+  --vl-coral:#cf765f;
+  --vl-coral-soft:#fff1ec;
+  --vl-line:#e5ded2;
+  --vl-shadow:0 20px 54px rgba(76,67,48,.08);
+  background:var(--vl-bg);
+  color:var(--vl-text);
+}
+.vava-legal-page .vava-legal-main{position:relative;min-height:70vh;padding-top:clamp(108px,9vw,142px);overflow:hidden}
+.vava-legal-page .vava-legal-container{width:min(1180px,calc(100% - 42px));margin-inline:auto}
+.vava-legal-page .vava-legal-blob{position:absolute;z-index:0;border-radius:50%;pointer-events:none;filter:blur(.2px)}
+.vava-legal-page .vava-legal-blob.is-sage{top:310px;inset-inline-start:-120px;width:290px;height:290px;background:rgba(225,233,216,.7)}
+.vava-legal-page .vava-legal-blob.is-coral{top:100px;inset-inline-end:-110px;width:310px;height:310px;background:rgba(249,226,213,.72)}
+
+/* Hero */
+.vava-legal-page .vava-legal-hero{position:relative;z-index:1;padding:32px 0 34px}
+.vava-legal-page .vava-legal-hero-grid{display:grid;grid-template-columns:minmax(280px,.8fr) minmax(0,1.45fr);align-items:stretch;min-height:350px;overflow:hidden;border:1px solid rgba(114,119,76,.12);border-radius:34px;background:rgba(255,253,249,.88);box-shadow:var(--vl-shadow)}
+.vava-legal-main[dir="rtl"] .vava-legal-hero-visual{order:1}.vava-legal-main[dir="rtl"] .vava-legal-hero-copy{order:2}
+.vava-legal-main[dir="ltr"] .vava-legal-hero-visual{order:2}.vava-legal-main[dir="ltr"] .vava-legal-hero-copy{order:1}
+.vava-legal-page .vava-legal-hero-visual{position:relative;min-height:350px;margin:0;overflow:hidden;background:#eee8dc}
+.vava-legal-page .vava-legal-hero-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,253,249,0),rgba(255,253,249,.1))}
+.vava-legal-page .vava-legal-hero-visual img{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(.78) brightness(1.07)}
+.vava-legal-page .vava-legal-hero-copy{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:54px clamp(30px,5vw,74px);text-align:center}
+.vava-legal-page .vava-legal-eyebrow{display:inline-flex;margin-bottom:12px;color:var(--vl-coral);font-size:12px;font-weight:800;letter-spacing:.02em}
+.vava-legal-page .vava-legal-lotus{display:grid;width:38px;height:38px;margin-bottom:6px;place-items:center;color:#b79958;font-size:23px}
+.vava-legal-page .vava-legal-hero h1{margin:0;color:#3f3b34;font-family:var(--font-display,inherit);font-size:clamp(42px,5vw,70px);font-weight:500;line-height:1.14;text-wrap:balance}
+.vava-legal-page .vava-legal-hero p{max-width:720px;margin:18px auto 0;color:var(--vl-muted);font-size:clamp(14px,1.25vw,17px);line-height:2;text-wrap:pretty}
+.vava-legal-page .vava-legal-updated{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:9px 15px;border:1px solid var(--vl-line);border-radius:999px;background:rgba(255,255,255,.82);color:#6e704d;font-size:11px;box-shadow:0 8px 22px rgba(78,69,51,.05)}
+.vava-legal-page .vava-legal-updated strong{font-weight:800}
+
+/* Main layout */
+.vava-legal-page .vava-legal-body{position:relative;z-index:1;padding:4px 0 clamp(72px,8vw,118px)}
+.vava-legal-page .vava-legal-layout{display:grid;grid-template-areas:"content toc";grid-template-columns:minmax(0,1fr) 270px;gap:26px;align-items:start;direction:ltr}
+.vava-legal-main[dir="ltr"] .vava-legal-layout{grid-template-areas:"toc content";grid-template-columns:270px minmax(0,1fr)}
+.vava-legal-page .vava-legal-content-column{grid-area:content;display:grid;gap:16px;min-width:0;direction:rtl}
+.vava-legal-main[dir="ltr"] .vava-legal-content-column{direction:ltr}
+.vava-legal-page .vava-legal-toc{grid-area:toc;direction:rtl}.vava-legal-main[dir="ltr"] .vava-legal-toc{direction:ltr}
+
+/* Commitment */
+.vava-legal-page .vava-legal-commitment-card{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(220px,.7fr);gap:0;overflow:hidden;border:1px solid var(--vl-line);border-radius:24px;background:rgba(255,253,249,.95);box-shadow:0 12px 34px rgba(76,67,48,.05)}
+.vava-legal-page .vava-legal-commitment-card>div{padding:24px 27px}
+.vava-legal-page .vava-legal-commitment-card>div:first-child{display:flex;justify-content:center;flex-direction:column}
+.vava-legal-page .vava-legal-commitment-card small{color:var(--vl-olive-dark);font-size:15px;font-weight:800}
+.vava-legal-page .vava-legal-commitment-card p{margin:8px 0 0;color:var(--vl-muted);font-size:13px;line-height:1.85}
+.vava-legal-page .vava-legal-protection{display:grid;grid-template-columns:48px minmax(0,1fr);align-content:center;gap:3px 12px;border-inline-start:1px solid var(--vl-line);background:linear-gradient(145deg,#fafbf6,#f0f4e9)}
+.vava-legal-page .vava-legal-protection>span{grid-row:1/3;display:grid;width:48px;height:48px;place-items:center;border-radius:50%;background:#fff;color:var(--vl-olive)}
+.vava-legal-page .vava-legal-protection svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.vava-legal-page .vava-legal-protection strong{color:var(--vl-olive-dark);font-size:14px}.vava-legal-page .vava-legal-protection p{margin:0;font-size:11px}
+
+/* Section cards */
+.vava-legal-page .vava-legal-section-card,.vava-legal-page .vava-legal-mini-card,.vava-legal-page .vava-legal-compact-list>section{scroll-margin-top:132px;border:1px solid var(--vl-line);background:rgba(255,253,249,.97);box-shadow:0 12px 34px rgba(76,67,48,.045)}
+.vava-legal-page .vava-legal-section-card{overflow:hidden;border-radius:24px}
+.vava-legal-page .vava-legal-section-card.is-visual{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:270px}
+.vava-legal-main[dir="rtl"] .vava-legal-section-card.is-visual figure{order:1}.vava-legal-main[dir="rtl"] .vava-legal-section-card.is-visual .vava-legal-section-copy{order:2}
+.vava-legal-main[dir="ltr"] .vava-legal-section-card.is-visual figure{order:2}.vava-legal-main[dir="ltr"] .vava-legal-section-card.is-visual .vava-legal-section-copy{order:1}
+.vava-legal-page .vava-legal-section-card.is-visual figure{position:relative;min-height:270px;margin:0;overflow:hidden;background:#eee9df}
+.vava-legal-page .vava-legal-section-card.is-visual figure img{width:100%;height:100%;object-fit:cover;filter:saturate(.7) brightness(1.03)}
+.vava-legal-page .vava-legal-section-card.is-visual figure>span{position:absolute;bottom:15px;inset-inline-start:15px;display:grid;width:45px;height:45px;place-items:center;border:1px solid rgba(119,125,80,.18);border-radius:50%;background:rgba(255,253,249,.92);color:var(--vl-olive)}
+.vava-legal-page .vava-legal-section-card.is-visual figure svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.vava-legal-page .vava-legal-section-copy{padding:27px 29px}
+.vava-legal-page .vava-legal-section-copy>small,.vava-legal-page .vava-legal-mini-card>small{display:block;margin-bottom:4px;color:var(--vl-coral);font-size:11px;font-weight:900}
+.vava-legal-page .vava-legal-section-copy h2,.vava-legal-page .vava-legal-mini-card h2,.vava-legal-page .vava-legal-compact-list h2{margin:0 0 9px;color:#4c473f;font-family:var(--font-display,inherit);font-size:clamp(20px,2vw,28px);font-weight:600;line-height:1.45}
+.vava-legal-page .vava-richtext-content p,.vava-legal-page .vava-richtext-content li{color:#777065;font-size:13px;line-height:1.95}
+.vava-legal-page .vava-richtext-content p{margin:0 0 10px}.vava-legal-page .vava-richtext-content p:last-child{margin-bottom:0}
+.vava-legal-page .vava-richtext-content ul,.vava-legal-page .vava-richtext-content ol{margin:8px 0 0;padding-inline-start:1.45em}
+.vava-legal-page .vava-richtext-content a{color:var(--vl-coral);text-underline-offset:3px}
+.vava-legal-page .vava-richtext-content h3{margin:15px 0 7px;color:var(--vl-olive-dark);font-size:17px}
+.vava-legal-page .vava-richtext-content blockquote{margin:12px 0;padding:13px 16px;border-inline-start:3px solid var(--vl-coral);border-radius:12px;background:var(--vl-coral-soft)}
+
+.vava-legal-page .vava-legal-section-card.is-quote{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(230px,.65fr);align-items:stretch}
+.vava-legal-page .vava-legal-section-card.is-quote blockquote{display:flex;justify-content:center;flex-direction:column;margin:15px;padding:22px;border:1px solid var(--vl-line);border-radius:18px;background:linear-gradient(145deg,#fffdfa,#f2f4e9);color:var(--vl-olive-dark)}
+.vava-legal-page .vava-legal-section-card.is-quote blockquote span{color:#a1a875;font-size:32px;font-family:serif;line-height:.8}.vava-legal-page .vava-legal-section-card.is-quote blockquote span:last-child{align-self:flex-end}
+.vava-legal-page .vava-legal-section-card.is-quote blockquote p{margin:5px 0;color:#65694a;font-size:14px;font-weight:700;line-height:1.9}
+
+.vava-legal-page .vava-legal-section-card.is-wide{display:grid;grid-template-columns:82px minmax(0,1fr);align-items:center;padding:12px}
+.vava-legal-page .vava-legal-section-icon{display:grid;width:62px;height:62px;place-items:center;border-radius:50%;background:var(--vl-olive-soft);color:var(--vl-olive)}
+.vava-legal-page .vava-legal-section-icon svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.vava-legal-page .vava-legal-section-card.is-wide .vava-legal-section-copy{padding:18px 16px}
+
+.vava-legal-page .vava-legal-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.vava-legal-page .vava-legal-mini-card{position:relative;min-width:0;padding:22px;border-radius:20px}
+.vava-legal-page .vava-legal-mini-card>span{display:grid;width:48px;height:48px;margin-bottom:13px;place-items:center;border-radius:50%;background:var(--vl-olive-soft);color:var(--vl-olive)}
+.vava-legal-page .vava-legal-mini-card>span svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.vava-legal-page .vava-legal-mini-card h2{font-size:18px}.vava-legal-page .vava-legal-mini-card .vava-richtext-content p,.vava-legal-page .vava-legal-mini-card .vava-richtext-content li{font-size:11.5px;line-height:1.8}
+
+/* Principles */
+.vava-legal-page .vava-legal-principles{display:grid;grid-template-columns:minmax(240px,.9fr) minmax(0,1.4fr);gap:18px;align-items:center;padding:22px 25px;border:1px solid var(--vl-line);border-radius:23px;background:linear-gradient(145deg,#fffdfa,#f6f2e9)}
+.vava-legal-page .vava-legal-principles>div:first-child h2{margin:0 0 7px;color:var(--vl-olive-dark);font-family:var(--font-display,inherit);font-size:25px;font-weight:600}.vava-legal-page .vava-legal-principles>div:first-child p{margin:0;color:var(--vl-muted);font-size:12px;line-height:1.8}
+.vava-legal-page .vava-legal-principles-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.vava-legal-page .vava-legal-principles-list article{display:grid;justify-items:center;gap:4px;padding:14px 9px;border:1px solid #e7e6dc;border-radius:15px;background:rgba(255,255,255,.65);text-align:center}
+.vava-legal-page .vava-legal-principles-list span{display:grid;width:36px;height:36px;place-items:center;border-radius:50%;background:var(--vl-olive-soft);color:var(--vl-olive)}
+.vava-legal-page .vava-legal-principles-list svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.vava-legal-page .vava-legal-principles-list strong{color:#5b5f40;font-size:11px}.vava-legal-page .vava-legal-principles-list small{color:var(--vl-muted);font-size:9px;line-height:1.55}
+
+/* Remaining sections */
+.vava-legal-page .vava-legal-compact-list{display:grid;gap:9px}
+.vava-legal-page .vava-legal-compact-list>section{display:grid;grid-template-columns:45px minmax(0,1fr);gap:13px;align-items:start;padding:17px 19px;border-radius:17px}
+.vava-legal-page .vava-legal-compact-list>section>span{display:grid;width:38px;height:38px;place-items:center;border-radius:50%;background:var(--vl-olive-soft);color:var(--vl-olive);font-size:11px;font-weight:900}
+.vava-legal-page .vava-legal-compact-list h2{margin:0 0 4px;font-size:18px}.vava-legal-page .vava-legal-compact-list .vava-richtext-content p,.vava-legal-page .vava-legal-compact-list .vava-richtext-content li{font-size:11.5px;line-height:1.75}
+
+/* Contact */
+.vava-legal-page .vava-legal-contact-card{display:grid;grid-template-columns:220px minmax(0,1fr) minmax(220px,.75fr);align-items:stretch;overflow:hidden;border:1px solid var(--vl-line);border-radius:24px;background:rgba(255,253,249,.98);box-shadow:0 15px 38px rgba(76,67,48,.06)}
+.vava-legal-page .vava-legal-contact-card figure{min-height:180px;margin:0;overflow:hidden}.vava-legal-page .vava-legal-contact-card figure img{width:100%;height:100%;object-fit:cover;filter:saturate(.72) brightness(1.04)}
+.vava-legal-page .vava-legal-contact-card>div{display:flex;justify-content:center;flex-direction:column;padding:23px}
+.vava-legal-page .vava-legal-contact-card>div small{color:var(--vl-coral);font-size:11px;font-weight:800}.vava-legal-page .vava-legal-contact-card>div h2{margin:6px 0 14px;color:#4c473f;font-family:var(--font-display,inherit);font-size:22px;font-weight:600;line-height:1.55}
+.vava-legal-page .vava-legal-contact-card>div>a{align-self:flex-start;padding:10px 18px;border-radius:10px;background:var(--vl-olive);color:#fff;text-decoration:none;font-size:11px;font-weight:800;transition:.18s ease}.vava-legal-page .vava-legal-contact-card>div>a:hover{background:var(--vl-olive-dark);transform:translateY(-1px)}
+.vava-legal-page .vava-legal-contact-card ul{display:grid;align-content:center;gap:12px;margin:0;padding:20px 22px;border-inline-start:1px solid var(--vl-line);list-style:none}
+.vava-legal-page .vava-legal-contact-card li{display:grid;grid-template-columns:35px minmax(0,1fr);align-items:center;gap:9px}.vava-legal-page .vava-legal-contact-card li>span{display:grid;width:35px;height:35px;place-items:center;border-radius:10px;background:var(--vl-olive-soft);color:var(--vl-olive)}
+.vava-legal-page .vava-legal-contact-card li svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.vava-legal-page .vava-legal-contact-card li div{display:grid;gap:2px}.vava-legal-page .vava-legal-contact-card li small{color:var(--vl-muted);font-size:9px}.vava-legal-page .vava-legal-contact-card li a{overflow-wrap:anywhere;color:#5c6041;text-decoration:none;font-size:10px;font-weight:700}
+
+/* Sticky table of contents */
+.vava-legal-page .vava-legal-toc{position:sticky;top:118px;display:grid;gap:15px;padding:19px;border:1px solid var(--vl-line);border-radius:22px;background:rgba(255,253,249,.96);box-shadow:0 18px 48px rgba(76,67,48,.08);max-height:calc(100vh - 140px);overflow:auto}
+.vava-legal-page .vava-legal-toc header{display:flex;align-items:center;gap:9px;padding-bottom:12px;border-bottom:1px solid var(--vl-line)}
+.vava-legal-page .vava-legal-toc header>span{display:grid;width:34px;height:34px;place-items:center;border-radius:10px;background:var(--vl-olive-soft);color:var(--vl-olive)}.vava-legal-page .vava-legal-toc header svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.vava-legal-page .vava-legal-toc h2{margin:0;color:#555044;font-size:15px;font-weight:800}
+.vava-legal-page .vava-legal-toc nav{display:grid;gap:4px}
+.vava-legal-page .vava-legal-toc nav a{display:grid;grid-template-columns:12px minmax(0,1fr);align-items:center;gap:7px;min-height:38px;padding:7px 8px;border-radius:10px;color:#817a6e;text-decoration:none;font-size:10.5px;line-height:1.5;transition:.18s ease}
+.vava-legal-page .vava-legal-toc nav a i{display:block;width:6px;height:6px;border:1px solid #c9c6ba;border-radius:50%;background:#fff}.vava-legal-page .vava-legal-toc nav a:hover{background:#f5f6f0;color:#5e653b}.vava-legal-page .vava-legal-toc nav a.is-active{background:linear-gradient(90deg,#f1f4ea,#e9eee0);color:#5e653b;font-weight:800}.vava-legal-page .vava-legal-toc nav a.is-active i{border-color:var(--vl-olive);background:var(--vl-olive)}
+.vava-legal-page .vava-legal-toc-note{display:grid;justify-items:center;gap:5px;padding:16px;border:1px solid #e4e4d7;border-radius:15px;background:#fafbf7;text-align:center}.vava-legal-page .vava-legal-toc-note>span{display:grid;width:42px;height:42px;place-items:center;border-radius:50%;background:var(--vl-olive-soft);color:var(--vl-olive)}.vava-legal-page .vava-legal-toc-note svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.vava-legal-page .vava-legal-toc-note strong{color:#5e653b;font-size:12px}.vava-legal-page .vava-legal-toc-note p{margin:0;color:var(--vl-muted);font-size:9.5px;line-height:1.65}
+
+/* Type accents: same layout, content remains page-specific. */
+.vava-legal-page-terms .vava-legal-eyebrow,.vava-legal-page-terms .vava-legal-section-copy>small,.vava-legal-page-terms .vava-legal-mini-card>small,.vava-legal-page-terms .vava-legal-contact-card>div small{color:#b78946}
+.vava-legal-page-terms .vava-legal-updated{color:#707348}.vava-legal-page-terms .vava-richtext-content a{color:#8b7042}
+
+@media(max-width:1050px){
+  .vava-legal-page .vava-legal-layout,.vava-legal-main[dir="ltr"] .vava-legal-layout{grid-template-areas:"toc" "content";grid-template-columns:1fr;direction:inherit}
+  .vava-legal-page .vava-legal-toc{position:relative;top:auto;max-height:none;overflow:hidden}
+  .vava-legal-page .vava-legal-toc nav{display:flex;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+  .vava-legal-page .vava-legal-toc nav a{flex:0 0 auto;min-width:150px}
+  .vava-legal-page .vava-legal-toc-note{display:none}
+}
+@media(max-width:820px){
+  .vava-legal-page .vava-legal-main{padding-top:94px}
+  .vava-legal-page .vava-legal-container{width:min(100% - 24px,1180px)}
+  .vava-legal-page .vava-legal-hero-grid{grid-template-columns:1fr;border-radius:26px}
+  .vava-legal-page .vava-legal-hero-visual{min-height:230px;order:1!important}.vava-legal-page .vava-legal-hero-copy{order:2!important;padding:34px 22px 38px}
+  .vava-legal-page .vava-legal-commitment-card{grid-template-columns:1fr}.vava-legal-page .vava-legal-protection{border-inline-start:0;border-top:1px solid var(--vl-line)}
+  .vava-legal-page .vava-legal-section-card.is-visual,.vava-legal-page .vava-legal-section-card.is-quote{grid-template-columns:1fr}
+  .vava-legal-page .vava-legal-section-card.is-visual figure{min-height:220px;order:1!important}.vava-legal-page .vava-legal-section-card.is-visual .vava-legal-section-copy{order:2!important}
+  .vava-legal-page .vava-legal-card-grid{grid-template-columns:1fr}
+  .vava-legal-page .vava-legal-principles{grid-template-columns:1fr}.vava-legal-page .vava-legal-principles-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .vava-legal-page .vava-legal-contact-card{grid-template-columns:1fr 1fr}.vava-legal-page .vava-legal-contact-card figure{grid-row:1/3}.vava-legal-page .vava-legal-contact-card ul{border-inline-start:0;border-top:1px solid var(--vl-line)}
+}
+@media(max-width:560px){
+  .vava-legal-page .vava-legal-container{width:min(100% - 16px,1180px)}
+  .vava-legal-page .vava-legal-hero{padding-top:16px}.vava-legal-page .vava-legal-hero-grid{border-radius:21px}.vava-legal-page .vava-legal-hero-visual{min-height:180px}.vava-legal-page .vava-legal-hero h1{font-size:38px}
+  .vava-legal-page .vava-legal-content-column{gap:11px}.vava-legal-page .vava-legal-toc{padding:13px;border-radius:17px}
+  .vava-legal-page .vava-legal-section-copy{padding:21px 18px}.vava-legal-page .vava-legal-section-card.is-wide{grid-template-columns:1fr}.vava-legal-page .vava-legal-section-icon{margin:12px 18px 0}
+  .vava-legal-page .vava-legal-principles{padding:19px}.vava-legal-page .vava-legal-principles-list{grid-template-columns:1fr}.vava-legal-page .vava-legal-principles-list article{grid-template-columns:36px minmax(0,1fr);justify-items:start;text-align:start}.vava-legal-page .vava-legal-principles-list article span{grid-row:1/3}
+  .vava-legal-page .vava-legal-contact-card{grid-template-columns:1fr}.vava-legal-page .vava-legal-contact-card figure{grid-row:auto;min-height:180px}.vava-legal-page .vava-legal-contact-card ul{padding:17px}
+  .vava-legal-page .vava-legal-compact-list>section{grid-template-columns:38px minmax(0,1fr);padding:15px 14px}
+}
+
+/* Integration guardrails with the approved shared header/footer. */
+html[data-page="policies.html"],html[data-page="policies-en.html"],html[data-page="policies.html"] body,html[data-page="policies-en.html"] body{max-width:100%;overflow-x:hidden}
+body.vava-legal-page .vava-legal-main{width:100%;max-width:100%}
+body.vava-legal-page .vava-legal-hero,body.vava-legal-page .vava-legal-body{box-sizing:border-box;width:100%}
+body.vava-legal-page .vava-richtext-content{overflow-wrap:anywhere;word-break:normal}
+
+/* V1.21 — complete legal sidebar with shared Contact settings and no internal scrollbar. */
+.vava-legal-page .vava-legal-toc{
+  max-height:none!important;
+  overflow:visible!important;
+}
+.vava-legal-page .vava-legal-toc-contact{
+  display:grid;
+  gap:9px;
+  padding-top:14px;
+  border-top:1px solid var(--vl-line);
+}
+.vava-legal-page .vava-legal-toc-contact>strong{
+  color:#555044;
+  font-size:12px;
+  font-weight:800;
+}
+.vava-legal-page .vava-legal-toc-contact>a{
+  display:grid;
+  grid-template-columns:36px minmax(0,1fr);
+  align-items:center;
+  gap:9px;
+  min-height:46px;
+  padding:7px 9px;
+  border:1px solid #e2e2d7;
+  border-radius:12px;
+  background:#fff;
+  color:#5d6044;
+  text-decoration:none;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.vava-legal-page .vava-legal-toc-contact>a:hover,
+.vava-legal-page .vava-legal-toc-contact>a:focus-visible{
+  border-color:#b8bea2;
+  background:#f8faf4;
+  color:#515638;
+  box-shadow:0 8px 20px rgba(76,85,54,.08);
+  transform:translateY(-1px);
+  outline:0;
+}
+.vava-legal-page .vava-legal-toc-contact>a>span{
+  grid-row:1/3;
+  display:grid;
+  width:36px;
+  height:36px;
+  place-items:center;
+  border-radius:10px;
+  background:var(--vl-olive-soft);
+  color:var(--vl-olive);
+}
+.vava-legal-page .vava-legal-toc-contact svg{
+  width:19px;
+  height:19px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.vava-legal-page .vava-legal-toc-contact b{
+  min-width:0;
+  overflow-wrap:anywhere;
+  font-size:10.5px;
+  font-weight:800;
+}
+.vava-legal-page .vava-legal-toc-contact small{
+  color:var(--vl-muted);
+  font-size:8.5px;
+  line-height:1.2;
+}
+.vava-legal-page .vava-legal-toc-contact .is-whatsapp{
+  border-color:#d9e7dc;
+  background:#f5fbf6;
+  color:#486b50;
+}
+.vava-legal-page .vava-legal-toc-contact .is-whatsapp>span{
+  background:#e5f3e8;
+  color:#4f805b;
+}
+@media(max-width:1050px){
+  .vava-legal-page .vava-legal-toc{overflow:visible!important}
+  .vava-legal-page .vava-legal-toc-contact{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .vava-legal-page .vava-legal-toc-contact>strong{grid-column:1/-1}
+}
+@media(max-width:720px){
+  .vava-legal-page .vava-legal-toc-contact{grid-template-columns:1fr}
+  .vava-legal-page .vava-legal-toc-contact>strong{grid-column:auto}
+}

@@ -1,0 +1,90 @@
+:root{--vava-olive:#596342;--vava-olive-dark:#3f4931;--vava-olive-soft:#eef1e9;--vava-coral:#d2765b;--vava-cream:#f7f4ee;--vava-line:#dfe4da}
+html.wp-toolbar{padding-top:0!important}
+body.vava-admin-brand{background:var(--vava-cream);color:#30372c}
+body.vava-admin-brand #wpadminbar{display:none!important}
+body.vava-admin-brand #screen-meta-links,body.vava-admin-brand #collapse-menu{display:none!important}
+body.vava-admin-brand #adminmenuback,body.vava-admin-brand #adminmenuwrap{width:190px;background:var(--vava-olive-dark)}
+body.vava-admin-brand #adminmenuwrap{position:fixed;inset-block:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#899276 transparent}
+body.rtl.vava-admin-brand #adminmenuwrap{right:0;left:auto}
+body:not(.rtl).vava-admin-brand #adminmenuwrap{left:0;right:auto}
+body.vava-admin-brand #adminmenu{width:190px;margin:0;padding:8px 12px 104px;box-sizing:border-box;background:transparent}
+body.vava-admin-brand .vava-admin-logo{display:block;width:174px;height:76px;margin:13px auto 8px;background:url('../images/vava-logo.png') center/contain no-repeat;border-bottom:1px solid rgba(255,255,255,.14)}
+body.vava-admin-brand #adminmenu li.menu-top{margin:3px 0;border-radius:9px;overflow:hidden}
+body.vava-admin-brand #adminmenu a{color:#eef1e9;transition:color .16s ease,background-color .16s ease}
+body.vava-admin-brand #adminmenu div.wp-menu-image:before{color:#cbd1c2}
+body.vava-admin-brand #adminmenu li.menu-top:hover>a,body.vava-admin-brand #adminmenu li.opensub>a,body.vava-admin-brand #adminmenu li>a:focus{background:#4a5538;color:#fff;box-shadow:none}
+body.vava-admin-brand #adminmenu li.menu-top:hover div.wp-menu-image:before,body.vava-admin-brand #adminmenu li.opensub div.wp-menu-image:before,body.vava-admin-brand #adminmenu a:focus div.wp-menu-image:before{color:var(--vava-coral)}
+body.vava-admin-brand #adminmenu li.current>a.menu-top,body.vava-admin-brand #adminmenu li.wp-has-current-submenu>a.wp-has-current-submenu{background:var(--vava-olive);color:#fff;font-weight:700}
+body.vava-admin-brand #adminmenu li.current>a.menu-top div.wp-menu-image:before,body.vava-admin-brand #adminmenu li.wp-has-current-submenu>a div.wp-menu-image:before{color:var(--vava-coral)}
+body.vava-admin-brand #adminmenu .wp-submenu{position:static!important;width:auto!important;min-width:0!important;margin:0!important;padding:5px 6px 8px!important;background:#333d28!important;box-shadow:none!important;border-radius:0 0 9px 9px}
+body.vava-admin-brand #adminmenu .wp-submenu:before,body.vava-admin-brand #adminmenu .wp-submenu:after{display:none!important}
+body.vava-admin-brand #adminmenu .wp-submenu a{padding:7px 12px;color:#dce1d7}
+body.vava-admin-brand #adminmenu .wp-submenu a:hover,body.vava-admin-brand #adminmenu .wp-submenu a:focus{color:var(--vava-coral);background:transparent}
+body.vava-admin-brand #adminmenu .wp-submenu li.current a{color:#fff;background:rgba(210,118,91,.18);border-radius:7px;font-weight:700}
+body.vava-admin-brand #adminmenu .awaiting-mod,body.vava-admin-brand #adminmenu .update-plugins{background:var(--vava-coral)}
+body.vava-admin-brand #wpcontent,body.vava-admin-brand #wpfooter{margin-inline-start:190px}
+body.rtl.vava-admin-brand #wpcontent,body.rtl.vava-admin-brand #wpfooter{margin-right:190px;margin-left:0}
+body.vava-admin-brand #wpbody-content{box-sizing:border-box;min-height:100vh;padding-bottom:48px}
+body.vava-admin-brand .wrap{max-width:none}
+body.vava-admin-brand a{color:var(--vava-olive)}
+body.vava-admin-brand a:hover,body.vava-admin-brand a:focus{color:var(--vava-coral)}
+body.vava-admin-brand .button-primary{border-color:var(--vava-olive-dark);background:var(--vava-olive);color:#fff}
+body.vava-admin-brand .button-primary:hover,body.vava-admin-brand .button-primary:focus{border-color:var(--vava-coral);background:var(--vava-coral);color:#fff}
+body.vava-admin-brand input:focus,body.vava-admin-brand select:focus,body.vava-admin-brand textarea:focus{border-color:var(--vava-olive);box-shadow:0 0 0 1px var(--vava-olive)}
+body.vava-admin-brand .vava-admin-account{position:fixed;z-index:10001;bottom:0;width:190px;min-height:78px;padding:12px;display:flex;align-items:center;gap:9px;box-sizing:border-box;background:#303925;border-top:1px solid rgba(255,255,255,.14);color:#fff}
+body.rtl.vava-admin-brand .vava-admin-account{right:0;left:auto}
+body:not(.rtl).vava-admin-brand .vava-admin-account{left:0;right:auto}
+body.vava-admin-brand .vava-admin-account img{border-radius:50%;border:2px solid rgba(255,255,255,.7)}
+body.vava-admin-brand .vava-admin-account-main{min-width:0;flex:1;text-decoration:none;color:#fff}
+body.vava-admin-brand .vava-admin-account-main strong,body.vava-admin-brand .vava-admin-account-main span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.vava-admin-brand .vava-admin-account-main span{margin-top:2px;color:#cbd1c2;font-size:10px}
+body.vava-admin-brand .vava-admin-logout{color:#dce1d7;text-decoration:none}
+body.vava-admin-brand .vava-admin-logout:hover{color:var(--vava-coral)}
+@media(max-width:960px){body.vava-admin-brand #adminmenuback,body.vava-admin-brand #adminmenuwrap{width:160px}body.vava-admin-brand #adminmenu{width:160px}body.vava-admin-brand .vava-admin-account{width:160px}body.vava-admin-brand #wpcontent,body.vava-admin-brand #wpfooter{margin-inline-start:160px}body.rtl.vava-admin-brand #wpcontent,body.rtl.vava-admin-brand #wpfooter{margin-right:160px}.vava-admin-account-main span{display:none!important}}
+@media(max-width:782px){body.vava-admin-brand #adminmenuback,body.vava-admin-brand #adminmenuwrap{width:190px;transform:translateX(-190px)}body.rtl.vava-admin-brand #adminmenuback,body.rtl.vava-admin-brand #adminmenuwrap{transform:translateX(190px)}body.vava-admin-brand.auto-fold #adminmenuback,body.vava-admin-brand.auto-fold #adminmenuwrap{transform:none}body.vava-admin-brand #adminmenu{width:190px}body.vava-admin-brand .vava-admin-account{display:none}body.vava-admin-brand #wpcontent,body.vava-admin-brand #wpfooter,body.rtl.vava-admin-brand #wpcontent,body.rtl.vava-admin-brand #wpfooter{margin:0}}
+
+
+/* Release 1.22.51 — symmetric admin canvas beside the fixed VAVA sidebar. */
+body.vava-admin-brand #wpcontent,
+body.vava-admin-brand #wpfooter{
+  box-sizing:border-box!important;
+  width:auto!important;
+  padding:0!important
+}
+body.rtl.vava-admin-brand #wpcontent,
+body.rtl.vava-admin-brand #wpfooter{
+  margin-right:190px!important;
+  margin-left:0!important
+}
+body:not(.rtl).vava-admin-brand #wpcontent,
+body:not(.rtl).vava-admin-brand #wpfooter{
+  margin-left:190px!important;
+  margin-right:0!important
+}
+body.vava-admin-brand #wpbody,
+body.vava-admin-brand #wpbody-content{
+  box-sizing:border-box!important;
+  width:100%!important
+}
+body.vava-admin-brand #wpbody-content{
+  padding-inline:12px!important
+}
+body.vava-admin-brand #wpbody-content>.wrap{
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:10px 0 0!important
+}
+@media(max-width:960px){
+  body.rtl.vava-admin-brand #wpcontent,
+  body.rtl.vava-admin-brand #wpfooter{margin-right:160px!important;margin-left:0!important}
+  body:not(.rtl).vava-admin-brand #wpcontent,
+  body:not(.rtl).vava-admin-brand #wpfooter{margin-left:160px!important;margin-right:0!important}
+}
+@media(max-width:782px){
+  body.vava-admin-brand #wpcontent,
+  body.vava-admin-brand #wpfooter,
+  body.rtl.vava-admin-brand #wpcontent,
+  body.rtl.vava-admin-brand #wpfooter{margin:0!important}
+  body.vava-admin-brand #wpbody-content{padding-inline:8px!important}
+}

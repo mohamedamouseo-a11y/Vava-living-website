@@ -1,0 +1,352 @@
+/* WordPress-only bindings for the dynamic About VAVA page template. */
+html[data-page="about-vava.html"] .vava-about-dynamic-hero,
+html[data-page="about-vava-en.html"] .vava-about-dynamic-hero {
+  background-image: var(--vava-about-hero-image) !important;
+}
+
+html[data-page="about-vava.html"] .vava-about-dynamic-why,
+html[data-page="about-vava-en.html"] .vava-about-dynamic-why {
+  background-image: var(--vava-about-why-image) !important;
+}
+
+html[data-page="about-vava.html"] .language-switch,
+html[data-page="about-vava-en.html"] .language-switch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  direction: ltr;
+}
+
+html[data-page="about-vava.html"] .language-option,
+html[data-page="about-vava-en.html"] .language-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  padding: 4px 6px;
+  border-radius: 999px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 12px;
+  opacity: .58;
+}
+
+html[data-page="about-vava.html"] .language-option.is-active,
+html[data-page="about-vava-en.html"] .language-option.is-active {
+  background: rgba(171, 166, 111, .14);
+  color: var(--olive);
+  opacity: 1;
+}
+
+/* Cumulative V1R4 — About content model and approved compact features. */
+html[data-page^="about-vava"] .about-hero-trio{display:none!important}
+
+html[data-page^="about-vava"] .about-story-image{
+  width:100%;
+  max-width:300px;
+  aspect-ratio:4/5;
+  margin:26px 0 0 auto;
+  border:1px solid rgba(132,124,94,.12);
+  border-radius:42% 42% 24px 24px;
+  background-position:center;
+  background-size:cover;
+  box-shadow:0 18px 52px rgba(85,78,59,.075);
+}
+html[data-page="about-vava-en.html"] .about-story-image{margin-right:auto;margin-left:0}
+
+html[data-page^="about-vava"] .about-flow .about-single-text-card,
+html[data-page^="about-vava"] .why-copy .about-single-text-card{
+  display:block;
+  padding:24px 28px;
+  border:1px solid rgba(132,124,94,.11);
+  border-radius:30px;
+  background:rgba(255,250,242,.52);
+  box-shadow:0 14px 46px rgba(85,78,59,.04);
+}
+html[data-page^="about-vava"] .about-single-text-card p{
+  margin:0 0 1.25em;
+  color:#575247;
+  font-size:clamp(16px,1.12vw,19px);
+  line-height:2.05;
+}
+html[data-page^="about-vava"] .about-single-text-card p:last-child{margin-bottom:0}
+html[data-page^="about-vava"] .why-copy .about-single-text-card{margin-top:20px}
+html[data-page^="about-vava"] .why-copy .about-single-text-card p{font-size:clamp(15px,1.03vw,17px);color:rgba(87,82,71,.78)}
+
+html[data-page^="about-vava"] .about-features-section{
+  padding-top:clamp(44px,5vw,68px);
+  padding-bottom:clamp(44px,5vw,68px);
+}
+html[data-page^="about-vava"] .about-features-shell{width:min(930px,100%)}
+html[data-page^="about-vava"] .about-features-head{max-width:760px;margin-inline:auto}
+html[data-page^="about-vava"] .about-features-head h2{margin-bottom:12px}
+html[data-page^="about-vava"] .about-features-head p{max-width:720px;margin:0 auto;line-height:1.85}
+html[data-page^="about-vava"] .about-feature-grid{
+  width:min(730px,100%);
+  margin:26px auto 0;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px 24px;
+}
+html[data-page^="about-vava"] .about-feature-card{
+  position:relative;
+  min-height:118px;
+  padding:34px 20px 14px;
+  border:1px solid rgba(132,124,94,.14);
+  border-radius:18px;
+  background:rgba(255,250,242,.48);
+  box-shadow:0 10px 34px rgba(85,78,59,.035);
+  text-align:center;
+  box-sizing:border-box;
+}
+html[data-page^="about-vava"] .about-feature-card h3{
+  position:absolute;
+  top:0;
+  left:50%;
+  min-width:140px;
+  max-width:85%;
+  margin:0;
+  padding:8px 18px;
+  border:1px solid rgba(132,124,94,.15);
+  border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,251,244,.98),rgba(248,242,231,.98));
+  color:#575247;
+  font-family:inherit;
+  font-size:clamp(17px,1.25vw,20px)!important;
+  font-weight:600;
+  line-height:1.3!important;
+  white-space:nowrap;
+  transform:translate(-50%,-50%);
+  box-shadow:0 7px 20px rgba(85,78,59,.035);
+}
+html[data-page^="about-vava"] .about-feature-card p{
+  max-width:100%;
+  margin:0 auto;
+  color:rgba(87,82,71,.72);
+  font-size:clamp(13.5px,.9vw,15.5px);
+  line-height:1.72;
+}
+
+@media(max-width:900px){
+  html[data-page^="about-vava"] .about-story-image{margin:24px auto 0;max-width:330px;aspect-ratio:4/3;border-radius:28px}
+}
+@media(max-width:640px){
+  html[data-page^="about-vava"] .about-feature-grid{grid-template-columns:1fr;gap:30px;margin-top:34px}
+  html[data-page^="about-vava"] .about-feature-card{min-height:104px;padding:36px 18px 16px}
+  html[data-page^="about-vava"] .about-single-text-card{padding:20px!important;border-radius:24px!important}
+}
+
+/* ===== Cumulative V1R5: homepage-matched language switch and feature interaction ===== */
+html[data-page^="about-vava"] .header-tools{
+  direction:ltr;
+  display:flex;
+  align-items:center;
+  visibility:visible;
+  pointer-events:auto;
+}
+html[data-page^="about-vava"] .language-switch{
+  display:inline-grid;
+  grid-template-columns:repeat(2,minmax(42px,1fr));
+  align-items:stretch;
+  gap:3px;
+  padding:3px;
+  border:1px solid rgba(107,109,67,.22);
+  border-radius:999px;
+  background:rgba(255,255,255,.38);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.58);
+  backdrop-filter:blur(10px);
+  direction:ltr;
+  white-space:nowrap;
+}
+html[data-page^="about-vava"] .language-option{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:42px;
+  min-height:30px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:transparent;
+  color:rgba(75,71,59,.62);
+  text-decoration:none;
+  font-family:var(--vava-font-main)!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  line-height:1!important;
+  letter-spacing:.02em;
+  opacity:1;
+  transition:background-color .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease;
+}
+html[data-page^="about-vava"] a.language-option:hover{
+  color:var(--olive);
+  background:rgba(107,109,67,.08);
+  transform:translateY(-1px);
+}
+html[data-page^="about-vava"] .language-option.is-active{
+  color:#fff;
+  background:var(--olive);
+  box-shadow:0 4px 14px rgba(107,109,67,.22);
+  cursor:default;
+}
+html[data-page^="about-vava"] .language-code{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.04em;
+}
+
+html[data-page^="about-vava"] .about-feature-grid{
+  width:min(760px,100%);
+  gap:34px 38px;
+  margin-top:34px;
+}
+html[data-page^="about-vava"] .about-feature-card{
+  --vava-feature-tint:rgba(153,180,170,.16);
+  --vava-feature-line:rgba(118,148,137,.26);
+  transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease,background-color .24s ease;
+}
+html[data-page^="about-vava"] .about-feature-card:nth-child(2){--vava-feature-tint:rgba(207,125,101,.14);--vava-feature-line:rgba(207,125,101,.25)}
+html[data-page^="about-vava"] .about-feature-card:nth-child(3){--vava-feature-tint:rgba(188,177,123,.17);--vava-feature-line:rgba(171,166,111,.28)}
+html[data-page^="about-vava"] .about-feature-card:nth-child(4){--vava-feature-tint:rgba(153,180,170,.19);--vava-feature-line:rgba(118,148,137,.28)}
+html[data-page^="about-vava"] .about-feature-card h3{
+  transition:background-color .24s ease,border-color .24s ease,color .24s ease,box-shadow .24s ease;
+}
+html[data-page^="about-vava"] .about-feature-card:hover{
+  transform:translateY(-5px);
+  border-color:var(--vava-feature-line);
+  background:color-mix(in srgb,var(--vava-feature-tint) 42%,rgba(255,250,242,.74));
+  box-shadow:0 18px 42px rgba(85,78,59,.09);
+}
+html[data-page^="about-vava"] .about-feature-card:hover h3{
+  border-color:var(--vava-feature-line);
+  background:var(--vava-feature-tint);
+  color:#4d5145;
+  box-shadow:0 9px 24px rgba(85,78,59,.075);
+}
+@supports not (background:color-mix(in srgb,#fff,#000)){
+  html[data-page^="about-vava"] .about-feature-card:hover{background:rgba(255,250,242,.82)}
+}
+@media(max-width:640px){
+  html[data-page^="about-vava"] .about-feature-grid{gap:34px;margin-top:38px}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-page^="about-vava"] .about-feature-card,
+  html[data-page^="about-vava"] .about-feature-card h3,
+  html[data-page^="about-vava"] .language-option{transition:none!important}
+  html[data-page^="about-vava"] .about-feature-card:hover,
+  html[data-page^="about-vava"] a.language-option:hover{transform:none}
+}
+
+/* Release 1.22.54 — compact vision cards and reliable invitation actions. */
+html[data-page^="about-vava"] .about-vision-section .vision-steps{
+  width:min(900px,100%);
+  margin:36px auto 0;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:30px 24px;
+  text-align:center;
+}
+html[data-page^="about-vava"] .about-vision-section .vision-step{
+  --vava-vision-tint:rgba(153,180,170,.16);
+  --vava-vision-line:rgba(118,148,137,.26);
+  position:relative;
+  min-height:118px;
+  padding:36px 18px 16px;
+  overflow:visible;
+  border:1px solid rgba(132,124,94,.14);
+  border-radius:18px;
+  background:rgba(255,250,242,.5);
+  box-shadow:0 10px 34px rgba(85,78,59,.04);
+  box-sizing:border-box;
+  text-align:center;
+  transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease,background-color .24s ease;
+}
+html[data-page^="about-vava"] .about-vision-section .vision-step:nth-child(2){--vava-vision-tint:rgba(171,166,111,.17);--vava-vision-line:rgba(171,166,111,.28)}
+html[data-page^="about-vava"] .about-vision-section .vision-step:nth-child(3){--vava-vision-tint:rgba(207,125,101,.14);--vava-vision-line:rgba(207,125,101,.25)}
+html[data-page^="about-vava"] .about-vision-section .vision-step::before,
+html[data-page^="about-vava"] .about-vision-section .vision-step::after{display:none!important}
+html[data-page^="about-vava"] .about-vision-section .vision-step h3{
+  position:absolute;
+  z-index:2;
+  top:0;
+  left:50%;
+  min-width:132px;
+  max-width:86%;
+  margin:0;
+  padding:8px 17px;
+  border:1px solid rgba(132,124,94,.15);
+  border-radius:999px;
+  background:#fffaf2;
+  color:#4d5145;
+  font-family:inherit;
+  font-size:clamp(17px,1.2vw,20px)!important;
+  font-weight:600;
+  line-height:1.3!important;
+  white-space:nowrap;
+  transform:translate(-50%,-50%);
+  box-shadow:0 7px 20px rgba(85,78,59,.04);
+  transition:background-color .24s ease,border-color .24s ease,color .24s ease,box-shadow .24s ease;
+}
+html[data-page^="about-vava"] .about-vision-section .vision-step .vava-richtext-content,
+html[data-page^="about-vava"] .about-vision-section .vision-step p{
+  max-width:100%;
+  margin:0 auto;
+  color:rgba(87,82,71,.72);
+  font-size:clamp(13.5px,.9vw,15.5px)!important;
+  line-height:1.72!important;
+}
+html[data-page^="about-vava"] .about-vision-section .vision-step:hover{
+  transform:translateY(-5px);
+  border-color:var(--vava-vision-line);
+  background:var(--vava-vision-tint);
+  box-shadow:0 18px 42px rgba(85,78,59,.09);
+}
+html[data-page^="about-vava"] .about-vision-section .vision-step:hover h3{
+  border-color:var(--vava-vision-line);
+  background:var(--vava-vision-tint);
+  box-shadow:0 9px 24px rgba(85,78,59,.075);
+}
+
+html[data-page^="about-vava"] .about-invite-section .invite-panel{
+  isolation:isolate;
+}
+html[data-page^="about-vava"] .about-invite-section .invite-panel::before,
+html[data-page^="about-vava"] .about-invite-section .invite-panel::after{
+  z-index:0;
+  pointer-events:none!important;
+}
+html[data-page^="about-vava"] .about-invite-section .invite-panel>*{
+  position:relative;
+  z-index:2;
+}
+html[data-page^="about-vava"] .about-invite-section .btn-row{
+  position:relative;
+  z-index:5;
+  pointer-events:auto;
+}
+html[data-page^="about-vava"] .about-invite-section .btn-row .btn{
+  position:relative;
+  z-index:6;
+  pointer-events:auto!important;
+  cursor:pointer;
+}
+html[data-page^="about-vava"] .about-invite-section .btn-row .btn.secondary{
+  border-color:rgba(107,109,67,.30);
+  background:rgba(171,166,111,.25);
+  color:#5f613b;
+  box-shadow:0 10px 26px rgba(107,109,67,.08);
+}
+html[data-page^="about-vava"] .about-invite-section .btn-row .btn.secondary:hover{
+  border-color:rgba(107,109,67,.48);
+  background:rgba(171,166,111,.38);
+  color:#4e5133;
+}
+
+@media(max-width:900px){
+  html[data-page^="about-vava"] .about-vision-section .vision-steps{grid-template-columns:1fr;max-width:560px;gap:34px;margin-top:40px}
+  html[data-page^="about-vava"] .about-vision-section .vision-step{min-height:104px;padding:36px 18px 16px}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-page^="about-vava"] .about-vision-section .vision-step,
+  html[data-page^="about-vava"] .about-vision-section .vision-step h3{transition:none!important}
+  html[data-page^="about-vava"] .about-vision-section .vision-step:hover{transform:none}
+}
