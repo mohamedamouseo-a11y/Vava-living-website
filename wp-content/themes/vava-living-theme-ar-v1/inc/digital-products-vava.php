@@ -404,12 +404,11 @@ function vava_digital_products_card_text_defaults( string $lang = 'ar' ): array 
 	foreach ( vava_digital_products_catalog() as $uid => $item ) {
 		$local = (array) ( $item[ $lang ] ?? array() );
 		$rows[] = array(
-				'uid'              => $uid,
-				'title'            => (string) ( $local['title'] ?? '' ),
-				'description'      => (string) ( $local['card_description'] ?? $local['description'] ?? '' ),
-				'full_description' => (string) ( $local['description'] ?? '' ),
-				'currency'         => 'en' === $lang ? 'SAR' : 'ر.س',
-				'button_text'      => 'en' === $lang ? 'View Details' : 'عرض التفاصيل',
+			'uid'         => $uid,
+			'title'       => (string) ( $local['title'] ?? '' ),
+			'description' => (string) ( $local['card_description'] ?? $local['description'] ?? '' ),
+			'currency'    => 'en' === $lang ? 'SAR' : 'ر.س',
+			'button_text' => 'en' === $lang ? 'View Details' : 'عرض التفاصيل',
 		);
 	}
 	return $rows;
@@ -543,10 +542,6 @@ function vava_digital_product_reader_data( array $card, string $lang = 'ar' ): a
 	}
 	if ( '' !== trim( (string) ( $card['title'] ?? '' ) ) ) {
 		$data['title'] = (string) $card['title'];
-	}
-	$full_description = trim( (string) ( $card['full_description'] ?? '' ) );
-	if ( '' !== $full_description ) {
-		$data['description'] = $full_description;
 	}
 	$data['group']      = (string) ( $card['group'] ?? $data['group'] ?? 'digital' );
 	$data['price']      = (string) ( $card['price'] ?? $data['price'] ?? '' );

@@ -75,7 +75,7 @@ get_header( 'page' );
 	</section>
 
 	<section class="vava-session-summary-grid<?php echo 'followup' === $category ? ' is-followup-approved' : ''; ?>">
-		<article><span>✦</span><h2><?php echo esc_html( (string) ( $session['overview_title'] ?? ( $is_en ? 'Session overview' : 'وصف الجلسة' ) ) ); ?></h2><div><?php echo vava_richtext_output( (string) ( $session['overview'] ?? '' ) ); // phpcs:ignore ?></div></article>
+		<article><span>❧</span><h2><?php echo esc_html( (string) ( $session['overview_title'] ?? ( $is_en ? 'Session overview' : 'وصف الجلسة' ) ) ); ?></h2><div><?php echo vava_richtext_output( (string) ( $session['overview'] ?? '' ) ); // phpcs:ignore ?></div></article>
 		<article><span>♙</span><h2><?php echo esc_html( (string) ( $session['audience_title'] ?? ( $is_en ? 'Suitable for you if…' : 'مناسبة لك إذا كنت...' ) ) ); ?></h2><ul><?php foreach ( $audience as $item ) : ?><li><?php echo esc_html( (string) ( $item['text'] ?? '' ) ); ?></li><?php endforeach; ?></ul></article>
 		<article><span>✦</span><h2><?php echo esc_html( (string) ( $session['outcomes_title'] ?? ( $is_en ? 'What does it include?' : 'ماذا تشمل؟' ) ) ); ?></h2><ul><?php foreach ( $outcomes as $item ) : ?><li><?php echo esc_html( (string) ( $item['text'] ?? '' ) ); ?></li><?php endforeach; ?></ul></article>
 	</section>
