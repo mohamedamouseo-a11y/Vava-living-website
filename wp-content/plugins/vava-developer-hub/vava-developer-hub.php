@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Vava Developer Hub
  * Description: Operational Vava engineering control room with GitHub monitoring, safe file browsing, controlled file pushes, and TCRM-style Server Git Sync.
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: Vava Living
  */
 
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('VAVA_DEVHUB_VERSION', '2.0.0');
+define('VAVA_DEVHUB_VERSION', '2.0.1');
 define('VAVA_DEVHUB_FILE', __FILE__);
 define('VAVA_DEVHUB_DIR', plugin_dir_path(__FILE__));
 define('VAVA_DEVHUB_URL', plugin_dir_url(__FILE__));
