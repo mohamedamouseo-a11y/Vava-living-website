@@ -24,7 +24,10 @@ final class Vava_DevHub_Security {
         if ($branch === '' || strlen($branch) > 180) {
             return '';
         }
-        if (preg_match('/(^\.|\.\.|~|\^|:|\?|\*|\[|\\|\s|@\{|\/\.|\.lock$|\/$)/', $branch)) {
+        if (!preg_match('/^[A-Za-z0-9._\/-]+$/', $branch)) {
+            return '';
+        }
+        if (strpos($branch, '..') !== false || strpos($branch, '@{') !== false || strpos($branch, '/.') !== false || substr($branch, -1) === '/' || substr($branch, -5) === '.lock') {
             return '';
         }
         return $branch;
