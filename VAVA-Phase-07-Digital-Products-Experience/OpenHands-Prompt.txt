@@ -1,0 +1,98 @@
+# VAVA Phase 07 — Digital Products Experience & Commerce Flow ONLY
+
+Work directly on the LIVE VAVA Living WordPress installation:
+
+`/public_html`
+
+Live:
+`https://thevavaliving.com`
+
+## IMPORTANT
+
+This is Phase 07 ONLY.
+
+Completed phases must remain untouched:
+- Phase 01 Login
+- Phase 02 Branding / Logo
+- Phase 03 Paths
+- Phase 04 Full Description
+- Phase 05 PDF System
+- Phase 06 Digital Reader UX
+
+Do NOT modify:
+- PDF storage
+- PDF processing
+- Reader security
+- HMAC URLs
+- Watermarking
+- Payments logic
+- Booking
+- Sessions
+- Questionnaires
+- Developer Hub
+- WordPress Core
+
+## SAFETY
+
+Before any modification:
+1. Inspect current live implementation.
+2. Create exact backups.
+3. Modify only required files.
+
+## GOAL
+
+Improve the user experience around digital products without changing the underlying commerce/security architecture.
+
+## INSPECT FIRST
+
+Review:
+- inc/digital-products-vava.php
+- inc/digital-products-commerce-vava.php
+- inc/digital-product-vava.php
+- relevant digital product templates/assets
+
+## REQUIREMENTS
+
+1. Product Listing UX
+- Improve product cards clarity.
+- Keep short description for cards.
+- Keep price and CTA clear.
+- Preserve existing data model.
+
+2. Product Details UX
+- Ensure title, full description, price, and action are clear.
+- Use Phase 04 full_description correctly.
+- Do not duplicate descriptions.
+
+3. Owned Products Experience
+- Verify users with access can identify owned products.
+- Keep access validation unchanged.
+
+4. Mobile UX
+Test:
+320px, 360px, 390px, 414px
+
+Fix only digital product UI issues.
+
+## STRICTLY OUT OF SCOPE
+
+Do not modify:
+- PDF lifecycle
+- Reader
+- Security
+- Payments backend
+- Login
+- Paths
+- Booking
+
+## FINAL REPORT
+
+Return:
+- Files modified
+- Backups
+- Issues found
+- Changes applied
+- Desktop verification
+- Mobile verification
+- Regression verification
+- Confirmation previous phases were untouched.
