@@ -142,8 +142,9 @@ if ( ! function_exists( 'vava_booking_questionnaire_defaults' ) ) {
 						'fields' => array(
 							$text( 'new_changes', 'هل حدث شيء جديد منذ الجلسة السابقة؟', 'Has anything new happened since the previous session?', false, 'textarea' ),
 							$text( 'next_focus', 'ما أكثر شيء ترغب في التركيز عليه في الجلسة القادمة؟', 'What would you most like to focus on in the next session?', true, 'textarea' ),
-								$text( 'questions', 'هل يوجد أي شيء ترغب في قوله أو السؤال عنه؟', 'Is there anything you would like to share or ask?', false, 'textarea' ),
-								$text( 'additional_notes', 'ملاحظات إضافية', 'Additional notes', false, 'textarea' ),
+							$text( 'questions', 'هل يوجد أي شيء ترغب في قوله أو السؤال عنه؟', 'Is there anything you would like to share or ask?', false, 'textarea' ),
+							$text( 'daily_activity', 'كيف كان نشاطك اليومي؟', 'How has your daily activity been?', false, 'textarea' ),
+							$text( 'additional_notes', 'ملاحظات إضافية', 'Additional notes', false, 'textarea' ),
 						),
 					),
 				),
@@ -318,7 +319,7 @@ function vava_booking_questionnaire_option_presentation( string $field_id, strin
 		'ayurveda_knowledge' => array(
 			'first_time' => array( 'icon' => '⌁', 'ar' => 'أتعرف عليها لأول مرة', 'en' => 'I’m beginning to learn' ),
 			'basic' => array( 'icon' => '▤', 'ar' => 'قرأت أو شاهدت بعض المحتوى', 'en' => 'I’ve read or watched content' ),
-			'good' => array( 'icon' => '✦', 'ar' => 'لدي فهم جيد وأتعمق في التعلم', 'en' => 'I understand the basics well' ),
+			'good' => array( 'icon' => '❧', 'ar' => 'لدي فهم جيد وأتعمق في التعلم', 'en' => 'I understand the basics well' ),
 			'applied' => array( 'icon' => '◉', 'ar' => 'أطبقها بانتظام في حياتي', 'en' => 'It is part of my routine' ),
 		),
 	);

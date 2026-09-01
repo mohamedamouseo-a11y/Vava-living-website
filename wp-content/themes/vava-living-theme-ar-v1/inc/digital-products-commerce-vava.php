@@ -198,8 +198,7 @@ function vava_digital_products_private_file_path( array $record ): string {
 	$path = trailingslashit( $root['basedir'] ) . $relative;
 	$real_root = realpath( $root['path'] );
 	$real_file = is_file( $path ) ? realpath( $path ) : false;
-	$root_prefix = $real_root ? trailingslashit( $real_root ) : '';
-	return $root_prefix && $real_file && 0 === strpos( $real_file, $root_prefix ) ? $real_file : '';
+	return $real_root && $real_file && 0 === strpos( $real_file, $real_root ) ? $real_file : '';
 }
 
 function vava_digital_products_format_bytes( int $bytes ): string {
@@ -227,8 +226,7 @@ function vava_digital_products_private_pages_dir( array $record ): string {
 	$path = trailingslashit( $root['basedir'] ) . $relative;
 	$real_root = realpath( $root['path'] );
 	$real_dir  = is_dir( $path ) ? realpath( $path ) : false;
-	$root_prefix = $real_root ? trailingslashit( $real_root ) : '';
-	return $root_prefix && $real_dir && 0 === strpos( $real_dir, $root_prefix ) ? $real_dir : '';
+	return $real_root && $real_dir && 0 === strpos( $real_dir, $real_root ) ? $real_dir : '';
 }
 
 function vava_digital_products_private_page_path( array $record, int $page ): string {
