@@ -349,6 +349,7 @@ function vava_selections_admin_text( string $key, string $lang = 'ar' ): string 
 		'new_product'     => array( 'ar' => 'منتج جديد', 'en' => 'New product' ),
 		'title'           => array( 'ar' => 'العنوان', 'en' => 'Title' ),
 		'description'     => array( 'ar' => 'الوصف المختصر', 'en' => 'Short description' ),
+		'full_description' => array( 'ar' => 'الوصف الكامل للمنتج', 'en' => 'Full product description' ),
 		'button_text'     => array( 'ar' => 'نص الزر', 'en' => 'Button text' ),
 		'price'           => array( 'ar' => 'السعر', 'en' => 'Price' ),
 		'currency'        => array( 'ar' => 'العملة أو نص السعر', 'en' => 'Currency or price text' ),
@@ -480,6 +481,7 @@ function vava_selections_render_product_item( int $post_id, string $group, strin
 			<div class="vava-repeater-field vava-selections-product-field"><label><span><?php echo esc_html( vava_selections_admin_text( 'title', $lang ) ); ?></span><input data-product-local-field="title" name="<?php echo esc_attr( $name_base . '[title]' ); ?>" type="text" value="<?php echo esc_attr( (string) ( $product['title'] ?? '' ) ); ?>"/></label></div>
 			<div class="vava-repeater-field vava-selections-product-field"><label><span><?php echo esc_html( vava_selections_admin_text( 'button_text', $lang ) ); ?></span><input data-product-local-field="button_text" name="<?php echo esc_attr( $name_base . '[button_text]' ); ?>" type="text" value="<?php echo esc_attr( (string) ( $product['button_text'] ?? '' ) ); ?>"/></label></div>
 			<div class="vava-repeater-field vava-repeater-field-wide vava-selections-product-field"><label><span><?php echo esc_html( vava_selections_admin_text( 'description', $lang ) ); ?></span><textarea data-product-local-field="description" name="<?php echo esc_attr( $name_base . '[description]' ); ?>" rows="4"><?php echo esc_textarea( (string) ( $product['description'] ?? '' ) ); ?></textarea></label></div>
+			<div class="vava-repeater-field vava-repeater-field-wide vava-selections-product-field"><label><span><?php echo esc_html( vava_selections_admin_text( 'full_description', $lang ) ); ?></span><textarea data-product-local-field="full_description" name="<?php echo esc_attr( $name_base . '[full_description]' ); ?>" rows="8"><?php echo esc_textarea( (string) ( $product['full_description'] ?? '' ) ); ?></textarea></label></div>
 			<div class="vava-repeater-field vava-selections-product-field"><label><span><?php echo esc_html( vava_selections_admin_text( 'price', $lang ) ); ?></span><input data-product-shared-field="price" name="<?php echo esc_attr( $name_base . '[price]' ); ?>" type="text" value="<?php echo esc_attr( (string) ( $product['price'] ?? '' ) ); ?>"/></label></div>
 			<div class="vava-repeater-field vava-selections-product-field"><label><span><?php echo esc_html( vava_selections_admin_text( 'currency', $lang ) ); ?></span><input data-product-local-field="currency" name="<?php echo esc_attr( $name_base . '[currency]' ); ?>" type="text" value="<?php echo esc_attr( (string) ( $product['currency'] ?? '' ) ); ?>"/></label></div>
 			<div class="vava-product-assets-grid<?php echo 'digital' === $group ? ' has-protected-file' : ''; ?>">
@@ -506,7 +508,7 @@ function vava_selections_render_products_editor( int $post_id, string $group, st
 	<div class="vava-admin-repeaters vava-dynamic-repeater vava-selections-products-editor" data-products-editor data-products-group="<?php echo esc_attr( $group ); ?>" data-products-language="<?php echo esc_attr( $lang ); ?>">
 		<div class="vava-repeater-heading"><div><h3><?php echo esc_html( vava_selections_sections( $lang )[ $group ] ); ?></h3><p class="description"><?php echo esc_html( 'en' === $lang ? 'Product images, prices, and visibility are synchronized between both languages.' : 'صور المنتجات والأسعار وحالة الظهور متزامنة بين اللغتين.' ); ?></p></div><button class="button button-secondary" data-product-add type="button"><?php echo esc_html( vava_selections_admin_text( 'add_product', $lang ) ); ?></button></div>
 		<div class="vava-repeater-list" data-products-list><?php foreach ( $products as $index => $product ) { vava_selections_render_product_item( $post_id, $group, $lang, $product, $index ); } ?></div>
-		<template data-product-template><?php vava_selections_render_product_item( $post_id, $group, $lang, array( 'uid' => '__UID__', 'title' => '', 'description' => '', 'currency' => 'en' === $lang ? 'SAR' : 'ر.س', 'button_text' => 'en' === $lang ? 'View Details' : 'عرض التفاصيل', 'price' => '', 'image_id' => 0, 'fallback_asset' => '', 'enabled' => 1 ), 0, true ); ?></template>
+		            <template data-product-template><?php vava_selections_render_product_item( $post_id, $group, $lang, array( 'uid' => '__UID__', 'title' => '', 'description' => '', 'full_description' => '', 'currency' => 'en' === $lang ? 'SAR' : 'ر.س', 'button_text' => 'en' === $lang ? 'View Details' : 'عرض التفاصيل', 'price' => '', 'image_id' => 0, 'fallback_asset' => '', 'enabled' => 1 ), 0, true ); ?></template>
 	</div>
 	<?php
 }
@@ -607,6 +609,7 @@ function vava_selections_sanitize_local_product( array $item, string $uid ): arr
 		'uid'         => $uid,
 		'title'       => sanitize_text_field( (string) ( $item['title'] ?? '' ) ),
 		'description' => sanitize_textarea_field( (string) ( $item['description'] ?? '' ) ),
+		'full_description' => sanitize_textarea_field( (string) ( $item['full_description'] ?? '' ) ),
 		'currency'    => sanitize_text_field( (string) ( $item['currency'] ?? '' ) ),
 		'button_text' => sanitize_text_field( (string) ( $item['button_text'] ?? '' ) ),
 	);

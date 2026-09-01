@@ -26,6 +26,10 @@ $GLOBALS['vava_internal_body_classes'] = array( 'vava-protected-reader-page' );
 $GLOBALS['vava_page_data_name'] = $is_en ? 'digital-reader-en.html' : 'digital-reader-ar.html';
 
 get_header( 'page' );
+
+<!-- Phase 06: Reader UX Improvements -->
+<link rel="stylesheet" href="https://thevavaliving.com/wp-content/themes/vava-living-theme-ar-v1/assets/css/reader/reader-ux-improvements.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://thevavaliving.com/wp-content/themes/vava-living-theme-ar-v1/assets/css/reader/reader-ux-improvements.css"></noscript>
+
 ?>
 <main class="vava-protected-reader" dir="<?php echo esc_attr( $is_en ? 'ltr' : 'rtl' ); ?>" data-protected-reader data-product-uid="<?php echo esc_attr( $uid ); ?>" data-page-count="<?php echo esc_attr( (string) $page_count ); ?>">
 	<section class="vava-protected-reader-head">

@@ -84,4 +84,20 @@ body.vava-internal-page {
   body.vava-internal-page .section > * {
     min-width: 0;
   }
+
+  /*
+   * Phase 02: the shared footer can compute wider than a small viewport when
+   * width:100% combines with content-box sizing or the desktop three-column
+   * grid. Keep it border-box and single-column so no footer column hangs off
+   * either edge on phones. This is the actual overflowing element, not a
+   * wholesale page-clipping workaround.
+   */
+  body.vava-homepage .footer.page-footer,
+  body.vava-internal-page .footer.page-footer {
+    box-sizing: border-box !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
 }

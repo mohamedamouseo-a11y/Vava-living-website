@@ -319,7 +319,7 @@ function vava_booking_questionnaire_option_presentation( string $field_id, strin
 		'ayurveda_knowledge' => array(
 			'first_time' => array( 'icon' => '⌁', 'ar' => 'أتعرف عليها لأول مرة', 'en' => 'I’m beginning to learn' ),
 			'basic' => array( 'icon' => '▤', 'ar' => 'قرأت أو شاهدت بعض المحتوى', 'en' => 'I’ve read or watched content' ),
-			'good' => array( 'icon' => '❧', 'ar' => 'لدي فهم جيد وأتعمق في التعلم', 'en' => 'I understand the basics well' ),
+			'good' => array( 'icon' => '✦', 'ar' => 'لدي فهم جيد وأتعمق في التعلم', 'en' => 'I understand the basics well' ),
 			'applied' => array( 'icon' => '◉', 'ar' => 'أطبقها بانتظام في حياتي', 'en' => 'It is part of my routine' ),
 		),
 	);

@@ -685,6 +685,9 @@ function vava_paths_render_frontend( int $post_id, string $lang ): void {
 	$faq          = $data['faq'] ?? array();
 	$image_id     = absint( get_post_meta( $post_id, '_vava_paths_hero_image_id', true ) );
 	$image_url    = $image_id ? wp_get_attachment_image_url( $image_id, 'full' ) : '';
+	if ( $image_url ) {
+		$image_url .= vava_paths_image_cache_bust( $image_id );
+	}
 	if ( ! $image_url ) {
 		$image_url = get_theme_file_uri( 'assets/images/paths-hero.webp' );
 	}

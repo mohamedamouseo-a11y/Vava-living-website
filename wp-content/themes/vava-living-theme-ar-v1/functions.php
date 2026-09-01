@@ -845,6 +845,33 @@ function vava_asset_version( string $relative_path ): string {
 }
 
 /**
+ * Return a deterministic cache-busting version for a Paths image attachment.
+ *
+ * The version is derived from the attachment's underlying file modification
+ * time (falling back to the attachment's last-modified timestamp), so the URL
+ * stays cacheable while unchanged and changes whenever the image is replaced
+ * or updated, even if the base attachment URL stays the same.
+ */
+function vava_paths_image_cache_bust( int $attachment_id ): string {
+	if ( $attachment_id <= 0 ) {
+		return '';
+	}
+	$version = '';
+	$file    = get_attached_file( $attachment_id );
+	if ( is_string( $file ) && is_file( $file ) ) {
+		$mtime = (int) @filemtime( $file ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		if ( $mtime > 0 ) {
+			$version = (string) $mtime;
+		}
+	}
+	if ( '' === $version ) {
+		$modified = get_post_field( 'post_modified', $attachment_id );
+		$version  = $modified ? (string) strtotime( (string) $modified ) : (string) $attachment_id;
+	}
+	return '' === $version ? '' : '?v=' . rawurlencode( $version );
+}
+
+/**
  * Enqueue language persistence on every frontend page and page-specific assets.
  */
 function vava_living_enqueue_assets(): void {

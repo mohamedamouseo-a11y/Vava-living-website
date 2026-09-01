@@ -533,6 +533,7 @@ function vava_digital_product_reader_data( array $card, string $lang = 'ar' ): a
 			'category'     => '',
 			'question'     => '',
 			'description'  => (string) ( $card['description'] ?? '' ),
+			'full_description' => (string) ( $card['full_description'] ?? '' ),
 			'inside'       => array(),
 			'ideal'        => array(),
 			'pages'        => '',
@@ -548,6 +549,10 @@ function vava_digital_product_reader_data( array $card, string $lang = 'ar' ): a
 	$data['currency']   = (string) ( $card['currency'] ?? ( 'en' === $lang ? 'SAR' : 'ر.س' ) );
 	$pdf_cover = function_exists( 'vava_digital_products_cover_url' ) ? vava_digital_products_cover_url( $uid ) : '';
 	$data['cover_url'] = $pdf_cover ?: vava_selections_image_url( absint( $card['image_id'] ?? 0 ), (string) ( $card['fallback_asset'] ?? $data['cover_asset'] ?? '' ) );
+	// Use card-level full_description if set, otherwise fall back to catalogue description.
+	if ( '' === trim( (string) ( $data['full_description'] ?? '' ) ) && isset( $data['description'] ) && '' !== trim( (string) $data['description'] ) ) {
+		$data['full_description'] = (string) $data['description'];
+	}
 	return $data;
 }
 
@@ -591,7 +596,7 @@ function vava_digital_product_render_reader_article( array $card, array $previou
 			<div class="vava-product-reader-copy">
 				<?php if ( ! empty( $data['category'] ) ) : ?><span class="vava-product-reader-category"><?php echo esc_html( (string) $data['category'] ); ?></span><?php endif; ?>
 				<h2 id="<?php echo esc_attr( $title_id ); ?>"><?php echo esc_html( (string) ( $data['title'] ?? '' ) ); ?></h2>
-				<p class="vava-product-reader-description"><?php echo esc_html( (string) ( $data['description'] ?? '' ) ); ?></p>
+				<?php if ( '' !== trim( (string) ( $data['full_description'] ?? '' ) ) ) : ?><p class="vava-product-reader-description"><?php echo esc_html( (string) $data['full_description'] ); ?></p><?php else : ?><p class="vava-product-reader-description"><?php echo esc_html( (string) ( $data['description'] ?? '' ) ); ?></p><?php endif; ?>
 
 				<?php if ( '' !== trim( (string) ( $data['question'] ?? '' ) ) ) : ?>
 				<div class="vava-product-reader-question"><span><?php echo esc_html( $labels['question'] ); ?></span><strong><?php echo esc_html( (string) $data['question'] ); ?></strong></div>

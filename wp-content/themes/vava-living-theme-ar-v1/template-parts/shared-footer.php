@@ -6,6 +6,11 @@ $lang    = function_exists( 'vava_current_language' ) ? vava_current_language() 
 $home_id = absint( get_option( 'page_on_front' ) );
 
 $footer_tagline = function_exists( 'vava_home_field_language' ) ? vava_home_field_language( $home_id, '_vava_home_footer_tagline', $lang ) : ( 'en' === $lang ? 'a space for returning' : 'مساحة للعودة' );
+// Phase 02 branding: replace the retired Arabic tagline wherever it is still
+// stored in the homepage footer-tagline field so only the approved tagline renders.
+if ( 'حيث تزدهر الحياة' === $footer_tagline ) {
+	$footer_tagline = 'نحو حياة مزدهرة';
+}
 $footer_copy    = function_exists( 'vava_home_field_language' ) ? vava_home_field_language( $home_id, '_vava_home_footer_copyright', $lang ) : ( 'en' === $lang ? 'All rights reserved © VAVA Living 2026' : 'جميع الحقوق محفوظة © VAVA Living 2026' );
 $document_label = function_exists( 'vava_home_field_language' ) ? vava_home_field_language( $home_id, '_vava_home_footer_document_label', $lang ) : ( 'en' === $lang ? 'Freelance Document:' : 'وثيقة العمل الحر:' );
 $document_no    = function_exists( 'vava_home_field' ) ? vava_home_field( $home_id, '_vava_home_footer_document_number', '686388076FL' ) : '686388076FL';

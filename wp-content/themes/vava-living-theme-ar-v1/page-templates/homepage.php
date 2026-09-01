@@ -35,7 +35,7 @@ $paths_description = vava_home_field_language( $page_id, '_vava_home_paths_descr
 $paths_button_text = vava_home_field_language( $page_id, '_vava_home_paths_button_text', $lang );
 $paths_button_url  = vava_home_button_url( $page_id, 'paths', $lang );
 $paths_image_id    = absint( vava_home_field( $page_id, '_vava_home_paths_image_id', 0 ) );
-$paths_image_url   = vava_home_image_url( $paths_image_id, 'assets/images/home-paths-vava-visual.webp' );
+$paths_image_url   = vava_home_image_url( $paths_image_id, 'assets/images/home-paths-vava-visual.webp' ) . vava_paths_image_cache_bust( $paths_image_id );
 $paths_image_alt   = $paths_image_id ? (string) get_post_meta( $paths_image_id, '_wp_attachment_image_alt', true ) : '';
 $paths_image_alt   = $paths_image_alt ?: ( 'en' === $lang ? 'VAVA journal and a warm cup among flowers in soft light' : 'دفتر VAVA وكوب دافئ وسط الزهور في ضوء هادئ' );
 
