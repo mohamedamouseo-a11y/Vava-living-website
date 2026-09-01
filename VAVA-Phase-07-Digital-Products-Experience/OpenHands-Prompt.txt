@@ -8,7 +8,6 @@ Live:
 `https://thevavaliving.com`
 
 ## IMPORTANT
-
 This is Phase 07 ONLY.
 
 Completed phases must remain untouched:
@@ -25,7 +24,7 @@ Do NOT modify:
 - Reader security
 - HMAC URLs
 - Watermarking
-- Payments logic
+- Payments backend
 - Booking
 - Sessions
 - Questionnaires
@@ -33,60 +32,46 @@ Do NOT modify:
 - WordPress Core
 
 ## SAFETY
-
-Before any modification:
+Before changes:
 1. Inspect current live implementation.
 2. Create exact backups.
 3. Modify only required files.
 
 ## GOAL
+Improve the digital products customer experience without changing commerce or security architecture.
 
-Improve the user experience around digital products without changing the underlying commerce/security architecture.
-
-## INSPECT FIRST
-
+## INSPECT
 Review:
 - inc/digital-products-vava.php
 - inc/digital-products-commerce-vava.php
 - inc/digital-product-vava.php
-- relevant digital product templates/assets
+- related digital product templates/assets
 
 ## REQUIREMENTS
 
-1. Product Listing UX
-- Improve product cards clarity.
+### Product Listing
+- Improve product card clarity.
 - Keep short description for cards.
 - Keep price and CTA clear.
-- Preserve existing data model.
+- Preserve current data model.
 
-2. Product Details UX
-- Ensure title, full description, price, and action are clear.
-- Use Phase 04 full_description correctly.
-- Do not duplicate descriptions.
+### Product Details
+- Clear title hierarchy.
+- Correct Full Description usage from Phase 04.
+- Clear purchase/access action.
+- Avoid duplicate descriptions.
 
-3. Owned Products Experience
+### Owned Products
 - Verify users with access can identify owned products.
 - Keep access validation unchanged.
 
-4. Mobile UX
+### Mobile UX
 Test:
 320px, 360px, 390px, 414px
 
 Fix only digital product UI issues.
 
-## STRICTLY OUT OF SCOPE
-
-Do not modify:
-- PDF lifecycle
-- Reader
-- Security
-- Payments backend
-- Login
-- Paths
-- Booking
-
 ## FINAL REPORT
-
 Return:
 - Files modified
 - Backups
@@ -95,4 +80,4 @@ Return:
 - Desktop verification
 - Mobile verification
 - Regression verification
-- Confirmation previous phases were untouched.
+- Confirmation previous phases untouched.
