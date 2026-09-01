@@ -1,0 +1,34 @@
+# VAVA Phase 07 — Digital Products Experience & Commerce Flow
+# Patch scope: Digital product frontend UX only
+#
+# This patch specification is executed after live inspection.
+# No PDF, reader security, payment backend, or previous phase changes.
+
+Scope:
+
+- Improve digital product listing cards.
+- Improve digital product detail page UX.
+- Improve owned products experience.
+- Improve mobile responsiveness.
+
+Expected inspected files:
+
+wp-content/themes/vava-living-theme-ar-v1/inc/digital-products-vava.php
+wp-content/themes/vava-living-theme-ar-v1/inc/digital-products-commerce-vava.php
+wp-content/themes/vava-living-theme-ar-v1/inc/digital-product-vava.php
+
+Rules:
+
+1. Backup every modified file.
+2. Preserve existing data model.
+3. Preserve full_description implementation from Phase 04.
+4. Preserve PDF lifecycle from Phase 05.
+5. Preserve reader UX/security from Phase 06.
+
+Validation:
+
+- Product cards display correctly.
+- Product details show title, description, price and CTA.
+- Owned products remain accessible only to authorized users.
+- Mobile layouts tested at 320, 360, 390, 414 widths.
+- No regression in previous phases.
