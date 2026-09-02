@@ -264,15 +264,33 @@ function vava_digital_products_schedule_processing( int $post_id, string $uid, s
 	if ( function_exists( 'spawn_cron' ) ) { spawn_cron(); }
 }
 
+function vava_digital_products_max_upload_bytes(): int {
+	return (int) min( 50 * MB_IN_BYTES, wp_max_upload_size() );
+}
+
 function vava_digital_products_store_uploaded_pdf( int $post_id, string $uid, array $file ) {
 	$uid = sanitize_key( $uid );
 	if ( ! $post_id || '' === $uid ) { return new WP_Error( 'invalid_product', 'Invalid product.' ); }
 	$error = absint( $file['error'] ?? UPLOAD_ERR_NO_FILE );
-	if ( UPLOAD_ERR_OK !== $error ) { return new WP_Error( 'upload_error', 'تعذر رفع الملف.' ); }
+	if ( UPLOAD_ERR_OK !== $error ) {
+		$messages = array(
+			UPLOAD_ERR_INI_SIZE   => __( 'File exceeds server limits. Please contact support.', 'vava-living' ),
+			UPLOAD_ERR_FORM_SIZE  => __( 'File exceeds form limit. Please contact support.', 'vava-living' ),
+			UPLOAD_ERR_PARTIAL    => __( 'Upload was interrupted. Please try again.', 'vava-living' ),
+			UPLOAD_ERR_NO_FILE    => __( 'No file was uploaded.', 'vava-living' ),
+			UPLOAD_ERR_NO_TMP_DIR => __( 'Server configuration error. Please contact support.', 'vava-living' ),
+			UPLOAD_ERR_CANT_WRITE => __( 'Failed to write file to disk. Please contact support.', 'vava-living' ),
+			UPLOAD_ERR_EXTENSION => __( 'Upload stopped by extension. Please contact support.', 'vava-living' ),
+		);
+		return new WP_Error( 'upload_error', $messages[ $error ] ?? __( 'تعذر رفع الملف.', 'vava-living' ) );
+	}
 	$tmp = (string) ( $file['tmp_name'] ?? '' );
 	$name = sanitize_file_name( (string) ( $file['name'] ?? '' ) );
 	$size = absint( $file['size'] ?? 0 );
-	if ( ! is_uploaded_file( $tmp ) || $size <= 0 || $size > 50 * MB_IN_BYTES ) { return new WP_Error( 'file_size', 'ملف PDF غير صالح أو يتجاوز 50 ميجابايت.' ); }
+	$max_bytes = vava_digital_products_max_upload_bytes();
+	if ( ! is_uploaded_file( $tmp ) || $size <= 0 || $size > $max_bytes ) {
+		return new WP_Error( 'file_size', sprintf( __( 'ملف PDF غير صالح أو يتجاوز الحد المسموح (%s).', 'vava-living' ), size_format( $max_bytes ) ) );
+	}
 	$checked = wp_check_filetype_and_ext( $tmp, $name, array( 'pdf' => 'application/pdf' ) );
 	if ( 'pdf' !== strtolower( (string) ( $checked['ext'] ?? '' ) ) ) { return new WP_Error( 'file_type', 'يُسمح بملفات PDF فقط.' ); }
 	$root = vava_digital_products_private_root();

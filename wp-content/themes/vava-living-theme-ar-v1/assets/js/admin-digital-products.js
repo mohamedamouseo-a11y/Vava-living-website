@@ -136,7 +136,7 @@
       update(field, Math.max(2, Math.min(88, value * .88)), config.labels && config.labels.uploading || 'جارٍ رفع ملف PDF…', '');
     }).then(function (data) {
       var uid = field.attr('data-product-uid') || '';
-      syncFields(uid, function (target) { renderRecord(target, data.record || {}); target.removeClass('is-uploading').find('button').prop('disabled', false); });
+      syncFields(uid, function (target) { target.removeClass('is-uploading').find('button').prop('disabled', false); renderRecord(target, data.record || {}); });
       poll(field);
     }).catch(function (error) {
       field.removeClass('is-uploading').find('button').prop('disabled', false);
