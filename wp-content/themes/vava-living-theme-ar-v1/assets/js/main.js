@@ -800,7 +800,7 @@ if(burger) burger.addEventListener('click',()=>nav.classList.toggle('open'));
       if(i < 0 || i >= sections.length || i === index || locked) return;
       locked = true;
       index = i;
-      stage.style.transform = `translateY(-${index * 100}svh)`;
+      const target = sections[i]; if (target && target.scrollIntoView) target.scrollIntoView({behavior:'smooth', block:'start'});
       sections.forEach((s, n) => s.classList.toggle('active', n === index));
       dots.forEach((d, n) => d.classList.toggle('active', n === index));
       navLinks.forEach(a => a.classList.toggle('active', Number(a.dataset.go) === index));
@@ -810,28 +810,6 @@ if(burger) burger.addEventListener('click',()=>nav.classList.toggle('open'));
       nav.classList.remove('open');
       setTimeout(() => locked = false, 1120);
     }
-
-    window.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      if(Math.abs(e.deltaY) < 18) return;
-      goTo(index + (e.deltaY > 0 ? 1 : -1));
-    }, {passive:false});
-
-    window.addEventListener('keydown', (e) => {
-      if(['ArrowDown','PageDown',' '].includes(e.key)) goTo(index + 1);
-      if(['ArrowUp','PageUp'].includes(e.key)) goTo(index - 1);
-      if(e.key === 'Home') goTo(0);
-      if(e.key === 'End') goTo(sections.length - 1);
-    });
-
-    window.addEventListener('touchstart', (e) => startY = e.touches[0].clientY, {passive:true});
-    window.addEventListener('touchmove', (e) => {
-      const diff = startY - e.touches[0].clientY;
-      if(Math.abs(diff) > 58){
-        goTo(index + (diff > 0 ? 1 : -1));
-        startY = e.touches[0].clientY;
-      }
-    }, {passive:true});
 
     links.forEach(link => link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1014,7 +992,7 @@ if(burger) burger.addEventListener('click',()=>nav.classList.toggle('open'));
       if(i < 0 || i >= sections.length || i === index || locked) return;
       locked = true;
       index = i;
-      stage.style.transform = `translateY(-${index * 100}svh)`;
+      const target = sections[i]; if (target && target.scrollIntoView) target.scrollIntoView({behavior:'smooth', block:'start'});
       sections.forEach((s, n) => s.classList.toggle('active', n === index));
       dots.forEach((d, n) => d.classList.toggle('active', n === index));
       navLinks.forEach(a => a.classList.toggle('active', Number(a.dataset.go) === index));
@@ -1024,28 +1002,6 @@ if(burger) burger.addEventListener('click',()=>nav.classList.toggle('open'));
       nav.classList.remove('open');
       setTimeout(() => locked = false, 1120);
     }
-
-    window.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      if(Math.abs(e.deltaY) < 18) return;
-      goTo(index + (e.deltaY > 0 ? 1 : -1));
-    }, {passive:false});
-
-    window.addEventListener('keydown', (e) => {
-      if(['ArrowDown','PageDown',' '].includes(e.key)) goTo(index + 1);
-      if(['ArrowUp','PageUp'].includes(e.key)) goTo(index - 1);
-      if(e.key === 'Home') goTo(0);
-      if(e.key === 'End') goTo(sections.length - 1);
-    });
-
-    window.addEventListener('touchstart', (e) => startY = e.touches[0].clientY, {passive:true});
-    window.addEventListener('touchmove', (e) => {
-      const diff = startY - e.touches[0].clientY;
-      if(Math.abs(diff) > 58){
-        goTo(index + (diff > 0 ? 1 : -1));
-        startY = e.touches[0].clientY;
-      }
-    }, {passive:true});
 
     links.forEach(link => link.addEventListener('click', (e) => {
       e.preventDefault();

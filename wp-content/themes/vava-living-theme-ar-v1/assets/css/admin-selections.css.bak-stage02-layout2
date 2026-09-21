@@ -1,0 +1,499 @@
+/* VAVA Selections advanced editor — follows the About VAVA preview/editor model. */
+.vava-selections-admin .vava-field{
+  min-width:0;margin:0;padding:15px;border:1px solid var(--vava-admin-line);border-radius:10px;background:#fff;box-sizing:border-box
+}
+.vava-selections-admin .vava-field-full{grid-column:1/-1}
+.vava-selections-admin .vava-field>label{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.vava-selections-admin .vava-field input[type="text"],
+.vava-selections-admin .vava-field textarea,
+.vava-selections-admin .vava-field select{width:100%;min-height:42px;border-color:#cfd5dc;border-radius:7px;background:#fff;box-shadow:none;box-sizing:border-box}
+.vava-selections-admin .vava-field textarea{min-height:118px;padding:13px 15px;line-height:1.85;resize:vertical}
+.vava-selections-admin .vava-editor-workspace{display:block}
+.vava-selections-admin .vava-editor-controls{width:100%;min-width:0}
+.vava-selections-admin .vava-editor-workspace>.vava-live-preview{display:none}
+.vava-selections-admin .vava-shared-fields{margin-top:16px}
+.vava-selections-admin .vava-shared-fields>h3{margin:0 0 14px;color:#44513f;font-size:15px}
+.vava-selections-admin .vava-selections-collection-editor{margin-bottom:16px;padding:18px;border:1px solid #dfe4dc;border-radius:14px;background:#fbfcfa}
+.vava-selections-admin .vava-selections-collection-editor>h3{margin:0 0 14px;color:#465442;font-size:15px}
+@media(min-width:901px){#vava_homepage_settings .vava-selections-admin .vava-section-tabs{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+
+/* Shared media fields. */
+.vava-selections-admin .vava-selections-media-field{display:block!important;padding:16px;border:1px solid var(--vava-admin-line);border-radius:10px;background:#fff}
+.vava-selections-admin .vava-selections-media-field .vava-media-field{height:auto;padding:0;border:0;background:transparent}
+.vava-selections-admin .vava-selections-media-field .vava-media-dropzone{display:block;width:100%;min-height:210px;padding:0;border:2px dashed #b9c4ce;border-radius:13px;background:#fafcfd;cursor:pointer;overflow:hidden}
+.vava-selections-admin .vava-selections-media-field .vava-media-dropzone:hover,.vava-selections-admin .vava-selections-media-field .vava-media-dropzone:focus{border-color:var(--vava-admin-accent);background:#f3f8f0;outline:0;box-shadow:0 0 0 3px rgba(111,129,95,.12)}
+.vava-selections-admin .vava-selections-media-field .vava-media-preview{display:grid;place-items:center;min-height:206px;padding:14px;background:transparent}
+.vava-selections-admin .vava-selections-media-field .vava-media-preview img{display:block;width:100%;height:220px;max-height:220px;object-fit:contain;border-radius:9px;background:#edf0f2}
+.vava-selections-admin .vava-selections-media-field .vava-media-actions{display:flex;gap:10px;margin-top:11px}
+
+/* Products editor — aligned with the approved VAVA Paths field system. */
+.vava-selections-admin .vava-selections-products-editor{
+  margin:0;padding:20px;border:1px solid #d9e2d5;border-radius:16px;background:#f8faf7;box-shadow:0 10px 30px rgba(48,61,47,.035)
+}
+.vava-selections-admin .vava-selections-products-editor .vava-repeater-heading{align-items:flex-start;margin-bottom:16px}
+.vava-selections-admin .vava-selections-products-editor .vava-repeater-heading h3{margin:0 0 5px;color:#44513f;font-size:16px}
+.vava-selections-admin .vava-selections-products-editor .description{max-width:720px;margin:0;color:#6f7a70;line-height:1.7}
+.vava-selections-admin .vava-selections-products-editor [data-product-add]{min-height:38px;padding:0 16px;border-color:#809072;border-radius:9px;background:#fff;color:#59694f;font-weight:700;box-shadow:none}
+.vava-selections-admin .vava-selections-products-editor [data-product-add]:hover,.vava-selections-admin .vava-selections-products-editor [data-product-add]:focus{border-color:#657658;background:#eef4ea;color:#45573f}
+.vava-selections-admin .vava-selections-product-item{overflow:hidden;border:1px solid #d5dfcf;border-radius:14px;background:#fff;box-shadow:0 7px 22px rgba(48,61,47,.035)}
+.vava-selections-admin .vava-selections-product-item .vava-repeater-item-header{min-height:58px;padding:10px 13px 10px 16px;border-bottom:1px solid #d9e2d5;background:#eef3e9}
+.vava-selections-admin .vava-selections-product-item.is-collapsed .vava-repeater-item-header{border-bottom:0}
+.vava-selections-admin .vava-selections-product-item .vava-repeater-item-header>strong{min-width:0;overflow:hidden;color:#485544;font-size:14px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}
+.vava-selections-admin .vava-selections-product-item .vava-repeater-actions{flex:0 0 auto;gap:9px}
+.vava-selections-admin .vava-selections-product-item .vava-repeater-item-body{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:16px;background:#fbfcfa}
+.vava-selections-admin .vava-selections-product-item.is-collapsed .vava-repeater-item-body{display:none}
+.vava-selections-admin .vava-selections-product-field{min-width:0;margin:0;padding:14px;border:1px solid #dfe4dc;border-radius:12px;background:#fff;box-shadow:0 5px 18px rgba(48,61,47,.025)}
+.vava-selections-admin .vava-selections-product-field>label{display:grid;gap:8px;margin:0}
+.vava-selections-admin .vava-selections-product-field>label>span,.vava-selections-admin .vava-selections-product-media>label>span{display:block;color:#445141;font-size:13px;font-weight:700}
+.vava-selections-admin .vava-selections-product-field input[type="text"],.vava-selections-admin .vava-selections-product-field textarea{width:100%;min-height:44px;margin:0;padding:8px 12px;border:1px solid #cfd8cc;border-radius:9px;background:#fff;color:#374238;box-shadow:none;box-sizing:border-box}
+.vava-selections-admin .vava-selections-product-field textarea{min-height:120px;padding:12px 14px;line-height:1.8;resize:vertical}
+.vava-selections-admin .vava-selections-product-field input[type="text"]:focus,.vava-selections-admin .vava-selections-product-field textarea:focus{border-color:#829476;outline:0;box-shadow:0 0 0 3px rgba(111,129,95,.11)}
+.vava-selections-admin .vava-selections-product-media{padding:14px;border:1px solid #dce5d9;border-radius:12px;background:#fff;box-shadow:0 5px 18px rgba(48,61,47,.025)}
+.vava-selections-admin .vava-selections-product-media>label{display:block;margin:0 0 9px}
+.vava-selections-admin .vava-selections-product-image-preview{display:grid;place-items:center;min-height:230px;overflow:hidden;border:2px dashed #b8c5b3;border-radius:12px;background:#f3f6f1;color:#74806f}
+.vava-selections-admin .vava-selections-product-image-preview img{display:block;width:100%;height:230px;object-fit:contain;background:#edf0f2}
+.vava-selections-admin .vava-selections-product-media .vava-media-actions{display:flex;gap:10px;margin-top:11px}
+.vava-selections-admin .vava-selections-product-media .vava-media-actions .button{min-height:36px;padding-inline:14px;border-color:#cbd5c7;border-radius:8px;background:#fff;color:#53634d;box-shadow:none}
+.vava-selections-admin .vava-selections-product-media .vava-media-actions [data-product-image-remove]{color:#b25e55}
+.vava-selections-admin .vava-repeater-item-header svg,.vava-selections-admin .vava-icon-button svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* Booking-style visibility switch, kept in the product header beside delete. */
+.vava-selections-admin .vava-selections-visibility-switch{position:relative;display:inline-grid;flex:0 0 auto;min-width:54px;margin:0;cursor:pointer}
+.vava-selections-admin .vava-selections-visibility-switch input{position:absolute!important;opacity:0!important;pointer-events:none!important}
+.vava-selections-admin .vava-selections-visibility-switch i{position:relative;display:block;width:54px;height:29px;border:1px solid #c4cec0;border-radius:999px;background:#dfe5dc;transition:border-color .18s ease,background-color .18s ease}
+.vava-selections-admin .vava-selections-visibility-switch i:after{content:"";position:absolute;top:3px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(55,65,50,.2);transition:left .18s ease,right .18s ease}
+.vava-selections-admin .vava-selections-visibility-switch input:checked+i{border-color:#747a4e;background:#747a4e}
+.vava-selections-admin[data-active-language="en"] .vava-selections-visibility-switch i:after{left:4px;right:auto}
+.vava-selections-admin[data-active-language="en"] .vava-selections-visibility-switch input:checked+i:after{left:29px;right:auto}
+.vava-selections-admin[data-active-language="ar"] .vava-selections-visibility-switch i:after{right:4px;left:auto}
+.vava-selections-admin[data-active-language="ar"] .vava-selections-visibility-switch input:checked+i:after{right:29px;left:auto}
+.vava-selections-admin .vava-selections-visibility-switch:focus-within i{box-shadow:0 0 0 3px rgba(111,129,95,.13)}
+
+/* Sidebar live preview shell. */
+#vava_live_preview_box .vava-selections-preview{width:900px;min-height:500px}
+#vava_live_preview_box .vava-live-preview[data-selections-preview-panel] .vava-preview-stage{min-height:0}
+#vava_live_preview_box .vava-live-preview[data-selections-preview-panel] .vava-preview-viewport{background:linear-gradient(145deg,#eef1ed,#e7ebe5)}
+.vava-selections-preview{position:relative;display:grid;min-height:500px;padding:38px;gap:25px;overflow:hidden;background:radial-gradient(circle at 12% 8%,rgba(225,184,162,.2),transparent 28%),radial-gradient(circle at 90% 0%,rgba(153,180,170,.2),transparent 30%),#f7f1e8;color:#575247;box-sizing:border-box}
+.vava-selections-preview h3,.vava-selections-preview h4{margin:0;color:#4b473b;font-family:Georgia,"Times New Roman",serif;font-weight:500;line-height:1.35}
+.vava-selections-preview h3{font-size:34px}.vava-selections-preview h4{font-size:17px}
+.vava-selections-preview span{color:#6f815f;font-size:12px;font-weight:700;letter-spacing:.06em}
+.vava-selections-preview p,.vava-selections-preview small{display:block;margin:10px 0 0;color:#657064;font-size:13px;line-height:1.8;white-space:pre-line}
+.vava-selections-preview-hero{grid-template-columns:1.08fr .92fr;align-items:center}
+.vava-selections-preview-copy{position:relative;z-index:1}
+.vava-selections-preview-copy small{font-size:11px;color:#758075}
+.vava-selections-preview-hero-image{min-height:390px;border-radius:44px;background-position:center;background-size:cover;box-shadow:0 18px 45px rgba(62,70,58,.12)}
+.vava-selections-preview-collections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:stretch}
+.vava-selections-preview-collection{display:grid;grid-template-rows:210px 1fr;overflow:hidden;border:1px solid rgba(111,129,95,.16);border-radius:30px;background:rgba(255,255,255,.72);box-shadow:0 16px 46px rgba(62,70,58,.06)}
+.vava-selections-preview-collection-image{background-position:center;background-size:cover}
+.vava-selections-preview-collection>div:last-child{display:flex;flex-direction:column;padding:24px}
+.vava-selections-preview-collection h3{font-size:27px}
+.vava-selections-preview-collection p{font-size:12px;flex:1}
+.vava-selections-preview-collection b{align-self:flex-start;margin-top:18px;padding:10px 15px;border-radius:999px;background:#70774c;color:#fff;font-size:10px}
+.vava-selections-preview-digital,.vava-selections-preview-tangible{display:block;padding:38px 30px}
+.vava-selections-preview-products-head{text-align:center;margin-bottom:24px}
+.vava-selections-preview-products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.vava-selections-preview-product{display:flex;flex-direction:column;min-width:0;padding:12px;border:1px solid rgba(111,129,95,.15);border-radius:20px;background:rgba(255,255,255,.75)}
+.vava-selections-preview-product-image{aspect-ratio:5/6;border-radius:14px;background:#e9ece6 center/cover no-repeat}
+.vava-selections-preview-product h4{margin-top:11px;font-size:15px}
+.vava-selections-preview-product p{flex:1;margin-top:6px;font-size:10px;line-height:1.65}
+.vava-selections-preview-product-meta{display:grid;gap:7px;margin-top:10px}
+.vava-selections-preview-product-meta span{letter-spacing:0;font-size:10px}.vava-selections-preview-product-meta span b{font-size:13px}.vava-selections-preview-product-meta em{font-style:normal}
+.vava-selections-preview-product-meta>strong{justify-self:start;padding:7px 10px;border-radius:999px;background:#70774c;color:#fff;font-size:9px}
+.vava-selections-preview-empty{grid-column:1/-1;padding:30px;border:1px dashed rgba(111,129,95,.28);border-radius:20px;text-align:center}
+
+@media(max-width:782px){
+  .vava-selections-admin .vava-field-full{grid-column:auto}
+  .vava-selections-admin .vava-selections-product-item .vava-repeater-item-body{grid-template-columns:1fr}
+  .vava-selections-admin .vava-selections-media-field .vava-media-preview img,.vava-selections-admin .vava-selections-product-image-preview img{height:170px;max-height:170px}
+  .vava-selections-preview-hero,.vava-selections-preview-collections{grid-template-columns:1fr}
+  .vava-selections-preview-products{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Release 1.7.1 — approved alternating collection preview, matching the front end. */
+.vava-selections-preview-collections{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:34px;
+  align-items:stretch;
+  padding:6px 10px
+}
+.vava-selections-preview-collection{
+  position:relative;
+  display:grid;
+  min-height:245px;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none
+}
+.vava-selections-preview-collection-image{
+  width:70%;
+  height:218px;
+  border:1px solid rgba(111,129,95,.15);
+  border-radius:28px;
+  background-position:center;
+  background-size:cover;
+  box-shadow:0 16px 44px rgba(62,70,58,.09)
+}
+.vava-selections-preview-collection:nth-child(1) .vava-selections-preview-collection-image{justify-self:end}
+.vava-selections-preview-collection:nth-child(2) .vava-selections-preview-collection-image{justify-self:start}
+.vava-selections-preview-collection>div:last-child{
+  position:absolute;
+  top:50%;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:42%;
+  min-height:176px;
+  padding:22px 24px;
+  border:1px solid rgba(111,129,95,.17);
+  border-radius:25px;
+  background:rgba(255,252,247,.95);
+  box-shadow:0 16px 48px rgba(62,70,58,.1);
+  transform:translateY(-50%);
+  box-sizing:border-box
+}
+.vava-selections-preview-collection:nth-child(1)>div:last-child{left:0}
+.vava-selections-preview-collection:nth-child(2)>div:last-child{right:0}
+.vava-selections-preview-collection h3{font-size:25px}
+.vava-selections-preview-collection p{flex:1;margin-top:8px;font-size:11px;line-height:1.75}
+.vava-selections-preview-collection b{align-self:flex-start;margin-top:13px;padding:9px 14px;border-radius:999px;background:#70774c;color:#fff;font-size:9px}
+
+@media(max-width:782px){
+  .vava-selections-preview-collection{min-height:220px}
+  .vava-selections-preview-collection-image{width:72%;height:190px}
+  .vava-selections-preview-collection>div:last-child{width:46%;min-height:158px;padding:18px}
+  .vava-selections-preview-collection h3{font-size:22px}
+}
+
+
+/* Release 1.18.12 — digital products preview uses the approved shared cover card. */
+.vava-selections-preview-products[data-preview-products="digital"]{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.vava-selections-preview-product-content{display:flex;flex-direction:column;flex:1;min-height:0}
+.vava-selections-preview-product.is-digital-cover{
+  min-height:300px;
+  padding:18px 16px 16px;
+  border:1px solid rgba(223,225,216,.92);
+  border-radius:24px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,.08) 35%,rgba(255,255,255,.16) 100%),
+    url('../images/vava-digital-product-card-cover.png') center/cover no-repeat;
+  box-shadow:0 15px 36px rgba(62,70,58,.08)
+}
+.vava-selections-preview-product.is-digital-cover h4{
+  margin:18px 0 10px;
+  text-align:center;
+  font-size:16px;
+  line-height:1.5;
+  color:#334038
+}
+.vava-selections-preview-product.is-digital-cover p{
+  flex:1;
+  margin:0;
+  text-align:center;
+  font-size:10px;
+  line-height:1.85;
+  color:#5e665c
+}
+.vava-selections-preview-product.is-digital-cover .vava-selections-preview-product-meta{
+  display:flex;
+  align-items:stretch;
+  gap:8px;
+  margin-top:18px
+}
+.vava-selections-preview-product.is-digital-cover .vava-selections-preview-product-meta>strong{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:10px 14px;
+  border:2px solid #68703f;
+  border-radius:999px;
+  background:rgba(255,255,255,.92);
+  color:#596139;
+  font-size:10px
+}
+.vava-selections-preview-product-price{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  min-width:94px;
+  min-height:42px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:linear-gradient(145deg,#73784b 0%,#646a41 100%);
+  color:#fff;
+  font-size:10px;
+  line-height:1
+}
+.vava-selections-preview-product-price b{font-size:16px;font-weight:700;color:inherit}
+.vava-selections-preview-product-price em{font-style:normal;color:inherit;opacity:.96}
+.vava-selections-preview-product-price.is-price-text{min-width:auto;padding-inline:16px}
+
+@media(max-width:782px){
+  .vava-selections-preview-products[data-preview-products="digital"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vava-selections-preview-product.is-digital-cover{min-height:270px}
+}
+
+/* Release 1.18.13 — admin preview mirrors the approved connected control. */
+.vava-selections-preview-product.is-digital-cover .vava-selections-preview-product-meta{
+  display:flex!important;
+  align-items:stretch!important;
+  gap:0!important;
+  min-height:42px;
+  margin-top:18px;
+  overflow:hidden;
+  border:2px solid #68703f;
+  border-radius:999px;
+  background:#68703f
+}
+.vava-selections-preview-product.is-digital-cover .vava-selections-preview-product-meta>strong{
+  flex:1;
+  min-width:0;
+  min-height:38px;
+  padding:8px 12px;
+  border:0!important;
+  border-radius:0!important;
+  background:#fff!important;
+  color:#596139!important;
+  box-shadow:none!important;
+  transition:background-color .24s ease,color .24s ease
+}
+.vava-selections-preview-product.is-digital-cover .vava-selections-preview-product-price{
+  flex:0 0 auto;
+  min-width:94px;
+  min-height:38px;
+  margin:0!important;
+  padding:8px 12px;
+  border:0!important;
+  border-radius:0!important;
+  background:linear-gradient(145deg,#73784b 0%,#646a41 100%)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  transition:none!important
+}
+.vava-selections-preview-product.is-digital-cover:hover .vava-selections-preview-product-meta>strong{
+  background:#dfe6c5!important;
+  color:#4f5834!important
+}
+.vava-selections-preview-product.is-digital-cover .vava-selections-preview-product-meta>strong:hover{
+  background:#596139!important;
+  color:#fff!important
+}
+
+/* Release 1.19.1 — merged product-type settings and compact shared media layout. */
+.vava-selections-admin .vava-selections-types-editor{
+  display:grid;
+  gap:14px;
+  margin:0;
+  padding:18px;
+  border:1px solid #d9e2d5;
+  border-radius:16px;
+  background:#f8faf7;
+  box-shadow:0 10px 30px rgba(48,61,47,.035)
+}
+.vava-selections-admin .vava-selections-types-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.vava-selections-admin .vava-selections-types-heading h3{margin:0 0 5px;color:#44513f;font-size:16px}
+.vava-selections-admin .vava-selections-types-heading p{max-width:760px;margin:0;color:#6f7a70;line-height:1.7}
+.vava-selections-admin .vava-selections-type-columns,
+.vava-selections-admin .vava-selections-type-row{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px
+}
+.vava-selections-admin .vava-selections-type-columns strong{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:8px 14px;
+  border:1px solid #d1dccd;
+  border-radius:11px;
+  background:#edf3e9;
+  color:#4f6048;
+  font-size:13px
+}
+.vava-selections-admin .vava-selections-type-row .vava-field,
+.vava-selections-admin .vava-selections-type-row .vava-field-full{grid-column:auto;min-width:0}
+.vava-selections-admin .vava-selections-type-row[data-type-field="description"] .vava-field textarea{min-height:104px}
+.vava-selections-admin .vava-selections-shared-types{
+  padding:18px;
+  border:1px solid #eadac8;
+  border-radius:16px;
+  background:#fffaf4
+}
+.vava-selections-admin .vava-selections-shared-types>h3{margin-bottom:5px}
+.vava-selections-admin .vava-selections-shared-types>.description{margin:0 0 14px;color:#7a746a;line-height:1.7}
+.vava-selections-admin .vava-selections-shared-media-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vava-selections-admin .vava-selections-shared-media-grid .vava-selections-media-field{min-width:0}
+.vava-selections-admin .vava-selections-shared-media-grid .vava-media-dropzone{min-height:180px}
+.vava-selections-admin .vava-selections-shared-media-grid .vava-media-preview{min-height:176px}
+.vava-selections-admin .vava-selections-shared-media-grid .vava-media-preview img{height:180px;max-height:180px}
+@media(max-width:782px){
+  .vava-selections-admin .vava-selections-type-columns,
+  .vava-selections-admin .vava-selections-type-row,
+  .vava-selections-admin .vava-selections-shared-media-grid{grid-template-columns:1fr}
+  .vava-selections-admin .vava-selections-type-columns{display:none}
+  .vava-selections-admin .vava-selections-type-row .vava-field:first-child:before,
+  .vava-selections-admin .vava-selections-type-row .vava-field:nth-child(2):before{
+    display:block;
+    margin:0 0 9px;
+    padding:6px 10px;
+    border-radius:8px;
+    background:#edf3e9;
+    color:#4f6048;
+    font-size:12px;
+    font-weight:700
+  }
+  .vava-selections-admin .vava-selections-type-row .vava-field:first-child:before{content:"المنتجات الرقمية"}
+  .vava-selections-admin .vava-selections-type-row .vava-field:nth-child(2):before{content:"المختارات الملموسة"}
+  .vava-selections-admin[data-active-language="en"] .vava-selections-type-row .vava-field:first-child:before{content:"Digital products"}
+  .vava-selections-admin[data-active-language="en"] .vava-selections-type-row .vava-field:nth-child(2):before{content:"Tangible selections"}
+}
+
+/* Release 1.19.2 — compact product-type cards, exclusive accordion and side-by-side product assets. */
+.vava-selections-admin .vava-selections-type-cards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px
+}
+.vava-selections-admin .vava-selections-type-card{
+  display:grid;
+  align-content:start;
+  gap:13px;
+  min-width:0;
+  padding:16px;
+  border:1px solid #d7e0d2;
+  border-radius:15px;
+  background:#fff
+}
+.vava-selections-admin .vava-selections-type-card>header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:8px 12px;
+  border:1px solid #d1dccd;
+  border-radius:11px;
+  background:#edf3e9;
+  color:#4f6048
+}
+.vava-selections-admin .vava-selections-type-card>.vava-admin-field,
+.vava-selections-admin .vava-selections-type-card>.vava-admin-field-wide{grid-column:auto!important;margin:0;min-width:0}
+.vava-selections-admin .vava-selections-type-card textarea{min-height:104px}
+.vava-selections-admin .vava-selections-type-card .vava-media-dropzone{min-height:170px}
+.vava-selections-admin .vava-selections-type-card .vava-media-preview{min-height:166px}
+.vava-selections-admin .vava-selections-type-card .vava-media-preview img{height:170px;max-height:170px;object-fit:contain}
+.vava-selections-admin .vava-repeater-item-header{cursor:pointer;outline:none}
+.vava-selections-admin .vava-repeater-item-header:focus-visible{box-shadow:inset 0 0 0 2px rgba(116,122,78,.42)}
+.vava-selections-admin .vava-product-assets-grid{
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+  min-width:0
+}
+.vava-selections-admin .vava-product-assets-grid.has-protected-file{grid-template-columns:repeat(2,minmax(0,1fr))}
+.vava-selections-admin .vava-product-assets-grid>.vava-repeater-field{grid-column:auto!important;min-width:0;margin:0}
+.vava-selections-admin .vava-product-assets-grid .vava-selections-product-image-preview,
+.vava-selections-admin .vava-product-assets-grid .vava-private-file-dropzone{min-height:250px}
+.vava-selections-admin .vava-product-assets-grid .vava-selections-product-image-preview img{height:250px;max-height:250px;object-fit:contain}
+.vava-selections-admin .vava-product-assets-grid .vava-media-preview{min-height:246px}
+@media(max-width:1050px){
+  .vava-selections-admin .vava-product-assets-grid.has-protected-file{grid-template-columns:1fr}
+}
+@media(max-width:782px){
+  .vava-selections-admin .vava-selections-type-cards{grid-template-columns:1fr}
+}
+
+
+/* Release 1.19.3 — protected PDF field polish and first-page thumbnail. */
+.vava-selections-admin .vava-protected-pdf-field{height:100%;min-width:0;padding:14px!important}
+.vava-selections-admin .vava-protected-pdf-field>.vava-media-field{display:flex;min-height:100%;flex-direction:column}
+.vava-selections-admin .vava-protected-pdf-field .vava-private-file-dropzone{position:relative;min-height:250px!important;padding:10px!important;overflow:hidden}
+.vava-selections-admin .vava-protected-pdf-field .vava-media-preview{display:grid!important;width:100%;min-height:226px!important;place-items:center;overflow:hidden;border-radius:10px;background:#eef2f2}
+.vava-selections-admin .vava-private-file-state{position:relative!important;display:grid!important;width:100%;height:100%;min-height:226px;grid-template-rows:minmax(0,1fr) auto;place-items:center;overflow:hidden;border-radius:9px}
+.vava-selections-admin .vava-private-file-state.has-thumbnail{background:#e8edef}
+.vava-selections-admin .vava-private-file-thumbnail{display:block;width:100%;height:196px;max-height:196px;object-fit:contain;background:#e8edef}
+.vava-selections-admin .vava-private-file-caption{display:grid;width:100%;gap:3px;padding:9px 11px;background:rgba(255,255,255,.94);box-sizing:border-box;text-align:center}
+.vava-selections-admin .vava-private-file-caption strong{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vava-selections-admin .vava-product-assets-grid.has-protected-file{grid-template-columns:1fr!important}
+.vava-selections-admin .vava-product-assets-grid.has-protected-file .vava-protected-pdf-field{grid-column:1/-1;width:100%}
+.vava-selections-admin .vava-protected-pdf-field .vava-upload-progress{margin-top:10px}
+.vava-selections-admin .vava-protected-pdf-field .vava-media-actions{margin-top:auto!important;padding-top:11px}
+.vava-selections-admin .vava-protected-pdf-field .description{margin:10px 0 0!important;line-height:1.7}
+@media(max-width:1050px){.vava-selections-admin .vava-private-file-thumbnail{height:230px;max-height:230px}}
+
+/* Release 1.19.4 — protected PDF field layout and consistent destructive action. */
+.vava-selections-admin .vava-protected-pdf-field{
+  overflow:visible!important;
+  border-color:#d8dfd3!important;
+  background:linear-gradient(155deg,#fff,#fafcf8)!important
+}
+.vava-selections-admin .vava-protected-pdf-field>.vava-media-field{gap:0!important}
+.vava-selections-admin .vava-protected-pdf-field .vava-private-file-dropzone{
+  border-color:#b9c9d1!important;
+  background:#eef3f5!important
+}
+.vava-selections-admin .vava-protected-pdf-field .vava-media-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  flex-wrap:wrap!important
+}
+.vava-selections-admin .vava-protected-pdf-field .vava-media-actions button{
+  min-height:42px!important;
+  margin:0!important;
+  padding:9px 16px!important;
+  border-radius:10px!important;
+  font-weight:800!important;
+  line-height:1.2!important;
+  box-shadow:none!important
+}
+.vava-selections-admin .vava-protected-pdf-field .vava-private-file-delete,
+.vava-selections-admin .vava-protected-pdf-field .vava-private-file-delete.vava-media-remove{
+  border:1px solid #c96350!important;
+  background:linear-gradient(145deg,#d97d68,#c5604d)!important;
+  color:#fff!important
+}
+.vava-selections-admin .vava-protected-pdf-field .vava-private-file-delete:hover,
+.vava-selections-admin .vava-protected-pdf-field .vava-private-file-delete:focus-visible{
+  border-color:#a94b3c!important;
+  background:linear-gradient(145deg,#c96753,#a94b3c)!important;
+  color:#fff!important
+}
+.vava-selections-admin .vava-protected-pdf-field .vava-private-file-note{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:8px!important;
+  width:100%!important;
+  margin:12px 0 0!important;
+  padding:10px 12px!important;
+  border:1px solid #dce5d8!important;
+  border-radius:10px!important;
+  background:#f5f8f2!important;
+  color:#65705d!important;
+  font-size:11px!important;
+  line-height:1.75!important;
+  white-space:normal!important;
+  word-break:normal!important;
+  box-sizing:border-box!important
+}
+.vava-selections-admin .vava-protected-pdf-field .vava-private-file-note:before{
+  content:"▣";
+  flex:0 0 auto;
+  color:#737e50;
+  font-size:15px;
+  line-height:1.4
+}
+.vava-selections-admin .vava-protected-pdf-field .vava-upload-progress[hidden],
+.vava-selections-admin .vava-protected-pdf-field .vava-upload-progress[data-status="ready"]{display:none!important}
+.vava-selections-admin .vava-protected-pdf-field .vava-upload-progress:not([hidden]){margin-top:10px!important}
+@media(max-width:782px){
+  .vava-selections-admin .vava-protected-pdf-field .vava-media-actions button{width:100%!important}
+}

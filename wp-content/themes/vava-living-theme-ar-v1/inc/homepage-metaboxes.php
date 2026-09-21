@@ -1189,7 +1189,7 @@ function vava_homepage_render_live_preview( WP_Post $post, string $section, stri
 			$header_menu_items = vava_homepage_internal_header_preview_items( $post->ID, $lang );
 			?>
 			<header class="vava-fe-internal-header-preview" data-preview-internal-header>
-				<a aria-label="VAVA Living" class="vava-fe-internal-brand" href="#"><img alt="VAVA Living" src="<?php echo esc_url( $asset( 'assets/images/vava-logo.png' ) ); ?>"/></a>
+				<a aria-label="VAVA Living" class="vava-fe-internal-brand" href="#"><img alt="VAVA Living" src="<?php echo esc_url( function_exists( 'vava_logo_url' ) ? vava_logo_url() : $asset( 'assets/images/vava-logo.png' ) ); ?>"/></a>
 				<nav aria-label="<?php echo esc_attr( 'en' === $lang ? 'Internal pages navigation preview' : 'معاينة قائمة الصفحات الداخلية' ); ?>" data-preview-internal-header-menu>
 					<?php if ( $header_menu_items ) : ?>
 						<?php foreach ( $header_menu_items as $header_link ) : ?><a href="<?php echo esc_url( (string) $header_link['url'] ); ?>"><?php echo esc_html( (string) $header_link['label'] ); ?></a><?php endforeach; ?>
@@ -1287,7 +1287,7 @@ function vava_homepage_render_live_preview( WP_Post $post, string $section, stri
 			$social_items  = vava_home_footer_social( $post->ID );
 			?>
 			<footer class="vava-fe-footer">
-				<div class="vava-fe-footer-logo"><img alt="VAVA Living" src="<?php echo esc_url( $asset( 'assets/images/vava-logo.png' ) ); ?>"/><div data-preview-output="_vava_home_footer_tagline"><?php echo esc_html( vava_home_field_language( $post->ID, '_vava_home_footer_tagline', $lang ) ); ?></div></div>
+				<div class="vava-fe-footer-logo"><img alt="VAVA Living" src="<?php echo esc_url( function_exists( 'vava_logo_url' ) ? vava_logo_url() : $asset( 'assets/images/vava-logo.png' ) ); ?>"/><div data-preview-output="_vava_home_footer_tagline"><?php echo esc_html( vava_home_field_language( $post->ID, '_vava_home_footer_tagline', $lang ) ); ?></div></div>
 				<div class="vava-fe-footer-center"><nav data-preview-footer-menu="primary"><?php foreach ( $primary_links as $link ) : ?><a href="#"><?php echo esc_html( (string) ( $link['label'] ?? '' ) ); ?></a><?php endforeach; ?></nav><nav data-preview-footer-menu="policy"><?php foreach ( $policy_links as $link ) : ?><a href="#"><?php echo esc_html( (string) ( $link['label'] ?? '' ) ); ?></a><?php endforeach; ?></nav><div class="vava-fe-footer-divider"><span>✦</span></div><div class="vava-fe-footer-meta"><span data-preview-output="_vava_home_footer_copyright"><?php echo esc_html( vava_home_field_language( $post->ID, '_vava_home_footer_copyright', $lang ) ); ?></span><span><b data-preview-output="_vava_home_footer_document_label"><?php echo esc_html( vava_home_field_language( $post->ID, '_vava_home_footer_document_label', $lang ) ); ?></b> <em data-preview-output="_vava_home_footer_document_number"><?php echo esc_html( (string) vava_home_field( $post->ID, '_vava_home_footer_document_number', vava_homepage_defaults()['_vava_home_footer_document_number'] ) ); ?></em></span></div></div>
 				<div class="vava-fe-social" data-preview-social-list><?php foreach ( $social_items as $social ) : ?><span title="<?php echo esc_attr( (string) ( vava_homepage_social_platforms()[ $social['platform'] ]['label'] ?? '' ) ); ?>"><?php echo vava_home_social_icon_svg( (string) $social['platform'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span><?php endforeach; ?></div>
 			</footer>

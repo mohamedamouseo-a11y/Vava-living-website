@@ -344,7 +344,7 @@ function vava_booking_service_duration_minutes( array $service, int $fallback = 
 /** Resolve a stable consultation category from the service payload. */
 function vava_booking_service_category( array $service ): string {
 	$category = sanitize_key( (string) ( $service['category'] ?? '' ) );
-	if ( in_array( $category, array( 'quick', 'followup', 'comprehensive' ), true ) ) { return $category; }
+	if ( in_array( $category, array( 'discovery', 'inquiry', 'followup', 'comprehensive' ), true ) ) { return $category; }
 	return function_exists( 'vava_paths_session_category' ) ? vava_paths_session_category( $service ) : 'comprehensive';
 }
 
@@ -356,7 +356,7 @@ function vava_booking_service_display_duration( array $service, string $lang = '
 	}
 	$category = vava_booking_service_category( $service );
 	$is_en = 'en' === $lang;
-	return array( 'quick' => $is_en ? '15–20 minutes' : '15–20 دقيقة', 'followup' => $is_en ? '30 minutes' : '30 دقيقة', 'comprehensive' => $is_en ? '90 minutes' : '90 دقيقة' )[ $category ] ?? ( $is_en ? '90 minutes' : '90 دقيقة' );
+	return array( 'discovery' => $is_en ? '10–15 minutes' : '10–15 دقيقة', 'inquiry' => $is_en ? '20 minutes' : '20 دقيقة', 'followup' => $is_en ? '30 minutes' : '30 دقيقة', 'comprehensive' => $is_en ? '90 minutes' : '90 دقيقة' )[ $category ] ?? ( $is_en ? '90 minutes' : '90 دقيقة' );
 }
 
 /** Resolve the service duration used by availability and overlap protection. */
@@ -365,13 +365,25 @@ function vava_booking_effective_duration( array $service, array $shared ): int {
 	if ( ! empty( $service['booking_duration'] ) ) { return max( 10, absint( $service['booking_duration'] ) ); }
 	$category = vava_booking_service_category( $service );
 	if ( function_exists( 'vava_paths_session_category_booking_minutes' ) ) { return vava_paths_session_category_booking_minutes( $category ); }
-	return array( 'quick' => 20, 'followup' => 30, 'comprehensive' => 90 )[ $category ] ?? max( 10, absint( $shared['default_duration'] ?? 90 ) );
+	return array( 'discovery' => 15, 'inquiry' => 20, 'followup' => 30, 'comprehensive' => 90 )[ $category ] ?? max( 10, absint( $shared['default_duration'] ?? 90 ) );
 }
 
 /** Recover the consultation category for current and legacy bookings. */
 function vava_booking_category_for_booking( int $booking_id ): string {
 	$category = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_category', true ) );
-	if ( in_array( $category, array( 'quick', 'followup', 'comprehensive' ), true ) ) { return $category; }
+	if ( in_array( $category, array( 'discovery', 'inquiry', 'followup', 'comprehensive' ), true ) ) { return $category; }
+	// Legacy: map stored 'quick' to the correct independent category via UID or title.
+	if ( 'quick' === $category ) {
+		$lang = 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar';
+		$uid  = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_uid', true ) );
+		if ( $uid ) {
+			$service = vava_booking_resolve_service( $uid, $lang );
+			if ( $service ) { return vava_booking_service_category( $service ); }
+		}
+		$title = strtolower( wp_strip_all_tags( (string) get_post_meta( $booking_id, '_vava_booking_service_title', true ) ) );
+		if ( preg_match( '/(?:جلسة\s*استكشافية|discovery\s*session)/iu', $title ) ) { return 'discovery'; }
+		return 'inquiry';
+	}
 
 	$lang = 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar';
 	$uid  = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_uid', true ) );
@@ -381,12 +393,14 @@ function vava_booking_category_for_booking( int $booking_id ): string {
 	}
 
 	$title = strtolower( wp_strip_all_tags( (string) get_post_meta( $booking_id, '_vava_booking_service_title', true ) ) );
-	if ( preg_match( '/(?:استشار(?:ة|ات)\s*سريعة|quick\s*(?:consult|session))/iu', $title ) ) { return 'quick'; }
+	if ( preg_match( '/(?:جلسة\s*استكشافية|discovery\s*session)/iu', $title ) ) { return 'discovery'; }
+	if ( preg_match( '/(?:استشار(?:ة|ات)\s*سريعة|quick\s*(?:consult|session)|استفسار|inquiry)/iu', $title ) ) { return 'inquiry'; }
 	if ( preg_match( '/(?:متابعة|follow[ -]?up)/iu', $title ) ) { return 'followup'; }
 	if ( preg_match( '/(?:شاملة|التوازن|التشافي|باقة|comprehensive|balance|healing|package)/iu', $title ) ) { return 'comprehensive'; }
 
 	$minutes = absint( get_post_meta( $booking_id, '_vava_booking_duration', true ) );
-	if ( $minutes > 0 && $minutes <= 20 ) { return 'quick'; }
+	if ( $minutes > 0 && $minutes <= 15 ) { return 'discovery'; }
+	if ( $minutes > 15 && $minutes <= 20 ) { return 'inquiry'; }
 	if ( 30 === $minutes ) { return 'followup'; }
 	if ( $minutes >= 60 ) { return 'comprehensive'; }
 	return '';
@@ -987,7 +1001,7 @@ function vava_booking_slot_is_reserved( string $date, string $time, int $duratio
 /** Maximum accepted bookings per day for each consultation category. */
 function vava_booking_daily_capacity( array $service ): int {
 	$category = vava_booking_service_category( $service );
-	return array( 'comprehensive' => 1, 'followup' => 2, 'quick' => 2 )[ $category ] ?? 1;
+	return array( 'comprehensive' => 1, 'followup' => 2, 'inquiry' => 2, 'discovery' => 1 )[ $category ] ?? 1;
 }
 
 /** Count active bookings for the selected consultation category and date. */
@@ -1355,6 +1369,12 @@ function vava_booking_ajax_submit(): void {
 	$time = isset( $_POST['time'] ) ? sanitize_text_field( wp_unslash( $_POST['time'] ) ) : '';
 	$available = array_column( vava_booking_available_slots( $service, $date, $shared ), 'value' );
 	if ( ! in_array( $time, $available, true ) ) { wp_send_json_error( array( 'message' => $text['slot_unavailable'] ), 409 ); }
+
+        // Stage 17: Server-side daily category capacity guard.
+        // Prevents overbooking even if frontend availability was stale or bypassed.
+        if ( ! vava_booking_day_has_capacity( $service, $date ) ) {
+                wp_send_json_error( array( 'message' => $text['slot_unavailable'] ), 422 );
+        }
 	$is_free_service = vava_booking_service_is_free( $service );
 	$method = $is_free_service ? 'free' : ( isset( $_POST['payment_method'] ) ? sanitize_key( wp_unslash( $_POST['payment_method'] ) ) : 'paymob' );
 	if ( ! $is_free_service && empty( $shared['payment_methods'][ $method ] ) ) { wp_send_json_error( array( 'message' => $text['validation_error'] ), 422 ); }
@@ -1491,7 +1511,7 @@ function vava_booking_email_public_url( string $url ): string {
 
 function vava_booking_email_logo_url(): string {
 	/* Never use a stale custom-logo URL from the old localhost database. */
-	return vava_booking_email_public_url( trailingslashit( get_template_directory_uri() ) . 'assets/images/vava-logo.png' );
+	return vava_booking_email_public_url( vava_logo_url() );
 }
 
 function vava_booking_email_service_image_url( int $booking_id ): string {
@@ -1894,6 +1914,41 @@ function vava_booking_render_availability_admin_panel( array $shared ): void {
 				</div>
 			</div>
 		</div>
+<div class="vava-booking-subsection">
+				<div class="vava-booking-subsection-heading">
+					<?php vava_booking_admin_i18n( 'الحد اليومي للجلسات', 'Daily session limits', 'h4' ); ?>
+					<?php vava_booking_admin_i18n( 'هذه القيم ثابتة ومطابقة لمنطق الحجز. لا يمكن تعديلها من هنا.', 'These values are fixed and match the booking logic. They cannot be edited here.', 'p' ); ?>
+				</div>
+				<table class="widefat striped" style="max-width:600px;">
+					<thead><tr>
+						<th><?php vava_booking_admin_i18n( 'نوع الجلسة', 'Session type', 'strong' ); ?></th>
+						<th><?php vava_booking_admin_i18n( 'الحد الأقصى يوميًا', 'Max per day', 'strong' ); ?></th>
+						<th><?php vava_booking_admin_i18n( 'المدة', 'Duration', 'strong' ); ?></th>
+					</tr></thead>
+					<tbody>
+						<tr>
+							<td><?php vava_booking_admin_i18n( 'الجلسة الشاملة', 'Comprehensive session', 'span' ); ?></td>
+							<td><?php echo esc_html( vava_booking_daily_capacity( array( 'category' => 'comprehensive' ) ) ); ?></td>
+							<td><?php vava_booking_admin_i18n( '90 دقيقة', '90 minutes', 'span' ); ?></td>
+						</tr>
+						<tr>
+							<td><?php vava_booking_admin_i18n( 'جلسات المتابعة', 'Follow-up sessions', 'span' ); ?></td>
+							<td><?php echo esc_html( vava_booking_daily_capacity( array( 'category' => 'followup' ) ) ); ?></td>
+							<td><?php vava_booking_admin_i18n( '30 دقيقة لكل جلسة', '30 min each', 'span' ); ?></td>
+						</tr>
+						<tr>
+							<td><?php vava_booking_admin_i18n( 'جلسات الاستفسارات', 'Inquiry sessions', 'span' ); ?></td>
+							<td><?php echo esc_html( vava_booking_daily_capacity( array( 'category' => 'inquiry' ) ) ); ?></td>
+							<td><?php vava_booking_admin_i18n( '20 دقيقة لكل جلسة', '20 min each', 'span' ); ?></td>
+						</tr>
+						<tr>
+							<td><?php vava_booking_admin_i18n( 'الجلسة الاستكشافية', 'Discovery session', 'span' ); ?></td>
+							<td><?php echo esc_html( vava_booking_daily_capacity( array( 'category' => 'discovery' ) ) ); ?></td>
+							<td><?php vava_booking_admin_i18n( '10–15 دقيقة', '10–15 minutes', 'span' ); ?></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 	</section>
 	<?php
 }
@@ -2469,6 +2524,8 @@ function vava_booking_admin_dashboard_header(): void {
 				<button type="submit" class="button button-primary">بحث</button>
 				<?php if ( '' !== $lookup ) : $clear_args = array( 'post_type' => 'vava_booking' ); if ( $is_products ) { $clear_args['vava_order_scope'] = 'products'; } if ( 'all' !== $current ) { $clear_args['vava_booking_view'] = $current; } ?><a class="button vava-booking-dashboard-search-clear" href="<?php echo esc_url( add_query_arg( $clear_args, admin_url( 'edit.php' ) ) ); ?>">مسح</a><?php endif; ?>
 			</form>
+				<?php do_action( 'vava_booking_dashboard_actions', $is_products ); ?>
+
 		</div>
 		<div class="vava-booking-stat-grid">
 			<?php foreach ( $cards as $key => $card ) : ?>

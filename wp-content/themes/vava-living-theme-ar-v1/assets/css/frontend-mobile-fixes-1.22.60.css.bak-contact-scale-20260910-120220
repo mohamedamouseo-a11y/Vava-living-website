@@ -1,0 +1,411 @@
+/**
+ * VAVA Living 1.22.60 — mobile horizontal overflow guard.
+ * Scope: frontend only. Keep intentional vertical/section scrolling intact.
+ */
+
+/* Prevent off-canvas decoration/transforms from widening the viewport. */
+html,
+body.vava-homepage,
+body.vava-internal-page {
+  max-width: 100%;
+  overflow-x: clip !important;
+}
+
+@supports not (overflow: clip) {
+  html,
+  body.vava-homepage,
+  body.vava-internal-page {
+    overflow-x: hidden !important;
+  }
+}
+
+@media (max-width: 980px) {
+  body.vava-homepage,
+  body.vava-internal-page {
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+  }
+
+  body.vava-homepage .app,
+  body.vava-homepage .stage,
+  body.vava-homepage .section,
+  body.vava-internal-page main,
+  body.vava-internal-page .section,
+  body.vava-internal-page .container,
+  body.vava-internal-page .page-shell,
+  body.vava-internal-page .footer,
+  body.vava-internal-page .page-footer {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body.vava-homepage img,
+  body.vava-homepage video,
+  body.vava-homepage canvas,
+  body.vava-homepage iframe,
+  body.vava-internal-page img,
+  body.vava-internal-page video,
+  body.vava-internal-page canvas,
+  body.vava-internal-page iframe {
+    max-width: 100% !important;
+  }
+
+  /* Fixed header and mobile menu must always stay inside the viewport. */
+  body.vava-homepage .fixed-header,
+  body.vava-internal-page .fixed-header {
+    max-width: calc(100vw - 20px) !important;
+    box-sizing: border-box;
+  }
+
+  body.vava-homepage #nav,
+  body.vava-internal-page #nav {
+    max-width: calc(100vw - 20px) !important;
+    box-sizing: border-box;
+  }
+
+  /* Decorative shapes are allowed to extend visually, but never the document width. */
+  body.vava-homepage .blob,
+  body.vava-homepage .leaf,
+  body.vava-homepage .journal-organic-shape,
+  body.vava-homepage .journal-botanical,
+  body.vava-internal-page .blob,
+  body.vava-internal-page .leaf {
+    pointer-events: none;
+  }
+
+  /* Flex/grid children with long text or controls should shrink instead of widening the page. */
+  body.vava-homepage .wrap > *,
+  body.vava-homepage .single,
+  body.vava-homepage .journal-scene > *,
+  body.vava-homepage .shop-flow > *,
+  body.vava-homepage .contact-card > *,
+  body.vava-internal-page main *,
+  body.vava-internal-page .section > * {
+    min-width: 0;
+  }
+
+  /*
+   * Phase 02: the shared footer can compute wider than a small viewport when
+   * width:100% combines with content-box sizing or the desktop three-column
+   * grid. Keep it border-box and single-column so no footer column hangs off
+   * either edge on phones. This is the actual overflowing element, not a
+   * wholesale page-clipping workaround.
+   */
+  body.vava-homepage .footer.page-footer,
+  body.vava-internal-page .footer.page-footer {
+    box-sizing: border-box !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+
+/* ===== STAGE 18 HOTFIX v5 — Real mobile overflow fix ===== */
+
+/* Fix contact-v4-frame: 100vw includes scrollbar, use 100% instead */
+@media (max-width: 980px) {
+  html[data-page="index.html"] .contact-v4-section .contact-v4-frame {
+    width: 100% !important;
+    max-width: calc(100% - 24px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Contain ornaments within frame bounds */
+  html[data-page="index.html"] .contact-v4-section .contact-v4-frame {
+    overflow: hidden !important;
+  }
+
+  /* Ensure ornaments don't push document width */
+  html[data-page="index.html"] .contact-v4-ornament,
+  html[data-page="index.html"] .contact-v4-ornament-top-left,
+  html[data-page="index.html"] .contact-v4-ornament-bottom-left,
+  html[data-page="index.html"] .contact-v4-ornament-right-top,
+  html[data-page="index.html"] .contact-v4-ornament-right-bottom {
+    max-width: 100% !important;
+    left: 0 !important;
+    right: auto !important;
+  }
+  html[data-page="index.html"] .contact-v4-ornament-right-top,
+  html[data-page="index.html"] .contact-v4-ornament-right-bottom {
+    left: auto !important;
+    right: 0 !important;
+  }
+
+  /* Contact actions container must not exceed viewport */
+  html[data-page="index.html"] .contact-v4-actions {
+    max-width: 100% !important;
+    width: min(280px, 100%) !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Footer: force single column and border-box to prevent overflow */
+  .footer.page-footer,
+  body.vava-homepage .footer.page-footer,
+  body.vava-internal-page .footer.page-footer,
+  footer.footer.page-footer,
+  .page-footer {
+    grid-template-columns: 1fr !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding-left: clamp(16px, 4vw, 44px) !important;
+    padding-right: clamp(16px, 4vw, 44px) !important;
+    overflow: visible !important;
+  }
+
+  /* Footer children must not force width */
+  .footer.page-footer > *,
+  .footer.page-footer .footer-logo,
+  .footer.page-footer .footer-center,
+  .footer.page-footer .social,
+  .footer.page-footer .footer-main-links,
+  .footer.page-footer .footer-policy-links {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    word-break: break-word !important;
+  }
+
+  /* Footer logo image constraint */
+  .footer.page-footer .footer-logo img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Prevent footer center pseudo-elements from extending width */
+  .footer.page-footer > .footer-center::before,
+  .footer.page-footer > .footer-center::after {
+    display: none !important;
+  }
+}
+
+
+/* ===== STAGE 18 FINAL ROOT FIX — Testimonial/Blob/Journal containment ===== */
+@media (max-width: 980px) {
+  /* Testimonial section must contain its carousel track */
+  html[data-page="index.html"] .testimonial-section {
+    overflow-x: clip !important;
+    max-width: 100% !important;
+    position: relative !important;
+  }
+  html[data-page="index.html"] .testimonial-carousel {
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+  html[data-page="index.html"] .testimonial-viewport {
+    overflow: hidden !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  html[data-page="index.html"] .testimonial-track {
+    max-width: none !important;
+    width: auto !important;
+  }
+  html[data-page="index.html"] .testimonial-slide {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  /* Contain testimonial slide pseudo-elements */
+  html[data-page="index.html"] .testimonial-slide::before,
+  html[data-page="index.html"] .testimonial-slide::after {
+    max-width: 100% !important;
+    inset-inline-end: 0 !important;
+    right: auto !important;
+    left: auto !important;
+  }
+
+  /* Journal organic shapes and botanical decorations */
+  html[data-page="index.html"] .journal-organic-shape,
+  html[data-page="index.html"] .journal-botanical,
+  body.vava-homepage .journal-organic-shape,
+  body.vava-homepage .journal-botanical {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    left: 0 !important;
+    right: auto !important;
+  }
+
+  /* Blob decorative elements on index page */
+  html[data-page="index.html"] .blob,
+  html[data-page="index.html"] .blob.b1,
+  html[data-page="index.html"] .blob.b2,
+  body.vava-homepage .blob {
+    max-width: 100% !important;
+    left: 0 !important;
+    right: auto !important;
+    width: auto !important;
+  }
+
+  /* Ensure all sections clip horizontal overflow at container level */
+  body.vava-homepage .section,
+  body.vava-homepage main > section {
+    overflow-x: clip !important;
+    max-width: 100% !important;
+  }
+}
+
+
+/* ===== HOMEPAGE FLOW + FOOTER — normal document flow ===== */
+/*
+ * The homepage was originally a full-screen slide deck:
+ *   html/body { height:100%; overflow:hidden }
+ *   .app      { height:100svh; overflow:hidden }
+ *   .stage    { height:100%; transform by JS }
+ *   .section  { height:100svh; overflow:hidden }
+ * and the footer relied on "position:absolute; bottom:0" inside the contact
+ * slide. With the footer now rendered after #contact in normal document flow
+ * (outside #stage/#app), that deck must degrade to a normal scrolling page so
+ * the footer is visible, complete, and reachable by a normal vertical scroll.
+ * The JS deck is neutralized by transform:none and native wheel/touch scrolling.
+ */
+html[data-page="index.html"],
+html[data-page="index-en.html"] {
+  height: auto !important;
+  overflow-y: auto !important;
+}
+html[data-page="index.html"] body,
+html[data-page="index-en.html"] body,
+body.vava-homepage {
+  height: auto !important;
+  min-height: 100svh !important;
+  overflow-y: auto !important;
+}
+html[data-page="index.html"] .app,
+html[data-page="index-en.html"] .app,
+body.vava-homepage .app {
+  height: auto !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+html[data-page="index.html"] .stage,
+html[data-page="index-en.html"] .stage,
+body.vava-homepage .stage {
+  height: auto !important;
+  overflow: visible !important;
+  transform: none !important;
+}
+html[data-page="index.html"] .section,
+html[data-page="index-en.html"] .section,
+body.vava-homepage .section {
+  height: auto !important;
+  min-height: 100svh !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+/* Content that was hidden behind the deck's .section.active reveal must be
+   visible in normal flow (hero keeps its own intro animation state). */
+html[data-page="index.html"] .section:not(.hero) .reveal,
+html[data-page="index-en.html"] .section:not(.hero) .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Footer: normal flow after contact, full width, never clipped. */
+html[data-page="index.html"] .footer,
+html[data-page="index-en.html"] .footer,
+html[data-page="index.html"] .footer.page-footer,
+html[data-page="index-en.html"] .footer.page-footer,
+body.vava-homepage .footer,
+body.vava-homepage .footer.page-footer {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin-top: 0 !important;
+  z-index: auto !important;
+}
+
+
+/* ===== DESKTOP CONTACT RESTORE — restore original balanced desktop layout ===== */
+/* The HOMEPAGE FLOW block broke desktop Contact by forcing height:auto on all sections.
+   This restores the original 100svh slide layout for Contact on desktop only. */
+@media (min-width: 981px) {
+  html[data-page="index.html"] .contact-section,
+  html[data-page="index-en.html"] .contact-section {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    display: block !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  html[data-page="index.html"] .contact-section .single,
+  html[data-page="index-en.html"] .contact-section .single {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: min(980px, 100%) !important;
+    max-width: 980px !important;
+    padding-inline: clamp(24px, 5vw, 78px) !important;
+    margin: 0 !important;
+    z-index: 2 !important;
+  }
+
+  html[data-page="index.html"] .contact-section .single.reveal,
+  html[data-page="index-en.html"] .contact-section .single.reveal {
+    transform: translate(-50%, -50%) translateY(36px) !important;
+  }
+
+  html[data-page="index.html"] .contact-section.active .single.reveal,
+  html[data-page="index-en.html"] .contact-section.active .single.reveal {
+    transform: translate(-50%, -50%) !important;
+  }
+
+  /* Restore original 2-column contact card layout */
+  html[data-page="index.html"] .contact-card,
+  html[data-page="index-en.html"] .contact-card {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+    align-items: center !important;
+  }
+}
+
+
+/* ===== HOMEPAGE CONTACT FIX — restore contact section on mobile ===== */
+/* Override styles-ar.css rules that assume footer is inside contact-section */
+@media (max-width: 980px) {
+  /* Reset contact section to normal layout (remove 100svh height lock) */
+  html[data-page="index.html"] .contact-section {
+    height: auto !important;
+    min-height: 0 !important;
+    display: block !important;
+    padding: 60px 20px !important;
+    overflow: visible !important;
+  }
+
+  /* Reset contact content from absolute positioning to normal flow */
+  html[data-page="index.html"] .contact-section .single {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: auto !important;
+    max-width: 980px !important;
+    margin: 0 auto !important;
+    transform: none !important;
+  }
+
+  /* Remove the large margin-bottom designed for absolute footer */
+  html[data-page="index.html"] .contact-section .single {
+    margin-bottom: 0 !important;
+  }
+
+  /* Reset contact card to normal stacking */
+  html[data-page="index.html"] .contact-section .contact-card {
+    display: block !important;
+    gap: 0 !important;
+  }
+}

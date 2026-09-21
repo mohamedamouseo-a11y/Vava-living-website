@@ -151,48 +151,21 @@ if ( ! function_exists( 'vava_booking_questionnaire_defaults' ) ) {
 			),
 			'impact' => array(
 				'enabled' => 1,
-				'title' => array( 'ar' => 'استبيان أثر الرحلة', 'en' => 'Journey Impact Questionnaire' ),
-				'description' => array( 'ar' => 'يظهر بعد إنهاء الخدمة أو الخدمات بالكامل لأي عميل حجز جلسة استشارية.', 'en' => 'Shown after the full service journey is completed for any consultation client.' ),
+				'title' => array(
+					'ar' => "Ø§Ø³ØªØ¨ÙØ§Ù Ø£Ø«Ø± Ø§ÙØ±Ø­ÙØ©",
+					'en' => 'Journey Impact Questionnaire',
+				),
+				'description' => array(
+					'ar' => "ÙØ¸ÙØ± Ø¨Ø¹Ø¯ Ø¥ÙÙØ§Ø¡ Ø§ÙØ®Ø¯ÙØ©.",
+					'en' => 'Shown after service completion.',
+				),
 				'groups' => array(
-					'impact_assessment' => array(
-						'label' => array( 'ar' => 'تقييم أثر الخدمة', 'en' => 'Service impact assessment' ),
-						'fields' => array(
-							$text( 'full_name', 'الاسم الكريم (ثنائي)', 'Full name', true ),
-							$radio( 'journey_overall', 'كيف كانت رحلتك بشكل عام من بعد جلستنا؟', 'How has your journey been overall since our session?', $better_same ),
-							$text( 'biggest_impact', 'ما أكثر شيء لاحظته في جسمك أو نفسيتك أو حياتك اليومية؟', 'What was the biggest impact you noticed in your body, emotions, or daily life?', true, 'textarea' ),
-							$radio( 'symptoms_result', 'كيف صارت الأعراض التي ناقشناها في أول جلسة؟', 'How have the symptoms discussed in the first session changed?', $better_same ),
+					'impact_main' => array(
+						'label' => array(
+							'ar' => "Ø§Ø³ØªØ¨ÙØ§Ù Ø£Ø«Ø± Ø§ÙØ±Ø­ÙØ©",
+							'en' => 'Journey Impact Questionnaire',
 						),
-					),
-					'results' => array(
-						'label' => array( 'ar' => 'النتائج المحققة', 'en' => 'Achieved results' ),
-						'fields' => array(
-							$radio( 'recommendations_level', 'إلى أي درجة قدرت على تطبيق التوصيات؟', 'To what extent did you apply the recommendations?', array(
-								array( 'value' => 'all', 'ar' => 'كلها', 'en' => 'All' ), array( 'value' => 'most', 'ar' => 'معظمها', 'en' => 'Most' ), array( 'value' => 'some', 'ar' => 'القليل منها', 'en' => 'Some' ), array( 'value' => 'none', 'ar' => 'لم أتمكن من تطبيقها', 'en' => 'Could not apply them' ),
-							) ),
-							$text( 'easiest', 'ما أسهل شيء كان عليك؟', 'What was easiest for you?', false, 'textarea' ),
-							$text( 'hardest', 'ما أصعب شيء كان عليك؟', 'What was hardest for you?', false, 'textarea' ),
-							$text( 'recommendations_effect', 'هل لاحظت تغييرًا بعد تطبيق التوصيات؟ اشرح باختصار', 'Did you notice a change after applying the recommendations? Briefly explain', false, 'textarea' ),
-						),
-					),
-					'lifestyle' => array(
-						'label' => array( 'ar' => 'التغيير في نمط الحياة', 'en' => 'Lifestyle changes' ),
-						'fields' => array(
-							$radio( 'sleep', 'كيف كان نومك؟', 'How has your sleep been?', $better_same ),
-							$radio( 'mood', 'كيف كان مزاجك؟', 'How has your mood been?', $better_same ),
-							$radio( 'focus', 'كيف كان تركيزك؟', 'How has your focus been?', $better_same ),
-							$radio( 'digestion', 'كيف كان هضمك؟', 'How has your digestion been?', $better_same ),
-							$radio( 'energy', 'كيف كانت طاقتك؟', 'How has your energy been?', $better_same ),
-							$radio( 'breathing_comfort', 'كيف كان تنفسك وراحتك؟', 'How have your breathing and comfort been?', $better_same, false ),
-						),
-					),
-					'satisfaction' => array(
-						'label' => array( 'ar' => 'الرضا العام والتوصيات المستقبلية', 'en' => 'Overall satisfaction and future recommendations' ),
-						'fields' => array(
-							$text( 'new_changes', 'هل حدث شيء جديد منذ بداية الرحلة؟', 'Has anything new happened since the journey began?', false, 'textarea' ),
-							$text( 'future_focus', 'ما أكثر شيء ترغب في التركيز عليه مستقبلًا؟', 'What would you most like to focus on next?', true, 'textarea' ),
-							$radio( 'recommend_service', 'هل توصي بخدمات VAVA للآخرين؟', 'Would you recommend VAVA services to others?', $yes_no ),
-							$text( 'final_message', 'هل يوجد أي شيء ترغب في قوله أو السؤال عنه؟', 'Is there anything you would like to share or ask?', false, 'textarea' ),
-						),
+						'fields' => array(),
 					),
 				),
 			),
@@ -456,6 +429,7 @@ function vava_booking_questionnaire_render_admin_panel( WP_Post $post ): void {
 				<?php $q_index = 0; foreach ( $settings as $type => $questionnaire ) : $q_index++; ?>
 					<article class="vava-questionnaire-admin-accordion<?php echo 1 === $q_index ? ' is-open' : ''; ?>" data-questionnaire-admin-accordion>
 						<header><button type="button" data-questionnaire-admin-toggle aria-expanded="<?php echo 1 === $q_index ? 'true' : 'false'; ?>"><span><?php echo esc_html( $icons[ $type ] ?? '▤' ); ?></span><div><h4 class="vava-questionnaire-lang-copy" data-questionnaire-lang-copy="ar"><?php echo esc_html( (string) $questionnaire['title']['ar'] ); ?></h4><h4 class="vava-questionnaire-lang-copy" data-questionnaire-lang-copy="en" hidden><?php echo esc_html( (string) $questionnaire['title']['en'] ); ?></h4><p class="vava-questionnaire-lang-copy" data-questionnaire-lang-copy="ar"><?php echo esc_html( (string) $questionnaire['description']['ar'] ); ?></p><p class="vava-questionnaire-lang-copy" data-questionnaire-lang-copy="en" hidden><?php echo esc_html( (string) $questionnaire['description']['en'] ); ?></p></div><i>⌄</i></button><label class="vava-booking-admin-switch"><input type="hidden" name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][enabled]" value="0"/><input type="checkbox" name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][enabled]" value="1"<?php checked( ! empty( $questionnaire['enabled'] ) ); ?>/><span></span><b data-vava-i18n-ar="مفعّل" data-vava-i18n-en="Enabled">مفعّل</b></label></header>
+							<?php $export_url = wp_nonce_url( add_query_arg( 'type', $type, admin_url( 'admin.php?action=vava_export_impact_questionnaire' ) ), 'vava_export_impact_questionnaire', 'vava_export_nonce' ); ?><a href="<?php echo esc_url( $export_url ); ?>" style="display:inline-flex!important;visibility:visible!important;opacity:1!important;background:#747a4e!important;border:1px solid #747a4e!important;color:#fff!important;padding:8px 14px!important;margin:10px 14px!important;border-radius:10px!important;font-size:13px!important;font-weight:700!important;text-decoration:none!important;position:relative!important;z-index:20!important;">تنزيل Excel</a>
 						<div class="vava-questionnaire-admin-body"<?php echo 1 === $q_index ? '' : ' hidden'; ?>>
 							<?php foreach ( array( 'ar', 'en' ) as $lang ) : ?>
 								<div class="vava-questionnaire-admin-language" data-questionnaire-admin-lang="<?php echo esc_attr( $lang ); ?>"<?php echo 'ar' === $lang ? '' : ' hidden'; ?> dir="<?php echo 'en' === $lang ? 'ltr' : 'rtl'; ?>">
@@ -633,3 +607,6 @@ add_action( 'admin_post_vava_booking_submit_impact_questionnaire', 'vava_booking
 add_action( 'admin_post_nopriv_vava_booking_submit_impact_questionnaire', 'vava_booking_submit_impact_questionnaire' );
 
 /* VAVA_IMPACT_DIRECT_LINK_V1 */
+
+// Stage 11: Impact Questionnaire Export
+require_once __DIR__ . '/vava-impact-export.php';

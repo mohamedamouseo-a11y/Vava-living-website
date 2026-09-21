@@ -3446,6 +3446,7 @@ html[data-page="index.html"] .social i[aria-label="Facebook"] svg,html[data-page
       html[data-page="index.html"] .stage .photo{min-height:260px}html[data-page="index.html"] .oval{min-height:260px}html[data-page="index.html"] .mini-photo{height:210px}
       html[data-page="index.html"] .path-grid,html[data-page="index.html"] .cards-3,html[data-page="index.html"] .article-row{grid-template-columns:1fr}html[data-page="index.html"] .path-card:not(:last-child){border-left:0;border-bottom:1px solid var(--line)}
       html[data-page="index.html"] .progress{display:none}html[data-page="index.html"] .scroll-hint{display:none}html[data-page="index.html"] .hero .actions{justify-content:center}html[data-page="index.html"] .actions{justify-content:center}html[data-page="index.html"] .soft-card{text-align:center}
+      html[data-page="index.html"] .app{height:auto !important;overflow:visible !important}
       html[data-page="index.html"] .footer{position:relative;border-radius:28px;margin-top:20px;grid-template-columns:1fr;text-align:center;min-height:auto}html[data-page="index.html"] .footer img{margin:auto}html[data-page="index.html"] .footer-main-links,html[data-page="index.html"] .footer-policy-links{gap:10px 18px}html[data-page="index.html"] .footer-copy{white-space:normal}html[data-page="index.html"] .social{justify-content:center}
     }
     @media(prefers-reduced-motion:reduce){html[data-page="index.html"] .stage,html[data-page="index.html"] .reveal,html[data-page="index.html"] .section.active .slide-photo,html[data-page="index.html"] .intro-loader,html[data-page="index.html"] .hero .reveal *{transition:none!important;animation:none!important}html[data-page="index.html"] .intro-loader{display:none}}
@@ -3494,6 +3495,7 @@ html[data-page="index.html"] .social i[aria-label="Facebook"] svg,html[data-page
       gap:0;
       align-items:center;
       max-width:1240px;
+      overflow-x:clip;
     }
     html[data-page="index.html"] #what .mini-photo{
       width:min(650px,49vw);
@@ -3582,6 +3584,8 @@ html[data-page="index.html"] .social i[aria-label="Facebook"] svg,html[data-page
     }
     html[data-page="index.html"] .shop-art{
       min-height:440px;
+      max-width:100%;
+      box-sizing:border-box;
       border-radius:54% 46% 48% 52% / 44% 56% 44% 56%;
       background-image:
         linear-gradient(90deg,rgba(255,250,242,.04),rgba(255,250,242,.28)),
@@ -3626,6 +3630,7 @@ html[data-page="index.html"] .social i[aria-label="Facebook"] svg,html[data-page
     html[data-page="index.html"] .shop-copy .actions{justify-content:flex-start}
 
     @media(max-width:980px){
+      html[data-page="index.html"] .shop-section{overflow-x:clip}
       html[data-page="index.html"] .shop-flow{grid-template-columns:1fr;min-height:auto;gap:18px}
       html[data-page="index.html"] .shop-art{min-height:260px;transform:none;order:-1}
       html[data-page="index.html"] .shop-copy{justify-self:stretch;text-align:center;max-width:100%}
@@ -6300,6 +6305,8 @@ html[data-page="index.html"] .contact-v4-copy p{
 html[data-page="index.html"] .contact-v4-actions{
   position:relative;
   width:356px;
+  max-width:100%;
+  box-sizing:border-box;
   height:164px;
   margin:38px auto 0;
   display:flex;
@@ -6421,6 +6428,8 @@ html[data-page="index.html"] .contact-v4-section > .footer.page-footer{
   html[data-page="index.html"] .contact-v4-section{padding:82px 0 0 !important;}
   html[data-page="index.html"] .contact-v4-section .contact-v4-frame{
     width:min(100%, calc(100vw - 24px));
+    max-width:100%;
+    box-sizing:border-box;
     padding:28px 18px 34px;
     border-radius:30px;
     margin:0 auto 30px;
@@ -6435,14 +6444,15 @@ html[data-page="index.html"] .contact-v4-section > .footer.page-footer{
   html[data-page="index.html"] .contact-v4-copy p{font-size:18px; line-height:1.95;}
   html[data-page="index.html"] .contact-v4-divider{margin:18px auto 20px; gap:10px;}
   html[data-page="index.html"] .contact-v4-divider span{width:54px;}
-  html[data-page="index.html"] .contact-v4-actions{width:280px;height:138px;margin-top:26px;}
+  html[data-page="index.html"] .contact-v4-actions{width:280px;max-width:100%;box-sizing:border-box;height:138px;margin-top:26px;}
   html[data-page="index.html"] .contact-v4-actions::before{inset:30px 18px 0;}
   html[data-page="index.html"] .contact-v4-actions::after{width:76px;height:76px;}
-  html[data-page="index.html"] .contact-v4-actions .btn{min-width:224px;min-height:56px;font-size:24px !important;padding:14px 24px !important;}
+  html[data-page="index.html"] .contact-v4-actions .btn{min-width:224px;max-width:100%;min-height:56px;font-size:24px !important;padding:14px 24px !important;}
   html[data-page="index.html"] .contact-v4-cta-badge{top:-49px;width:54px;height:54px;}
   html[data-page="index.html"] .contact-v4-ornament-top-left{top:18px;left:-8px;width:112px;height:92px;}
   html[data-page="index.html"] .contact-v4-ornament-bottom-left{left:-12px;bottom:8px;width:116px;height:96px;}
   html[data-page="index.html"] .contact-v4-ornament-right-top{right:-4px;top:88px;width:92px;height:132px;}
+  html[data-page="index.html"] .contact-v4-section{overflow-x:clip !important;}
   html[data-page="index.html"] .contact-v4-ornament-right-bottom{right:-6px;bottom:12px;width:92px;height:132px;}
 }
 

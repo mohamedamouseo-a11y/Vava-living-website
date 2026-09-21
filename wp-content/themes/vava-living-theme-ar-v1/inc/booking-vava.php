@@ -1028,7 +1028,7 @@ function vava_booking_email_public_url( string $url ): string {
 
 function vava_booking_email_logo_url(): string {
 	/* Never use a stale custom-logo URL from the old localhost database. */
-	return vava_booking_email_public_url( trailingslashit( get_template_directory_uri() ) . 'assets/images/vava-logo.png' );
+	return vava_booking_email_public_url( vava_logo_url() );
 }
 
 function vava_booking_email_service_image_url( int $booking_id ): string {

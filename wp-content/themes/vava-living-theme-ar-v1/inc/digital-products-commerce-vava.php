@@ -833,7 +833,7 @@ add_action( 'wp_ajax_nopriv_vava_digital_reader_page_token', 'vava_digital_produ
 
 function vava_digital_products_output_watermarked_page( string $path, WP_User $user, int $order_id ): void {
 	$customer = sanitize_text_field( ( $user->user_email ?: $user->display_name ) . ' · #' . $order_id );
-	$logo_path = get_theme_file_path( 'assets/images/vava-logo.png' );
+	$logo_path = get_theme_file_path( 'assets/images/vava-logo.png' ); // logo path for file checks; URL uses vava_logo_url()
 	if ( function_exists( 'imagecreatefromjpeg' ) && function_exists( 'imagejpeg' ) ) {
 		$image = @imagecreatefromjpeg( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		if ( $image ) {

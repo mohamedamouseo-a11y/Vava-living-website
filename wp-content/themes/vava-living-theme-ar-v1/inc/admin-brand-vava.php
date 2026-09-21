@@ -124,7 +124,7 @@ function vava_admin_brand_assets(): void {
 	$recent_article = get_posts( array( 'post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => 1, 'orderby' => 'date', 'order' => 'DESC' ) );
 	$recent_article_text = $recent_article ? get_the_title( $recent_article[0] ) : ( is_rtl() ? 'لا توجد مقالات منشورة' : 'No published articles' );
 	wp_localize_script( 'vava-admin-brand-ui', 'vavaAdminBrand', array(
-		'logo' => get_template_directory_uri() . '/assets/images/vava-logo.png', 'treeImage' => get_template_directory_uri() . '/assets/images/vava-approved-tree-with-leaf-platforms-v3.png', 'backgroundImage' => get_template_directory_uri() . '/assets/images/vava-approved-dashboard-background-v1.png', 'displayName' => $user->display_name,
+		'logo' => vava_logo_url(), 'treeImage' => get_template_directory_uri() . '/assets/images/vava-approved-tree-with-leaf-platforms-v3.png', 'backgroundImage' => get_template_directory_uri() . '/assets/images/vava-approved-dashboard-background-v1.png', 'displayName' => $user->display_name,
 		'avatar' => vava_admin_brand_avatar_url( $user->ID, 160 ), 'profileUrl' => get_edit_profile_url( $user->ID ), 'logoutUrl' => wp_logout_url(),
 		'productsMenuUrl' => add_query_arg( array( 'post_type' => 'vava_booking', 'vava_order_scope' => 'products' ), admin_url( 'edit.php' ) ),
 		'homeUrl' => home_url( '/' ),

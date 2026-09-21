@@ -541,8 +541,13 @@ function vava_digital_product_reader_data( array $card, string $lang = 'ar' ): a
 			'group'        => (string) ( $card['group'] ?? 'digital' ),
 		);
 	}
-	if ( '' !== trim( (string) ( $card['title'] ?? '' ) ) ) {
-		$data['title'] = (string) $card['title'];
+	foreach ( array( 'title', 'description', 'full_description', 'category', 'question', 'inside', 'ideal', 'pages' ) as $field ) {
+		if ( ! isset( $card[ $field ] ) ) {
+			continue;
+		}
+		if ( is_array( $card[ $field ] ) || '' !== trim( (string) $card[ $field ] ) ) {
+			$data[ $field ] = $card[ $field ];
+		}
 	}
 	$data['group']      = (string) ( $card['group'] ?? $data['group'] ?? 'digital' );
 	$data['price']      = (string) ( $card['price'] ?? $data['price'] ?? '' );

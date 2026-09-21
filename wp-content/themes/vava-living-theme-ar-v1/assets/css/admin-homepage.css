@@ -1,3 +1,5 @@
+
+/* Stage 02 Follow-up #6 — LIVE-SERVED-ASSET marker - DO NOT REMOVE */
 :root{
   --vava-admin-accent:#6f815f;
   --vava-admin-accent-soft:#edf3e9;
@@ -140,6 +142,81 @@ body.post-type-page.vava-homepage-classic #postimagediv{display:none!important}
 .vava-media-file-name{display:block;max-width:100%;margin-top:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#53606d;font-size:12px}
 .vava-media-actions{display:flex;align-items:center;gap:14px;margin-top:11px}
 .vava-media-actions .button{min-height:34px}
+
+
+/* Stage 02 Follow-up #5 — Override absolute positioning for protected PDF progress (Release 1.19.8). */
+body.vava-advanced-page-editor .vava-selections-admin [data-vava-upload-progress].is-active:not([hidden]) {
+  position: relative !important;
+  inset: auto !important;
+  display: grid !important;
+  width: calc(100% - 28px) !important;
+  max-width: calc(100% - 28px) !important;
+  height: auto !important;
+  min-height: 72px !important;
+  max-height: none !important;
+  margin: -6px auto 12px !important;
+  padding: 12px 16px !important;
+  grid-template-rows: auto 8px !important;
+  grid-auto-rows: max-content !important;
+  align-content: center !important;
+  align-items: center !important;
+  justify-items: stretch !important;
+  gap: 8px !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  transform: none !important
+}
+body.vava-advanced-page-editor .vava-selections-admin [data-vava-upload-progress].is-active:not([hidden]) .vava-upload-progress-head {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  width: 100% !important
+}
+body.vava-advanced-page-editor .vava-selections-admin [data-vava-upload-progress].is-active:not([hidden]) .vava-upload-progress-track {
+  width: 100% !important;
+  height: 8px !important;
+  min-height: 8px !important;
+  overflow: hidden !important
+}
+body.vava-advanced-page-editor .vava-selections-admin [data-vava-upload-progress].is-active:not([hidden]) [data-upload-progress-meta]:empty {
+  display: none !important
+}
+body.vava-advanced-page-editor 
+/* Stage 02 Follow-up #9 — inner head/track inset */
+body.vava-advanced-page-editor .vava-selections-admin [data-vava-upload-progress].is-active:not([hidden]) .vava-upload-progress-head {
+  width: calc(100% - 32px) !important;
+  margin-inline: 16px !important;
+  box-sizing: border-box !important
+}
+body.vava-advanced-page-editor .vava-selections-admin [data-vava-upload-progress].is-active:not([hidden]) .vava-upload-progress-track {
+  width: calc(100% - 32px) !important;
+  margin-inline: 16px !important;
+  box-sizing: border-box !important
+}
+
+/* Stage 02 Follow-up #11 — direct percentage reset */
+body.vava-advanced-page-editor [data-vava-upload-progress].is-active:not([hidden]) [data-upload-progress-percent] {
+  display: block !important;
+  width: auto !important;
+  min-width: max-content !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important
+}
+.vava-selections-product-item:has([data-vava-upload-progress].is-active:not([hidden])),
+body.vava-advanced-page-editor .vava-repeater-item-body:has([data-vava-upload-progress].is-active:not([hidden])),
+body.vava-advanced-page-editor .vava-repeater-field:has([data-vava-upload-progress].is-active:not([hidden])),
+body.vava-advanced-page-editor .vava-media-field:has([data-vava-upload-progress].is-active:not([hidden])) {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important
+}
 .vava-upload-progress{position:absolute;inset-inline:0;bottom:0;height:4px;background:transparent;overflow:hidden}
 .vava-upload-progress span{display:block;width:0;height:100%;background:var(--vava-admin-accent);transition:width .16s ease}
 .vava-media-field.is-uploading .vava-media-dropzone{pointer-events:none;opacity:.75}

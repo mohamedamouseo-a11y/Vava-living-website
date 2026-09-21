@@ -1,0 +1,166 @@
+<?php
+/**
+ * VAVA Living - Impact Questionnaire Export
+ * Stage 11: Admin CSV export for Journey Impact Questionnaire responses.
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+add_action( 'admin_action_vava_export_impact_questionnaire', 'vava_handle_export_impact_questionnaire' );
+add_action( 'admin_footer-edit.php', 'vava_add_impact_export_button_to_list' );
+add_action( 'admin_footer-post.php', 'vava_add_impact_export_button_to_edit' );
+
+function vava_add_impact_export_button_to_list() {
+    $screen = get_current_screen();
+    if ( ! $screen || 'vava_booking' !== $screen->post_type ) {
+        return;
+    }
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+    $url = wp_nonce_url(
+        admin_url( 'admin.php?action=vava_export_impact_questionnaire' ),
+        'vava_export_impact_questionnaire',
+        'vava_export_nonce'
+    );
+    ?>
+    <script>
+    jQuery(function($){
+        var btn = '<a href="<?php echo esc_js( $url ); ?>" class="page-title-action" style="margin-left:8px;">&#x062A;&#x0635;&#x062F;&#x064A;&#x0631; &#x0625;&#x0644;&#x0649; Excel / Export to Excel</a>';
+        $('.wrap h1.wp-heading-inline').after(btn);
+    });
+    </script>
+    <?php
+}
+
+function vava_add_impact_export_button_to_edit() {
+    $screen = get_current_screen();
+    if ( ! $screen || 'vava_booking' !== $screen->post_type ) {
+        return;
+    }
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+    $url = wp_nonce_url(
+        admin_url( 'admin.php?action=vava_export_impact_questionnaire' ),
+        'vava_export_impact_questionnaire',
+        'vava_export_nonce'
+    );
+    ?>
+    <script>
+    jQuery(function($){
+        var btn = '<a href="<?php echo esc_js( $url ); ?>" class="button" style="margin-left:8px;">&#x062A;&#x0635;&#x062F;&#x064A;&#x0631; &#x0625;&#x0644;&#x0649; Excel / Export to Excel</a>';
+        $('#poststuff h1, .postbox-header h2').first().after(btn);
+    });
+    </script>
+    <?php
+}
+
+function vava_handle_export_impact_questionnaire() {
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( 'Unauthorized access.', 403 );
+    }
+    check_admin_referer( 'vava_export_impact_questionnaire', 'vava_export_nonce' );
+
+    global $wpdb;
+
+    // Use single-quoted SQL string so embedded double quotes in LIKE are safe
+    $like_pattern = '%"type";s:6:"impact"%';
+    $submissions = $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT pm.post_id, pm.meta_value AS q_data, p.post_date
+             FROM {$wpdb->postmeta} pm
+             JOIN {$wpdb->posts} p ON pm.post_id = p.ID
+             WHERE pm.meta_key = '_vava_booking_questionnaire'
+               AND pm.meta_value LIKE %s
+             ORDER BY p.post_date DESC",
+            '%' . $wpdb->esc_like( $like_pattern ) . '%'
+        )
+    );
+
+    $questions = array(
+        'full_name'                 => "\xD8\xA7\xD9\x84\xD8\xA7\xD8\xB3\xD9\x85 \xD8\xA7\xD9\x84\xD9\x83\xD8\xB1\xD9\x8A\xD9\x85 (\xD8\xAB\xD9\x86\xD8\xA7\xD8\xA6\xD9\x8A)",
+        'biggest_impact'            => "\xD9\x88\xD8\xB4 \xD8\xA3\xD9\x83\xD8\xAB\xD8\xB1 \xD8\xB4\xD9\x8A\xD8\xA1 \xD8\xB7\xD9\x84\xD8\xB9\xD8\xAA \xD9\x81\xD9\x8A\xD9\x87 \xD9\x85\xD9\x86 \xD9\x87\xD8\xA7\xD9\x84\xD8\xB1\xD8\xAD\xD9\x84\xD8\xA9\xD8\x9F",
+        'most_helpful_part'         => "\xD9\x88\xD8\xB4 \xD8\xA3\xD9\x83\xD8\xAB\xD8\xB1 \xD8\xAC\xD8\xB2\xD8\xA1 \xD9\x85\xD9\x86 \xD8\xA7\xD9\x84\xD8\xAA\xD8\xAC\xD8\xB1\xD8\xA8\xD8\xA9 \xD8\xAD\xD8\xB3\xD9\x8A\xD8\xAA \xD8\xA5\xD9\x86\xD9\x87 \xD8\xA3\xD9\x81\xD8\xA7\xD8\xAF\xD9\x83\xD8\x9F",
+        'improvement_feedback'      => "\xD9\x87\xD9\x84 \xD9\x83\xD8\xA7\xD9\x86 \xD9\x81\xD9\x8A\xD9\x87 \xD8\xB4\xD9\x8A\xD8\xA1 \xD8\xAA\xD9\x85\xD9\x86\xD9\x8A\xD8\xAA \xD9\x8A\xD9\x83\xD9\x88\xD9\x86 \xD8\xA3\xD9\x88\xD8\xB6\xD8\xAD \xD8\xA3\xD9\x88 \xD9\x85\xD8\xAE\xD8\xAA\xD9\x84\xD9\x81\xD8\x9F",
+        'recommend_service'         => "\xD9\x87\xD9\x84 \xD8\xAA\xD8\xB1\xD8\xB4\xD8\xAD \xD8\xA7\xD9\x84\xD8\xAE\xD8\xAF\xD9\x85\xD8\xA7\xD8\xAA \xD8\xA7\xD9\x84\xD8\xA5\xD8\xB3\xD8\xAA\xD8\xB4\xD8\xA7\xD8\xB1\xD9\x8A\xD8\xA9 \xD8\xA7\xD9\x84\xD9\x85\xD8\xAA\xD9\x86\xD9\x88\xD8\xB9\xD8\xA9 \xD8\xA7\xD9\x84\xD9\x85\xD9\x82\xD8\xAF\xD9\x85\xD8\xA9 \xD9\x85\xD9\x86 \xD9\x81\xD8\xA7\xD9\x81\xD8\xA7 \xD9\x84\xD8\xB4\xD8\xAE\xD8\xB5 \xD8\xA2\xD8\xAE\xD8\xB1\xD8\x9F",
+        'share_experience_permission' => "\xD9\x87\xD9\x84 \xD8\xAA\xD8\xB3\xD9\x85\xD8\xAD \xD9\x84\xD9\x8A \xD8\xA3\xD8\xB4\xD8\xA7\xD8\xB1\xD9\x83 \xD8\xAC\xD8\xB2\xD8\xA1 \xD9\x85\xD9\x86 \xD9\x83\xD9\x84\xD8\xA7\xD9\x85\xD9\x83 \xD8\xB9\xD9\x86 \xD8\xAA\xD8\xAC\xD8\xB1\xD8\xA8\xD8\xAA\xD9\x83 (\xD8\xA8\xD8\xAF\xD9\x88\xD9\x86 \xD8\xA7\xD8\xB3\xD9\x85 \xD8\xA3\xD9\x88 \xD8\xA3\xD9\x8A \xD9\x85\xD8\xB9\xD9\x84\xD9\x88\xD9\x85\xD8\xA7\xD8\xAA \xD8\xB4\xD8\xAE\xD8\xB5\xD9\x8A\xD8\xA9)\xD8\x9F",
+    );
+
+    $rows   = array();
+    $header = array( 'Submission ID', 'Booking ID', 'Customer Name', 'Customer Email', 'Service', 'Submission Date' );
+    foreach ( $questions as $qid => $qlabel ) {
+        $header[] = $qlabel;
+    }
+    $rows[] = $header;
+
+    foreach ( $submissions as $sub ) {
+        $q_data = maybe_unserialize( $sub->q_data );
+        if ( ! is_array( $q_data ) ) {
+            continue;
+        }
+        $answers = isset( $q_data['answers'] ) && is_array( $q_data['answers'] ) ? $q_data['answers'] : array();
+
+        $customer   = get_post_meta( $sub->post_id, '_vava_booking_customer', true );
+        if ( ! is_array( $customer ) ) {
+            $customer = array();
+        }
+        $cust_name  = isset( $customer['name'] ) ? $customer['name'] : '';
+        $cust_email = isset( $customer['email'] ) ? $customer['email'] : '';
+        $service    = get_post_meta( $sub->post_id, '_vava_booking_service_title', true );
+        $completed  = isset( $q_data['completed_at'] ) ? $q_data['completed_at'] : $sub->post_date;
+
+        $row = array( $sub->post_id, $sub->post_id, $cust_name, $cust_email, $service ? $service : '', $completed );
+        foreach ( $questions as $qid => $qlabel ) {
+            $val = isset( $answers[ $qid ] ) ? $answers[ $qid ] : '';
+            if ( is_array( $val ) ) {
+                $val = implode( ', ', array_map( 'strval', $val ) );
+            }
+            $row[] = (string) $val;
+        }
+        $rows[] = $row;
+    }
+
+    $filename = 'vava-impact-questionnaire-responses-' . gmdate( 'Y-m-d' ) . '.csv';
+    header( 'Content-Type: text/csv; charset=UTF-8' );
+    header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+    header( 'Cache-Control: no-cache, no-store, must-revalidate' );
+    header( 'Pragma: no-cache' );
+    header( 'Expires: 0' );
+
+    // UTF-8 BOM for Excel Arabic support
+    echo "\xEF\xBB\xBF";
+    $output = fopen( 'php://output', 'w' );
+    foreach ( $rows as $row ) {
+        fputcsv( $output, $row );
+    }
+    fclose( $output );
+    exit;
+}
+
+/**
+ * Stage 11 Hotfix: Server-side export button for VAVA Bookings dashboard.
+ * Replaces broken jQuery injection that targeted non-existent .wp-heading-inline selector.
+ */
+add_action( 'vava_booking_dashboard_actions', 'vava_render_impact_export_button', 10, 1 );
+
+function vava_render_impact_export_button( $is_products = false ) {
+    if ( $is_products ) {
+        return;
+    }
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+    $url = wp_nonce_url(
+        admin_url( 'admin.php?action=vava_export_impact_questionnaire' ),
+        'vava_export_impact_questionnaire',
+        'vava_export_nonce'
+    );
+        $label_text = '&#1578;&#1589;&#1583;&#1610;&#1585; &#1573;&#1604;&#1609; Excel / Export to Excel';
+    echo '<a href="' . esc_url( $url ) . '" class="button vava-impact-export-button" style="margin-top:12px;display:inline-block;">';
+    echo '<span class="dashicons dashicons-download" style="vertical-align:text-bottom;margin-left:4px;" aria-hidden="true"></span>';
+    echo $label_text;
+    echo '</a>';
+}

@@ -23,7 +23,7 @@ $normalize_internal_url = static function ( string $url ): string {
 };
 ?>
 <footer class="footer page-footer">
-	<div class="footer-logo"><img alt="VAVA Living" src="<?php echo esc_url( vava_asset_uri( 'assets/images/vava-logo.png' ) ); ?>"/><div class="footer-tagline"><?php echo esc_html( $footer_tagline ); ?></div></div>
+	<div class="footer-logo"><img alt="VAVA Living" src="<?php echo esc_url( function_exists( 'vava_logo_url' ) ? vava_logo_url() : vava_asset_uri( 'assets/images/vava-logo.png' ) ); ?>"/><div class="footer-tagline"><?php echo esc_html( $footer_tagline ); ?></div></div>
 	<div class="footer-center">
 		<div class="footer-main-links"><?php foreach ( $primary_links as $link ) : if ( empty( $link['label'] ) ) { continue; } ?><a href="<?php echo esc_url( $normalize_internal_url( (string) ( $link['url'] ?? '#' ) ) ); ?>"><?php echo esc_html( (string) $link['label'] ); ?></a><?php endforeach; ?></div>
 		<div class="footer-policy-links"><?php foreach ( $policy_links as $link ) : if ( empty( $link['label'] ) ) { continue; } ?><a href="<?php echo esc_url( $normalize_internal_url( (string) ( $link['url'] ?? '#' ) ) ); ?>"><?php echo esc_html( (string) $link['label'] ); ?></a><?php endforeach; ?></div>

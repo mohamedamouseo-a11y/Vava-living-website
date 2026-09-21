@@ -1143,7 +1143,7 @@ function vava_living_enqueue_assets(): void {
 			'nonce' => $reader_user instanceof WP_User ? wp_create_nonce( 'vava_digital_reader_' . $reader_uid . '_' . $reader_user->ID ) : '',
 			'watermark' => $reader_user instanceof WP_User ? trim( (string) ( $reader_user->user_email ?: $reader_user->display_name ) . ' · #' . $reader_order ) : '',
 			'brand' => 'VAVA LIVING',
-			'logoUrl' => get_theme_file_uri( 'assets/images/vava-logo.png' ),
+			'logoUrl' => vava_logo_url(),
 			'labels' => array( 'error' => 'en' === vava_current_language() ? 'Could not load the protected page.' : 'تعذر تحميل الصفحة المحمية.' ),
 		) );
 	}
@@ -1218,6 +1218,19 @@ add_action( 'admin_enqueue_scripts', 'vava_advanced_admin_common_assets', 30 );
  */
 function vava_asset_uri( string $relative_path ): string {
 	return get_theme_file_uri( ltrim( $relative_path, '/' ) );
+}
+
+/**
+ * Return the VAVA logo URL with a deterministic cache-busting query string.
+ *
+ * Uses the logo file modification time so the URL changes only when the file
+ * is replaced. Falls back to the unversioned URL if the file cannot be read.
+ */
+function vava_logo_url(): string {
+	$relative = 'assets/images/vava-logo.png';
+	$url      = vava_asset_uri( $relative );
+	$version  = vava_asset_version( $relative );
+	return '' === $version ? $url : add_query_arg( 'v', $version, $url );
 }
 
 /**

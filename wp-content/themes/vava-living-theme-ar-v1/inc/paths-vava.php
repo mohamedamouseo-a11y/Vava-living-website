@@ -337,11 +337,12 @@ function vava_paths_normalize_session_basic_data( array $data, string $lang = 'a
 /** Resolve the stable display category for an individual consultation session. */
 function vava_paths_session_category( array $session ): string {
 	$category = sanitize_key( (string) ( $session['category'] ?? '' ) );
-	if ( in_array( $category, array( 'quick', 'followup', 'comprehensive' ), true ) ) {
+	if ( in_array( $category, array( 'discovery', 'inquiry', 'followup', 'comprehensive' ), true ) ) {
 		return $category;
 	}
 	$uid = sanitize_key( (string) ( $session['uid'] ?? '' ) );
-	if ( 'session-8' === $uid ) { return 'quick'; }
+	if ( vava_paths_is_discovery_session( $session ) ) { return 'discovery'; }
+	if ( 'session-8' === $uid ) { return 'inquiry'; }
 	if ( in_array( $uid, array( 'session-5', 'session-6', 'session-7' ), true ) ) { return 'followup'; }
 	if ( in_array( $uid, array( 'session-1', 'session-2', 'session-3', 'session-4' ), true ) ) { return 'comprehensive'; }
 	$haystack = strtolower( wp_strip_all_tags( implode( ' ', array(
@@ -349,7 +350,8 @@ function vava_paths_session_category( array $session ): string {
 		(string) ( $session['meta_1'] ?? '' ),
 		(string) ( $session['session_type'] ?? '' ),
 	) ) ) );
-	if ( preg_match( '/(?:استشارة\s*سريعة|quick\s*consult)/iu', $haystack ) ) { return 'quick'; }
+	if ( preg_match( '/(?:جلسة\s*استكشافية|discovery\s*session)/iu', $haystack ) ) { return 'discovery'; }
+	if ( preg_match( '/(?:استشارة\s*سريعة|quick\s*consult|استفسار|inquiry)/iu', $haystack ) ) { return 'inquiry'; }
 	if ( preg_match( '/(?:متابعة|follow[ -]?up)/iu', $haystack ) ) { return 'followup'; }
 	return 'comprehensive';
 }
@@ -358,7 +360,8 @@ function vava_paths_session_category( array $session ): string {
 function vava_paths_session_category_duration( string $category, string $lang ): string {
 	$is_en = 'en' === $lang;
 	return array(
-		'quick'         => $is_en ? '15–20 minutes' : '15–20 دقيقة',
+		'discovery'     => $is_en ? '10–15 minutes' : '10–15 دقيقة',
+		'inquiry'       => $is_en ? '20 minutes' : '20 دقيقة',
 		'followup'      => $is_en ? '30 minutes' : '30 دقيقة',
 		'comprehensive' => $is_en ? '90 minutes' : '90 دقيقة',
 	)[ $category ] ?? ( $is_en ? '90 minutes' : '90 دقيقة' );
@@ -367,7 +370,8 @@ function vava_paths_session_category_duration( string $category, string $lang ):
 /** Operational duration used by availability and overlap protection. */
 function vava_paths_session_category_booking_minutes( string $category ): int {
 	return array(
-		'quick'         => 20,
+		'discovery'     => 15,
+		'inquiry'       => 20,
 		'followup'      => 30,
 		'comprehensive' => 90,
 	)[ $category ] ?? 90;

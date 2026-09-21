@@ -57,14 +57,14 @@ $labels = $is_en
 <div aria-hidden="true" class="intro-loader">
 <span class="intro-petal p1"></span><span class="intro-petal p2"></span><span class="intro-petal p3"></span><span class="intro-petal p4"></span><span class="intro-petal p5"></span>
 <div class="intro-mark">
-<img alt="VAVA Living" src="<?php echo esc_url( vava_asset_uri( 'assets/images/vava-logo.png' ) ); ?>"/>
+<img alt="VAVA Living" src="<?php echo esc_url( function_exists( 'vava_logo_url' ) ? vava_logo_url() : vava_asset_uri( 'assets/images/vava-logo.png' ) ); ?>"/>
 <div class="intro-line"></div>
 <div class="intro-text"><?php echo esc_html( $labels['intro'] ); ?></div>
 </div>
 </div>
 <div class="app" id="app">
 <header class="fixed-header compact" id="header">
-<a aria-label="<?php echo esc_attr( $labels['home_aria'] ); ?>" class="home-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><img alt="VAVA Living logo" class="logo" src="<?php echo esc_url( vava_asset_uri( 'assets/images/vava-logo.png' ) ); ?>"/></a>
+<a aria-label="<?php echo esc_attr( $labels['home_aria'] ); ?>" class="home-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><img alt="VAVA Living logo" class="logo" src="<?php echo esc_url( function_exists( 'vava_logo_url' ) ? vava_logo_url() : vava_asset_uri( 'assets/images/vava-logo.png' ) ); ?>"/></a>
 <button aria-label="<?php echo esc_attr( $labels['menu_aria'] ); ?>" class="burger" id="burger" type="button"><span></span></button>
 <nav id="nav"><?php
 // Keep the homepage navbar identical to internal pages: same WordPress-managed

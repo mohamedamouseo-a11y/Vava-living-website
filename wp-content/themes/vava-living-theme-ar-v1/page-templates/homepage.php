@@ -193,7 +193,7 @@ get_header( 'home' );
 <div class="journal-feature-row"><strong><?php echo esc_html( $journal_features[2] ); ?></strong></div>
 </div>
 </div>
-<img alt="" aria-hidden="true" class="journal-vava-mark" src="<?php echo esc_url( vava_asset_uri( 'assets/images/vava-logo.png' ) ); ?>"/>
+<img alt="" aria-hidden="true" class="journal-vava-mark" src="<?php echo esc_url( function_exists( 'vava_logo_url' ) ? vava_logo_url() : vava_asset_uri( 'assets/images/vava-logo.png' ) ); ?>"/>
 </div>
 </section>
 <section class="section contact-section" id="contact">
@@ -206,5 +206,6 @@ get_header( 'home' );
 </div>
 <div aria-label="<?php echo esc_attr( $contact_image_alt ); ?>" class="contact-photo" role="img" style="background-image:url('<?php echo esc_url( $contact_image_url ); ?>')"></div>
 </div>
+</section>
 <?php
 get_footer( 'home' );
