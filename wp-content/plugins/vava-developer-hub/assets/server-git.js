@@ -121,12 +121,31 @@
   const renderAudit = (items = []) => {
     const el = $('#vdh-git-audit');
     if (!items.length) { el.innerHTML = '<div class="vdh-empty">No Server Git operations recorded yet.</div>'; return; }
-    el.innerHTML = items.map((item) => `
+    el.innerHTML = items.map((item) => {
+      let detailHtml = '';
+      if (item.details && typeof item.details === 'object') {
+        const parts = [];
+        if (item.details.error) parts.push(escapeHtml(item.details.error));
+        Object.keys(item.details).forEach((k) => {
+          if (k === 'error') return;
+          const v = item.details[k];
+          if (v !== null && v !== undefined && v !== '') {
+            if (Array.isArray(v)) {
+              if (v.length) parts.push(escapeHtml(k) + ': ' + escapeHtml(v.join(', ')));
+            } else if (typeof v !== 'object') {
+              parts.push(escapeHtml(k) + ': ' + escapeHtml(String(v)));
+            }
+          }
+        });
+        if (parts.length) detailHtml = '<div class="vdh-audit-detail"><small>' + parts.join('<br>') + '</small></div>';
+      }
+      return `
       <div class="vdh-git-audit-row">
         <span class="vdh-status-dot ${item.success ? 'is-ok' : ''}"></span>
-        <div><strong>${escapeHtml((item.action || '').replace(/_/g, ' '))}</strong><small>${escapeHtml(formatDate(item.time))} · WP user ${Number(item.user_id || 0)}</small></div>
+        <div><strong>${escapeHtml((item.action || '').replace(/_/g, ' '))}</strong><small>${escapeHtml(formatDate(item.time))} · WP user ${Number(item.user_id || 0)}</small>${detailHtml}</div>
         <span class="vdh-badge ${item.success ? 'vdh-badge-safe' : ''}">${item.success ? 'PASS' : 'FAIL'}</span>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   };
 
   const renderChanges = (changes = []) => {
