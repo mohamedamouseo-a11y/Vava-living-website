@@ -183,6 +183,7 @@ $product_status = static function ( array $record ) use ( $is_en ): array {
 											$impact_url .= '#vava-impact-questionnaire-' . absint( $record['id'] );
 										}
 										?>
+										<?php if ( function_exists( 'vava_package_followup_render_account' ) ) { vava_package_followup_render_account( absint( $record['id'] ), $lang ); } ?>
 										<div class="vava-account-order-actions">
 											<button type="button" class="vava-account-secondary-action" data-account-details-toggle aria-expanded="<?php echo $impact_open ? 'true' : 'false'; ?>" aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $is_en ? 'View details' : 'عرض التفاصيل' ); ?></button>
 											<?php if ( $impact_eligible ) : ?><a class="vava-account-impact-action" href="<?php echo esc_url( $impact_url ); ?>"><?php echo esc_html( $is_en ? 'Journey impact questionnaire' : 'تعبئة استبيان أثر الرحلة' ); ?></a><?php elseif ( $record['cancel_mode'] ) : ?><button type="button" class="vava-account-primary-action" data-cancel-booking="<?php echo esc_attr( (string) $record['id'] ); ?>" data-cancel-mode="<?php echo esc_attr( $record['cancel_mode'] ); ?>"><?php echo esc_html( $is_en ? 'Manage booking' : 'إدارة الحجز' ); ?></button><?php elseif ( '#' !== $record['detail_url'] ) : ?><a class="vava-account-primary-action" href="<?php echo esc_url( $record['detail_url'] ); ?>"><?php echo esc_html( $is_en ? 'Service details' : 'تفاصيل الخدمة' ); ?></a><?php endif; ?>
