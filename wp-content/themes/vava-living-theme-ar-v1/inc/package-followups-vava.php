@@ -100,7 +100,7 @@ function vava_package_followup_create( int $parent_id, int $user_id, string $dat
         }
         $service = vava_package_followup_service( $parent_id );
         $shared = vava_booking_shared_data( vava_booking_page_id() );
-        if ( ! in_array( $time, array_column( vava_booking_available_slots( $service, $date, $shared ), 'value' ), true ) ) {
+        if ( ! preg_match( '/^\\d{4}-\\d{2}-\\d{2}$/', $date ) || ! preg_match( '/^(?:[01]\\d|2[0-3]):[0-5]\\d$/', $time ) || ! in_array( $time, array_column( vava_booking_available_slots( $service, $date, $shared ), 'value' ), true ) ) {
             return new WP_Error( 'slot_unavailable', 'الموعد غير متاح. اختر موعدًا آخر.' );
         }
         $customer = (array) get_post_meta( $parent_id, '_vava_booking_customer', true );
