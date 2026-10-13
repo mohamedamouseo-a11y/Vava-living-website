@@ -54,6 +54,7 @@ require_once get_template_directory() . '/inc/customer-account-vava-safe-v4r10.p
 require_once get_template_directory() . '/inc/selections-vava.php';
 require_once get_template_directory() . '/inc/digital-products-vava.php';
 require_once get_template_directory() . '/inc/digital-products-commerce-vava.php';
+require_once get_template_directory() . '/inc/package-followups-vava.php';
 require_once get_template_directory() . '/inc/journal-vava.php';
 require_once get_template_directory() . '/inc/article-i18n-vava.php';
 require_once get_template_directory() . '/inc/contact-vava.php';
