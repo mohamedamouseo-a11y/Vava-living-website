@@ -3164,6 +3164,8 @@ function vava_booking_process_admin_action( int $booking_id, string $decision, s
 		if ( $is_digital ) {
 			$new_payment = 'cancelled';
 			update_post_meta( $booking_id, '_vava_digital_access_status', 'revoked' );
+		} elseif ( function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) ) {
+			$new_payment = 'cancelled'; // Entitlement booking; never initiate a money refund.
 		} elseif ( vava_booking_paid_or_refunding( $booking_id ) ) {
 			$new_payment = 'refund_pending';
 			update_post_meta( $booking_id, '_vava_booking_refund_status', 'pending' );
@@ -3619,6 +3621,7 @@ function vava_booking_customer_cancel_mode( int $booking_id ): string {
 	$payment = vava_booking_effective_payment_status( $booking_id );
 	if ( in_array( $status, array( 'completed', 'cancelled', 'customer_cancelled', 'cancellation_requested', 'bank_rejected', 'payment_failed', 'payment_error' ), true ) ) { return ''; }
 	if ( in_array( $status, array( 'pending', 'pending_payment', 'pending_bank_review' ), true ) && 'paid' !== $payment ) { return 'cancel'; }
+	if ( function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) && in_array( $status, array( 'confirmed', 'paid' ), true ) ) { return 'cancel'; }
 	if ( in_array( $status, array( 'confirmed', 'paid' ), true ) || 'paid' === $payment ) { return 'request'; }
 	return '';
 }
@@ -3662,7 +3665,7 @@ function vava_booking_public_cancel(): void {
 	if ( 'cancel' === $mode ) {
 		update_post_meta( $booking_id, '_vava_booking_customer_cancelled_at', $now );
 		update_post_meta( $booking_id, '_vava_booking_status', 'customer_cancelled' );
-		update_post_meta( $booking_id, '_vava_booking_payment_status', 'cancelled' );
+		update_post_meta( $booking_id, '_vava_booking_payment_status', function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) ? 'paid' : 'cancelled' );
 		vava_booking_append_action_log( $booking_id, 'customer_cancelled', $reason, $old_status, 'customer_cancelled', $old_payment, 'cancelled' );
 		vava_booking_send_status_update( $booking_id, 'customer_cancelled', $reason );
 		vava_booking_notify_admin_customer_cancellation( $booking_id, 'cancel', $reason );
