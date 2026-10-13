@@ -27,7 +27,14 @@ function vava_package_followup_eligible( int $parent_id ): bool {
     $payment = function_exists( 'vava_booking_effective_payment_status' )
         ? (string) vava_booking_effective_payment_status( $parent_id )
         : (string) get_post_meta( $parent_id, '_vava_booking_payment_status', true );
-    return in_array( $status, array( 'paid', 'confirmed', 'completed' ), true ) && 'paid' === $payment;
+    return in_array( $status, array( 'paid', 'confirmed', 'completed' ), true ) && 'paid' === $payment
+        && ! in_array( (string) get_post_meta( $parent_id, '_vava_booking_refund_status', true ), array( 'pending', 'completed', 'refunded' ), true );
+}
+
+/** A package-credit child is not a separately chargeable purchase. */
+function vava_package_followup_is_child( int $booking_id ): bool {
+    return $booking_id > 0 && 'vava_booking' === get_post_type( $booking_id )
+        && absint( get_post_meta( $booking_id, '_vava_package_parent_booking_id', true ) ) > 0;
 }
 
 /** Child appointments are ordinary vava_booking records linked to one purchase. */
