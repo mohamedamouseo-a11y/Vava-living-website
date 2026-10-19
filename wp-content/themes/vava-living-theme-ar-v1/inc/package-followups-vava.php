@@ -15,9 +15,21 @@ function vava_package_followup_total( int $parent_id ): int {
     if ( 'package' !== (string) get_post_meta( $parent_id, '_vava_booking_service_kind', true ) ) { return 0; }
     $stored = get_post_meta( $parent_id, '_vava_package_followup_total', true );
     if ( '' !== (string) $stored ) { return min( 20, max( 0, absint( $stored ) ) ); }
-    // The agreed Sustainable Harmony offer contains two 30-minute follow-ups.
-    $name = (string) get_post_meta( $parent_id, '_vava_booking_service_title', true );
-    return false !== strpos( $name, 'التناغم المستدام' ) ? 2 : 0;
+    // Read the package's live catalogue entitlement, never infer credits from its title.
+    $uid = sanitize_key( (string) get_post_meta( $parent_id, '_vava_booking_service_uid', true ) );
+    if ( ! $uid || ! function_exists( 'vava_booking_paths_page_id' ) || ! function_exists( 'vava_paths_data' ) ) { return 0; }
+    $data = vava_paths_data( vava_booking_paths_page_id(), 'ar' );
+    foreach ( (array) ( $data['compare']['plans'] ?? array() ) as $plan ) {
+        if ( $uid !== sanitize_key( (string) ( $plan['uid'] ?? '' ) ) ) { continue; }
+        foreach ( (array) ( $plan['features'] ?? array() ) as $feature ) {
+            if ( empty( $feature['visible'] ) || empty( $feature['enabled'] ) ) { continue; }
+            if ( false === mb_strpos( (string) ( $feature['text'] ?? '' ), 'جلسة متابعة' ) ) { continue; }
+            $value = trim( (string) ( $feature['value'] ?? '' ) );
+            return preg_match( '/^\\d+$/', $value ) ? min( 20, absint( $value ) ) : 0;
+        }
+        return 0;
+    }
+    return 0;
 }
 
 /** Only completed payment/approved parent bookings can grant follow-up access. */
