@@ -18,6 +18,22 @@ $file_ok   = function_exists( 'vava_digital_products_private_file_path' ) && '' 
 $ready     = $file_ok && 'ready' === (string) ( $record['processing_status'] ?? '' ) && absint( $record['page_count'] ?? 0 ) > 0;
 $can_view  = $user instanceof WP_User && function_exists( 'vava_digital_products_user_can_view' ) && vava_digital_products_user_can_view( $user->ID, $uid );
 $order_id  = $can_view && function_exists( 'vava_digital_products_latest_order' ) ? vava_digital_products_latest_order( $uid, $user->ID ) : 0;
+/* Authorized purchasers can read an unpublished product without listing it publicly. */
+if ( ! $product && $can_view ) {
+	$selections_id = function_exists( 'vava_selections_page_id' ) ? absint( vava_selections_page_id() ) : 0;
+	$stored = $selections_id ? get_post_meta( $selections_id, '_vava_selections_products_' . $lang, true ) : array();
+	foreach ( (array) ( $stored['digital'] ?? array() ) as $entry ) {
+		if ( sanitize_key( (string) ( $entry['uid'] ?? '' ) ) !== $uid ) { continue; }
+		$product = array(
+			'title' => (string) ( $entry['title'] ?? '' ) ?: ( $is_en ? 'My digital product' : 'منتجي الرقمي' ),
+			'category' => (string) ( $entry['category'] ?? '' ),
+			'card_description' => (string) ( $entry['description'] ?? '' ),
+			'cover_url' => function_exists( 'vava_digital_products_cover_url' ) ? vava_digital_products_cover_url( $uid ) : '',
+		);
+		break;
+	}
+}
+
 $account_url = function_exists( 'vava_customer_account_url' ) ? vava_customer_account_url( $lang, array( 'view' => 'products' ) ) : home_url( '/' );
 $cover_url = (string) ( $product['cover_url'] ?? '' );
 $page_count = absint( $record['page_count'] ?? 0 );
