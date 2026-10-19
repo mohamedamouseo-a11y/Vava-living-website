@@ -125,17 +125,31 @@
       update(field, 0, document.documentElement.lang === 'en' ? 'PDF files only' : 'يُسمح بملفات PDF فقط', file.name, 'error');
       return;
     }
-    if (file.size > 50 * 1024 * 1024) {
-      update(field, 0, document.documentElement.lang === 'en' ? 'The file exceeds 50 MB' : 'حجم الملف يتجاوز 50 ميجابايت', '', 'error');
+    if (file.size > 200 * 1024 * 1024) {
+      update(field, 0, document.documentElement.lang === 'en' ? 'The file exceeds 200 MB' : 'حجم الملف يتجاوز 200 ميجابايت', '', 'error');
       return;
     }
     field.addClass('is-uploading');
     field.find('button').prop('disabled', true);
     update(field, 1, config.labels && config.labels.uploading || 'جارٍ رفع ملف PDF…', '');
-    request(field, 'vava_digital_private_pdf_upload', {}, file, function (value) {
-      update(field, Math.max(2, Math.min(88, value * .88)), config.labels && config.labels.uploading || 'جارٍ رفع ملف PDF…', '');
-    }).then(function (data) {
-      var uid = field.attr('data-product-uid') || '';
+    var chunkSize = 4 * 1024 * 1024;
+    var count = Math.ceil(file.size / chunkSize);
+    var token = '';
+    var uid = field.attr('data-product-uid') || '';
+    function sendNext(index) {
+      var piece = file.slice(index * chunkSize, Math.min(file.size, (index + 1) * chunkSize), 'application/octet-stream');
+      return request(field, 'vava_digital_private_pdf_upload_chunk', {
+        index: index, total: count, size: file.size, name: file.name, upload_token: token
+      }, piece, function (value) {
+        var pct = ((index + value / 100) / count) * 88;
+        update(field, Math.max(2, Math.min(88, pct)), config.labels && config.labels.uploading || 'جارٍ رفع ملف PDF…', '');
+      }).then(function (data) {
+        token = data.upload_token || token;
+        if (index + 1 < count) return sendNext(index + 1);
+        return data;
+      });
+    }
+    sendNext(0).then(function (data) {
       syncFields(uid, function (target) { target.removeClass('is-uploading').find('button').prop('disabled', false); renderRecord(target, data.record || {}); });
       poll(field);
     }).catch(function (error) {
