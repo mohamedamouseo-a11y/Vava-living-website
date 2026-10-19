@@ -265,7 +265,7 @@ function vava_digital_products_schedule_processing( int $post_id, string $uid, s
 }
 
 function vava_digital_products_max_upload_bytes(): int {
-	return (int) min( 50 * MB_IN_BYTES, wp_max_upload_size() );
+	return (int) min( 200 * MB_IN_BYTES, max( wp_max_upload_size(), 200 * MB_IN_BYTES ) );
 }
 
 function vava_digital_products_store_uploaded_pdf( int $post_id, string $uid, array $file ) {
@@ -288,7 +288,7 @@ function vava_digital_products_store_uploaded_pdf( int $post_id, string $uid, ar
 	$name = sanitize_file_name( (string) ( $file['name'] ?? '' ) );
 	$size = absint( $file['size'] ?? 0 );
 	$max_bytes = vava_digital_products_max_upload_bytes();
-	if ( ! is_uploaded_file( $tmp ) || $size <= 0 || $size > $max_bytes ) {
+	if ( ( ! is_uploaded_file( $tmp ) && empty( $file['vava_assembled'] ) ) || $size <= 0 || $size > $max_bytes ) {
 		return new WP_Error( 'file_size', sprintf( __( 'ملف PDF غير صالح أو يتجاوز الحد المسموح (%s).', 'vava-living' ), size_format( $max_bytes ) ) );
 	}
 	$checked = wp_check_filetype_and_ext( $tmp, $name, array( 'pdf' => 'application/pdf' ) );
@@ -297,7 +297,8 @@ function vava_digital_products_store_uploaded_pdf( int $post_id, string $uid, ar
 	$fingerprint = wp_generate_password( 24, false, false );
 	$filename = $uid . '-' . $fingerprint . '.pdf';
 	$target = trailingslashit( $root['path'] ) . $filename;
-	if ( ! @move_uploaded_file( $tmp, $target ) ) { return new WP_Error( 'move_failed', 'تعذر حفظ ملف PDF في التخزين المحمي.' ); } // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+	$moved = ! empty( $file['vava_assembled'] ) ? @rename( $tmp, $target ) : @move_uploaded_file( $tmp, $target );
+	if ( ! $moved ) { return new WP_Error( 'move_failed', 'تعذر حفظ ملف PDF في التخزين المحمي.' ); } // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 	@chmod( $target, 0640 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 	$old = vava_digital_products_file_record( $uid, $post_id );
 	if ( $old ) { vava_digital_products_delete_private_record( $old ); }
@@ -571,6 +572,77 @@ function vava_digital_products_admin_verify_request(): array {
 	}
 	return array( $post_id, $uid );
 }
+
+/**
+ * Assemble protected PDF uploads outside the public web root.
+ * Each request has an independent 4 MB ceiling; original products are
+ * changed only after the complete PDF has been validated and staged.
+ */
+function vava_digital_products_admin_upload_chunk(): void {
+	list( $post_id, $uid ) = vava_digital_products_admin_verify_request();
+	$index = isset( $_POST['index'] ) ? absint( $_POST['index'] ) : -1;
+	$total = isset( $_POST['total'] ) ? absint( $_POST['total'] ) : 0;
+	$size = isset( $_POST['size'] ) ? absint( $_POST['size'] ) : 0;
+	$name = isset( $_POST['name'] ) ? sanitize_file_name( wp_unslash( $_POST['name'] ) ) : '';
+	$chunk = isset( $_FILES['file'] ) ? $_FILES['file'] : array();
+	$limit = 200 * MB_IN_BYTES;
+	$chunk_limit = 4 * MB_IN_BYTES;
+	if ( $total < 1 || $total > 50 || $size < 1 || $size > $limit || $index >= $total || ! preg_match( '/\.pdf$/i', $name ) ||
+		UPLOAD_ERR_OK !== (int) ( $chunk['error'] ?? UPLOAD_ERR_NO_FILE ) ||
+		! is_uploaded_file( (string) ( $chunk['tmp_name'] ?? '' ) ) ||
+		(int) ( $chunk['size'] ?? 0 ) < 1 || (int) ( $chunk['size'] ?? 0 ) > $chunk_limit ) {
+		wp_send_json_error( array( 'message' => 'بيانات رفع PDF غير صالحة أو تتجاوز 200 MB.' ), 422 );
+	}
+	$token = isset( $_POST['upload_token'] ) ? sanitize_key( wp_unslash( $_POST['upload_token'] ) ) : '';
+	$key = 'vava_pdf_part_' . get_current_user_id() . '_' . $token;
+	if ( 0 === $index ) {
+		$token = wp_generate_password( 32, false, false );
+		$key = 'vava_pdf_part_' . get_current_user_id() . '_' . $token;
+		$path = tempnam( get_temp_dir(), 'vava-pdf-' );
+		if ( ! $path ) { wp_send_json_error( array( 'message' => 'تعذر تجهيز مساحة رفع مؤقتة.' ), 500 ); }
+		@chmod( $path, 0600 );
+		$state = array( 'path' => $path, 'next' => 0, 'size' => $size, 'total' => $total, 'name' => $name, 'post_id' => $post_id, 'uid' => $uid, 'bytes' => 0 );
+	} else {
+		if ( ! preg_match( '/^[A-Za-z0-9]{32}$/', $token ) ) { wp_send_json_error( array( 'message' => 'جلسة الرفع غير صالحة.' ), 403 ); }
+		$state = get_transient( $key );
+		if ( ! is_array( $state ) || (int) $state['next'] !== $index || (int) $state['post_id'] !== $post_id ||
+			(string) $state['uid'] !== $uid || (int) $state['total'] !== $total || (int) $state['size'] !== $size ||
+			(string) $state['name'] !== $name || ! is_file( (string) $state['path'] ) ) {
+			wp_send_json_error( array( 'message' => 'انتهت جلسة الرفع أو ترتيب الأجزاء غير صحيح. أعيدي المحاولة.' ), 409 );
+		}
+	}
+	$bytes = file_get_contents( (string) $chunk['tmp_name'] );
+	if ( false === $bytes || strlen( $bytes ) !== (int) $chunk['size'] ||
+		false === file_put_contents( (string) $state['path'], $bytes, FILE_APPEND | LOCK_EX ) ) {
+		@unlink( (string) $state['path'] );
+		delete_transient( $key );
+		wp_send_json_error( array( 'message' => 'تعذر حفظ جزء من الملف.' ), 500 );
+	}
+	$state['bytes'] += strlen( $bytes );
+	$state['next']++;
+	if ( $state['bytes'] > $size ) {
+		@unlink( (string) $state['path'] ); delete_transient( $key );
+		wp_send_json_error( array( 'message' => 'حجم الأجزاء غير متطابق.' ), 422 );
+	}
+	if ( $state['next'] < $total ) {
+		set_transient( $key, $state, HOUR_IN_SECONDS );
+		wp_send_json_success( array( 'upload_token' => $token, 'received' => $state['bytes'] ) );
+	}
+	delete_transient( $key );
+	if ( $state['bytes'] !== $size || '%PDF-' !== (string) file_get_contents( (string) $state['path'], false, null, 0, 5 ) ) {
+		@unlink( (string) $state['path'] );
+		wp_send_json_error( array( 'message' => 'ملف PDF غير مكتمل أو غير صالح.' ), 422 );
+	}
+	$record = vava_digital_products_store_uploaded_pdf( $post_id, $uid, array(
+		'tmp_name' => $state['path'], 'name' => $name, 'size' => $size, 'error' => UPLOAD_ERR_OK, 'vava_assembled' => true,
+	) );
+	if ( is_wp_error( $record ) ) {
+		@unlink( (string) $state['path'] );
+		wp_send_json_error( array( 'message' => $record->get_error_message() ), 422 );
+	}
+	wp_send_json_success( array( 'upload_token' => $token, 'record' => vava_digital_products_admin_record_payload( $post_id, $uid, $record ) ) );
+}
+add_action( 'wp_ajax_vava_digital_private_pdf_upload_chunk', 'vava_digital_products_admin_upload_chunk' );
 
 function vava_digital_products_admin_upload_pdf(): void {
 	list( $post_id, $uid ) = vava_digital_products_admin_verify_request();
