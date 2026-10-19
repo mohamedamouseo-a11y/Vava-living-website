@@ -596,7 +596,7 @@ function vava_digital_products_admin_upload_chunk(): void {
 	$token = isset( $_POST['upload_token'] ) ? sanitize_key( wp_unslash( $_POST['upload_token'] ) ) : '';
 	$key = 'vava_pdf_part_' . get_current_user_id() . '_' . $token;
 	if ( 0 === $index ) {
-		$token = wp_generate_password( 32, false, false );
+		$token = strtolower( wp_generate_password( 32, false, false ) );
 		$key = 'vava_pdf_part_' . get_current_user_id() . '_' . $token;
 		$path = tempnam( get_temp_dir(), 'vava-pdf-' );
 		if ( ! $path ) { wp_send_json_error( array( 'message' => 'تعذر تجهيز مساحة رفع مؤقتة.' ), 500 ); }
