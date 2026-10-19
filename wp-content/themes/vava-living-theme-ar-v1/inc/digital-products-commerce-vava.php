@@ -879,7 +879,7 @@ function vava_digital_products_reader_page_url( string $uid, int $page, int $use
 			'expires' => $expires,
 			'token' => vava_digital_products_reader_signature( $uid, $page, $user_id, $order_id, $expires, $fingerprint ),
 		),
-		admin_url( 'admin-post.php' )
+		admin_url( 'admin-ajax.php' )
 	);
 }
 
@@ -988,6 +988,8 @@ function vava_digital_products_serve_reader_page(): void {
 }
 add_action( 'admin_post_vava_digital_product_page', 'vava_digital_products_serve_reader_page' );
 add_action( 'admin_post_nopriv_vava_digital_product_page', 'vava_digital_products_serve_reader_page' );
+add_action( 'wp_ajax_vava_digital_product_page', 'vava_digital_products_serve_reader_page' );
+add_action( 'wp_ajax_nopriv_vava_digital_product_page', 'vava_digital_products_serve_reader_page' );
 
 /** Product-specific admin detail workspace. */
 function vava_digital_products_render_admin_order_details( int $order_id, bool $overlay = false ): void {
