@@ -40,6 +40,16 @@
     let activeFilter = params.get('account_filter') || 'all';
     if (!validFilters.includes(activeFilter)) activeFilter = 'all';
     let currentPage = Math.max(1, Number.parseInt(params.get('account_page') || '1', 10) || 1);
+    // Server-side follow-up forms return to the parent booking card.
+    // A parent further down the paginated list must not remain hidden.
+    if (section === 'bookings' && params.get('package_booking')) {
+      const packageId = params.get('package_booking');
+      const matchingIndex = cards.findIndex((card) => card.id === `vava-booking-${packageId}`);
+      if (matchingIndex >= 0) {
+        activeFilter = 'all';
+        currentPage = Math.floor(matchingIndex / pageSize) + 1;
+      }
+    }
 
     const syncUrl = () => {
       const url = new URL(window.location.href);
