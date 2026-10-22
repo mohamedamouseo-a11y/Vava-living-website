@@ -404,13 +404,14 @@ $settings = vava_google_meet_get_settings();
 if ( empty( $settings['enabled'] ) || empty( $settings['automation_enabled'] ) ) { return; }
 if ( ! vava_google_meet_is_connected() ) { return; }
 $args = array(
-'post_type' => 'vava_booking', 'post_status' => 'publish', 'posts_per_page' => 20,
+'post_type' => 'vava_booking', 'post_status' => 'publish', 'posts_per_page' => 100,
 'meta_query' => array(
 'relation' => 'AND',
 array( 'key' => '_vava_booking_status', 'value' => array( 'confirmed', 'paid' ), 'compare' => 'IN' ),
 array( 'key' => '_vava_booking_meeting_auto_email_sent_at', 'compare' => 'NOT EXISTS' ),
+array( 'key' => '_vava_booking_date', 'value' => wp_date( 'Y-m-d' ), 'compare' => '>=', 'type' => 'DATE' ),
 ),
-'orderby' => 'date', 'order' => 'ASC',
+'orderby' => 'date', 'order' => 'DESC',
 );
 $bookings = get_posts( $args );
 foreach ( $bookings as $post ) {
@@ -419,7 +420,9 @@ $date = (string) get_post_meta( $post->ID, '_vava_booking_date', true );
 if ( ! $date ) { continue; }
 $tz = function_exists( 'vava_booking_timezone' ) ? vava_booking_timezone() : wp_timezone_string();
 try { $dt = new DateTime( $date, new DateTimeZone( $tz ) ); } catch ( Exception $e ) { continue; }
-if ( $dt <= new DateTime( 'today', new DateTimeZone( $tz ) ) ) { continue; }
+$booking_time = (string) get_post_meta( $post->ID, '_vava_booking_time', true );
+try { $dt = new DateTime( $date . ' ' . $booking_time, new DateTimeZone( $tz ) ); } catch ( Exception $e ) { continue; }
+if ( $dt <= new DateTime( 'now', new DateTimeZone( $tz ) ) ) { continue; }
 vava_booking_automation_process_booking_handler( $post->ID );
 }
 $rem_args = array(
@@ -429,6 +432,7 @@ $rem_args = array(
 array( 'key' => '_vava_booking_meeting_reminder_scheduled_at', 'compare' => 'EXISTS' ),
 array( 'key' => '_vava_booking_meeting_reminder_sent_at', 'compare' => 'NOT EXISTS' ),
 array( 'key' => '_vava_booking_meeting_url', 'compare' => 'EXISTS' ),
+array( 'key' => '_vava_booking_date', 'value' => wp_date( 'Y-m-d' ), 'compare' => '>=', 'type' => 'DATE' ),
 ),
 );
 $rem_bookings = get_posts( $rem_args );
