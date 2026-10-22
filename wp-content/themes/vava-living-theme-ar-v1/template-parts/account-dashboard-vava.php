@@ -195,6 +195,10 @@ $product_status = static function ( array $record ) use ( $is_en ): array {
 											<?php if ( $record['receipt_url'] ) : ?><a href="<?php echo esc_url( $record['receipt_url'] ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $is_en ? 'View payment receipt' : 'عرض إثبات التحويل' ); ?></a><?php endif; ?>
 											<?php if ( function_exists( 'vava_booking_questionnaire_render_impact_form' ) ) { vava_booking_questionnaire_render_impact_form( absint( $record['id'] ), $lang, (string) $token ); } ?>
 										</div>
+										<?php // Render this only for logged-in verified account owners, never legacy magic-link sessions. ?>
+										<?php if ( 'account' === ( $context['type'] ?? '' ) && function_exists( 'vava_package_followup_total' ) && vava_package_followup_total( absint( $record['id'] ) ) > 0 && function_exists( 'vava_package_followup_render_account' ) ) : ?>
+											<?php vava_package_followup_render_account( absint( $record['id'] ), $lang ); ?>
+										<?php endif; ?>
 									</div>
 								</article>
 							<?php endforeach; ?>
