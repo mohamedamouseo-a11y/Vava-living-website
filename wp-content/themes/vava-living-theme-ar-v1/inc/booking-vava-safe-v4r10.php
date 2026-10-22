@@ -1478,6 +1478,8 @@ function vava_booking_refund_status( int $booking_id ): string {
 }
 
 function vava_booking_paid_or_refunding( int $booking_id ): bool {
+    // Included follow-up appointments never create a new charge or refund.
+    if ( 'package_credit' === (string) get_post_meta( $booking_id, '_vava_booking_payment_method', true ) ) { return false; }
 	$payment = vava_booking_effective_payment_status( $booking_id );
 	if ( in_array( $payment, array( 'paid', 'refund_pending', 'partially_refunded', 'refunded' ), true ) || (bool) get_post_meta( $booking_id, '_vava_booking_paid_at', true ) ) {
 		return true;
