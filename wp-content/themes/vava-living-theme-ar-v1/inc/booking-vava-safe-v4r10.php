@@ -1428,7 +1428,7 @@ function vava_booking_ajax_submit(): void {
 	}
 	vava_booking_send_confirmation( $booking_id );
 	do_action( 'vava_booking_status_changed', (int) $booking_id, 'confirmed' );
-	wp_send_json_success( array( 'title' => $text['success_title', 'message' => $text['success_message'], 'bookingId' => $booking_id, 'status' => $status, 'myBookingsUrl' => vava_booking_my_bookings_url( $lang ) ) );
+	wp_send_json_success( array( 'title' => $text['success_title'], 'message' => $text['success_message'], 'bookingId' => $booking_id, 'status' => $status, 'myBookingsUrl' => vava_booking_my_bookings_url( $lang ) ) );
 }
 add_action( 'wp_ajax_vava_booking_submit', 'vava_booking_ajax_submit' );
 add_action( 'wp_ajax_nopriv_vava_booking_submit', 'vava_booking_ajax_submit' );
