@@ -1,8 +1,6 @@
 <?php
 /**
- * VAVA package follow-up entitlements (phase 1).
- * No booking creation or calendar side effects: the module is safe to include
- * before the scheduling UI is enabled.
+ * VAVA package follow-up entitlements and independently scheduled sessions.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -219,7 +217,7 @@ add_action( 'admin_post_vava_package_followup_book', 'vava_package_followup_hand
 
 /** Render a server-side date/slot picker within the existing account booking card. */
 function vava_package_followup_render_account( int $parent_id, string $lang ): void {
-    if ( ! is_user_logged_in() || ! vava_package_followup_customer_owns( $parent_id, get_current_user_id() ) ) { return; }
+    if ( ! is_user_logged_in() || ( function_exists( 'vava_customer_current_verified_user' ) && ! vava_customer_current_verified_user() ) || ! vava_package_followup_customer_owns( $parent_id, get_current_user_id() ) ) { return; }
     $total = vava_package_followup_total( $parent_id );
     if ( ! $total ) { return; }
     $balance = vava_package_followup_balance( $parent_id );
@@ -227,6 +225,23 @@ function vava_package_followup_render_account( int $parent_id, string $lang ): v
     echo '<section class="vava-package-followups" style="padding:22px;border:1px solid #d5dcc9;background:linear-gradient(150deg,#fffefa,#f5f7ee);border-radius:18px;margin-block:16px;box-shadow:0 6px 24px rgba(76,83,52,.05)">';
     echo '<h4>' . esc_html( $is_en ? 'Package follow-up sessions' : 'جلسات متابعة الباقة' ) . '</h4>';
     echo '<p>' . esc_html( ( $is_en ? 'Remaining: ' : 'الجلسات المتبقية: ' ) . $balance['remaining'] . ' / ' . $balance['total'] ) . '</p>';
+    $children = vava_package_followup_children( $parent_id );
+    if ( $children ) {
+        echo '<ul class="vava-followup-history" style="margin:14px 0;padding-inline-start:22px">';
+        foreach ( $children as $child_id ) {
+            $child_status = (string) get_post_meta( $child_id, '_vava_booking_status', true );
+            $child_date = (string) get_post_meta( $child_id, '_vava_booking_date', true );
+            $child_time = (string) get_post_meta( $child_id, '_vava_booking_time', true );
+            $status_text = function_exists( 'vava_booking_status_label' ) ? vava_booking_status_label( $child_status ) : $child_status;
+            echo '<li>' . esc_html( $child_date . ' ' . $child_time . ' — ' . $status_text );
+            $meeting = esc_url_raw( (string) get_post_meta( $child_id, '_vava_booking_meeting_url', true ) );
+            if ( $meeting && 'https' === strtolower( (string) wp_parse_url( $meeting, PHP_URL_SCHEME ) ) && 'meet.google.com' === strtolower( (string) wp_parse_url( $meeting, PHP_URL_HOST ) ) ) {
+                echo ' — <a href="' . esc_url( $meeting ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $is_en ? 'Join Google Meet' : 'دخول Google Meet' ) . '</a>';
+            }
+            echo '</li>';
+        }
+        echo '</ul>';
+    }
     if ( ! vava_package_followup_eligible( $parent_id ) ) {
         echo '<p>' . esc_html( $is_en ? 'Available once payment is approved.' : 'تتاح المتابعات بعد اعتماد الدفع.' ) . '</p></section>';
         return;
