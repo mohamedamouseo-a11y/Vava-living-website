@@ -153,6 +153,21 @@ function vava_package_followup_create( int $parent_id, int $user_id, string $dat
         }
         $service = vava_package_followup_service( $parent_id );
         $shared = vava_booking_shared_data( vava_booking_page_id() );
+        // Date/time selection must be in the future and after the first
+        // appointment, including the initial session's full duration.
+        try {
+            $timezone = new DateTimeZone( (string) ( $shared['timezone'] ?: wp_timezone_string() ) );
+            $selected_dt = new DateTimeImmutable( $date . ' ' . $time, $timezone );
+            $first_date = (string) get_post_meta( $parent_id, '_vava_booking_date', true );
+            $first_time = (string) get_post_meta( $parent_id, '_vava_booking_time', true );
+            if ( ! $first_date || ! $first_time ) { return new WP_Error( 'missing_first_session', 'موعد الجلسة الأولى غير مكتمل.' ); }
+            $first_dt = new DateTimeImmutable( $first_date . ' ' . $first_time, $timezone );
+            $first_end = $first_dt->modify( '+' . max( 10, absint( get_post_meta( $parent_id, '_vava_booking_duration', true ) ) ) . ' minutes' );
+            $min_notice = max( 0, absint( $shared['min_notice_hours'] ?? 0 ) );
+            if ( $selected_dt <= ( new DateTimeImmutable( 'now', $timezone ) )->modify( '+' . $min_notice . ' hours' ) || $selected_dt < $first_end ) {
+                return new WP_Error( 'slot_unavailable', 'اختر موعدًا بعد الجلسة الأولى وفي وقت متاح لاحقًا.' );
+            }
+        } catch ( Exception $e ) { return new WP_Error( 'slot_unavailable', 'موعد غير صالح.' ); }
         if ( ! preg_match( '/^\\d{4}-\\d{2}-\\d{2}$/', $date ) || ! preg_match( '/^(?:[01]\\d|2[0-3]):[0-5]\\d$/', $time ) || ! in_array( $time, array_column( vava_booking_available_slots( $service, $date, $shared ), 'value' ), true ) ) {
             return new WP_Error( 'slot_unavailable', 'الموعد غير متاح. اختر موعدًا آخر.' );
         }
