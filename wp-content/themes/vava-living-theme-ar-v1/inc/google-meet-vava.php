@@ -297,12 +297,15 @@ if ( function_exists( 'vava_booking_order_is_product' ) && vava_booking_order_is
 $status = (string) get_post_meta( $booking_id, '_vava_booking_status', true );
 $payment = function_exists( 'vava_booking_effective_payment_status' ) ? vava_booking_effective_payment_status( $booking_id ) : '';
 if ( ! in_array( $status, array( 'confirmed', 'paid' ), true ) && 'paid' !== $payment ) { return; }
-if ( in_array( $status, array( 'cancelled', 'refunded' ), true ) ) { return; }
+if ( in_array( $status, array( 'cancelled', 'customer_cancelled', 'cancellation_requested', 'bank_rejected', 'payment_failed', 'refunded' ), true ) ) { return; }
 $date = (string) get_post_meta( $booking_id, '_vava_booking_date', true );
 if ( ! $date ) { return; }
 $tz = function_exists( 'vava_booking_timezone' ) ? vava_booking_timezone() : wp_timezone_string();
 try { $booking_dt = new DateTime( $date, new DateTimeZone( $tz ) ); } catch ( Exception $e ) { return; }
-if ( $booking_dt <= new DateTime( 'today', new DateTimeZone( $tz ) ) ) { return; }
+$booking_time = (string) get_post_meta( $booking_id, '_vava_booking_time', true );
+if ( ! preg_match( '/^(?:[01]\\d|2[0-3]):[0-5]\\d$/', $booking_time ) ) { return; }
+try { $booking_dt = new DateTime( $date . ' ' . $booking_time, new DateTimeZone( $tz ) ); } catch ( Exception $e ) { return; }
+if ( $booking_dt <= new DateTime( 'now', new DateTimeZone( $tz ) ) ) { return; }
 $auto_sent = (string) get_post_meta( $booking_id, '_vava_booking_meeting_auto_email_sent_at', true );
 if ( $auto_sent ) { return; }
 $result = vava_booking_generate_google_meet( $booking_id );
@@ -312,7 +315,7 @@ return;
 }
 if ( function_exists( 'vava_booking_send_details_email' ) ) {
 $email_ok = vava_booking_send_details_email( $booking_id, true, false );
-if ( $email_ok ) {
+if ( ! is_wp_error( $email_ok ) && $email_ok ) {
 update_post_meta( $booking_id, '_vava_booking_meeting_auto_email_sent_at', current_time( 'mysql', true ) );
 if ( function_exists( 'vava_booking_append_action_log' ) ) {
 vava_booking_append_action_log( $booking_id, 'meeting_auto_sent', '', '', '', '', '' );
@@ -349,7 +352,7 @@ $post = get_post( $booking_id );
 if ( ! $post || 'vava_booking' !== $post->post_type ) { return; }
 if ( function_exists( 'vava_booking_order_is_product' ) && vava_booking_order_is_product( $booking_id ) ) { return; }
 $status = (string) get_post_meta( $booking_id, '_vava_booking_status', true );
-if ( in_array( $status, array( 'cancelled', 'refunded' ), true ) ) { return; }
+if ( in_array( $status, array( 'cancelled', 'customer_cancelled', 'cancellation_requested', 'bank_rejected', 'payment_failed', 'refunded' ), true ) ) { return; }
 $already_sent = (string) get_post_meta( $booking_id, '_vava_booking_meeting_reminder_sent_at', true );
 if ( $already_sent ) { return; }
 $url = esc_url_raw( (string) get_post_meta( $booking_id, '_vava_booking_meeting_url', true ) );
@@ -401,13 +404,14 @@ $settings = vava_google_meet_get_settings();
 if ( empty( $settings['enabled'] ) || empty( $settings['automation_enabled'] ) ) { return; }
 if ( ! vava_google_meet_is_connected() ) { return; }
 $args = array(
-'post_type' => 'vava_booking', 'post_status' => 'publish', 'posts_per_page' => 20,
+'post_type' => 'vava_booking', 'post_status' => 'publish', 'posts_per_page' => 100,
 'meta_query' => array(
 'relation' => 'AND',
 array( 'key' => '_vava_booking_status', 'value' => array( 'confirmed', 'paid' ), 'compare' => 'IN' ),
 array( 'key' => '_vava_booking_meeting_auto_email_sent_at', 'compare' => 'NOT EXISTS' ),
+array( 'key' => '_vava_booking_date', 'value' => wp_date( 'Y-m-d' ), 'compare' => '>=', 'type' => 'DATE' ),
 ),
-'orderby' => 'date', 'order' => 'ASC',
+'orderby' => 'date', 'order' => 'DESC',
 );
 $bookings = get_posts( $args );
 foreach ( $bookings as $post ) {
@@ -416,7 +420,9 @@ $date = (string) get_post_meta( $post->ID, '_vava_booking_date', true );
 if ( ! $date ) { continue; }
 $tz = function_exists( 'vava_booking_timezone' ) ? vava_booking_timezone() : wp_timezone_string();
 try { $dt = new DateTime( $date, new DateTimeZone( $tz ) ); } catch ( Exception $e ) { continue; }
-if ( $dt <= new DateTime( 'today', new DateTimeZone( $tz ) ) ) { continue; }
+$booking_time = (string) get_post_meta( $post->ID, '_vava_booking_time', true );
+try { $dt = new DateTime( $date . ' ' . $booking_time, new DateTimeZone( $tz ) ); } catch ( Exception $e ) { continue; }
+if ( $dt <= new DateTime( 'now', new DateTimeZone( $tz ) ) ) { continue; }
 vava_booking_automation_process_booking_handler( $post->ID );
 }
 $rem_args = array(
@@ -426,6 +432,7 @@ $rem_args = array(
 array( 'key' => '_vava_booking_meeting_reminder_scheduled_at', 'compare' => 'EXISTS' ),
 array( 'key' => '_vava_booking_meeting_reminder_sent_at', 'compare' => 'NOT EXISTS' ),
 array( 'key' => '_vava_booking_meeting_url', 'compare' => 'EXISTS' ),
+array( 'key' => '_vava_booking_date', 'value' => wp_date( 'Y-m-d' ), 'compare' => '>=', 'type' => 'DATE' ),
 ),
 );
 $rem_bookings = get_posts( $rem_args );

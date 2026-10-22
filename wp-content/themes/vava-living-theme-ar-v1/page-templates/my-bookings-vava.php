@@ -86,7 +86,7 @@ $payment_map_en = array(
 	'rejected' => 'Rejected', 'failed' => 'Failed', 'refunded' => 'Refunded', 'partially_refunded' => 'Partially refunded',
 	'refund_pending' => 'Refund pending', 'cancelled' => 'Cancelled',
 );
-$method_map_en = array( 'paymob' => 'Online payment', 'bank' => 'Bank transfer', 'cash' => 'Pay later' );
+$method_map_en = array( 'paymob' => 'Online payment', 'bank' => 'Bank transfer', 'cash' => 'Pay later', 'package_credit' => 'Included in package' );
 
 $records = array();
 foreach ( $bookings as $booking_id ) {
