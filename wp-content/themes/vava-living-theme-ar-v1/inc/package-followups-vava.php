@@ -10,26 +10,62 @@ defined( 'ABSPATH' ) || exit;
  * Explicitly configured session entitlements. No default for unrelated packages.
  * Administrators may set _vava_package_followup_total on the parent order.
  */
+/**
+ * Derive included follow-up sessions from the configured VAVA plan, not its title.
+ * The first 90-minute (or 30-minute follow-up package) appointment is booked at checkout.
+ * The remainder is independently bookable from the verified customer account.
+ */
+function vava_package_followup_plan_count( array $plan ): int {
+    if ( isset( $plan['followup_sessions'] ) && is_numeric( $plan['followup_sessions'] ) ) {
+        return min( 20, max( 0, absint( $plan['followup_sessions'] ) ) );
+    }
+    foreach ( (array) ( $plan['features'] ?? array() ) as $feature ) {
+        if ( empty( $feature['visible'] ) || empty( $feature['enabled'] ) ) { continue; }
+        $label = wp_strip_all_tags( (string) ( $feature['text'] ?? '' ) );
+        if ( ! preg_match( '/(?:جلسات?\\s*(?:متابعة|المتابعة|ضبط\\s*الإيقاع)|rhythm\\s*adjustment|follow[ -]?up)/iu', $label ) ) { continue; }
+        $value = strtr( (string) ( $feature['value'] ?? '' ), array( '٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9' ) );
+        if ( preg_match( '/\\d+/', $value, $matches ) ) { return min( 20, absint( $matches[0] ) ); }
+    }
+    return 0;
+}
+
 function vava_package_followup_total( int $parent_id ): int {
     if ( 'vava_booking' !== get_post_type( $parent_id ) ) { return 0; }
-    if ( 'package' !== (string) get_post_meta( $parent_id, '_vava_booking_service_kind', true ) ) { return 0; }
     $stored = get_post_meta( $parent_id, '_vava_package_followup_total', true );
     if ( '' !== (string) $stored ) { return min( 20, max( 0, absint( $stored ) ) ); }
-    // Read the package's live catalogue entitlement, never infer credits from its title.
+
     $uid = sanitize_key( (string) get_post_meta( $parent_id, '_vava_booking_service_uid', true ) );
+    $kind = (string) get_post_meta( $parent_id, '_vava_booking_service_kind', true );
+    // The existing three-session follow-up package books its first 30-minute
+    // appointment at checkout; the remaining two are included credits.
+    if ( 'session-7' === $uid && 'session' === $kind ) { return 2; }
+
+    // Session catalogue includes packages as well as standalone sessions.
+    // Resolve those catalogue packages to the same plan feature source.
+    $catalogue_plans = array( 'session-1' => 'plan-2', 'session-3' => 'plan-1', 'session-4' => 'plan-3' );
+    if ( isset( $catalogue_plans[ $uid ] ) && 'session' === $kind ) {
+        $uid = $catalogue_plans[ $uid ];
+    } elseif ( 'package' !== $kind ) {
+        return 0;
+    }
     if ( ! $uid || ! function_exists( 'vava_booking_paths_page_id' ) || ! function_exists( 'vava_paths_data' ) ) { return 0; }
     $data = vava_paths_data( vava_booking_paths_page_id(), 'ar' );
     foreach ( (array) ( $data['compare']['plans'] ?? array() ) as $plan ) {
-        if ( $uid !== sanitize_key( (string) ( $plan['uid'] ?? '' ) ) ) { continue; }
-        foreach ( (array) ( $plan['features'] ?? array() ) as $feature ) {
-            if ( empty( $feature['visible'] ) || empty( $feature['enabled'] ) ) { continue; }
-            if ( false === mb_strpos( (string) ( $feature['text'] ?? '' ), 'جلسة متابعة' ) ) { continue; }
-            $value = trim( (string) ( $feature['value'] ?? '' ) );
-            return preg_match( '/^\\d+$/', $value ) ? min( 20, absint( $value ) ) : 0;
+        if ( $uid === sanitize_key( (string) ( $plan['uid'] ?? '' ) ) ) {
+            return vava_package_followup_plan_count( (array) $plan );
         }
-        return 0;
     }
     return 0;
+}
+
+/** Freeze each new purchase's allowance; later catalogue edits cannot change it. */
+function vava_package_followup_snapshot( int $booking_id ): void {
+    if ( 'vava_booking' !== get_post_type( $booking_id ) || metadata_exists( 'post', $booking_id, '_vava_package_followup_total' ) ) { return; }
+    $uid = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_uid', true ) );
+    $kind = (string) get_post_meta( $booking_id, '_vava_booking_service_kind', true );
+    if ( 'package' === $kind || ( 'session' === $kind && in_array( $uid, array( 'session-1', 'session-3', 'session-4', 'session-7' ), true ) ) ) {
+        update_post_meta( $booking_id, '_vava_package_followup_total', vava_package_followup_total( $booking_id ) );
+    }
 }
 
 /** Only completed payment/approved parent bookings can grant follow-up access. */
@@ -100,7 +136,7 @@ function vava_package_followup_service( int $parent_id ): array {
  * simultaneous requests spending the same credit twice.
  */
 function vava_package_followup_create( int $parent_id, int $user_id, string $date, string $time ) {
-    if ( ! vava_package_followup_customer_owns( $parent_id, $user_id ) || ! vava_package_followup_eligible( $parent_id ) ) {
+    if ( ! vava_package_followup_customer_owns( $parent_id, $user_id ) || ! vava_package_followup_eligible( $parent_id ) || ( function_exists( 'vava_customer_current_verified_user' ) && ! vava_customer_current_verified_user() ) ) {
         return new WP_Error( 'not_allowed', 'الباقة غير مؤهلة أو لا تخص هذا الحساب.' );
     }
     $lock = 'vava_pkg_followup_lock_' . $parent_id;
