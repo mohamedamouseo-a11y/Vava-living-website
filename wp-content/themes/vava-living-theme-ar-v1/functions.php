@@ -51,6 +51,8 @@ require_once get_template_directory() . '/inc/paths-vava-advanced.php';
 require_once get_template_directory() . '/inc/booking-vava-safe-v4r10.php';
 require_once get_template_directory() . '/inc/booking-questionnaires-vava.php';
 require_once get_template_directory() . '/inc/customer-account-vava-safe-v4r10.php';
+require_once get_template_directory() . '/inc/package-followups-vava.php';
+require_once get_template_directory() . '/inc/google-meet-vava.php';
 require_once get_template_directory() . '/inc/selections-vava.php';
 require_once get_template_directory() . '/inc/digital-products-vava.php';
 require_once get_template_directory() . '/inc/digital-products-commerce-vava.php';
