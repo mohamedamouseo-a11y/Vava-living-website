@@ -1409,6 +1409,7 @@ function vava_booking_ajax_submit(): void {
 	);
 	if ( 'bank' === $method ) { $meta['_vava_booking_bank_transfer'] = $bank_transfer; $meta['_vava_booking_bank_receipt'] = $bank_receipt; }
 	foreach ( $meta as $key => $value ) { update_post_meta( $booking_id, $key, $value ); }
+	if ( function_exists( 'vava_package_followup_snapshot' ) ) { vava_package_followup_snapshot( (int) $booking_id ); }
 	if ( ! empty( $questionnaire_data ) ) { update_post_meta( $booking_id, '_vava_booking_questionnaire', $questionnaire_data ); }
 	if ( 'bank' === $method && ! empty( $bank_receipt['attachment_id'] ) ) {
 		wp_update_post( array( 'ID' => absint( $bank_receipt['attachment_id'] ), 'post_parent' => $booking_id ) );
@@ -1426,7 +1427,8 @@ function vava_booking_ajax_submit(): void {
 		wp_send_json_success( array( 'title' => $text['bank_received_title'], 'message' => $text['bank_received_message'], 'bookingId' => $booking_id, 'status' => $status, 'myBookingsUrl' => vava_booking_my_bookings_url( $lang ) ) );
 	}
 	vava_booking_send_confirmation( $booking_id );
-	wp_send_json_success( array( 'title' => $text['success_title'], 'message' => $text['success_message'], 'bookingId' => $booking_id, 'status' => $status, 'myBookingsUrl' => vava_booking_my_bookings_url( $lang ) ) );
+	do_action( 'vava_booking_status_changed', (int) $booking_id, 'confirmed' );
+	wp_send_json_success( array( 'title' => $text['success_title', 'message' => $text['success_message'], 'bookingId' => $booking_id, 'status' => $status, 'myBookingsUrl' => vava_booking_my_bookings_url( $lang ) ) );
 }
 add_action( 'wp_ajax_vava_booking_submit', 'vava_booking_ajax_submit' );
 add_action( 'wp_ajax_nopriv_vava_booking_submit', 'vava_booking_ajax_submit' );
@@ -1725,6 +1727,7 @@ function vava_booking_paymob_webhook(): void {
 				vava_customer_prepare_account_for_booking( $booking_id, (array) get_post_meta( $booking_id, '_vava_booking_customer', true ), 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar' );
 			}
 			vava_booking_send_confirmation( $booking_id );
+			do_action( 'vava_booking_status_changed', (int) $booking_id, 'confirmed' );
 		}
 	}
 	wp_send_json_success( array( 'booking' => $booking_id, 'status' => $success ? 'paid' : 'payment_failed' ) );
@@ -3201,6 +3204,7 @@ function vava_booking_process_admin_action( int $booking_id, string $decision, s
 	} else {
 		vava_booking_send_status_update( $booking_id, $event, $note );
 	}
+	if ( $old_status !== $new_status ) { do_action( 'vava_booking_status_changed', $booking_id, $new_status ); }
 	return $decision;
 }
 
