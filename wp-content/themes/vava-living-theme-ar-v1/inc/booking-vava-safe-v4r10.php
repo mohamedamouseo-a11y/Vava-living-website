@@ -683,7 +683,7 @@ function vava_booking_payment_status_label( string $status ): string {
 }
 
 function vava_booking_payment_method_label( string $method ): string {
-	return array( 'paymob' => 'Paymob', 'bank' => 'تحويل بنكي', 'cash' => 'الدفع لاحقًا', 'free' => 'جلسة مجانية' )[ $method ] ?? $method;
+	return array( 'paymob' => 'Paymob', 'bank' => 'تحويل بنكي', 'cash' => 'الدفع لاحقًا', 'free' => 'جلسة مجانية', 'package_credit' => 'ضمن الباقة بدون دفع إضافي' )[ $method ] ?? $method;
 }
 
 function vava_booking_effective_payment_status( int $booking_id ): string {
