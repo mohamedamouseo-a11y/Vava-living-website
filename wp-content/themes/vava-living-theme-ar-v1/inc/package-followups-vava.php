@@ -20,11 +20,19 @@ function vava_package_followup_plan_count( array $plan ): int {
     foreach ( (array) ( $plan['features'] ?? array() ) as $feature ) {
         if ( empty( $feature['visible'] ) || empty( $feature['enabled'] ) ) { continue; }
         $label = wp_strip_all_tags( (string) ( $feature['text'] ?? '' ) );
-        if ( ! preg_match( '/(?:جلسات?\\s*(?:متابعة|المتابعة|ضبط\\s*الإيقاع)|rhythm\\s*adjustment|follow[ -]?up)/iu', $label ) ) { continue; }
+        if ( ! preg_match( '/(?:جلس(?:ة|ات)\\s*(?:متابعة|المتابعة|ضبط\\s*الإيقاع)|rhythm\\s*adjustment|follow[ -]?up)/iu', $label ) ) { continue; }
         $value = strtr( (string) ( $feature['value'] ?? '' ), array( '٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9' ) );
         if ( preg_match( '/\\d+/', $value, $matches ) ) { return min( 20, absint( $matches[0] ) ); }
     }
     return 0;
+}
+
+/** Match the saved catalogue package to a comparison plan, despite Arabic alef variants. */
+function vava_package_followup_normalize_title( string $title ): string {
+    $title = strtr( $title, array( 'أ' => 'ا', 'إ' => 'ا', 'آ' => 'ا', 'ٱ' => 'ا' ) );
+    $title = preg_replace( '/[\x{064B}-\x{065F}\x{0640}]/u', '', $title );
+    $title = function_exists( 'mb_strtolower' ) ? mb_strtolower( $title ) : strtolower( $title );
+    return trim( (string) preg_replace( '/[^\p{L}\p{N}]+/u', ' ', (string) $title ) );
 }
 
 function vava_package_followup_total( int $parent_id ): int {
@@ -34,24 +42,34 @@ function vava_package_followup_total( int $parent_id ): int {
 
     $uid = sanitize_key( (string) get_post_meta( $parent_id, '_vava_booking_service_uid', true ) );
     $kind = (string) get_post_meta( $parent_id, '_vava_booking_service_kind', true );
-    // The existing three-session follow-up package books its first 30-minute
-    // appointment at checkout; the remaining two are included credits.
-    if ( 'session-7' === $uid && 'session' === $kind ) { return 2; }
-
-    // Session catalogue includes packages as well as standalone sessions.
-    // Resolve those catalogue packages to the same plan feature source.
-    $catalogue_plans = array( 'session-1' => 'plan-2', 'session-3' => 'plan-1', 'session-4' => 'plan-3' );
-    if ( isset( $catalogue_plans[ $uid ] ) && 'session' === $kind ) {
-        $uid = $catalogue_plans[ $uid ];
-    } elseif ( 'package' !== $kind ) {
-        return 0;
-    }
-    if ( ! $uid || ! function_exists( 'vava_booking_paths_page_id' ) || ! function_exists( 'vava_paths_data' ) ) { return 0; }
+    if ( ! $uid || ! in_array( $kind, array( 'session', 'package' ), true ) ||
+         ! function_exists( 'vava_booking_paths_page_id' ) || ! function_exists( 'vava_paths_data' ) ) { return 0; }
     $data = vava_paths_data( vava_booking_paths_page_id(), 'ar' );
-    foreach ( (array) ( $data['compare']['plans'] ?? array() ) as $plan ) {
-        if ( $uid === sanitize_key( (string) ( $plan['uid'] ?? '' ) ) ) {
-            return vava_package_followup_plan_count( (array) $plan );
+    $plans = (array) ( $data['compare']['plans'] ?? array() );
+    $catalogue = (array) ( $data['packages'] ?? array() );
+    $lookup_title = '';
+
+    if ( 'session' === $kind ) {
+        // Only catalogue-listed purchases can obtain session credits.
+        $found = false;
+        foreach ( $catalogue as $item ) {
+            if ( $uid !== sanitize_key( (string) ( $item['uid'] ?? '' ) ) ) { continue; }
+            $found = true;
+            $category = sanitize_key( (string) ( $item['category'] ?? '' ) );
+            $lookup_title = (string) ( $item['title'] ?? '' );
+            // A 3-session follow-up bundle books its first appointment at checkout.
+            if ( 'session-7' === $uid && 'followup' === $category ) { return 2; }
+            if ( 'comprehensive' !== $category ) { return 0; }
+            break;
         }
+        if ( ! $found || ! $lookup_title ) { return 0; }
+    }
+
+    foreach ( $plans as $plan ) {
+        $plan_uid = sanitize_key( (string) ( $plan['uid'] ?? '' ) );
+        $matches = 'package' === $kind ? ( $uid === $plan_uid ) :
+            ( vava_package_followup_normalize_title( $lookup_title ) === vava_package_followup_normalize_title( (string) ( $plan['title'] ?? '' ) ) );
+        if ( $matches ) { return vava_package_followup_plan_count( (array) $plan ); }
     }
     return 0;
 }
@@ -61,7 +79,7 @@ function vava_package_followup_snapshot( int $booking_id ): void {
     if ( 'vava_booking' !== get_post_type( $booking_id ) || metadata_exists( 'post', $booking_id, '_vava_package_followup_total' ) ) { return; }
     $uid = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_uid', true ) );
     $kind = (string) get_post_meta( $booking_id, '_vava_booking_service_kind', true );
-    if ( 'package' === $kind || ( 'session' === $kind && in_array( $uid, array( 'session-1', 'session-3', 'session-4', 'session-7' ), true ) ) ) {
+    if ( 'package' === $kind || ( 'session' === $kind && vava_package_followup_total( $booking_id ) > 0 ) ) {
         update_post_meta( $booking_id, '_vava_package_followup_total', vava_package_followup_total( $booking_id ) );
     }
 }
