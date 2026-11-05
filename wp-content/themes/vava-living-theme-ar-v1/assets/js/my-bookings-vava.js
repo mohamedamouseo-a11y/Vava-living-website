@@ -2,6 +2,57 @@
   'use strict';
   const root = document.querySelector('[data-my-bookings-root]');
   if (!root) return;
+  // Follow-up bookings: return the actual server validation result without a silent redirect.
+  root.addEventListener('submit', async (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement) || form.querySelector('input[name="action"]')?.value !== 'vava_package_followup_book') return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const button = form.querySelector('button[type="submit"]');
+    if (button?.disabled) return;
+    if (!form.reportValidity()) return;
+    const notice = document.createElement('p');
+    notice.setAttribute('role', 'status');
+    notice.setAttribute('aria-live', 'polite');
+    notice.style.cssText = 'margin-top:12px;padding:12px;border-radius:10px;background:#fff0e9;color:#6a3e30;';
+    form.querySelector('[data-followup-status]')?.remove();
+    notice.dataset.followupStatus = '1';
+    form.appendChild(notice);
+    if (button) button.disabled = true;
+    notice.textContent = 'جارٍ تأكيد جلسة المتابعة...';
+    try {
+      const payload = new FormData(form);
+      payload.set('vava_followup_async', '1');
+      const response = await fetch(root.dataset.accountAjaxUrl || '/wp-admin/admin-ajax.php', { method: 'POST', body: payload, credentials: 'same-origin', redirect: 'follow', headers: { 'Accept': 'application/json' } });
+      const responseText = await response.text();
+      let data;
+      try { data = JSON.parse(responseText); } catch (_) {
+        notice.textContent = response.status === 403 ? 'رفض الخادم الطلب (403). يرجى تسجيل الدخول مجددًا أو التواصل مع الدعم.' : 'استجابة غير متوقعة من الخادم (HTTP ' + response.status + '). لم يتم تأكيد الحجز. راجع حجوزاتك قبل المحاولة.';
+        return;
+      }
+      if (!response.ok || !data.success) {
+        notice.textContent = data?.data?.message || 'تعذر تأكيد الجلسة. حاول مجددًا.';
+        return;
+      }
+      notice.style.background = '#edf4e7';
+      notice.style.color = '#3d5730';
+      notice.textContent = data?.data?.message || 'تم الحجز بنجاح.';
+      // Persist the result across navigation; show confirmation beside the updated credit balance.
+      const resultUrl = new URL(window.location.href);
+      const parentId = form.querySelector('input[name="parent_id"]')?.value || '';
+      const bookedDate = form.querySelector('input[name="followup_date"]')?.value || '';
+      resultUrl.searchParams.set('view', 'bookings');
+      resultUrl.searchParams.set('package_booking', parentId);
+      resultUrl.searchParams.set('package_result', 'success');
+      if (bookedDate) resultUrl.searchParams.set('package_date', bookedDate);
+      resultUrl.hash = 'vava-booking-' + parentId;
+      window.location.assign(resultUrl.toString());
+    } catch (_) {
+      notice.textContent = 'تعذر الاتصال بالخادم. تحقق من حجوزاتك قبل إعادة المحاولة.';
+    } finally {
+      if (button) button.disabled = false;
+    }
+  }, true);
 
   const selectors = Array.from(root.querySelectorAll('[data-booking-selector]'));
   const items = Array.from(root.querySelectorAll('[data-booking-item]'));
@@ -40,6 +91,16 @@
     let activeFilter = params.get('account_filter') || 'all';
     if (!validFilters.includes(activeFilter)) activeFilter = 'all';
     let currentPage = Math.max(1, Number.parseInt(params.get('account_page') || '1', 10) || 1);
+    // Server-side follow-up forms return to the parent booking card.
+    // A parent further down the paginated list must not remain hidden.
+    if (section === 'bookings' && params.get('package_booking')) {
+      const packageId = params.get('package_booking');
+      const matchingIndex = cards.findIndex((card) => card.id === `vava-booking-${packageId}`);
+      if (matchingIndex >= 0) {
+        activeFilter = 'all';
+        currentPage = Math.floor(matchingIndex / pageSize) + 1;
+      }
+    }
 
     const syncUrl = () => {
       const url = new URL(window.location.href);
