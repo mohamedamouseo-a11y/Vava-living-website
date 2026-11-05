@@ -25,7 +25,7 @@
   try {
     var saved = JSON.parse(window.localStorage.getItem(storageKey) || '{}');
     if (saved && Number(saved.page) >= 1 && Number(saved.page) <= total) page = Number(saved.page);
-    if (saved && Number(saved.zoom) >= .7 && Number(saved.zoom) <= 2) zoom = Number(saved.zoom);
+    if (saved && Number.isFinite(Number(saved.zoom)) && Number(saved.zoom) >= .2 && Number(saved.zoom) <= 2) zoom = Number(saved.zoom);
   } catch (e) {}
 
   function saveState() {
@@ -52,6 +52,10 @@
     if (zoomLabel) zoomLabel.textContent = Math.round(zoom * 100) + '%';
     if (prevButton) prevButton.disabled = page <= 1;
     if (nextButton) nextButton.disabled = page >= total;
+    var zoomInControl = reader.querySelector('[data-reader-zoom-in]');
+    var zoomOutControl = reader.querySelector('[data-reader-zoom-out]');
+    if (zoomInControl) zoomInControl.disabled = zoom >= 2;
+    if (zoomOutControl) zoomOutControl.disabled = zoom <= .2;
   }
 
   function drawWatermark(ctx, width, height) {
@@ -94,7 +98,7 @@
   function render() {
     if (!sourceImage || !canvas || !wrap) return;
     var ratio = window.devicePixelRatio || 1;
-    var available = Math.max(320, wrap.clientWidth - 36);
+    var available = Math.max(160, wrap.clientWidth - 36);
     var cssWidth = Math.min(sourceImage.naturalWidth * zoom, available * zoom);
     var cssHeight = cssWidth * sourceImage.naturalHeight / sourceImage.naturalWidth;
     canvas.width = Math.max(1, Math.round(cssWidth * ratio));
@@ -159,7 +163,7 @@
   var zoomIn = reader.querySelector('[data-reader-zoom-in]');
   var zoomOut = reader.querySelector('[data-reader-zoom-out]');
   if (zoomIn) zoomIn.addEventListener('click', function () { zoom = Math.min(2, Math.round((zoom + .1) * 10) / 10); saveState(); render(); });
-  if (zoomOut) zoomOut.addEventListener('click', function () { zoom = Math.max(.7, Math.round((zoom - .1) * 10) / 10); saveState(); render(); });
+  if (zoomOut) zoomOut.addEventListener('click', function () { zoom = Math.max(.2, Math.round((zoom - .1) * 10) / 10); saveState(); render(); });
 
   var fullscreen = reader.querySelector('[data-reader-fullscreen]');
   function updateFullscreenControl() {
