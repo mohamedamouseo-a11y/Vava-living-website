@@ -34,6 +34,115 @@ function vava_customer_is_verified( int $user_id ): bool {
 	return $user_id > 0 && '1' === (string) get_user_meta( $user_id, '_vava_customer_email_verified', true );
 }
 
+/**
+ * Keep the customer account session separate from WordPress administrator auth.
+ * WordPress admin auth cookies are never replaced by customer logins.
+ */
+function vava_customer_isolated_cookie_name(): string {
+    return 'vava_customer_session_' . substr( hash( 'sha256', home_url( '/' ) ), 0, 14 );
+}
+function vava_customer_isolated_request(): bool {
+    $script = basename( (string) ( $_SERVER['SCRIPT_NAME'] ?? '' ) );
+    $request_path = (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH );
+    if ( in_array( $script, array( 'wp-login.php', 'xmlrpc.php', 'wp-cron.php' ), true ) || false !== strpos( $request_path, '/wp-json/' ) || isset( $_GET['rest_route'] ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) { return false; }
+    if ( is_admin() ) {
+        if ( ! in_array( $script, array( 'admin-post.php', 'admin-ajax.php' ), true ) ) { return false; }
+        $raw_action = isset( $_POST['action'] ) ? wp_unslash( $_POST['action'] ) : ( isset( $_GET['action'] ) ? wp_unslash( $_GET['action'] ) : '' );
+        $action = is_string( $raw_action ) ? sanitize_key( $raw_action ) : '';
+        return in_array( $action, array(
+            'vava_customer_login', 'vava_customer_activate', 'vava_customer_request_activation',
+            'vava_customer_request_magic_login', 'vava_customer_profile_update',
+            'vava_customer_password_update', 'vava_customer_logout',
+            'vava_booking_public_replace_receipt', 'vava_booking_public_cancel',
+            'vava_booking_submit_impact_questionnaire', 'vava_booking_request_magic_link',
+            'vava_package_followup_book', 'vava_booking_submit',
+            'vava_digital_checkout_submit', 'vava_digital_reader_page_token',
+            'vava_digital_product_page', 'vava_digital_product_stream',
+        ), true );
+    }
+    return true;
+}
+function vava_customer_isolated_cookie_user_id(): int {
+    $name = vava_customer_isolated_cookie_name();
+    $cookie = isset( $_COOKIE[ $name ] ) && is_string( $_COOKIE[ $name ] ) ? (string) wp_unslash( $_COOKIE[ $name ] ) : '';
+    if ( '' === $cookie || strlen( $cookie ) > 4096 ) { return 0; }
+    $user_id = absint( wp_validate_auth_cookie( $cookie, 'logged_in' ) );
+    $user = $user_id ? get_userdata( $user_id ) : false;
+    return $user instanceof WP_User && vava_customer_is_customer( $user ) && vava_customer_is_verified( $user_id ) ? $user_id : 0;
+}
+function vava_customer_set_isolated_auth_cookie( int $user_id, bool $remember = false, $unused_secure = null ): void {
+    $user = get_userdata( $user_id );
+    if ( ! $user instanceof WP_User || ! vava_customer_is_customer( $user ) || ! vava_customer_is_verified( $user_id ) ) { return; }
+    $expires = time() + ( $remember ? 14 * DAY_IN_SECONDS : 2 * DAY_IN_SECONDS );
+    $session = WP_Session_Tokens::get_instance( $user_id )->create( $expires );
+    $cookie = wp_generate_auth_cookie( $user_id, $expires, 'logged_in', $session );
+    setcookie( vava_customer_isolated_cookie_name(), $cookie, array(
+        'expires' => $remember ? $expires : 0,
+        'path' => defined( 'COOKIEPATH' ) ? COOKIEPATH : '/',
+        'domain' => defined( 'COOKIE_DOMAIN' ) && COOKIE_DOMAIN ? (string) COOKIE_DOMAIN : '',
+        'secure' => is_ssl(),
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ) );
+}
+function vava_customer_clear_isolated_auth_cookie(): void {
+    $name = vava_customer_isolated_cookie_name();
+    $cookie = isset( $_COOKIE[ $name ] ) && is_string( $_COOKIE[ $name ] ) ? (string) wp_unslash( $_COOKIE[ $name ] ) : '';
+    if ( $cookie ) {
+        $data = wp_parse_auth_cookie( $cookie, 'logged_in' );
+        $id = absint( wp_validate_auth_cookie( $cookie, 'logged_in' ) );
+        if ( $id && is_array( $data ) && ! empty( $data['token'] ) ) {
+            WP_Session_Tokens::get_instance( $id )->destroy( (string) $data['token'] );
+        }
+    }
+    setcookie( $name, '', array(
+        'expires' => time() - DAY_IN_SECONDS,
+        'path' => defined( 'COOKIEPATH' ) ? COOKIEPATH : '/',
+        'domain' => defined( 'COOKIE_DOMAIN' ) && COOKIE_DOMAIN ? (string) COOKIE_DOMAIN : '',
+        'secure' => is_ssl(),
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ) );
+    unset( $_COOKIE[ $name ] );
+    // Remove old customer-only WordPress front cookie, but never administrator auth.
+    $legacy_cookie = isset( $GLOBALS['vava_customer_original_logged_in_cookie'] ) && is_string( $GLOBALS['vava_customer_original_logged_in_cookie'] ) ? $GLOBALS['vava_customer_original_logged_in_cookie'] : ( isset( $_COOKIE[ LOGGED_IN_COOKIE ] ) ? (string) $_COOKIE[ LOGGED_IN_COOKIE ] : '' );
+    $legacy = $legacy_cookie ? wp_validate_auth_cookie( (string) wp_unslash( $legacy_cookie ), 'logged_in' ) : false;
+    if ( $legacy && vava_customer_is_customer( absint( $legacy ) ) ) {
+        setcookie( LOGGED_IN_COOKIE, '', time() - DAY_IN_SECONDS, defined( 'COOKIEPATH' ) ? COOKIEPATH : '/', defined( 'COOKIE_DOMAIN' ) && COOKIE_DOMAIN ? (string) COOKIE_DOMAIN : '', is_ssl(), true );
+        unset( $_COOKIE[ LOGGED_IN_COOKIE ] );
+    }
+}
+// Scope the identity switch to public customer pages and explicitly allowlisted actions.
+// In wp-admin, WordPress keeps the original administrator cookie and permissions.
+add_filter( 'determine_current_user', static function ( $user_id ) {
+    if ( ! vava_customer_isolated_request() ) { return $user_id; }
+    $customer_id = vava_customer_isolated_cookie_user_id();
+    return $customer_id ?: $user_id;
+}, 1000 );
+add_action( 'init', static function (): void {
+    if ( ! vava_customer_isolated_request() ) { return; }
+    $customer_id = vava_customer_isolated_cookie_user_id();
+    if ( $customer_id ) {
+        // Never cache personalized customer content under a public/guest cache key.
+        if ( ! defined( 'DONOTCACHEPAGE' ) ) { define( 'DONOTCACHEPAGE', true ); }
+        if ( ! headers_sent() ) { nocache_headers(); }
+        // WordPress nonces use the session token from LOGGED_IN_COOKIE.
+        if ( ! array_key_exists( 'vava_customer_original_logged_in_cookie', $GLOBALS ) ) {
+            $GLOBALS['vava_customer_original_logged_in_cookie'] = isset( $_COOKIE[ LOGGED_IN_COOKIE ] ) && is_string( $_COOKIE[ LOGGED_IN_COOKIE ] ) ? $_COOKIE[ LOGGED_IN_COOKIE ] : '';
+        }
+        $_COOKIE[ LOGGED_IN_COOKIE ] = $_COOKIE[ vava_customer_isolated_cookie_name() ];
+        wp_set_current_user( $customer_id );
+    }
+}, 0 );
+function vava_customer_isolated_logout_handler(): void {
+    check_admin_referer( 'vava_customer_isolated_logout' );
+    vava_customer_clear_isolated_auth_cookie();
+    wp_safe_redirect( vava_customer_account_url( function_exists( 'vava_current_language' ) ? vava_current_language() : 'ar' ) );
+    exit;
+}
+add_action( 'admin_post_vava_customer_logout', 'vava_customer_isolated_logout_handler' );
+add_action( 'admin_post_nopriv_vava_customer_logout', 'vava_customer_isolated_logout_handler' );
+
 function vava_customer_account_url( string $lang = 'ar', array $args = array() ): string {
 	$url = function_exists( 'vava_booking_my_bookings_url' ) ? vava_booking_my_bookings_url( $lang ) : home_url( '/' );
 	return $args ? add_query_arg( $args, $url ) : $url;
@@ -73,6 +182,11 @@ function vava_customer_claim_bookings( int $user_id, string $email ): int {
 
 function vava_customer_find_bookings_for_user( int $user_id ): array {
 	if ( ! $user_id ) { return array(); }
+	// Recover only bookings whose verified customer email matches this account.
+	$user = get_userdata( $user_id );
+	if ( $user instanceof WP_User && vava_customer_is_verified( $user_id ) ) {
+		vava_customer_claim_bookings( $user_id, (string) $user->user_email );
+	}
 	$ids = get_posts(
 		array(
 			'post_type'      => 'vava_booking',
@@ -245,7 +359,7 @@ function vava_customer_login_handler(): void {
 	}
 	delete_transient( $key );
 	wp_set_current_user( $user->ID );
-	wp_set_auth_cookie( $user->ID, ! empty( $_POST['remember'] ), is_ssl() );
+	vava_customer_set_isolated_auth_cookie( $user->ID, ! empty( $_POST['remember'] ), is_ssl() );
 	wp_safe_redirect( $redirect ); exit;
 }
 add_action( 'admin_post_nopriv_vava_customer_login', 'vava_customer_login_handler' );
@@ -268,7 +382,7 @@ function vava_customer_set_password_handler(): void {
 	delete_user_meta( $user->ID, '_vava_customer_activation_expires' );
 	vava_customer_claim_bookings( $user->ID, $user->user_email );
 	wp_set_current_user( $user->ID );
-	wp_set_auth_cookie( $user->ID, true, is_ssl() );
+	vava_customer_set_isolated_auth_cookie( $user->ID, true, is_ssl() );
 	wp_safe_redirect( vava_customer_account_url( $lang, array( 'account_activated' => '1' ) ) ); exit;
 }
 add_action( 'admin_post_nopriv_vava_customer_activate', 'vava_customer_set_password_handler' );
@@ -378,7 +492,7 @@ function vava_customer_consume_magic_login(): void {
 	$lang = is_array( $payload ) && 'en' === ( $payload['lang'] ?? '' ) ? 'en' : 'ar';
 	if ( is_array( $payload ) && ! empty( $payload['user_id'] ) && vava_customer_is_verified( absint( $payload['user_id'] ) ) ) {
 		wp_set_current_user( absint( $payload['user_id'] ) );
-		wp_set_auth_cookie( absint( $payload['user_id'] ), true, is_ssl() );
+		vava_customer_set_isolated_auth_cookie( absint( $payload['user_id'] ), true, is_ssl() );
 		wp_safe_redirect( vava_customer_account_url( $lang ) ); exit;
 	}
 	wp_safe_redirect( vava_customer_account_url( $lang, array( 'account_error' => 'token' ) ) ); exit;
@@ -499,7 +613,7 @@ function vava_customer_password_update_handler(): void {
 	}
 	wp_set_password( $new, $user->ID );
 	wp_set_current_user( $user->ID );
-	wp_set_auth_cookie( $user->ID, true, is_ssl() );
+	vava_customer_set_isolated_auth_cookie( $user->ID, true, is_ssl() );
 	wp_safe_redirect( add_query_arg( 'password_updated', '1', $redirect ) );
 	exit;
 }
