@@ -683,7 +683,7 @@ function vava_booking_payment_status_label( string $status ): string {
 }
 
 function vava_booking_payment_method_label( string $method ): string {
-	return array( 'paymob' => 'Paymob', 'bank' => 'تحويل بنكي', 'cash' => 'الدفع لاحقًا', 'free' => 'جلسة مجانية' )[ $method ] ?? $method;
+	return array( 'paymob' => 'Paymob', 'bank' => 'تحويل بنكي', 'cash' => 'الدفع لاحقًا', 'free' => 'جلسة مجانية', 'package_credit' => 'ضمن الباقة بدون دفع إضافي' )[ $method ] ?? $method;
 }
 
 function vava_booking_effective_payment_status( int $booking_id ): string {
@@ -1409,6 +1409,7 @@ function vava_booking_ajax_submit(): void {
 	);
 	if ( 'bank' === $method ) { $meta['_vava_booking_bank_transfer'] = $bank_transfer; $meta['_vava_booking_bank_receipt'] = $bank_receipt; }
 	foreach ( $meta as $key => $value ) { update_post_meta( $booking_id, $key, $value ); }
+	if ( function_exists( 'vava_package_followup_snapshot' ) ) { vava_package_followup_snapshot( (int) $booking_id ); }
 	if ( ! empty( $questionnaire_data ) ) { update_post_meta( $booking_id, '_vava_booking_questionnaire', $questionnaire_data ); }
 	if ( 'bank' === $method && ! empty( $bank_receipt['attachment_id'] ) ) {
 		wp_update_post( array( 'ID' => absint( $bank_receipt['attachment_id'] ), 'post_parent' => $booking_id ) );
@@ -1426,6 +1427,7 @@ function vava_booking_ajax_submit(): void {
 		wp_send_json_success( array( 'title' => $text['bank_received_title'], 'message' => $text['bank_received_message'], 'bookingId' => $booking_id, 'status' => $status, 'myBookingsUrl' => vava_booking_my_bookings_url( $lang ) ) );
 	}
 	vava_booking_send_confirmation( $booking_id );
+	if ( 'confirmed' === $status ) { do_action( 'vava_booking_status_changed', (int) $booking_id, 'confirmed' ); }
 	wp_send_json_success( array( 'title' => $text['success_title'], 'message' => $text['success_message'], 'bookingId' => $booking_id, 'status' => $status, 'myBookingsUrl' => vava_booking_my_bookings_url( $lang ) ) );
 }
 add_action( 'wp_ajax_vava_booking_submit', 'vava_booking_ajax_submit' );
@@ -1476,6 +1478,8 @@ function vava_booking_refund_status( int $booking_id ): string {
 }
 
 function vava_booking_paid_or_refunding( int $booking_id ): bool {
+	// Sessions already paid for with a package cannot be refunded independently.
+	if ( 'package_credit' === (string) get_post_meta( $booking_id, '_vava_booking_payment_method', true ) ) { return false; }
 	$payment = vava_booking_effective_payment_status( $booking_id );
 	if ( in_array( $payment, array( 'paid', 'refund_pending', 'partially_refunded', 'refunded' ), true ) || (bool) get_post_meta( $booking_id, '_vava_booking_paid_at', true ) ) {
 		return true;
@@ -1544,6 +1548,8 @@ function vava_booking_email_html( int $booking_id, string $lang = 'ar' ): string
 	$payment  = vava_booking_effective_payment_status( $booking_id );
 	$price    = vava_booking_format_price_label( (string) get_post_meta( $booking_id, '_vava_booking_service_price', true ), (string) get_post_meta( $booking_id, '_vava_booking_service_currency', true ), $lang );
 	$account_url = function_exists( 'vava_customer_account_url' ) ? vava_customer_account_url( $lang ) : vava_booking_my_bookings_url( $lang );
+	$meeting_url = esc_url_raw( (string) get_post_meta( $booking_id, '_vava_booking_meeting_url', true ) );
+	$meeting_visible = $meeting_url && in_array( $status, array( 'confirmed', 'paid' ), true ) && 'https' === strtolower( (string) wp_parse_url( $meeting_url, PHP_URL_SCHEME ) ) && 'meet.google.com' === strtolower( (string) wp_parse_url( $meeting_url, PHP_URL_HOST ) );
 	$image       = vava_booking_email_service_image_url( $booking_id );
 	$support_email = sanitize_email( (string) get_option( 'admin_email' ) );
 	$labels = $is_en ? array(
@@ -1551,6 +1557,19 @@ function vava_booking_email_html( int $booking_id, string $lang = 'ar' ): string
 	) : array(
 		'web'=>'نسخة ويب','title'=>'تفاصيل حجزك جاهزة','hello'=>'مرحبًا','intro'=>'شكرًا لحجزك مع VAVA Living. تم استلام حجزك بنجاح، ونحن في انتظارك!','number'=>'رقم الحجز','status'=>'حالة الحجز','date'=>'تاريخ الحجز','time'=>'وقت الحجز','duration'=>'المدة','amount'=>'إجمالي الحجز','details'=>'تفاصيل الحجز','service'=>'الخدمة','customer'=>'معلومات العميل','name'=>'الاسم','email'=>'البريد الإلكتروني','phone'=>'رقم الجوال','notes'=>'ملاحظات العميل','method'=>'طريقة الدفع','payment_status'=>'حالة الدفع','cta'=>'عرض تفاصيل الحجز','manage'=>'يمكنك إدارة حجزك ورفع الإيصال أو طلب الإلغاء بأمان من خلال حسابك في VAVA Living.','waiting'=>'نحن بانتظارك','support_title'=>'تحتاج لمساعدة؟','support'=>'فريقنا سعيد بمساعدتك في أي وقت.','minutes'=>'دقيقة','no_notes'=>'لا توجد ملاحظات','ready'=>'حجزك مع VAVA أصبح جاهزًا','footer'=>'رحلتك نحو توازن وهدوء أكبر تبدأ من هنا.'
 	);
+	// Follow-up credits are already paid for with the parent package.
+	$followup_parent_id = absint( get_post_meta( $booking_id, '_vava_package_parent_booking_id', true ) );
+	if ( $followup_parent_id ) {
+		$followup_balance = function_exists( 'vava_package_followup_balance' ) ? vava_package_followup_balance( $followup_parent_id ) : array();
+		$remaining = isset( $followup_balance['remaining'] ) ? absint( $followup_balance['remaining'] ) : 0;
+		$labels['title'] = $is_en ? 'Your follow-up session is confirmed' : 'تم تأكيد جلسة المتابعة';
+		$labels['intro'] = $is_en
+			? 'Your included follow-up session is confirmed at no additional charge. Remaining package sessions: ' . $remaining . '.'
+			: 'تم تأكيد جلسة المتابعة المشمولة في باقتك بدون دفع إضافي. الجلسات المتبقية: ' . $remaining . '.';
+		$labels['manage'] = $is_en
+			? 'Review this appointment and the remaining sessions of your package in your VAVA account.'
+			: 'يمكنك مراجعة موعد الجلسة وبقية جلسات باقتك من حسابك في VAVA Living.';
+	}
 	$e = static function( $value ): string { return esc_html( (string) $value ); };
 	$customer_notes = trim( (string) ( $customer['notes'] ?? '' ) );
 	$summary = array(
@@ -1600,6 +1619,21 @@ function vava_booking_email_html( int $booking_id, string $lang = 'ar' ): string
 <tr><td style="padding:0 28px 20px;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;border:1px solid #dcd5c8;border-radius:14px;overflow:hidden;"><tr>
 	<?php foreach ( $summary as $index => $cell ) : ?><td width="25%" valign="top" style="padding:16px 6px;text-align:center;<?php echo $index ? ( $is_en ? 'border-left:1px solid #ece6dd;' : 'border-right:1px solid #ece6dd;' ) : ''; ?>"><span style="display:block;margin-bottom:6px;font-size:10px;color:#8e887d;"><?php echo $e( $cell[0] ); ?></span><strong dir="<?php echo esc_attr( (string) ( $cell[2] ?? $dir ) ); ?>" style="font-size:12px;color:#5d6243;"><?php echo $e( $cell[1] ); ?></strong></td><?php endforeach; ?>
 </tr></table></td></tr>
+<?php
+$meeting_email = vava_booking_get_meeting_data( $booking_id );
+if ( $meeting_email['url'] ) :
+$questionnaire_exists = ! empty( get_post_meta( $booking_id, '_vava_booking_questionnaire', true ) );
+?>
+<tr><td style="padding:0 28px 20px;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f0ede4;border:1px solid #d8d0c2;border-radius:14px;"><tr><td style="padding:20px 24px;text-align:<?php echo esc_attr( $align ); ?>;">
+<h3 style="margin:0 0 10px;font-size:17px;color:#555246;"><?php echo $e( $is_en ? 'Your online session' : 'موعد جلستك أونلاين' ); ?></h3>
+<p style="margin:0 0 6px;font-size:13px;color:#777168;"><strong><?php echo $e( $meeting_email['provider_label'] ); ?></strong></p>
+<p style="margin:0 0 6px;font-size:13px;color:#777168;"><?php echo $e( $labels['date'] ); ?>: <strong><?php echo $e( $date ); ?></strong> &mdash; <?php echo $e( $labels['time'] ); ?>: <strong dir="ltr"><?php echo $e( $time ); ?></strong></p>
+<?php if ( $questionnaire_exists ) : ?>
+<p style="margin:0 0 10px;font-size:12px;color:#5d6243;"><?php echo $e( $is_en ? 'Your pre-session questionnaire has been received.' : 'تم استلام استبيان ما قبل الجلسة.' ); ?></p>
+<?php endif; ?>
+<a href="<?php echo esc_url( $meeting_email['url'] ); ?>" style="display:inline-block;padding:12px 24px;border-radius:10px;background:#747a4e;color:#ffffff;text-decoration:none;font-weight:bold;font-size:14px;"><?php echo $e( $is_en ? 'Join meeting' : 'الانضمام إلى الجلسة' ); ?></a>
+</td></tr></table></td></tr>
+<?php endif; ?>
 <tr><td style="padding:0 28px 20px;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr>
 <td width="49%" valign="top" style="border:1px solid #e2dbd0;border-radius:14px;padding:19px;"><h3 style="margin:0 0 13px;font-size:17px;color:#555246;text-align:<?php echo esc_attr( $align ); ?>;"><?php echo $e( $labels['details'] ); ?></h3><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
 <?php foreach ( $booking_rows as $row ) : ?><tr><td style="padding:8px 0;border-bottom:1px solid #eee8df;color:#8a8479;font-size:11px;text-align:<?php echo esc_attr( $align ); ?>;"><?php echo $e( $row[0] ); ?></td><td style="padding:8px 0;border-bottom:1px solid #eee8df;color:#4f4c44;font-size:11px;font-weight:bold;text-align:<?php echo esc_attr( $opposite ); ?>;"><?php echo $e( $row[1] ); ?></td></tr><?php endforeach; ?>
@@ -1608,6 +1642,9 @@ function vava_booking_email_html( int $booking_id, string $lang = 'ar' ): string
 <?php foreach ( $customer_rows as $row ) : ?><tr><td style="padding:8px 0;border-bottom:1px solid #eee8df;color:#8a8479;font-size:11px;text-align:<?php echo esc_attr( $align ); ?>;"><?php echo $e( $row[0] ); ?></td><td dir="<?php echo esc_attr( $row[2] ?: $dir ); ?>" style="padding:8px 0;border-bottom:1px solid #eee8df;color:#4f4c44;font-size:11px;text-align:<?php echo esc_attr( $opposite ); ?>;"><?php echo $e( $row[1] ); ?></td></tr><?php endforeach; ?>
 </table></td></tr></table></td></tr>
 <tr><td style="padding:0 28px 18px;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f6f4ed;border:1px solid #e5dfd4;border-radius:14px;"><tr><td style="padding:17px 20px;text-align:center;"><strong style="display:block;color:#777b54;font-size:15px;margin-bottom:5px;"><?php echo $e( $labels['waiting'] ); ?></strong><span style="color:#847f75;font-size:11px;line-height:1.7;"><?php echo $e( $labels['support'] ); ?></span></td></tr></table></td></tr>
+<?php if ( $meeting_visible ) : ?>
+<tr><td style="padding:0 28px 15px;"><a href="<?php echo esc_url( $meeting_url ); ?>" style="display:block;padding:15px 22px;border-radius:12px;background:#477265;color:#ffffff;text-align:center;text-decoration:none;font-weight:bold;font-size:14px;"><?php echo esc_html( $is_en ? 'Join your Google Meet session' : 'الدخول إلى جلسة Google Meet' ); ?></a><p style="margin:8px 0 0;text-align:center;font-size:11px;color:#6b675f;line-height:1.6;"><?php echo esc_html( $is_en ? 'Use this link at the time of your appointment.' : 'استخدمي الرابط عند حلول موعد الجلسة.' ); ?></p></td></tr>
+<?php endif; ?>
 <tr><td style="padding:0 28px 12px;"><a href="<?php echo esc_url( $account_url ); ?>" style="display:block;padding:15px 22px;border-radius:12px;background:#747a4e;color:#ffffff;text-align:center;text-decoration:none;font-weight:bold;font-size:14px;"><?php echo $e( $labels['cta'] ); ?></a><p style="margin:11px 0 0;text-align:center;color:#8b857b;font-size:10px;line-height:1.7;"><?php echo $e( $labels['manage'] ); ?></p></td></tr>
 <tr><td style="padding:17px 28px 21px;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #e4ddd2;border-radius:14px;"><tr><td style="padding:17px;text-align:center;"><strong style="display:block;margin-bottom:5px;color:#5d6243;font-size:14px;"><?php echo $e( $labels['support_title'] ); ?></strong><span style="color:#817b72;font-size:11px;"><?php echo $e( $labels['support'] ); ?><?php if ( $support_email ) : ?><br><a href="mailto:<?php echo esc_attr( $support_email ); ?>" style="color:#747a4e;text-decoration:none;"><?php echo $e( $support_email ); ?></a><?php endif; ?></span></td></tr></table></td></tr>
 <tr><td style="padding:14px 20px;text-align:center;background:#747a4e;color:#ffffff;font-size:10px;">VAVA Living &nbsp;—&nbsp; <?php echo $e( $labels['footer'] ); ?></td></tr>
@@ -1621,12 +1658,15 @@ function vava_booking_email_html( int $booking_id, string $lang = 'ar' ): string
 function vava_booking_send_details_email( int $booking_id, bool $force = false, bool $send_admin = true ) {
 	if ( function_exists( 'vava_mail_notifications_enabled' ) && ! vava_mail_notifications_enabled( 'bookings' ) ) { return true; }
 	if ( ! $booking_id || 'vava_booking' !== get_post_type( $booking_id ) ) { return new WP_Error( 'invalid_booking', 'الحجز غير موجود.' ); }
-	if ( ! $force && get_post_meta( $booking_id, '_vava_booking_notification_sent', true ) ) { return true; }
+	if ( ! $force && 'sent' === (string) get_post_meta( $booking_id, '_vava_booking_notification_sent', true ) ) { return true; }
 	$customer = (array) get_post_meta( $booking_id, '_vava_booking_customer', true );
 	$email = sanitize_email( (string) ( $customer['email'] ?? '' ) );
 	if ( ! $email || ! is_email( $email ) ) { return new WP_Error( 'invalid_email', 'لا يوجد بريد عميل صالح داخل الحجز.' ); }
 	$lang = 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar';
-	$subject = 'en' === $lang ? 'Your VAVA booking details #' . $booking_id : 'تفاصيل حجزك مع VAVA #' . $booking_id;
+	$is_followup = absint( get_post_meta( $booking_id, '_vava_package_parent_booking_id', true ) ) > 0;
+	$subject = $is_followup
+		? ( 'en' === $lang ? 'Your VAVA follow-up session is confirmed #' . $booking_id : 'تأكيد حجز جلسة متابعة الباقة في VAVA #' . $booking_id )
+		: ( 'en' === $lang ? 'Your VAVA booking details #' . $booking_id : 'تفاصيل حجزك مع VAVA #' . $booking_id );
 	$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 	$sent = wp_mail( $email, $subject, vava_booking_email_html( $booking_id, $lang ), $headers );
 	update_post_meta( $booking_id, '_vava_booking_notification_sent', $sent ? 'sent' : 'attempted' );
@@ -1725,6 +1765,7 @@ function vava_booking_paymob_webhook(): void {
 				vava_customer_prepare_account_for_booking( $booking_id, (array) get_post_meta( $booking_id, '_vava_booking_customer', true ), 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar' );
 			}
 			vava_booking_send_confirmation( $booking_id );
+			do_action( 'vava_booking_status_changed', $booking_id, 'confirmed' );
 		}
 	}
 	wp_send_json_success( array( 'booking' => $booking_id, 'status' => $success ? 'paid' : 'payment_failed' ) );
@@ -2171,7 +2212,8 @@ function vava_booking_hide_contextual_help( string $old_help, string $screen_id,
 	$post_id = vava_booking_current_admin_post_id();
 	return $post_id && vava_booking_is_page( $post_id ) ? '' : $old_help;
 }
-add_filter( 'contextual_help', 'vava_booking_hide_contextual_help', 40, 3 );
+// Deprecated contextual_help hook removed: VAVA's supported current_screen
+// callbacks already call WP_Screen::remove_help_tabs() on the relevant editors.
 
 function vava_booking_recursive_sanitize( $value, string $key = '' ) {
 	if ( is_array( $value ) ) { $clean = array(); foreach ( $value as $k => $v ) { $clean[ $k ] = vava_booking_recursive_sanitize( $v, (string) $k ); } return $clean; }
@@ -2343,6 +2385,32 @@ function vava_booking_allowed_admin_actions( int $booking_id ): array {
  * This avoids the CPT submenu-parent resolution that rejected the earlier
  * edit.php?page= route before the callback could run.
  */
+
+function vava_booking_meeting_provider_label( string $provider ): string {
+    $labels = array( 'google_meet' => 'Google Meet', 'zoom' => 'Zoom', 'manual' => 'رابط اجتماع يدوي / Meeting link' );
+    return $labels[ $provider ] ?? $provider;
+}
+function vava_booking_get_meeting_data( int $booking_id ): array {
+    $provider = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_meeting_provider', true ) );
+    $url      = esc_url_raw( (string) get_post_meta( $booking_id, '_vava_booking_meeting_url', true ) );
+    $status   = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_meeting_status', true ) );
+    if ( ! in_array( $provider, array( 'google_meet', 'zoom', 'manual' ), true ) ) { $provider = ''; }
+    if ( ! in_array( $status, array( 'pending', 'assigned' ), true ) ) { $status = $url ? 'assigned' : 'pending'; }
+    return array( 'provider' => $provider, 'provider_label' => vava_booking_meeting_provider_label( $provider ), 'url' => $url, 'status' => $status );
+}
+function vava_booking_validate_meeting_url( string $url, string $provider ): string {
+    $url = trim( $url );
+    if ( '' === $url ) { return ''; }
+    if ( ! filter_var( $url, FILTER_VALIDATE_URL ) ) { return ''; }
+    $parsed = wp_parse_url( $url );
+    if ( empty( $parsed['scheme'] ) || 'https' !== strtolower( $parsed['scheme'] ) ) { return ''; }
+    $host = strtolower( (string) ( $parsed['host'] ?? '' ) );
+    if ( '' === $host ) { return ''; }
+    if ( 'google_meet' === $provider && 'meet.google.com' !== $host ) { return ''; }
+    if ( 'zoom' === $provider && 'zoom.us' !== $host && ! str_ends_with( $host, '.zoom.us' ) ) { return ''; }
+    return esc_url_raw( $url );
+}
+
 function vava_booking_admin_details_url( int $booking_id ): string {
 	return add_query_arg(
 		array(
@@ -2771,7 +2839,15 @@ function vava_booking_admin_column_value( string $column, int $post_id ): void {
 				$access_label = array( 'active' => 'المشاهدة مفعّلة', 'pending' => 'بانتظار التفعيل', 'revoked' => 'المشاهدة موقوفة', 'rejected' => 'مرفوض' );
 				echo '<div class="vava-booking-cell vava-booking-cell--appointment"><strong>منتج رقمي</strong><small>' . esc_html( $access_label[ $access ] ?? $access ) . '</small></div>';
 			} else {
-				echo '<div class="vava-booking-cell vava-booking-cell--appointment"><strong class="vava-booking-ltr">' . esc_html( (string) get_post_meta( $post_id, '_vava_booking_date', true ) ) . '</strong><small class="vava-booking-ltr">' . esc_html( vava_booking_format_time_12h( (string) get_post_meta( $post_id, '_vava_booking_time', true ) ) ) . '</small></div>';
+				$meeting_url_check = esc_url_raw( (string) get_post_meta( $post_id, '_vava_booking_meeting_url', true ) );
+$meeting_prov_check = sanitize_key( (string) get_post_meta( $post_id, '_vava_booking_meeting_provider', true ) );
+$meeting_status_line = '';
+if ( $meeting_url_check ) {
+    $meeting_status_line = '<small class="vava-booking-meeting-status">' . esc_html( vava_booking_meeting_provider_label( $meeting_prov_check ) ) . ' ✓</small>';
+} else {
+    $meeting_status_line = '<small class="vava-booking-meeting-status is-pending">Meeting pending</small>';
+}
+echo '<div class="vava-booking-cell vava-booking-cell--appointment"><strong class="vava-booking-ltr">' . esc_html( (string) get_post_meta( $post_id, '_vava_booking_date', true ) ) . '</strong><small class="vava-booking-ltr">' . esc_html( vava_booking_format_time_12h( (string) get_post_meta( $post_id, '_vava_booking_time', true ) ) ) . '</small>' . $meeting_status_line . '</div>';
 			}
 			break;
 		case 'vava_booking_amount':
@@ -2811,7 +2887,7 @@ function vava_booking_action_log( int $booking_id ): array {
 	return is_array( $log ) ? array_values( $log ) : array();
 }
 
-function vava_booking_append_action_log( int $booking_id, string $action, string $note, string $old_status, string $new_status, string $old_payment, string $new_payment ): void {
+function vava_booking_append_action_log( int $booking_id, string $action, string $note = '', string $old_status = '', string $new_status = '', string $old_payment = '', string $new_payment = '' ): void {
 	$log = vava_booking_action_log( $booking_id );
 	$log[] = array(
 		'action' => sanitize_key( $action ),
@@ -2834,6 +2910,8 @@ function vava_booking_action_label( string $action ): string {
 		'approve_customer_cancel' => 'اعتماد طلب إلغاء العميل', 'reject_customer_cancel' => 'رفض طلب إلغاء العميل',
 		'note_saved' => 'حفظ ملاحظة إدارية', 'resend_details' => 'إعادة إرسال التفاصيل', 'refund_recorded' => 'تسجيل استرداد مبلغ',
 		'mark_completed' => 'تحديد الحجز كمكتمل', 'restore_confirmed' => 'إعادة الحجز إلى مؤكد',
+'meeting_saved' => 'حفظ رابط الاجتماع', 'meeting_sent' => 'إرسال رابط الاجتماع للعميل',
+'meeting_generated' => 'إنشاء Google Meet', 'meeting_generate_pending' => 'Google Meet قيد الإنشاء', 'meeting_auto_sent' => 'إرسال رابط الاجتماع تلقائيًا', 'meeting_reminder_sent' => 'إرسال تذكير الجلسة',
 		'revoke_access' => 'إيقاف صلاحية المشاهدة', 'restore_access' => 'إعادة تفعيل المشاهدة',
 	);
 	return $labels[ $action ] ?? $action;
@@ -2986,6 +3064,121 @@ function vava_booking_render_refund_panel( int $booking_id, string $heading_tag 
 
 
 /** V4R10 — approved full-page booking workspace. */
+
+function vava_booking_save_meeting_admin_post(): void {
+    if ( ! isset( $_POST['_wpnonce'], $_POST['booking_id'], $_POST['meeting_action'] ) ) { wp_die( 'Invalid request.' ); }
+    $booking_id = absint( $_POST['booking_id'] );
+    if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'vava_booking_save_meeting_' . $booking_id ) ) { wp_die( 'Nonce verification failed.' ); }
+    if ( ! current_user_can( vava_booking_admin_capability() ) ) { wp_die( 'Unauthorized.' ); }
+    $post = get_post( $booking_id );
+    if ( ! $post || 'vava_booking' !== $post->post_type ) { wp_die( 'Invalid booking.' ); }
+    if ( vava_booking_order_is_product( $booking_id ) ) { wp_die( 'Meeting links are not available for product orders.' ); }
+    $provider       = sanitize_key( (string) ( $_POST['meeting_provider'] ?? '' ) );
+    $raw_url        = sanitize_text_field( (string) ( $_POST['meeting_url'] ?? '' ) );
+    $meeting_action = sanitize_key( (string) ( $_POST['meeting_action'] ?? 'save' ) );
+    if ( ! in_array( $provider, array( 'google_meet', 'zoom', 'manual' ), true ) ) { $provider = 'manual'; }
+    $validated_url = vava_booking_validate_meeting_url( $raw_url, $provider );
+    if ( 'save_send' === $meeting_action && '' === $validated_url ) {
+        wp_safe_redirect( add_query_arg( array( 'meeting_error' => 'url_required' ), vava_booking_admin_details_url( $booking_id ) ) );
+        exit;
+    }
+    $status = $validated_url ? 'assigned' : 'pending';
+    $existing_created = (string) get_post_meta( $booking_id, '_vava_booking_meeting_created_at', true );
+    update_post_meta( $booking_id, '_vava_booking_meeting_provider', $provider );
+    update_post_meta( $booking_id, '_vava_booking_meeting_url', $validated_url );
+    update_post_meta( $booking_id, '_vava_booking_meeting_status', $status );
+    update_post_meta( $booking_id, '_vava_booking_meeting_updated_at', current_time( 'mysql', true ) );
+    update_post_meta( $booking_id, '_vava_booking_meeting_updated_by', get_current_user_id() );
+    if ( $validated_url && ! $existing_created ) {
+        update_post_meta( $booking_id, '_vava_booking_meeting_created_at', current_time( 'mysql', true ) );
+    }
+    vava_booking_append_action_log( $booking_id, 'meeting_saved' );
+    $redirect_args = array( 'meeting_saved' => '1' );
+    if ( 'save_send' === $meeting_action ) {
+        $email_ok = vava_booking_send_details_email( $booking_id, true, false );
+        if ( $email_ok ) {
+            update_post_meta( $booking_id, '_vava_booking_meeting_email_sent_at', current_time( 'mysql', true ) );
+            update_post_meta( $booking_id, '_vava_booking_meeting_email_sent_by', get_current_user_id() );
+            vava_booking_append_action_log( $booking_id, 'meeting_sent' );
+            $redirect_args = array( 'meeting_sent' => '1' );
+        } else {
+            $redirect_args = array( 'meeting_saved' => '1', 'meeting_error' => 'email_failed' );
+        }
+    }
+    wp_safe_redirect( add_query_arg( $redirect_args, vava_booking_admin_details_url( $booking_id ) ) );
+    exit;
+}
+add_action( 'admin_post_vava_booking_save_meeting', 'vava_booking_save_meeting_admin_post' );
+
+
+function vava_booking_render_admin_meeting_card( int $booking_id ): void {
+    if ( vava_booking_order_is_product( $booking_id ) ) { return; }
+    $meeting = vava_booking_get_meeting_data( $booking_id );
+    $nonce   = wp_create_nonce( 'vava_booking_save_meeting_' . $booking_id );
+    $action_url = admin_url( 'admin-post.php' );
+    ?>
+    <section class="vava-booking-detail-card vava-booking-meeting-card">
+        <header><span class="dashicons dashicons-video-alt3" aria-hidden="true"></span><h2>بيانات الاجتماع</h2></header>
+        <form method="post" action="<?php echo esc_url( $action_url ); ?>">
+            <input type="hidden" name="action" value="vava_booking_save_meeting">
+            <input type="hidden" name="booking_id" value="<?php echo esc_attr( $booking_id ); ?>">
+            <input type="hidden" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>">
+            <div style="margin-bottom:12px;">
+                <label style="display:block;margin-bottom:4px;font-weight:bold;">مزود الاجتماع</label>
+                <select name="meeting_provider" style="width:100%;padding:8px;">
+                    <option value="google_meet" <?php selected( $meeting['provider'], 'google_meet' ); ?>>Google Meet</option>
+                    <option value="zoom" <?php selected( $meeting['provider'], 'zoom' ); ?>>Zoom</option>
+                    <option value="manual" <?php selected( $meeting['provider'], 'manual' ); ?>>رابط يدوي</option>
+                </select>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="display:block;margin-bottom:4px;font-weight:bold;">رابط الاجتماع (HTTPS)</label>
+                <input type="url" name="meeting_url" value="<?php echo esc_attr( $meeting['url'] ); ?>" placeholder="https://..." dir="ltr" style="width:100%;padding:8px;direction:ltr;">
+            </div>
+            <div style="margin-bottom:12px;">
+                <strong>الحالة:</strong>
+                <?php if ( $meeting['url'] ) : ?>
+                    <span style="color:#5d6243;">تم إضافة رابط الاجتماع</span>
+                    <a href="<?php echo esc_url( $meeting['url'] ); ?>" target="_blank" rel="noopener" style="margin-right:8px;">فتح رابط الاجتماع ↗</a>
+                <?php else : ?>
+                    <span style="color:#b8860b;">في انتظار الرابط</span>
+                <?php endif; ?>
+            </div>
+<?php
+$gm_connected = function_exists( 'vava_google_meet_is_connected' ) && vava_google_meet_is_connected();
+$gm_settings = function_exists( 'vava_google_meet_get_settings' ) ? vava_google_meet_get_settings() : array();
+$gm_enabled = ! empty( $gm_settings['enabled'] );
+$gm_event_id = (string) get_post_meta( $booking_id, '_vava_booking_google_event_id', true );
+$gm_meeting_status = (string) get_post_meta( $booking_id, '_vava_booking_meeting_status', true );
+$gm_auto_sent = (string) get_post_meta( $booking_id, '_vava_booking_meeting_auto_email_sent_at', true );
+$gm_reminder_sent = (string) get_post_meta( $booking_id, '_vava_booking_meeting_reminder_sent_at', true );
+?>
+<div style="margin-bottom:12px;padding:10px;background:#f9f8f5;border:1px solid #e5dfd4;border-radius:8px;font-size:12px;">
+<strong>الأتمتة:</strong>
+<?php echo $gm_connected ? '<span style="color:green;">✓ Google متصل</span>' : '<span style="color:#b8860b;">Google غير متصل</span>'; ?>
+<?php if ( $gm_meeting_status === 'generating' ) : ?> | <span style="color:#b8860b;">قيد الإنشاء</span><?php endif; ?>
+<?php if ( $gm_auto_sent ) : ?> | <span style="color:green;">تم الإرسال التلقائي</span><?php endif; ?>
+<?php if ( $gm_reminder_sent ) : ?> | <span style="color:green;">تم إرسال التذكير</span><?php endif; ?>
+</div>
+<?php if ( $gm_enabled && $gm_connected && ! $meeting['url'] ) : ?>
+<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin-bottom:12px;">
+<?php wp_nonce_field( 'vava_booking_generate_meet_' . $booking_id, '_wpnonce' ); ?>
+<input type="hidden" name="action" value="vava_booking_generate_google_meet">
+<input type="hidden" name="booking_id" value="<?php echo esc_attr( $booking_id ); ?>">
+<button type="submit" class="button"><?php echo $gm_event_id ? 'تحديث Google Meet' : 'إنشاء Google Meet'; ?></button>
+</form>
+<?php elseif ( $gm_enabled && ! $gm_connected ) : ?>
+<p style="font-size:12px;color:#b8860b;margin-bottom:12px;"><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=vava_booking&page=vava-google-meet-settings' ) ); ?>">إعدادات Google Meet →</a></p>
+<?php endif; ?>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button type="submit" name="meeting_action" value="save" class="button">حفظ فقط</button>
+                <button type="submit" name="meeting_action" value="save_send" class="button button-primary">حفظ وإرسال للعميل</button>
+            </div>
+        </form>
+    </section>
+    <?php
+}
+
 function vava_booking_render_admin_fullpage_content( int $post_id ): void {
 	$customer         = (array) get_post_meta( $post_id, '_vava_booking_customer', true );
 	$receipt          = vava_booking_get_receipt( $post_id, true );
@@ -3031,6 +3224,7 @@ function vava_booking_render_admin_fullpage_content( int $post_id ): void {
 					<section class="vava-booking-detail-card"><header><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><h2>معلومات العميل</h2></header><?php vava_booking_admin_detail_row( 'الاسم', (string) ( $customer['name'] ?? '' ) ); vava_booking_admin_detail_row( 'رقم الجوال', (string) ( $customer['whatsapp'] ?? '' ), 'ltr' ); vava_booking_admin_detail_row( 'البريد الإلكتروني', (string) ( $customer['email'] ?? '' ), 'ltr' ); vava_booking_admin_detail_row( 'سبق تجربة VAVA', (string) ( $customer['previous'] ?? '' ) ); vava_booking_admin_detail_row( 'ملاحظات العميل', (string) ( $customer['notes'] ?? '' ) ); ?></section>
 					<section class="vava-booking-detail-card"><header><span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span><h2>الخدمة والموعد</h2></header><?php vava_booking_admin_detail_row( 'الخدمة', $service_title ); vava_booking_admin_detail_row( 'نوع الخدمة', $service_kind ); vava_booking_admin_detail_row( 'التاريخ', $date, 'ltr' ); vava_booking_admin_detail_row( 'الوقت', $time, 'ltr' ); vava_booking_admin_detail_row( 'المدة', $duration ); if ( $location ) { vava_booking_admin_detail_row( 'المكان', $location ); } ?></section>
 				</div>
+				<?php vava_booking_render_admin_meeting_card( $post_id ); ?>
 				<?php if ( function_exists( 'vava_booking_questionnaire_render_admin_details' ) ) { vava_booking_questionnaire_render_admin_details( $post_id ); } ?>
 
 				<?php vava_booking_render_refund_overview( $post_id, $status, $refund_remaining ); ?>
@@ -3164,6 +3358,8 @@ function vava_booking_process_admin_action( int $booking_id, string $decision, s
 		if ( $is_digital ) {
 			$new_payment = 'cancelled';
 			update_post_meta( $booking_id, '_vava_digital_access_status', 'revoked' );
+		} elseif ( function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) ) {
+			$new_payment = 'paid'; // No refund: this is a paid package entitlement.
 		} elseif ( vava_booking_paid_or_refunding( $booking_id ) ) {
 			$new_payment = 'refund_pending';
 			update_post_meta( $booking_id, '_vava_booking_refund_status', 'pending' );
@@ -3190,12 +3386,23 @@ function vava_booking_process_admin_action( int $booking_id, string $decision, s
 		delete_post_meta( $booking_id, '_vava_booking_completed_at' );
 		delete_post_meta( $booking_id, '_vava_booking_completed_by' );
 	}
+	// Repair missing account linkage during approval, without changing another account's ownership.
+	if ( in_array( $decision, array( 'approve_cash', 'approve_bank' ), true ) && ! absint( get_post_meta( $booking_id, '_vava_booking_user_id', true ) ) && function_exists( 'vava_customer_prepare_account_for_booking' ) ) {
+		$booking_customer = (array) get_post_meta( $booking_id, '_vava_booking_customer', true );
+		$booking_email = strtolower( sanitize_email( (string) ( $booking_customer['email'] ?? '' ) ) );
+		if ( is_email( $booking_email ) ) {
+			vava_customer_prepare_account_for_booking( $booking_id, $booking_customer, 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar' );
+		}
+	}
 	update_post_meta( $booking_id, '_vava_booking_status', $new_status );
 	update_post_meta( $booking_id, '_vava_booking_payment_status', $new_payment );
 	update_post_meta( $booking_id, '_vava_booking_review_note', $note );
 	update_post_meta( $booking_id, '_vava_booking_reviewed_by', get_current_user_id() );
 	update_post_meta( $booking_id, '_vava_booking_reviewed_at', current_time( 'mysql' ) );
 	vava_booking_append_action_log( $booking_id, $decision, $note, $old_status, $new_status, $old_payment, $new_payment );
+	if ( in_array( $new_status, array( 'confirmed', 'paid' ), true ) || 'paid' === $new_payment ) {
+		do_action( 'vava_booking_status_changed', $booking_id, $new_status );
+	}
 	if ( $is_digital && function_exists( 'vava_digital_products_send_order_status_update' ) ) {
 		vava_digital_products_send_order_status_update( $booking_id, $event, $note );
 	} else {
@@ -3619,6 +3826,7 @@ function vava_booking_customer_cancel_mode( int $booking_id ): string {
 	$payment = vava_booking_effective_payment_status( $booking_id );
 	if ( in_array( $status, array( 'completed', 'cancelled', 'customer_cancelled', 'cancellation_requested', 'bank_rejected', 'payment_failed', 'payment_error' ), true ) ) { return ''; }
 	if ( in_array( $status, array( 'pending', 'pending_payment', 'pending_bank_review' ), true ) && 'paid' !== $payment ) { return 'cancel'; }
+	if ( function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) && in_array( $status, array( 'confirmed', 'paid' ), true ) ) { return 'cancel'; }
 	if ( in_array( $status, array( 'confirmed', 'paid' ), true ) || 'paid' === $payment ) { return 'request'; }
 	return '';
 }
@@ -3662,7 +3870,7 @@ function vava_booking_public_cancel(): void {
 	if ( 'cancel' === $mode ) {
 		update_post_meta( $booking_id, '_vava_booking_customer_cancelled_at', $now );
 		update_post_meta( $booking_id, '_vava_booking_status', 'customer_cancelled' );
-		update_post_meta( $booking_id, '_vava_booking_payment_status', 'cancelled' );
+		update_post_meta( $booking_id, '_vava_booking_payment_status', function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) ? 'paid' : 'cancelled' );
 		vava_booking_append_action_log( $booking_id, 'customer_cancelled', $reason, $old_status, 'customer_cancelled', $old_payment, 'cancelled' );
 		vava_booking_send_status_update( $booking_id, 'customer_cancelled', $reason );
 		vava_booking_notify_admin_customer_cancellation( $booking_id, 'cancel', $reason );
