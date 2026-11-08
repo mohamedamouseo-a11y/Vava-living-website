@@ -58,7 +58,7 @@ function vava_customer_isolated_request(): bool {
             'vava_customer_login', 'vava_customer_activate', 'vava_customer_request_activation',
             'vava_customer_request_magic_login', 'vava_customer_profile_update',
             'vava_customer_password_update', 'vava_customer_logout',
-            'vava_booking_public_replace_receipt', 'vava_booking_public_cancel',
+            'vava_booking_public_replace_receipt', 'vava_booking_public_cancel', 'vava_booking_reschedule_request',
             'vava_booking_submit_impact_questionnaire', 'vava_booking_request_magic_link',
             'vava_package_followup_book', 'vava_booking_submit',
             'vava_digital_checkout_submit', 'vava_digital_reader_page_token',
