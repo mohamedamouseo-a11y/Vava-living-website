@@ -1533,20 +1533,84 @@ function vava_booking_email_service_image_url( int $booking_id ): string {
 	return vava_booking_email_public_url( $url );
 }
 
-function vava_booking_email_html( int $booking_id, string $lang = 'ar' ): string {
+/** Use localized booking values in customer emails, not just localized headings. */
+function vava_booking_email_localized_label( string $type, string $value, string $lang ): string {
+	if ( 'en' !== $lang ) {
+		if ( 'status' === $type ) { return vava_booking_status_label( $value ); }
+		if ( 'payment' === $type ) { return vava_booking_payment_status_label( $value ); }
+		return vava_booking_payment_method_label( $value );
+	}
+	$translations = array(
+		'status' => array(
+			'pending' => 'Pending approval', 'pending_payment' => 'Awaiting online payment',
+			'pending_bank_review' => 'Awaiting bank transfer review', 'confirmed' => 'Confirmed',
+			'paid' => 'Paid', 'completed' => 'Completed', 'payment_failed' => 'Payment failed',
+			'payment_error' => 'Payment error', 'bank_rejected' => 'Bank transfer rejected',
+			'cancelled' => 'Cancelled', 'customer_cancelled' => 'Cancelled by customer',
+			'cancellation_requested' => 'Cancellation requested', 'refund_pending' => 'Refund pending',
+			'partially_refunded' => 'Partially refunded', 'refunded' => 'Refunded',
+		),
+		'payment' => array(
+			'unpaid' => 'Unpaid', 'pending' => 'Pending', 'pending_bank_review' => 'Awaiting bank transfer review',
+			'paid' => 'Paid', 'failed' => 'Failed', 'rejected' => 'Rejected',
+			'cancelled' => 'Cancelled', 'refund_pending' => 'Refund pending',
+			'partially_refunded' => 'Partially refunded', 'refunded' => 'Refunded',
+		),
+		'method' => array(
+			'paymob' => 'Paymob', 'bank' => 'Bank transfer', 'cash' => 'Pay later',
+			'free' => 'Free session', 'package_credit' => 'Included in package — no additional payment',
+		),
+	);
+	return (string) ( $translations[ $type ][ $value ] ?? $value );
+}
+
+/**
+ * Customer booking details are a SINGLE bilingual email. The existing localized
+ * renderer is reused for both sections so dates, prices, and links remain identical.
+ */
+function vava_booking_email_html( int $booking_id, string $lang = 'ar', bool $bilingual = true ): string {
+	if ( $bilingual ) {
+		$ar_html = vava_booking_email_html( $booking_id, 'ar', false );
+		$en_html = vava_booking_email_html( $booking_id, 'en', false );
+		if ( ! preg_match( '~<body\\b[^>]*>(.*?)</body>~is', $ar_html, $ar_part ) ||
+			 ! preg_match( '~<body\\b[^>]*>(.*?)</body>~is', $en_html, $en_part ) ) {
+			return $ar_html;
+		}
+		return '<!doctype html><html lang="ar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"></head>'
+			. '<body style="margin:0;padding:0;background:#f4f0e8;font-family:Tahoma,Arial,sans-serif;color:#4e4b43;">'
+			. '<div lang="ar" dir="rtl" style="direction:rtl;"><p style="max-width:720px;margin:0 auto;padding:18px 20px 0;text-align:right;font-size:15px;font-weight:bold;color:#747a4e;">العربية — تفاصيل الحجز</p>' . $ar_part[1] . '</div>'
+			. '<div style="max-width:720px;height:1px;margin:12px auto;background:#d8d5c9;"></div>'
+			. '<div lang="en" dir="ltr" style="direction:ltr;"><p style="max-width:720px;margin:0 auto;padding:18px 20px 0;text-align:left;font-size:15px;font-weight:bold;color:#747a4e;">English — Booking details</p>' . $en_part[1] . '</div>'
+			. '</body></html>';
+	}
 	$is_en    = 'en' === $lang;
 	$dir      = $is_en ? 'ltr' : 'rtl';
 	$align    = $is_en ? 'left' : 'right';
 	$opposite = $is_en ? 'right' : 'left';
 	$customer = (array) get_post_meta( $booking_id, '_vava_booking_customer', true );
 	$service  = (string) get_post_meta( $booking_id, '_vava_booking_service_title', true );
+	if ( $is_en ) {
+		$uid = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_uid', true ) );
+		if ( str_starts_with( $uid, 'package-followup-' ) ) {
+			$service = 'Package follow-up session';
+		} else {
+			$english_title = trim( (string) get_post_meta( $booking_id, '_vava_booking_service_title_en', true ) );
+			if ( ! $english_title && $uid && function_exists( 'vava_booking_resolve_service' ) ) {
+				$translated_service = vava_booking_resolve_service( $uid, 'en' );
+				$english_title = is_array( $translated_service ) ? (string) ( $translated_service['title'] ?? '' ) : '';
+			}
+			if ( $english_title ) { $service = $english_title; }
+		}
+	}
 	$date     = (string) get_post_meta( $booking_id, '_vava_booking_date', true );
 	$time     = vava_booking_format_time_12h( (string) get_post_meta( $booking_id, '_vava_booking_time', true ) );
 	$duration = vava_booking_display_duration_for_booking( $booking_id, $lang );
 	$method   = (string) get_post_meta( $booking_id, '_vava_booking_payment_method', true );
 	$status   = (string) get_post_meta( $booking_id, '_vava_booking_status', true );
 	$payment  = vava_booking_effective_payment_status( $booking_id );
-	$price    = vava_booking_format_price_label( (string) get_post_meta( $booking_id, '_vava_booking_service_price', true ), (string) get_post_meta( $booking_id, '_vava_booking_service_currency', true ), $lang );
+	$currency = (string) get_post_meta( $booking_id, '_vava_booking_service_currency', true );
+	if ( $is_en && preg_match( '/(?:ر\\s*\\.?\\s*س|ريال)/u', $currency ) ) { $currency = 'SAR'; }
+	$price    = vava_booking_format_price_label( (string) get_post_meta( $booking_id, '_vava_booking_service_price', true ), $currency, $lang );
 	$account_url = function_exists( 'vava_customer_account_url' ) ? vava_customer_account_url( $lang ) : vava_booking_my_bookings_url( $lang );
 	$meeting_url = esc_url_raw( (string) get_post_meta( $booking_id, '_vava_booking_meeting_url', true ) );
 	$meeting_visible = $meeting_url && in_array( $status, array( 'confirmed', 'paid' ), true ) && 'https' === strtolower( (string) wp_parse_url( $meeting_url, PHP_URL_SCHEME ) ) && 'meet.google.com' === strtolower( (string) wp_parse_url( $meeting_url, PHP_URL_HOST ) );
@@ -1573,7 +1637,7 @@ function vava_booking_email_html( int $booking_id, string $lang = 'ar' ): string
 	$e = static function( $value ): string { return esc_html( (string) $value ); };
 	$customer_notes = trim( (string) ( $customer['notes'] ?? '' ) );
 	$summary = array(
-		array( $labels['status'], vava_booking_status_label( $status ) ),
+		array( $labels['status'], vava_booking_email_localized_label( 'status', $status, $lang ) ),
 		array( $labels['date'], $date ),
 		array( $labels['time'], $time, 'ltr' ),
 		array( $labels['amount'], $price ),
@@ -1581,8 +1645,8 @@ function vava_booking_email_html( int $booking_id, string $lang = 'ar' ): string
 	$booking_rows = array(
 		array( $labels['service'], $service, '' ),
 		array( $labels['duration'], $duration, '' ),
-		array( $labels['method'], vava_booking_payment_method_label( $method ), '' ),
-		array( $labels['payment_status'], vava_booking_payment_status_label( $payment ), '' ),
+		array( $labels['method'], vava_booking_email_localized_label( 'method', $method, $lang ), '' ),
+		array( $labels['payment_status'], vava_booking_email_localized_label( 'payment', $payment, $lang ), '' ),
 		array( $labels['amount'], $price, '' ),
 	);
 	$customer_rows = array(
@@ -1664,9 +1728,10 @@ function vava_booking_send_details_email( int $booking_id, bool $force = false, 
 	if ( ! $email || ! is_email( $email ) ) { return new WP_Error( 'invalid_email', 'لا يوجد بريد عميل صالح داخل الحجز.' ); }
 	$lang = 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar';
 	$is_followup = absint( get_post_meta( $booking_id, '_vava_package_parent_booking_id', true ) ) > 0;
+	// Both translations go in ONE email, regardless of the booking's stored language.
 	$subject = $is_followup
-		? ( 'en' === $lang ? 'Your VAVA follow-up session is confirmed #' . $booking_id : 'تأكيد حجز جلسة متابعة الباقة في VAVA #' . $booking_id )
-		: ( 'en' === $lang ? 'Your VAVA booking details #' . $booking_id : 'تفاصيل حجزك مع VAVA #' . $booking_id );
+		? 'VAVA — تأكيد جلسة المتابعة / Follow-up session confirmation #' . $booking_id
+		: 'VAVA — تفاصيل الحجز / Booking details #' . $booking_id;
 	$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 	$sent = wp_mail( $email, $subject, vava_booking_email_html( $booking_id, $lang ), $headers );
 	update_post_meta( $booking_id, '_vava_booking_notification_sent', $sent ? 'sent' : 'attempted' );
@@ -2951,17 +3016,33 @@ function vava_booking_send_status_update( int $booking_id, string $event, string
 		'completed' => array( 'Your VAVA service is complete', 'Your booking was marked as completed. You can now complete the journey impact questionnaire from your account.' ),
 		'restored_confirmed' => array( 'Your booking status was updated', 'Your booking was moved from completed back to confirmed.' ),
 	);
-	$copy = 'en' === $lang ? ( $events_en[ $event ] ?? $events_en['cancelled'] ) : ( $events_ar[ $event ] ?? $events_ar['cancelled'] );
-	$lines = array(
-		$copy[1], '',
-		( 'en' === $lang ? 'Booking number: #' : 'رقم الحجز: #' ) . $booking_id,
-		( 'en' === $lang ? 'Service: ' : 'الخدمة: ' ) . $service,
-		( 'en' === $lang ? 'Appointment: ' : 'الموعد: ' ) . $date . ' ' . $time,
-		( 'en' === $lang ? 'Payment method: ' : 'طريقة الدفع: ' ) . vava_booking_payment_method_label( $method ),
-		( 'en' === $lang ? 'Booking status: ' : 'حالة الحجز: ' ) . vava_booking_status_label( $status ),
-	);
-	if ( $note ) { $lines[] = ''; $lines[] = ( 'en' === $lang ? 'Administration note: ' : 'ملاحظة الإدارة: ' ) . $note; }
-	wp_mail( $email, $copy[0], implode( "\n", $lines ) );
+	// Status updates are also a single bilingual message, irrespective of the saved language.
+	$messages = array();
+	foreach ( array( 'ar', 'en' ) as $mail_lang ) {
+		$is_en = 'en' === $mail_lang;
+		$copy = $is_en ? ( $events_en[ $event ] ?? $events_en['cancelled'] ) : ( $events_ar[ $event ] ?? $events_ar['cancelled'] );
+		$service_label = $service;
+		if ( $is_en ) {
+			$uid = sanitize_key( (string) get_post_meta( $booking_id, '_vava_booking_service_uid', true ) );
+			if ( str_starts_with( $uid, 'package-followup-' ) ) { $service_label = 'Package follow-up session'; }
+			elseif ( $uid && function_exists( 'vava_booking_resolve_service' ) ) {
+				$resolved = vava_booking_resolve_service( $uid, 'en' );
+				if ( is_array( $resolved ) && ! empty( $resolved['title'] ) ) { $service_label = (string) $resolved['title']; }
+			}
+		}
+		$lines = array(
+			$copy[1], '',
+			( $is_en ? 'Booking number: #' : 'رقم الحجز: #' ) . $booking_id,
+			( $is_en ? 'Service: ' : 'الخدمة: ' ) . $service_label,
+			( $is_en ? 'Appointment: ' : 'الموعد: ' ) . $date . ' ' . $time,
+			( $is_en ? 'Payment method: ' : 'طريقة الدفع: ' ) . vava_booking_email_localized_label( 'method', $method, $mail_lang ),
+			( $is_en ? 'Booking status: ' : 'حالة الحجز: ' ) . vava_booking_email_localized_label( 'status', $status, $mail_lang ),
+		);
+		if ( $note ) { $lines[] = ''; $lines[] = ( $is_en ? 'Administration note: ' : 'ملاحظة الإدارة: ' ) . $note; }
+		$messages[] = ( $is_en ? 'English' : 'العربية' ) . "\n" . implode( "\n", $lines );
+	}
+	$subject = 'VAVA #' . $booking_id . ' — ' . ( $events_ar[ $event ][0] ?? 'تحديث الحجز' ) . ' / ' . ( $events_en[ $event ][0] ?? 'Booking update' );
+	wp_mail( $email, $subject, implode( "\n\n--------------------------\n\n", $messages ) );
 }
 
 function vava_booking_admin_service_location( int $booking_id ): string {
