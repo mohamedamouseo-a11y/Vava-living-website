@@ -127,7 +127,13 @@ $product_status = static function ( array $record ) use ( $is_en ): array {
 <?php if ( $receipt_updated ) : ?><div class="vava-my-bookings-notice is-success"><?php echo esc_html( $is_en ? 'The new receipt was uploaded successfully.' : 'تم رفع الإيصال الجديد بنجاح.' ); ?></div><?php endif; ?>
 <?php if ( $receipt_error ) : ?><div class="vava-my-bookings-notice is-error"><?php echo esc_html( $receipt_error ); ?></div><?php endif; ?>
 <?php if ( $customer_cancelled ) : ?><div class="vava-my-bookings-notice is-success"><?php echo esc_html( $is_en ? 'The booking was cancelled.' : 'تم إلغاء الحجز.' ); ?></div><?php endif; ?>
-<?php if ( $cancellation_requested ) : ?><div class="vava-my-bookings-notice is-success"><?php echo esc_html( $is_en ? 'Your cancellation request was sent for review.' : 'تم إرسال طلب الإلغاء للمراجعة.' ); ?></div><?php endif; ?>
+<?php if ( $cancellation_requested ) : ?><div class="vava-my-bookings-notice is-success"><?php echo esc_html( $is_en ? 'Cancellation request saved and queued for VAVA review; your booking remains confirmed until the review is complete.' : 'تم تسجيل طلب الإلغاء وإحالته للمراجعة. سيظل الحجز قائمًا حتى تعتمد الإدارة الإلغاء.' ); ?></div><?php endif; ?>
+<?php if ( isset( $_GET['reschedule_result'] ) ) :
+$reschedule_result = sanitize_key( wp_unslash( $_GET['reschedule_result'] ) );
+$reschedule_ok = 'pending' === $reschedule_result;
+?>
+<div class="vava-my-bookings-notice <?php echo $reschedule_ok ? 'is-success' : 'is-error'; ?>" role="status"><?php echo esc_html( $reschedule_ok ? ( $is_en ? 'Date change requested. The original booking remains valid until approved.' : 'تم إرسال طلب تغيير الموعد. سيظل الحجز الأصلي ساريًا حتى موافقة الإدارة.' ) : ( $is_en ? 'Could not request this time. Choose another available slot.' : 'تعذر طلب هذا الموعد. اختاري وقتًا متاحًا آخر.' ) ); ?></div>
+<?php endif; ?>
 <?php if ( ! empty( $_GET['impact_submitted'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?><div class="vava-my-bookings-notice is-success"><?php echo esc_html( $is_en ? 'Your journey impact questionnaire was submitted successfully.' : 'تم إرسال استبيان أثر الرحلة بنجاح.' ); ?></div><?php endif; ?>
 
 <div class="vava-account-dashboard" data-vava-account-dashboard data-active-section="<?php echo esc_attr( $active_section ); ?>">
@@ -184,6 +190,10 @@ $product_status = static function ( array $record ) use ( $is_en ): array {
 										}
 										?>
 										<?php if ( function_exists( 'vava_package_followup_render_account' ) ) { vava_package_followup_render_account( absint( $record['id'] ), $lang ); } ?>
+<?php if ( function_exists( 'vava_customer_reschedule_account_card' ) ) { vava_customer_reschedule_account_card( absint( $record['id'] ), $lang, (string) $token ); } ?>
+<?php if ( 'cancellation_requested' === (string) ( $record['status'] ?? '' ) ) : ?>
+<p role="status" style="margin:10px 0;padding:12px;background:#f6f1e6;border:1px solid #d7c9ad;border-radius:10px"><?php echo esc_html( $is_en ? 'Cancellation request received. The booking remains visible and reserved until VAVA approves it; no cancellation or refund is final yet.' : 'تم استلام طلب الإلغاء للمراجعة. سيظل الحجز ظاهرًا ومحجوزًا لحين موافقة الإدارة؛ لم يتم الإلغاء النهائي أو الاسترداد بعد.' ); ?></p>
+<?php endif; ?>
 <?php
 $meeting_link = esc_url_raw( (string) get_post_meta( absint( $record['id'] ), '_vava_booking_meeting_url', true ) );
 $meeting_link_valid = $meeting_link && 'https' === strtolower( (string) wp_parse_url( $meeting_link, PHP_URL_SCHEME ) ) && 'meet.google.com' === strtolower( (string) wp_parse_url( $meeting_link, PHP_URL_HOST ) );
