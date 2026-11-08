@@ -237,6 +237,7 @@ function vava_package_followup_create( int $parent_id, int $user_id, string $dat
         } else {
             // Do not block the customer's HTTP confirmation while SMTP/Google services respond.
             vava_package_followup_queue_confirmation( $child );
+            vava_package_followup_queue_admin_notice( $child );
             if ( function_exists( 'vava_booking_automation_queue_processing' ) ) { vava_booking_automation_queue_processing( $child ); }
         }
         return $child;
@@ -301,6 +302,78 @@ function vava_package_followup_send_confirmation_handler( int $child_id ): void 
 }
 add_action( 'vava_package_followup_send_confirmation_event', 'vava_package_followup_send_confirmation_handler', 10, 1 );
 
+/**
+ * Notify the booking administrators independently of the customer email.
+ * Mail is sent by WP-Cron, not during the customer's booking request.
+ */
+function vava_package_followup_queue_admin_notice( int $child_id ): void {
+    if ( ! vava_package_followup_is_child( $child_id ) ||
+         get_post_meta( $child_id, '_vava_followup_admin_notice_sent_at', true ) ) { return; }
+    $parent_id = absint( get_post_meta( $child_id, '_vava_package_parent_booking_id', true ) );
+    if ( 'vava_followup_demo_20261019' === (string) get_post_meta( $parent_id, '_vava_followup_test_marker', true ) ) { return; }
+    if ( function_exists( 'vava_mail_notifications_enabled' ) && ! vava_mail_notifications_enabled( 'admin' ) ) { return; }
+    $args = array( $child_id );
+    if ( wp_next_scheduled( 'vava_package_followup_admin_notice_event', $args ) ) { return; }
+    $scheduled = wp_schedule_single_event( time() + 12, 'vava_package_followup_admin_notice_event', $args, true );
+    update_post_meta( $child_id, '_vava_followup_admin_notice_state',
+        is_wp_error( $scheduled ) || ! $scheduled ? 'queue_failed' : 'queued' );
+}
+function vava_package_followup_admin_notice_handler( int $child_id ): void {
+    if ( ! vava_package_followup_is_child( $child_id ) ||
+         get_post_meta( $child_id, '_vava_followup_admin_notice_sent_at', true ) ) { return; }
+    $parent_id = absint( get_post_meta( $child_id, '_vava_package_parent_booking_id', true ) );
+    if ( 'vava_followup_demo_20261019' === (string) get_post_meta( $parent_id, '_vava_followup_test_marker', true ) ) { return; }
+    if ( ! in_array( (string) get_post_meta( $child_id, '_vava_booking_status', true ), array( 'confirmed', 'paid' ), true ) ) { return; }
+    if ( function_exists( 'vava_mail_notifications_enabled' ) && ! vava_mail_notifications_enabled( 'admin' ) ) {
+        update_post_meta( $child_id, '_vava_followup_admin_notice_state', 'disabled' );
+        return;
+    }
+    $admin_email = function_exists( 'vava_mail_admin_recipient' ) ? vava_mail_admin_recipient() : sanitize_email( (string) get_option( 'admin_email' ) );
+    $customer = (array) get_post_meta( $child_id, '_vava_booking_customer', true );
+    $customer_email = sanitize_email( (string) ( $customer['email'] ?? '' ) );
+    if ( ! is_email( $admin_email ) || $admin_email === $customer_email ) {
+        update_post_meta( $child_id, '_vava_followup_admin_notice_state', 'skipped' );
+        return;
+    }
+    $booking_url = function_exists( 'vava_booking_admin_details_url' )
+        ? vava_booking_admin_details_url( $child_id ) : admin_url( 'post.php?post=' . $child_id . '&action=edit' );
+    $subject = 'VAVA — تأكيد جلسة متابعة الباقة #' . $child_id;
+    $rows = array(
+        'الحجز' => '#' . $child_id,
+        'الباقة الأساسية' => '#' . $parent_id,
+        'العميل' => sanitize_text_field( (string) ( $customer['name'] ?? '' ) ),
+        'التاريخ' => (string) get_post_meta( $child_id, '_vava_booking_date', true ),
+        'الوقت' => (string) get_post_meta( $child_id, '_vava_booking_time', true ),
+        'الدفع' => 'ضمن الباقة — بدون رسوم إضافية',
+    );
+    $body = '<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;color:#44483a"><h2>تأكيد جلسة متابعة جديدة</h2>';
+    foreach ( $rows as $label => $value ) {
+        $body .= '<p><strong>' . esc_html( $label ) . ':</strong> ' . esc_html( $value ) . '</p>';
+    }
+    $body .= '<p><a href="' . esc_url( $booking_url ) . '">فتح تفاصيل الحجز في لوحة VAVA</a></p></div>';
+    $sent = wp_mail( $admin_email, $subject, $body, array( 'Content-Type: text/html; charset=UTF-8' ) );
+    if ( $sent ) {
+        update_post_meta( $child_id, '_vava_followup_admin_notice_sent_at', current_time( 'mysql', true ) );
+        update_post_meta( $child_id, '_vava_followup_admin_notice_state', 'sent' );
+        delete_post_meta( $child_id, '_vava_followup_admin_notice_last_error' );
+        return;
+    }
+    $attempts = absint( get_post_meta( $child_id, '_vava_followup_admin_notice_attempts', true ) ) + 1;
+    update_post_meta( $child_id, '_vava_followup_admin_notice_attempts', $attempts );
+    update_post_meta( $child_id, '_vava_followup_admin_notice_last_error', 'WordPress mailer did not accept the admin notification.' );
+    if ( $attempts >= 4 ) {
+        update_post_meta( $child_id, '_vava_followup_admin_notice_state', 'failed' );
+        return;
+    }
+    update_post_meta( $child_id, '_vava_followup_admin_notice_state', 'retrying' );
+    $args = array( $child_id );
+    if ( ! wp_next_scheduled( 'vava_package_followup_admin_notice_event', $args ) ) {
+        wp_schedule_single_event( time() + min( 1800, 60 * ( 2 ** ( $attempts - 1 ) ) ),
+            'vava_package_followup_admin_notice_event', $args );
+    }
+}
+add_action( 'vava_package_followup_admin_notice_event', 'vava_package_followup_admin_notice_handler', 10, 1 );
+
 /** Only verified logged-in owner can schedule; GET forms never change data. */
 function vava_package_followup_handle_request(): void {
     if ( ! is_user_logged_in() ) { wp_die( 'Authentication required.', '', array( 'response' => 403 ) ); }
@@ -313,7 +386,7 @@ function vava_package_followup_handle_request(): void {
         if ( is_wp_error( $result ) ) {
             wp_send_json_error( array( 'code' => $result->get_error_code(), 'message' => $result->get_error_message() ), 422 );
         }
-        wp_send_json_success( array( 'booking_id' => absint( $result ), 'message' => 'تم تأكيد جلسة المتابعة بنجاح.' ) );
+        wp_send_json_success( array( 'booking_id' => absint( $result ), 'message' => 'تم تأكيد جلسة المتابعة وحفظ الموعد. إشعار البريد قيد الإرسال.' ) );
     }
     $lang = get_post_meta( $parent_id, '_vava_booking_language', true ) === 'en' ? 'en' : 'ar';
     $target = vava_customer_account_url( $lang, array( 'view' => 'bookings', 'package_booking' => $parent_id, 'package_date' => $date ) );
@@ -344,7 +417,7 @@ function vava_package_followup_render_account( int $parent_id, string $lang ): v
         delete_transient( 'vava_followup_result_' . get_current_user_id() . '_' . $parent_id );
     }
     $result_messages = array(
-        'success' => array( 'تم تأكيد جلسة المتابعة بنجاح.', 'Your follow-up was booked successfully.' ),
+        'success' => array( 'تم تأكيد جلسة المتابعة وحفظ الموعد بنجاح. إشعار البريد يُرسل بشكل منفصل، وتظهر حالته بجانب الموعد.', 'Your follow-up is confirmed and saved. The email confirmation is sent separately; its status appears by the appointment.' ),
         'slot_unavailable' => array( 'الموعد لم يعد متاحًا أو لا يستوفي شروط المتابعة. اختر وقتًا آخر بعد الجلسة الأساسية.', 'The time is unavailable or too early. Choose another time after your initial session.' ),
         'not_allowed' => array( 'تعذر الحجز: تحقق من الحساب واعتماد دفع الباقة.', 'Booking not permitted: check your account and package payment.' ),
         'no_balance' => array( 'لا توجد جلسات متابعة متبقية.', 'No follow-up credits remain.' ),
@@ -367,6 +440,17 @@ function vava_package_followup_render_account( int $parent_id, string $lang ): v
             $child_time = (string) get_post_meta( $child_id, '_vava_booking_time', true );
             $status_text = function_exists( 'vava_booking_status_label' ) ? vava_booking_status_label( $child_status ) : $child_status;
             echo '<li>' . esc_html( $child_date . ' ' . $child_time . ' — ' . $status_text );
+            if ( in_array( $child_status, array( 'confirmed', 'paid' ), true ) ) {
+                $mail_state = (string) get_post_meta( $child_id, '_vava_followup_confirmation_state', true );
+                $mail_sent = 'sent' === (string) get_post_meta( $child_id, '_vava_booking_notification_sent', true );
+                if ( $mail_sent || 'sent' === $mail_state ) {
+                    echo ' — <span>' . esc_html( $is_en ? 'Email confirmation sent' : 'تم إرسال إشعار التأكيد بالبريد' ) . '</span>';
+                } elseif ( in_array( $mail_state, array( 'failed', 'queue_failed' ), true ) ) {
+                    echo ' — <span>' . esc_html( $is_en ? 'Email notification needs attention; appointment remains confirmed.' : 'إرسال البريد يحتاج مراجعة، والحجز مؤكد في حسابك.' ) . '</span>';
+                } else {
+                    echo ' — <span>' . esc_html( $is_en ? 'Email confirmation pending' : 'إشعار التأكيد قيد الإرسال' ) . '</span>';
+                }
+            }
             $meeting = esc_url_raw( (string) get_post_meta( $child_id, '_vava_booking_meeting_url', true ) );
             if ( $meeting && 'https' === strtolower( (string) wp_parse_url( $meeting, PHP_URL_SCHEME ) ) && 'meet.google.com' === strtolower( (string) wp_parse_url( $meeting, PHP_URL_HOST ) ) ) {
                 echo ' — <a href="' . esc_url( $meeting ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $is_en ? 'Join Google Meet' : 'دخول Google Meet' ) . '</a>';
