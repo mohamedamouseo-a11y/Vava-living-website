@@ -56,6 +56,8 @@
     var zoomOutControl = reader.querySelector('[data-reader-zoom-out]');
     if (zoomInControl) zoomInControl.disabled = zoom >= 2;
     if (zoomOutControl) zoomOutControl.disabled = zoom <= .2;
+    var fitPageControl = reader.querySelector('[data-reader-fit-page]');
+    if (fitPageControl) fitPageControl.disabled = !sourceImage;
   }
 
   function drawWatermark(ctx, width, height) {
@@ -164,6 +166,16 @@
   var zoomOut = reader.querySelector('[data-reader-zoom-out]');
   if (zoomIn) zoomIn.addEventListener('click', function () { zoom = Math.min(2, Math.round((zoom + .1) * 10) / 10); saveState(); render(); });
   if (zoomOut) zoomOut.addEventListener('click', function () { zoom = Math.max(.2, Math.round((zoom - .1) * 10) / 10); saveState(); render(); });
+  var fitPage = reader.querySelector('[data-reader-fit-page]');
+  if (fitPage) fitPage.addEventListener('click', function () {
+    if (!sourceImage || !wrap) return;
+    var width = Math.min(sourceImage.naturalWidth, Math.max(160, wrap.clientWidth - 36));
+    var pageHeight = width * sourceImage.naturalHeight / sourceImage.naturalWidth;
+    var height = Math.max(120, wrap.clientHeight - 36);
+    zoom = Math.max(.2, Math.min(1, Math.floor((height / pageHeight) * 10) / 10));
+    saveState(); render();
+    wrap.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  });
 
   var fullscreen = reader.querySelector('[data-reader-fullscreen]');
   function updateFullscreenControl() {
