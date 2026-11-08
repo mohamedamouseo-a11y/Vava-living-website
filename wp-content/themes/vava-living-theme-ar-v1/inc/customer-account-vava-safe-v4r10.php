@@ -27,7 +27,12 @@ add_action( 'init', 'vava_customer_register_role', 4 );
 
 function vava_customer_is_customer( $user = null ): bool {
 	$user = $user instanceof WP_User ? $user : ( $user ? get_userdata( absint( $user ) ) : wp_get_current_user() );
-	return $user instanceof WP_User && in_array( vava_customer_role_slug(), (array) $user->roles, true );
+	// A user with backend editing privileges must never be treated as a
+	// customer identity, even when an old account also has vava_customer role.
+	// This prevents administrators being silently signed in to the customer portal.
+	return $user instanceof WP_User
+		&& in_array( vava_customer_role_slug(), (array) $user->roles, true )
+		&& ! user_can( $user, 'edit_posts' );
 }
 
 function vava_customer_is_verified( int $user_id ): bool {
