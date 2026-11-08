@@ -2976,6 +2976,7 @@ function vava_booking_action_label( string $action ): string {
 		'note_saved' => 'حفظ ملاحظة إدارية', 'resend_details' => 'إعادة إرسال التفاصيل', 'refund_recorded' => 'تسجيل استرداد مبلغ',
 		'mark_completed' => 'تحديد الحجز كمكتمل', 'restore_confirmed' => 'إعادة الحجز إلى مؤكد',
 'meeting_saved' => 'حفظ رابط الاجتماع', 'meeting_sent' => 'إرسال رابط الاجتماع للعميل',
+'reschedule_requested' => 'طلب تغيير موعد من العميل', 'reschedule_approved' => 'اعتماد تغيير الموعد', 'reschedule_rejected' => 'رفض تغيير الموعد',
 'meeting_generated' => 'إنشاء Google Meet', 'meeting_generate_pending' => 'Google Meet قيد الإنشاء', 'meeting_auto_sent' => 'إرسال رابط الاجتماع تلقائيًا', 'meeting_reminder_sent' => 'إرسال تذكير الجلسة',
 		'revoke_access' => 'إيقاف صلاحية المشاهدة', 'restore_access' => 'إعادة تفعيل المشاهدة',
 	);
@@ -3305,6 +3306,7 @@ function vava_booking_render_admin_fullpage_content( int $post_id ): void {
 					<section class="vava-booking-detail-card"><header><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><h2>معلومات العميل</h2></header><?php vava_booking_admin_detail_row( 'الاسم', (string) ( $customer['name'] ?? '' ) ); vava_booking_admin_detail_row( 'رقم الجوال', (string) ( $customer['whatsapp'] ?? '' ), 'ltr' ); vava_booking_admin_detail_row( 'البريد الإلكتروني', (string) ( $customer['email'] ?? '' ), 'ltr' ); vava_booking_admin_detail_row( 'سبق تجربة VAVA', (string) ( $customer['previous'] ?? '' ) ); vava_booking_admin_detail_row( 'ملاحظات العميل', (string) ( $customer['notes'] ?? '' ) ); ?></section>
 					<section class="vava-booking-detail-card"><header><span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span><h2>الخدمة والموعد</h2></header><?php vava_booking_admin_detail_row( 'الخدمة', $service_title ); vava_booking_admin_detail_row( 'نوع الخدمة', $service_kind ); vava_booking_admin_detail_row( 'التاريخ', $date, 'ltr' ); vava_booking_admin_detail_row( 'الوقت', $time, 'ltr' ); vava_booking_admin_detail_row( 'المدة', $duration ); if ( $location ) { vava_booking_admin_detail_row( 'المكان', $location ); } ?></section>
 				</div>
+				<?php if ( function_exists( 'vava_customer_reschedule_admin_card' ) ) { vava_customer_reschedule_admin_card( $post_id ); } ?>
 				<?php vava_booking_render_admin_meeting_card( $post_id ); ?>
 				<?php if ( function_exists( 'vava_booking_questionnaire_render_admin_details' ) ) { vava_booking_questionnaire_render_admin_details( $post_id ); } ?>
 
@@ -3366,6 +3368,7 @@ function vava_booking_render_admin_details_content( int $post_id, bool $overlay 
 					<section class="vava-booking-detail-card"><h3>معلومات العميل</h3><?php vava_booking_admin_detail_row( 'الاسم', (string) ( $customer['name'] ?? '' ) ); vava_booking_admin_detail_row( 'رقم الجوال', (string) ( $customer['whatsapp'] ?? '' ), 'ltr' ); vava_booking_admin_detail_row( 'البريد الإلكتروني', (string) ( $customer['email'] ?? '' ), 'ltr' ); vava_booking_admin_detail_row( 'سبق تجربة VAVA', (string) ( $customer['previous'] ?? '' ) ); vava_booking_admin_detail_row( 'ملاحظات العميل', (string) ( $customer['notes'] ?? '' ) ); ?></section>
 					<section class="vava-booking-detail-card"><h3>الخدمة والموعد</h3><?php vava_booking_admin_detail_row( 'الخدمة', $service_title ); vava_booking_admin_detail_row( 'نوع الخدمة', $service_kind ); vava_booking_admin_detail_row( 'التاريخ', $date, 'ltr' ); vava_booking_admin_detail_row( 'الوقت', $time, 'ltr' ); vava_booking_admin_detail_row( 'المدة', $duration ); if ( $location ) { vava_booking_admin_detail_row( 'المكان', $location ); } ?></section>
 				</div>
+				<?php if ( function_exists( 'vava_customer_reschedule_admin_card' ) ) { vava_customer_reschedule_admin_card( $post_id ); } ?>
 				<?php if ( function_exists( 'vava_booking_questionnaire_render_admin_details' ) ) { vava_booking_questionnaire_render_admin_details( $post_id ); } ?>
 				<?php vava_booking_render_refund_overview( $post_id, $status, $refund_remaining ); ?>
 				<div class="vava-booking-admin-secondary-grid">
@@ -3477,6 +3480,28 @@ function vava_booking_process_admin_action( int $booking_id, string $decision, s
 	}
 	update_post_meta( $booking_id, '_vava_booking_status', $new_status );
 	update_post_meta( $booking_id, '_vava_booking_payment_status', $new_payment );
+	// A cancelled package must not retain future active follow-up appointments.
+	// Past/used sessions remain in history; cancellation is never a record deletion.
+	if ( 'cancelled' === $new_status
+		&& in_array( $decision, array( 'cancel_booking', 'approve_customer_cancel' ), true )
+		&& function_exists( 'vava_package_followup_children' )
+		&& function_exists( 'vava_package_followup_total' )
+		&& vava_package_followup_total( $booking_id ) > 0 ) {
+		foreach ( vava_package_followup_children( $booking_id ) as $child_booking_id ) {
+			$child_old = (string) get_post_meta( $child_booking_id, '_vava_booking_status', true );
+			if ( ! in_array( $child_old, array( 'confirmed', 'paid', 'pending' ), true )
+				|| ! function_exists( 'vava_customer_action_is_future' )
+				|| ! vava_customer_action_is_future( $child_booking_id ) ) { continue; }
+			update_post_meta( $child_booking_id, '_vava_booking_status', 'cancelled' );
+			update_post_meta( $child_booking_id, '_vava_booking_cancelled_with_parent', $booking_id );
+			if ( get_post_meta( $child_booking_id, '_vava_booking_google_event_id', true ) ) {
+				update_post_meta( $child_booking_id, '_vava_booking_meeting_status', 'calendar_cancellation_sync_required' );
+			}
+			vava_booking_append_action_log( $child_booking_id, 'cancel_booking',
+				'Cancelled future follow-up after cancellation of package #' . $booking_id,
+				$child_old, 'cancelled', 'paid', 'paid' );
+		}
+	}
 	update_post_meta( $booking_id, '_vava_booking_review_note', $note );
 	update_post_meta( $booking_id, '_vava_booking_reviewed_by', get_current_user_id() );
 	update_post_meta( $booking_id, '_vava_booking_reviewed_at', current_time( 'mysql' ) );
@@ -3486,6 +3511,9 @@ function vava_booking_process_admin_action( int $booking_id, string $decision, s
 	}
 	if ( $is_digital && function_exists( 'vava_digital_products_send_order_status_update' ) ) {
 		vava_digital_products_send_order_status_update( $booking_id, $event, $note );
+	} elseif ( in_array( $event, array( 'cancelled', 'cancellation_request_rejected' ), true ) && function_exists( 'vava_customer_action_notice_queue' ) ) {
+		// One queued bilingual customer notification and one administrator notification, with retries.
+		vava_customer_action_notice_queue( $booking_id, 'cancelled' === $event ? 'cancelled' : 'cancel_rejected' );
 	} else {
 		vava_booking_send_status_update( $booking_id, $event, $note );
 	}
@@ -3907,7 +3935,9 @@ function vava_booking_customer_cancel_mode( int $booking_id ): string {
 	$payment = vava_booking_effective_payment_status( $booking_id );
 	if ( in_array( $status, array( 'completed', 'cancelled', 'customer_cancelled', 'cancellation_requested', 'bank_rejected', 'payment_failed', 'payment_error' ), true ) ) { return ''; }
 	if ( in_array( $status, array( 'pending', 'pending_payment', 'pending_bank_review' ), true ) && 'paid' !== $payment ) { return 'cancel'; }
-	if ( function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) && in_array( $status, array( 'confirmed', 'paid' ), true ) ) { return 'cancel'; }
+	if ( function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) && in_array( $status, array( 'confirmed', 'paid' ), true ) ) {
+		return function_exists( 'vava_customer_action_is_future' ) && ! vava_customer_action_is_future( $booking_id ) ? '' : 'cancel';
+	}
 	if ( in_array( $status, array( 'confirmed', 'paid' ), true ) || 'paid' === $payment ) { return 'request'; }
 	return '';
 }
@@ -3947,25 +3977,29 @@ function vava_booking_public_cancel(): void {
 	$now = current_time( 'mysql' );
 	update_post_meta( $booking_id, '_vava_booking_customer_cancel_reason', $reason );
 	update_post_meta( $booking_id, '_vava_booking_customer_cancel_session_email', vava_booking_customer_email( $booking_id ) );
-	$redirect = add_query_arg( 'booking', $booking_id, $token ? add_query_arg( 'vava_magic', rawurlencode( $token ), vava_booking_my_bookings_url( $lang ) ) : ( function_exists( 'vava_customer_account_url' ) ? vava_customer_account_url( $lang ) : vava_booking_my_bookings_url( $lang ) ) );
+	$redirect = add_query_arg( array( 'booking' => $booking_id, 'view' => 'bookings' ), $token ? add_query_arg( 'vava_magic', rawurlencode( $token ), vava_booking_my_bookings_url( $lang ) ) : ( function_exists( 'vava_customer_account_url' ) ? vava_customer_account_url( $lang ) : vava_booking_my_bookings_url( $lang ) ) );
 	if ( 'cancel' === $mode ) {
 		update_post_meta( $booking_id, '_vava_booking_customer_cancelled_at', $now );
 		update_post_meta( $booking_id, '_vava_booking_status', 'customer_cancelled' );
 		update_post_meta( $booking_id, '_vava_booking_payment_status', function_exists( 'vava_package_followup_is_child' ) && vava_package_followup_is_child( $booking_id ) ? 'paid' : 'cancelled' );
 		vava_booking_append_action_log( $booking_id, 'customer_cancelled', $reason, $old_status, 'customer_cancelled', $old_payment, 'cancelled' );
-		vava_booking_send_status_update( $booking_id, 'customer_cancelled', $reason );
-		vava_booking_notify_admin_customer_cancellation( $booking_id, 'cancel', $reason );
-		wp_safe_redirect( add_query_arg( 'customer_cancelled', '1', $redirect ) );
+		// Queue both notifications after saving the cancellation so slow SMTP cannot time out the customer's request.
+		if ( function_exists( 'vava_customer_action_notice_queue' ) ) { vava_customer_action_notice_queue( $booking_id, 'cancelled' ); }
+		wp_safe_redirect( add_query_arg( 'customer_cancelled', '1', $redirect ) . '#vava-booking-' . $booking_id );
 		exit;
 	}
 	update_post_meta( $booking_id, '_vava_booking_pre_cancel_request_status', $old_status );
 	update_post_meta( $booking_id, '_vava_booking_status', 'cancellation_requested' );
 	update_post_meta( $booking_id, '_vava_booking_cancellation_request_status', 'pending' );
 	update_post_meta( $booking_id, '_vava_booking_cancellation_requested_at', $now );
+	foreach ( array( 'customer', 'admin' ) as $target ) {
+		delete_post_meta( $booking_id, '_vava_action_notice_cancel_request_' . $target . '_sent_at' );
+		delete_post_meta( $booking_id, '_vava_action_notice_cancel_request_' . $target . '_attempts' );
+	}
 	vava_booking_append_action_log( $booking_id, 'customer_cancel_requested', $reason, $old_status, 'cancellation_requested', $old_payment, $old_payment );
-	vava_booking_send_status_update( $booking_id, 'cancellation_requested', $reason );
-	vava_booking_notify_admin_customer_cancellation( $booking_id, 'request', $reason );
-	wp_safe_redirect( add_query_arg( 'cancellation_requested', '1', $redirect ) );
+	// Paid package cancellations are requests pending VAVA review, not instant cancellations.
+	if ( function_exists( 'vava_customer_action_notice_queue' ) ) { vava_customer_action_notice_queue( $booking_id, 'cancel_request' ); }
+	wp_safe_redirect( add_query_arg( 'cancellation_requested', '1', $redirect ) . '#vava-booking-' . $booking_id );
 	exit;
 }
 add_action( 'admin_post_vava_booking_public_cancel', 'vava_booking_public_cancel' );
