@@ -370,6 +370,8 @@ function vava_package_followup_render_account( int $parent_id, string $lang ): v
             $meeting = esc_url_raw( (string) get_post_meta( $child_id, '_vava_booking_meeting_url', true ) );
             if ( $meeting && 'https' === strtolower( (string) wp_parse_url( $meeting, PHP_URL_SCHEME ) ) && 'meet.google.com' === strtolower( (string) wp_parse_url( $meeting, PHP_URL_HOST ) ) ) {
                 echo ' — <a href="' . esc_url( $meeting ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $is_en ? 'Join Google Meet' : 'دخول Google Meet' ) . '</a>';
+            } elseif ( in_array( $child_status, array( 'confirmed', 'paid' ), true ) && $child_date >= wp_date( 'Y-m-d' ) ) {
+                echo ' — <span role="status">' . esc_html( $is_en ? 'Google Meet link pending; it will be sent to your email once ready.' : 'رابط Google Meet قيد التجهيز وسيُرسل إلى بريدك فور جاهزيته.' ) . '</span>';
             }
             echo '</li>';
         }
