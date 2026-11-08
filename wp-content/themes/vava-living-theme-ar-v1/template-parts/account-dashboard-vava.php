@@ -184,7 +184,15 @@ $product_status = static function ( array $record ) use ( $is_en ): array {
 										}
 										?>
 										<?php if ( function_exists( 'vava_package_followup_render_account' ) ) { vava_package_followup_render_account( absint( $record['id'] ), $lang ); } ?>
+<?php
+$meeting_link = esc_url_raw( (string) get_post_meta( absint( $record['id'] ), '_vava_booking_meeting_url', true ) );
+$meeting_link_valid = $meeting_link && 'https' === strtolower( (string) wp_parse_url( $meeting_link, PHP_URL_SCHEME ) ) && 'meet.google.com' === strtolower( (string) wp_parse_url( $meeting_link, PHP_URL_HOST ) );
+$meeting_is_confirmed = in_array( (string) ( $record['status'] ?? '' ), array( 'confirmed', 'paid' ), true );
+$meeting_link_visible = $meeting_link_valid && $meeting_is_confirmed;
+$meeting_is_pending = $meeting_is_confirmed && ! $meeting_link_visible && (string) ( $record['date'] ?? '' ) >= wp_date( 'Y-m-d' );
+?>
 <div class="vava-account-order-actions">
+<?php if ( $meeting_link_visible ) : ?><a class="vava-account-primary-action vava-account-meet-action" href="<?php echo esc_url( $meeting_link ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $is_en ? 'Join Google Meet' : 'دخول جلسة Google Meet' ); ?></a><?php elseif ( $meeting_is_pending ) : ?><span class="vava-account-disabled-action" role="status"><?php echo esc_html( $is_en ? 'The Google Meet link is being prepared and will appear here and in your email when ready.' : 'جارٍ تجهيز رابط Google Meet، وسيظهر هنا ويُرسل إلى بريدك عند جاهزيته.' ); ?></span><?php endif; ?>
 											<button type="button" class="vava-account-secondary-action" data-account-details-toggle aria-expanded="<?php echo $impact_open ? 'true' : 'false'; ?>" aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $is_en ? 'View details' : 'عرض التفاصيل' ); ?></button>
 											<?php if ( $impact_eligible ) : ?><a class="vava-account-impact-action" href="<?php echo esc_url( $impact_url ); ?>"><?php echo esc_html( $is_en ? 'Journey impact questionnaire' : 'تعبئة استبيان أثر الرحلة' ); ?></a><?php elseif ( $record['cancel_mode'] ) : ?><button type="button" class="vava-account-primary-action" data-cancel-booking="<?php echo esc_attr( (string) $record['id'] ); ?>" data-cancel-mode="<?php echo esc_attr( $record['cancel_mode'] ); ?>"><?php echo esc_html( $is_en ? 'Manage booking' : 'إدارة الحجز' ); ?></button><?php elseif ( '#' !== $record['detail_url'] ) : ?><a class="vava-account-primary-action" href="<?php echo esc_url( $record['detail_url'] ); ?>"><?php echo esc_html( $is_en ? 'Service details' : 'تفاصيل الخدمة' ); ?></a><?php endif; ?>
 										</div>
@@ -237,13 +245,9 @@ $product_status = static function ( array $record ) use ( $is_en ): array {
 											<span><small><?php echo esc_html( $is_en ? 'Payment' : 'حالة الدفع' ); ?></small><b><?php echo esc_html( $product_record['payment_label'] ); ?></b></span>
 											<span><small><?php echo esc_html( $is_en ? 'Access' : 'حالة الوصول' ); ?></small><b><?php echo esc_html( $state_label ); ?></b></span>
 										</div>
-										<?php
-										$meeting_link = esc_url_raw( (string) get_post_meta( absint( $record['id'] ), '_vava_booking_meeting_url', true ) );
-										$meeting_link_valid = $meeting_link && 'https' === strtolower( (string) wp_parse_url( $meeting_link, PHP_URL_SCHEME ) ) && 'meet.google.com' === strtolower( (string) wp_parse_url( $meeting_link, PHP_URL_HOST ) );
-										$meeting_link_visible = $meeting_link_valid && in_array( (string) ( $record['status'] ?? '' ), array( 'confirmed', 'paid' ), true );
-										?>
+										
 										<div class="vava-account-order-actions">
-											<?php if ( $meeting_link_visible ) : ?><a class="vava-account-primary-action vava-account-meet-action" href="<?php echo esc_url( $meeting_link ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $is_en ? 'Join Google Meet' : 'دخول جلسة Google Meet' ); ?></a><?php endif; ?>
+											
 											<button type="button" class="vava-account-secondary-action" data-account-details-toggle aria-expanded="false" aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $is_en ? 'Order details' : 'متابعة الطلب' ); ?></button>
 											<?php if ( $is_active_product ) : ?><a class="vava-account-primary-action" href="<?php echo esc_url( $product_record['viewer_url'] ); ?>"><?php echo esc_html( $is_en ? 'Open product' : 'فتح المنتج' ); ?></a><?php else : ?><span class="vava-account-disabled-action"><?php echo esc_html( $is_en ? 'Awaiting approval' : 'بانتظار الاعتماد' ); ?></span><?php endif; ?>
 										</div>
