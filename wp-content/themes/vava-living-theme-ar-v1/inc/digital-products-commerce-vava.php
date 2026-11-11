@@ -526,6 +526,7 @@ function vava_digital_products_render_admin_file_field( int $post_id, string $ui
 			</div>
 			<p class="description vava-private-file-note"><span class="dashicons dashicons-lock" aria-hidden="true"></span><span><?php echo esc_html( $is_en ? 'The original PDF stays private. Customers receive protected page-by-page viewing only after manual approval.' : 'يبقى ملف PDF الأصلي في التخزين الخاص، ويشاهد العميل صفحاته المحمية فقط بعد اعتماد التحويل يدويًا.' ); ?></span></p>
 		</div>
+		<?php if ( function_exists( 'vava_digital_access_admin_field' ) ) { vava_digital_access_admin_field( $uid, $lang ); } ?>
 	</div>
 	<?php
 }
