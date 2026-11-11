@@ -11,7 +11,7 @@ $lang  = vava_current_language();
 $is_en = 'en' === $lang;
 $token = isset( $_GET['vava_magic'] ) ? sanitize_text_field( wp_unslash( $_GET['vava_magic'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $requested_view = isset( $_GET['view'] ) ? sanitize_key( wp_unslash( $_GET['view'] ) ) : 'overview'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$view = in_array( $requested_view, array( 'overview', 'bookings', 'products', 'profile' ), true ) ? $requested_view : 'overview'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$view = in_array( $requested_view, array( 'overview', 'bookings', 'products', 'profile', 'support' ), true ) ? $requested_view : 'overview'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $context = function_exists( 'vava_customer_access_context' ) ? vava_customer_access_context( $token ) : array();
 $activation_token = isset( $_GET['vava_activate'] ) ? sanitize_text_field( wp_unslash( $_GET['vava_activate'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $activation_user  = $activation_token && function_exists( 'vava_customer_activation_user' ) ? vava_customer_activation_user( $activation_token ) : null;
@@ -86,7 +86,7 @@ $payment_map_en = array(
 	'rejected' => 'Rejected', 'failed' => 'Failed', 'refunded' => 'Refunded', 'partially_refunded' => 'Partially refunded',
 	'refund_pending' => 'Refund pending', 'cancelled' => 'Cancelled',
 );
-$method_map_en = array( 'paymob' => 'Online payment', 'bank' => 'Bank transfer', 'cash' => 'Pay later' );
+$method_map_en = array( 'paymob' => 'Online payment', 'bank' => 'Bank transfer', 'cash' => 'Pay later', 'package_credit' => 'Included in package' );
 
 $records = array();
 foreach ( $bookings as $booking_id ) {
@@ -155,7 +155,7 @@ $GLOBALS['vava_active_nav']            = '';
 $GLOBALS['vava_internal_body_classes'] = array( 'vava-my-bookings-page' );
 get_header( 'page' );
 ?>
-<main class="vava-my-bookings" dir="<?php echo esc_attr( $is_en ? 'ltr' : 'rtl' ); ?>" data-my-bookings-root data-active-section="<?php echo esc_attr( 'products' === $view ? 'products' : 'bookings' ); ?>" data-account-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
+<main class="vava-my-bookings" dir="<?php echo esc_attr( $is_en ? 'ltr' : 'rtl' ); ?>" data-my-bookings-root data-active-section="<?php echo esc_attr( 'support' === $view ? 'support' : ( 'products' === $view ? 'products' : 'bookings' ) ); ?>" data-account-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
 	<section class="vava-my-bookings-hero">
 		<div class="container">
 			<span><?php echo esc_html( $context ? ( $is_en ? 'Your personal VAVA space' : 'مساحتك الشخصية في VAVA' ) : ( $is_en ? 'Secure customer portal' : 'بوابة عملاء آمنة' ) ); ?></span>
