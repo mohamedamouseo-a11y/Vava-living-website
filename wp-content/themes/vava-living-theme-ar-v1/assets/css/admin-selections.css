@@ -413,6 +413,12 @@
 
 /* Release 1.19.3 — protected PDF field polish and first-page thumbnail. */
 .vava-selections-admin .vava-protected-pdf-field{height:100%;min-width:0;padding:14px!important}
+.vava-selections-admin .vava-digital-access-box{margin-top:16px;padding:14px;border:1px solid #c8d1bd;border-radius:12px;background:#f7f9f4;clear:both}
+.vava-selections-admin .vava-digital-access-box label{display:flex;flex-direction:column;gap:8px;font-weight:700;color:#44513a}
+.vava-selections-admin .vava-digital-access-box select{width:100%;max-width:550px;min-height:42px;padding:8px 10px;border:1px solid #aab69e;border-radius:9px;background:#fff;color:#354431}
+.vava-selections-admin .vava-digital-access-box select:focus-visible{outline:2px solid #798753;outline-offset:2px}
+.vava-selections-admin .vava-digital-access-box .description{color:#655e51;line-height:1.8!important;font-size:12px}
+.vava-selections-admin .vava-digital-access-feedback{min-height:18px;margin:7px 0 0!important;color:#427240;font-weight:700;font-size:12px}
 .vava-selections-admin .vava-protected-pdf-field>.vava-media-field{display:flex;min-height:100%;flex-direction:column}
 .vava-selections-admin .vava-protected-pdf-field .vava-private-file-dropzone{position:relative;min-height:250px!important;padding:10px!important;overflow:hidden}
 .vava-selections-admin .vava-protected-pdf-field .vava-media-preview{display:grid!important;width:100%;min-height:226px!important;place-items:center;overflow:hidden;border-radius:10px;background:#eef2f2}
