@@ -62,7 +62,7 @@ function vava_customer_isolated_request(): bool {
             'vava_booking_submit_impact_questionnaire', 'vava_booking_request_magic_link',
             'vava_package_followup_book', 'vava_booking_submit',
             'vava_digital_checkout_submit', 'vava_digital_reader_page_token',
-            'vava_digital_product_page', 'vava_digital_product_stream',
+            'vava_digital_product_page', 'vava_digital_product_stream', 'vava_digital_access_pdf',
         ), true );
     }
     return true;
