@@ -18,6 +18,9 @@ $file_ok   = function_exists( 'vava_digital_products_private_file_path' ) && '' 
 $ready     = $file_ok && 'ready' === (string) ( $record['processing_status'] ?? '' ) && absint( $record['page_count'] ?? 0 ) > 0;
 $can_view  = $user instanceof WP_User && function_exists( 'vava_digital_products_user_can_view' ) && vava_digital_products_user_can_view( $user->ID, $uid );
 $order_id  = $can_view && function_exists( 'vava_digital_products_latest_order' ) ? vava_digital_products_latest_order( $uid, $user->ID ) : 0;
+$access_mode = function_exists( 'vava_digital_access_mode' ) ? vava_digital_access_mode( $uid ) : 'view';
+$print_url = $can_view && $ready && function_exists( 'vava_digital_access_url' ) ? vava_digital_access_url( $uid, 'print', $user ) : '';
+$download_url = $can_view && $ready && function_exists( 'vava_digital_access_url' ) ? vava_digital_access_url( $uid, 'download', $user ) : '';
 /* Authorized purchasers can read an unpublished product without listing it publicly. */
 if ( ! $product && $can_view ) {
 	$selections_id = function_exists( 'vava_selections_page_id' ) ? absint( vava_selections_page_id() ) : 0;
@@ -48,7 +51,7 @@ get_header( 'page' );
 		<div class="container">
 			<div class="vava-reader-title-row">
 				<div><?php if ( ! empty( $product['category'] ) ) : ?><span><?php echo esc_html( (string) $product['category'] ); ?></span><?php endif; ?><h1><?php echo esc_html( (string) ( $product['title'] ?? ( $is_en ? 'Protected product' : 'المنتج المحمي' ) ) ); ?></h1><p><?php echo esc_html( $is_en ? 'Page-by-page protected viewing linked to your approved VAVA account.' : 'مشاهدة محمية صفحة بصفحة مرتبطة بحسابك المعتمد في VAVA.' ); ?></p></div>
-				<div class="vava-reader-security"><i aria-hidden="true">◇</i><div><strong><?php echo esc_html( $is_en ? 'Viewing access only' : 'صلاحية مشاهدة فقط' ); ?></strong><small><?php echo esc_html( $is_en ? 'The original PDF is never sent to the browser.' : 'لا يتم إرسال ملف PDF الأصلي إلى المتصفح.' ); ?></small></div></div>
+				<div class="vava-reader-security"><i aria-hidden="true">◇</i><div><strong><?php echo esc_html( $access_mode === 'view' ? ( $is_en ? 'Viewing access only' : 'صلاحية مشاهدة فقط' ) : ( $is_en ? 'Your approved product access' : 'صلاحية استخدام المنتج بعد الشراء' ) ); ?></strong><small><?php echo esc_html( 'view' === $access_mode ? ( $is_en ? 'The original PDF is never sent to the browser.' : 'لا يتم إرسال ملف PDF الأصلي إلى المتصفح.' ) : ( $is_en ? 'Print and download options follow the permissions set by VAVA.' : 'تظهر الطباعة والتحميل حسب الصلاحيات التي تحددها إدارة VAVA.' ) ); ?></small></div></div>
 			</div>
 		</div>
 	</section>
@@ -91,6 +94,13 @@ get_header( 'page' );
 							<div class="vava-reader-zoom-controls"><button type="button" data-reader-zoom-out aria-label="<?php echo esc_attr( $is_en ? 'Zoom out' : 'تصغير' ); ?>">−</button><span data-reader-zoom-label>100%</span><button type="button" class="vava-reader-fit-page" data-reader-fit-page title="<?php echo esc_attr( $is_en ? 'Fit the full page within the reader' : 'عرض الصفحة كاملة داخل القارئ' ); ?>"><?php echo esc_html( $is_en ? 'Fit page' : 'ملاءمة الصفحة' ); ?></button><button type="button" data-reader-zoom-in aria-label="<?php echo esc_attr( $is_en ? 'Zoom in' : 'تكبير' ); ?>">+</button></div>
 							<button class="vava-reader-fullscreen-button" type="button" data-reader-fullscreen data-enter-label="<?php echo esc_attr( $is_en ? 'Full screen' : 'ملء الشاشة' ); ?>" data-exit-label="<?php echo esc_attr( $is_en ? 'Close' : 'إغلاق' ); ?>"><?php echo esc_html( $is_en ? 'Full screen' : 'ملء الشاشة' ); ?></button>
 						</footer>
+						<?php if ( $print_url || $download_url ) : ?>
+						<div class="vava-reader-file-actions" aria-label="<?php echo esc_attr( $is_en ? 'Purchased PDF options' : 'خيارات المنتج الرقمي المشتَرى' ); ?>">
+							<?php if ( $print_url ) : ?><a class="vava-reader-print-action" href="<?php echo esc_url( $print_url ); ?>" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▤</span><?php echo esc_html( $is_en ? 'Open PDF to print' : 'فتح PDF للطباعة' ); ?></a><?php endif; ?>
+							<?php if ( $download_url ) : ?><a class="vava-reader-download-action" href="<?php echo esc_url( $download_url ); ?>"><span aria-hidden="true">⇩</span><?php echo esc_html( $is_en ? 'Download PDF' : 'تحميل ملف PDF' ); ?></a><?php endif; ?>
+							<p><?php echo esc_html( $is_en ? 'Print using your device PDF viewer. A downloaded or printed copy can be saved outside VAVA.' : 'يمكنك الطباعة من عارض PDF في جهازك. النسخ المطبوعة أو المحملة يمكن الاحتفاظ بها خارج VAVA.' ); ?></p>
+						</div>
+						<?php endif; ?>
 					</section>
 				</div>
 			<?php endif; ?>
