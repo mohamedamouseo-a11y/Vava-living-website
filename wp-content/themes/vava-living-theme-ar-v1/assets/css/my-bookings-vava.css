@@ -881,6 +881,18 @@ body.vava-my-bookings-page *,body.vava-my-bookings-page *::before,body.vava-my-b
 .vava-account-order-details .vava-impact-questionnaire{grid-column:1/-1;width:100%}.vava-account-order-details .vava-impact-questionnaire .vava-questionnaire-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}@media(max-width:700px){.vava-account-order-details .vava-impact-questionnaire .vava-questionnaire-fields{grid-template-columns:1fr}}
 .vava-impact-questionnaire .vava-questionnaire-field{min-width:0}.vava-impact-questionnaire .vava-questionnaire-field.is-textarea,.vava-impact-questionnaire .vava-questionnaire-field.is-radio,.vava-impact-questionnaire .vava-questionnaire-field.is-checkboxes{grid-column:1/-1}.vava-impact-questionnaire .vava-questionnaire-label{display:block;margin-bottom:7px;font-size:12px;font-weight:800;color:#57564b}.vava-impact-questionnaire .vava-questionnaire-label span{color:#c56e55}.vava-impact-questionnaire input[type=text],.vava-impact-questionnaire input[type=number],.vava-impact-questionnaire textarea{width:100%;box-sizing:border-box;border:1px solid #dad8c9;background:#fbfbf6;border-radius:10px;padding:11px 12px}.vava-impact-questionnaire textarea{min-height:90px}.vava-impact-questionnaire .vava-questionnaire-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.vava-impact-questionnaire .vava-questionnaire-options label{display:flex;gap:7px;align-items:center;padding:10px;border:1px solid #dedccd;border-radius:10px;background:#fafaf5}.vava-impact-questionnaire .vava-questionnaire-options label:has(input:checked){border-color:#747a4e;background:#eef0e5}.vava-impact-questionnaire input{accent-color:#747a4e}@media(max-width:560px){.vava-impact-questionnaire .vava-questionnaire-options{grid-template-columns:1fr}}
 
+/* VAVA_SINGLE_SESSION_WORKFLOW_V2 */
+.vava-account-order-actions{flex-wrap:wrap;row-gap:10px}
+.vava-account-reschedule-action{border-color:#7d885e;background:#eef1e5;color:#52613e;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.vava-account-reschedule-action:hover,.vava-account-reschedule-action:focus-visible{border-color:#607448;background:#e1e8d5;color:#425633;transform:translateY(-1px)}
+.vava-account-order-actions .vava-account-primary-action.is-coral{background:#c96f56;border-color:#c96f56;color:#fff}
+.vava-account-order-actions .vava-account-primary-action.is-coral:hover{background:#a95440;border-color:#a95440}
+.vava-account-review-notice{margin:12px 0;padding:13px 15px;border:1px solid #d7c9ad;border-radius:12px;background:#f6f1e6;color:#635638;line-height:1.7;font-size:13px}
+.vava-account-review-notice small{display:block;margin-top:5px;font-size:11px;color:#777057}
+.vava-account-review-notice.is-rejected{border-color:#eccbc1;background:#fff4ef;color:#9a4c3e}
+.vava-account-reschedule:target{scroll-margin-top:140px;outline:3px solid rgba(116,122,78,.16);outline-offset:3px}
+.vava-my-bookings-cancel-modal button:disabled,.vava-account-reschedule button:disabled{opacity:.6;cursor:wait}
+@media(max-width:720px){.vava-account-order-actions{align-items:stretch}.vava-account-order-actions>.vava-account-reschedule-action,.vava-account-order-actions>.vava-account-primary-action.is-coral{min-height:46px;width:100%}}
 /* VAVA_CANCEL_RESCHEDULE_UI_V1 */
 .vava-account-reschedule{background:linear-gradient(145deg,#fafbf5,#fffaf3)!important;box-shadow:0 5px 18px rgba(66,74,47,.04)}
 .vava-account-reschedule summary{display:flex;align-items:center;gap:8px;color:#555c39;line-height:1.5;list-style:revert}
