@@ -272,7 +272,19 @@ $meeting_is_pending = $meeting_is_confirmed && ! $meeting_link_visible && (strin
 										<div class="vava-account-order-actions">
 											
 											<button type="button" class="vava-account-secondary-action" data-account-details-toggle aria-expanded="false" aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $is_en ? 'Order details' : 'متابعة الطلب' ); ?></button>
-											<?php if ( $is_active_product ) : ?><a class="vava-account-primary-action" href="<?php echo esc_url( $product_record['viewer_url'] ); ?>"><?php echo esc_html( $is_en ? 'Open product' : 'فتح المنتج' ); ?></a><?php else : ?><span class="vava-account-disabled-action"><?php echo esc_html( $is_en ? 'Awaiting approval' : 'بانتظار الاعتماد' ); ?></span><?php endif; ?>
+											<?php if ( $is_active_product ) : ?>
+												<a class="vava-account-primary-action" href="<?php echo esc_url( $product_record['viewer_url'] ); ?>"><?php echo esc_html( $is_en ? 'Open product' : 'فتح المنتج' ); ?></a>
+												<?php
+												$digital_uid = sanitize_key( (string) ( $product_record['uid'] ?? '' ) );
+												$digital_file = function_exists( 'vava_digital_products_file_record' ) ? vava_digital_products_file_record( $digital_uid ) : array();
+												$digital_ready = 'ready' === (string) ( $digital_file['processing_status'] ?? '' ) && function_exists( 'vava_digital_products_private_file_path' ) && vava_digital_products_private_file_path( $digital_file );
+												if ( $digital_ready && $account_user instanceof WP_User && function_exists( 'vava_digital_access_url' ) && function_exists( 'vava_digital_products_user_can_view' ) && vava_digital_products_user_can_view( $account_user->ID, $digital_uid ) ) :
+													$print_url = vava_digital_access_url( $digital_uid, 'print', $account_user );
+													$download_url = vava_digital_access_url( $digital_uid, 'download', $account_user );
+													if ( $print_url ) : ?><a class="vava-account-file-action" href="<?php echo esc_url( $print_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $is_en ? 'Print PDF' : 'طباعة PDF' ); ?></a><?php endif; ?>
+													<?php if ( $download_url ) : ?><a class="vava-account-file-action is-download" href="<?php echo esc_url( $download_url ); ?>"><?php echo esc_html( $is_en ? 'Download PDF' : 'تحميل PDF' ); ?></a><?php endif; ?>
+												<?php endif; ?>
+											<?php else : ?><span class="vava-account-disabled-action"><?php echo esc_html( $is_en ? 'Awaiting approval' : 'بانتظار الاعتماد' ); ?></span><?php endif; ?>
 										</div>
 										<div id="<?php echo esc_attr( $panel_id ); ?>" class="vava-account-order-details is-product" data-account-details-panel hidden>
 											<div><small><?php echo esc_html( $is_en ? 'Order status' : 'حالة الطلب' ); ?></small><b><?php echo esc_html( $product_record['order_status_label'] ); ?></b></div>
