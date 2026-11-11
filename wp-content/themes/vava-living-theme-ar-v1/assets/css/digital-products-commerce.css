@@ -496,3 +496,12 @@ body.vava-protected-reader-page{overflow-x:hidden;background:#fbf7f0}
 .vava-reader-control-dock .vava-reader-fullscreen-button[aria-pressed="true"]:focus{
   border-color:#bd624d!important;background:#cb7059!important;color:#fff!important;-webkit-text-fill-color:#fff!important
 }
+
+/* VAVA_DIGITAL_FILE_ACTIONS_V1 */
+.vava-reader-file-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:13px 16px 16px;border-top:1px solid #e5e7df;background:#f6f8f1}
+.vava-reader-file-actions>a{display:inline-flex;min-height:44px;align-items:center;justify-content:center;gap:8px;padding:9px 16px;border:1px solid #747f54;border-radius:11px;background:#fff;color:#566a3c;font-weight:800;text-decoration:none}
+.vava-reader-file-actions>a:hover{background:#e9f0dd}
+.vava-reader-file-actions>.vava-reader-download-action{background:#747f54;color:#fff}
+.vava-reader-file-actions>.vava-reader-download-action:hover{background:#58653b;color:#fff}
+.vava-reader-file-actions>p{flex-basis:100%;margin:0;font-size:11px;line-height:1.7;color:#717566}
+@media(max-width:560px){.vava-reader-file-actions>a{flex:1 1 145px;min-height:48px}.vava-reader-file-actions>p{text-align:center}}
