@@ -12,13 +12,14 @@ defined( 'ABSPATH' ) || exit;
 $account_user   = $current_customer instanceof WP_User ? $current_customer : null;
 $account_name   = $account_user ? ( $account_user->display_name ?: $account_user->user_email ) : (string) ( $context['email'] ?? '' );
 $account_email  = $account_user ? $account_user->user_email : (string) ( $context['email'] ?? '' );
-$active_section = 'products' === $view ? 'products' : 'bookings';
+$active_section = 'support' === $view ? 'support' : ( 'products' === $view ? 'products' : 'bookings' );
 $impact_request_booking = isset( $_GET['impact_booking'] ) ? absint( wp_unslash( $_GET['impact_booking'] ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 $account_url  = vava_customer_account_url( $lang, array( 'view' => 'overview' ) );
 $bookings_url = vava_customer_account_url( $lang, array( 'view' => 'bookings' ) ) . '#vava-account-bookings';
 $products_url = vava_customer_account_url( $lang, array( 'view' => 'products' ) ) . '#vava-account-products';
 $profile_url  = vava_customer_account_url( $lang, array( 'view' => 'profile' ) );
+$support_url  = vava_customer_account_url( $lang, array( 'view' => 'support' ) ) . '#vava-account-support';
 
 $bookings_explore_url = get_permalink( 23 );
 if ( ! $bookings_explore_url ) {
@@ -142,6 +143,7 @@ $reschedule_ok = 'pending' === $reschedule_result;
 			<nav class="vava-account-tabs" aria-label="<?php echo esc_attr( $is_en ? 'Account sections' : 'أقسام الحساب' ); ?>">
 				<a class="<?php echo 'bookings' === $active_section ? 'is-active' : ''; ?>" href="<?php echo esc_url( $bookings_url ); ?>"<?php echo 'bookings' === $active_section ? ' aria-current="page"' : ''; ?>><span>▣</span><?php echo esc_html( $is_en ? 'Bookings' : 'الحجوزات' ); ?></a>
 				<a class="<?php echo 'products' === $active_section ? 'is-active' : ''; ?>" href="<?php echo esc_url( $products_url ); ?>"<?php echo 'products' === $active_section ? ' aria-current="page"' : ''; ?>><span>▤</span><?php echo esc_html( $is_en ? 'Digital products' : 'المنتجات الرقمية' ); ?></a>
+				<a class="<?php echo 'support' === $active_section ? 'is-active' : ''; ?>" href="<?php echo esc_url( $support_url ); ?>"<?php echo 'support' === $active_section ? ' aria-current="page"' : ''; ?>><span>♡</span><?php echo esc_html( $is_en ? 'Support' : 'الدعم والمساعدة' ); ?></a>
 			</nav>
 
 			<?php if ( 'bookings' === $active_section ) : ?>
@@ -233,7 +235,7 @@ $meeting_is_pending = $meeting_is_confirmed && ! $meeting_link_visible && (strin
 						<nav class="vava-account-pagination" data-account-pagination aria-label="<?php echo esc_attr( $is_en ? 'Booking pages' : 'صفحات الحجوزات' ); ?>"></nav>
 					<?php endif; ?>
 				</section>
-			<?php else : ?>
+			<?php elseif ( 'products' === $active_section ) : ?>
 				<section class="vava-account-stats is-products" aria-label="<?php echo esc_attr( $is_en ? 'Digital product filters' : 'فلاتر المنتجات الرقمية' ); ?>" data-account-filter-group="products">
 					<button type="button" class="is-active" data-account-filter="all" aria-pressed="true"><span>▤</span><div><small><?php echo esc_html( $is_en ? 'Total products' : 'إجمالي المنتجات' ); ?></small><strong><?php echo esc_html( (string) count( $digital_records ) ); ?></strong><em><?php echo esc_html( $is_en ? 'products' : 'منتج' ); ?></em></div></button>
 					<button type="button" data-account-filter="available" aria-pressed="false"><span>✓</span><div><small><?php echo esc_html( $is_en ? 'Available now' : 'متاحة للمشاهدة' ); ?></small><strong><?php echo esc_html( (string) $available_products ); ?></strong><em><?php echo esc_html( $is_en ? 'products' : 'منتجات' ); ?></em></div></button>
@@ -287,6 +289,8 @@ $meeting_is_pending = $meeting_is_confirmed && ! $meeting_link_visible && (strin
 						<nav class="vava-account-pagination is-products" data-account-pagination aria-label="<?php echo esc_attr( $is_en ? 'Digital product pages' : 'صفحات المنتجات الرقمية' ); ?>"></nav>
 					<?php endif; ?>
 				</section>
+			<?php else : ?>
+				<?php include get_template_directory() . '/template-parts/account-support-vava.php'; ?>
 			<?php endif; ?>
 		</main>
 
@@ -300,7 +304,7 @@ $meeting_is_pending = $meeting_is_confirmed && ! $meeting_link_visible && (strin
 				<a class="<?php echo 'bookings' === $active_section ? 'is-active' : ''; ?>" href="<?php echo esc_url( $bookings_url ); ?>"><span>▣</span><?php echo esc_html( $is_en ? 'My bookings' : 'حجوزاتي' ); ?><b><?php echo esc_html( (string) count( $records ) ); ?></b></a>
 				<a class="<?php echo 'products' === $active_section ? 'is-active is-product' : 'is-product'; ?>" href="<?php echo esc_url( $products_url ); ?>"><span>▤</span><?php echo esc_html( $is_en ? 'My digital products' : 'منتجاتي الرقمية' ); ?><b><?php echo esc_html( (string) count( $digital_records ) ); ?></b></a>
 				<a href="<?php echo esc_url( $profile_url ); ?>"><span>◎</span><?php echo esc_html( $is_en ? 'Account details' : 'بيانات الحساب' ); ?></a>
-				<a href="<?php echo esc_url( function_exists( 'vava_page_url' ) ? vava_page_url( 'contact' ) : home_url( '/' ) ); ?>"><span>♡</span><?php echo esc_html( $is_en ? 'Support and help' : 'الدعم والمساعدة' ); ?></a>
+				<a class="<?php echo 'support' === $active_section ? 'is-active' : ''; ?>" href="<?php echo esc_url( $support_url ); ?>"<?php echo 'support' === $active_section ? ' aria-current="page"' : ''; ?>><span>♡</span><?php echo esc_html( $is_en ? 'Support and help' : 'الدعم والمساعدة' ); ?></a>
 				<a class="is-logout" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'vava_customer_logout', admin_url( 'admin-post.php' ) ), 'vava_customer_isolated_logout' ) ); ?>"><span>↪</span><?php echo esc_html( $is_en ? 'Sign out' : 'تسجيل الخروج' ); ?></a>
 			</nav>
 			<?php if ( 'products' === $active_section ) : ?>
