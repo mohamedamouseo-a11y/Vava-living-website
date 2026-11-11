@@ -42,6 +42,9 @@
       if (file) data.append('file', file, file.name);
       xhr.open('POST', config.ajaxUrl || window.ajaxurl || '/wp-admin/admin-ajax.php', true);
       xhr.withCredentials = true;
+      // Each transfer chunk is limited to 4 MB. Never leave the UI waiting
+      // indefinitely if a proxy/server stops responding.
+      xhr.timeout = 120000;
       if (xhr.upload && typeof onProgress === 'function') {
         xhr.upload.addEventListener('progress', function (event) {
           if (event.lengthComputable) onProgress(event.loaded / event.total * 100);
@@ -52,8 +55,11 @@
         var response = null;
         try { response = JSON.parse(xhr.responseText || '{}'); } catch (e) {}
         if (xhr.status >= 200 && xhr.status < 300 && response && response.success) resolve(response.data || {});
-        else reject(new Error(response && response.data && response.data.message ? response.data.message : 'تعذر تنفيذ العملية.'));
+        else reject(new Error(response && response.data && response.data.message ? response.data.message : 'تعذر تنفيذ العملية (HTTP ' + xhr.status + '). أعيدي اختيار ملف PDF للمحاولة.'));
       };
+      xhr.onerror = function () { reject(new Error('انقطع الاتصال أثناء رفع ملف PDF. تحققي من الإنترنت وأعيدي اختيار الملف.')); };
+      xhr.ontimeout = function () { reject(new Error('انتهت مهلة رفع جزء من ملف PDF. أعيدي المحاولة عبر اتصال مستقر.')); };
+      xhr.onabort = function () { reject(new Error('تم إيقاف رفع ملف PDF. أعيدي المحاولة.')); };
       xhr.send(data);
     });
   }
@@ -129,9 +135,11 @@
       update(field, 0, document.documentElement.lang === 'en' ? 'The file exceeds 200 MB' : 'حجم الملف يتجاوز 200 ميجابايت', '', 'error');
       return;
     }
+    if (field.hasClass('is-uploading')) return;
     field.addClass('is-uploading');
     field.find('button').prop('disabled', true);
-    update(field, 1, config.labels && config.labels.uploading || 'جارٍ رفع ملف PDF…', '');
+    var fileMeta = file.name + ' · ' + formatBytes(file.size);
+    update(field, 1, config.labels && config.labels.uploading || 'جارٍ رفع ملف PDF…', fileMeta);
     var chunkSize = 4 * 1024 * 1024;
     var count = Math.ceil(file.size / chunkSize);
     var token = '';
@@ -142,7 +150,7 @@
         index: index, total: count, size: file.size, name: file.name, upload_token: token
       }, piece, function (value) {
         var pct = ((index + value / 100) / count) * 88;
-        update(field, Math.max(2, Math.min(88, pct)), config.labels && config.labels.uploading || 'جارٍ رفع ملف PDF…', '');
+        update(field, Math.max(2, Math.min(88, pct)), config.labels && config.labels.uploading || 'جارٍ رفع ملف PDF…', fileMeta + ' — الجزء ' + (index + 1) + ' من ' + count);
       }).then(function (data) {
         token = data.upload_token || token;
         if (index + 1 < count) return sendNext(index + 1);
@@ -154,9 +162,29 @@
       poll(field);
     }).catch(function (error) {
       field.removeClass('is-uploading').find('button').prop('disabled', false);
-      update(field, 0, error.message, '', 'error');
+      update(field, 0, error.message, fileMeta + ' — يمكن إعادة المحاولة باختيار الملف مجددًا', 'error');
     });
   }
+
+  // Permissions are saved per product instantly and safely, not tied to PDF uploads.
+  $(document).on('change', '[data-vava-digital-access-mode]', function () {
+    var select = $(this);
+    var field = select.closest('[data-vava-private-pdf-field]');
+    var uid = field.attr('data-product-uid') || '';
+    var next = String(select.val() || 'view');
+    var previous = String(select.attr('data-last-mode') || 'view');
+    var matching = $('[data-vava-private-pdf-field][data-product-uid="' + uid + '"] [data-vava-digital-access-mode]');
+    matching.prop('disabled', true);
+    field.find('[data-vava-digital-access-feedback]').text(document.documentElement.lang === 'en' ? 'Saving permissions…' : 'جارٍ حفظ الصلاحيات…');
+    request(field, 'vava_digital_access_admin_save', { mode: next }).then(function (data) {
+      matching.val(data.mode || next).attr('data-last-mode', data.mode || next).prop('disabled', false);
+      $('[data-vava-private-pdf-field][data-product-uid="' + uid + '"] [data-vava-digital-access-feedback]')
+        .text(document.documentElement.lang === 'en' ? 'Permissions saved.' : 'تم حفظ الصلاحيات.');
+    }).catch(function (error) {
+      matching.val(previous).prop('disabled', false);
+      field.find('[data-vava-digital-access-feedback]').text(error.message);
+    });
+  });
 
   $(document).on('click', '[data-private-file-select]', function (event) {
     event.preventDefault();
