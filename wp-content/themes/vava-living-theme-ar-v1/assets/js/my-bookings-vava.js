@@ -306,6 +306,24 @@
     filter();
   });
 
+  // Prevent repeated taps on real booking-changing forms while the server processes the request.
+  root.addEventListener('submit', (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    const action = form.querySelector('input[name="action"]')?.value || '';
+    if (action !== 'vava_booking_public_cancel' && action !== 'vava_booking_reschedule_request') return;
+    if (form.dataset.vavaSubmitting === '1') { event.preventDefault(); return; }
+    if (!form.checkValidity()) return;
+    form.dataset.vavaSubmitting = '1';
+    const submitButton = form.querySelector('button[type="submit"],input[type="submit"]');
+    if (submitButton) {
+      submitButton.disabled = true;
+      if (submitButton.tagName === 'BUTTON') {
+        submitButton.textContent = isEnglish ? 'Sending request…' : 'جارٍ إرسال الطلب…';
+      }
+    }
+  }, true);
+
   const closeCancelModal = () => {
     if (!cancelModal) return;
     cancelModal.classList.remove('is-open');
@@ -324,9 +342,12 @@
     nonce.type = 'hidden'; nonce.name = '_wpnonce'; nonce.value = cancelNonces[booking];
     cancelNonceSlot.appendChild(nonce);
     if (mode === 'request') {
-      cancelTitle.textContent = isEnglish ? `Request cancellation for booking #${booking}?` : `طلب إلغاء الحجز #${booking}`;
-      cancelCopy.textContent = isEnglish ? 'This confirmed or paid booking will be sent to the VAVA team for review.' : 'الحجز مؤكد أو مدفوع؛ سيتم إرسال طلب الإلغاء إلى فريق VAVA للمراجعة.';
-      cancelSubmit.textContent = isEnglish ? 'Send cancellation request' : 'إرسال طلب الإلغاء';
+      const past = trigger.dataset.cancelPast === '1';
+      cancelTitle.textContent = isEnglish ? `Request cancellation review for booking #${booking}?` : `طلب مراجعة إلغاء الحجز #${booking}`;
+      cancelCopy.textContent = past
+        ? (isEnglish ? 'This appointment date has passed. VAVA will review whether the session took place before deciding on cancellation or any refund. Your booking will remain listed while reviewed.' : 'موعد الجلسة فات. ستراجع الإدارة هل الجلسة اتقدمت بالفعل قبل اتخاذ قرار الإلغاء أو الاسترداد. الحجز سيفضل ظاهرًا أثناء المراجعة.')
+        : (isEnglish ? 'This paid booking is not cancelled immediately. VAVA will review your request; the appointment remains reserved until approval.' : 'الحجز المدفوع مش هيتلغي فورًا. الإدارة هتراجع الطلب، والموعد هيفضل محجوزًا لحد الموافقة.');
+      cancelSubmit.textContent = isEnglish ? 'Submit request for review' : 'إرسال طلب المراجعة';
     } else {
       cancelTitle.textContent = isEnglish ? `Cancel booking #${booking}?` : `إلغاء الحجز #${booking}؟`;
       cancelCopy.textContent = isEnglish ? 'The appointment will be released and made available again.' : 'سيُحرر الموعد ويصبح متاحًا للحجز من جديد.';
@@ -348,6 +369,18 @@
         closeMenus(menu);
         menu.hidden = !willOpen;
       }
+      return;
+    }
+    const openReschedule = event.target.closest('[data-reschedule-open]');
+    if (openReschedule) {
+      event.preventDefault(); closeMenus();
+      const booking = String(openReschedule.dataset.rescheduleOpen || '');
+      const panel = document.getElementById('vava-reschedule-' + booking);
+      if (!panel) return;
+      panel.open = true;
+      panel.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      const input = panel.querySelector('input[type="date"]');
+      if (input) window.setTimeout(() => { try { input.focus({preventScroll: true}); } catch (_) {} }, 200);
       return;
     }
     const cancel = event.target.closest('[data-cancel-booking]');
