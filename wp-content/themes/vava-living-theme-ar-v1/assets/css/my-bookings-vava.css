@@ -881,6 +881,47 @@ body.vava-my-bookings-page *,body.vava-my-bookings-page *::before,body.vava-my-b
 .vava-account-order-details .vava-impact-questionnaire{grid-column:1/-1;width:100%}.vava-account-order-details .vava-impact-questionnaire .vava-questionnaire-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}@media(max-width:700px){.vava-account-order-details .vava-impact-questionnaire .vava-questionnaire-fields{grid-template-columns:1fr}}
 .vava-impact-questionnaire .vava-questionnaire-field{min-width:0}.vava-impact-questionnaire .vava-questionnaire-field.is-textarea,.vava-impact-questionnaire .vava-questionnaire-field.is-radio,.vava-impact-questionnaire .vava-questionnaire-field.is-checkboxes{grid-column:1/-1}.vava-impact-questionnaire .vava-questionnaire-label{display:block;margin-bottom:7px;font-size:12px;font-weight:800;color:#57564b}.vava-impact-questionnaire .vava-questionnaire-label span{color:#c56e55}.vava-impact-questionnaire input[type=text],.vava-impact-questionnaire input[type=number],.vava-impact-questionnaire textarea{width:100%;box-sizing:border-box;border:1px solid #dad8c9;background:#fbfbf6;border-radius:10px;padding:11px 12px}.vava-impact-questionnaire textarea{min-height:90px}.vava-impact-questionnaire .vava-questionnaire-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.vava-impact-questionnaire .vava-questionnaire-options label{display:flex;gap:7px;align-items:center;padding:10px;border:1px solid #dedccd;border-radius:10px;background:#fafaf5}.vava-impact-questionnaire .vava-questionnaire-options label:has(input:checked){border-color:#747a4e;background:#eef0e5}.vava-impact-questionnaire input{accent-color:#747a4e}@media(max-width:560px){.vava-impact-questionnaire .vava-questionnaire-options{grid-template-columns:1fr}}
 
+/* VAVA_CUSTOMER_SUPPORT_MOBILE_V1 */
+.vava-account-dashboard[data-active-section="support"] .vava-account-tabs{grid-template-columns:repeat(3,minmax(0,1fr));}
+.vava-account-support{min-width:0;padding:clamp(8px,1.4vw,20px) 0 35px}
+.vava-support-layout{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);align-items:start;gap:18px;margin-top:20px}
+.vava-support-card{min-width:0;padding:clamp(18px,2.8vw,30px);background:rgba(255,253,249,.98);border:1px solid #dfdccf;border-radius:22px;box-shadow:0 14px 34px rgba(66,60,44,.06)}
+.vava-support-card h3{margin:0 0 8px;font-size:clamp(19px,2.3vw,25px);color:#4b5039;font-weight:700}
+.vava-support-card>p{margin:0 0 22px;line-height:1.9;color:#726f62;font-size:13px}
+.vava-support-card form{display:flex;flex-direction:column;gap:10px}
+.vava-support-card form label{display:block;margin-top:9px;color:#555943;font-size:13px;font-weight:700}
+.vava-support-card form label span{color:#c26d56}
+.vava-support-card input[type=text],.vava-support-card textarea{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;padding:13px 14px;border:1px solid #d6d7c9;border-radius:12px;background:#fff;color:#434b3a;font-family:inherit;font-size:16px;line-height:1.55;outline-offset:2px;-webkit-appearance:none;appearance:none}
+.vava-support-card textarea{min-height:154px;resize:vertical;white-space:pre-wrap}
+.vava-support-card input[type=text]:focus,.vava-support-card textarea:focus{outline:2px solid rgba(117,129,80,.35);border-color:#8b9873}
+.vava-support-identity{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:9px 0;padding:11px 13px;background:#f2f4ea;border-radius:12px;color:#5f624e;font-size:12px;overflow-wrap:anywhere}
+.vava-support-identity strong{max-width:100%;overflow-wrap:anywhere;font-size:12px}
+.vava-support-send{width:100%;min-height:48px;padding:12px 18px;border:1px solid #747a4e;border-radius:12px;background:#747a4e;color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s ease}
+.vava-support-send:hover,.vava-support-send:focus-visible{background:#5c633e}
+.vava-support-trap{position:absolute!important;left:-10000px!important;max-width:1px!important;max-height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
+.vava-support-ticket-list{display:grid;gap:10px;max-height:680px;overflow:auto}
+.vava-support-ticket{padding:16px;border:1px solid #e2dfd3;border-radius:14px;background:#fafaf6;overflow-wrap:anywhere}
+.vava-support-ticket-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:7px}
+.vava-support-ticket-head strong{font-size:13px;color:#465139}
+.vava-support-ticket-head span{padding:5px 10px;background:#e9eee0;color:#637448;border-radius:50px;font-size:11px;font-weight:700}
+.vava-support-ticket-head span[data-status=resolved]{background:#e3f1e5;color:#3f714c}
+.vava-support-ticket-head span[data-status=in_progress]{background:#f9eed8;color:#946c36}
+.vava-support-ticket>small{display:block;margin-top:7px;color:#77776b;font-size:11px}
+.vava-support-ticket>p{line-height:1.85;font-size:13px;color:#4d5047;white-space:pre-wrap}
+.vava-support-ticket .vava-support-email-state{padding-top:7px;border-top:1px solid #e8e5d9;font-size:11px}
+.vava-support-feedback{margin:15px 0;padding:14px 18px;border:1px solid #d7dcca;background:#f0f5e9;border-radius:13px;color:#465b36;line-height:1.8}
+.vava-support-feedback.is-error{border-color:#e7c6b8;background:#fff4ef;color:#a05042}
+.vava-support-feedback p{margin:3px 0 0}
+.vava-support-empty{padding:34px 15px;text-align:center;color:#797768;border:1px dashed #d8d8c5;border-radius:13px;font-size:13px}
+@media(max-width:960px){.vava-support-layout{grid-template-columns:1fr}}
+@media(max-width:560px){.vava-account-dashboard[data-active-section="support"] .vava-account-tabs{grid-template-columns:1fr 1fr 1fr}
+.vava-account-dashboard[data-active-section="support"] .vava-account-tabs a{min-width:0;gap:4px;font-size:11px;padding:9px 4px;line-height:1.35}
+.vava-account-support{padding:8px 0 25px}
+.vava-support-layout{gap:12px;margin-top:12px}
+.vava-support-card{border-radius:16px;padding:18px 14px}
+.vava-support-ticket-list{max-height:none}
+.vava-support-send{min-height:52px}
+}
 /* VAVA_SINGLE_SESSION_WORKFLOW_V2 */
 .vava-account-order-actions{flex-wrap:wrap;row-gap:10px}
 .vava-account-reschedule-action{border-color:#7d885e;background:#eef1e5;color:#52613e;transition:background .18s ease,border-color .18s ease,transform .18s ease}
