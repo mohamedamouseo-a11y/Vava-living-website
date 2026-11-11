@@ -65,6 +65,7 @@ require_once get_template_directory() . '/inc/client-final-round-v3.php';
 require_once get_template_directory() . '/inc/mail-settings-vava.php';
 require_once get_template_directory() . '/inc/google-meet-vava.php';
 require_once get_template_directory() . '/inc/booking-customer-actions-vava.php';
+require_once get_template_directory() . '/inc/customer-support-vava.php';
 
 
 /**
