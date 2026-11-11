@@ -16,10 +16,12 @@ function vava_customer_action_is_future( int $booking_id ): bool {
     } catch ( Exception $e ) { return false; }
 }
 function vava_customer_reschedule_mode( int $booking_id, bool $ignore_pending = false ): bool {
-    if ( ! vava_customer_action_is_future( $booking_id ) ||
-        ( function_exists( 'vava_digital_products_is_order' ) && vava_digital_products_is_order( $booking_id ) ) ) { return false; }
+    if ( function_exists( 'vava_digital_products_is_order' ) && vava_digital_products_is_order( $booking_id ) ) { return false; }
     $status = (string) get_post_meta( $booking_id, '_vava_booking_status', true );
     if ( ! in_array( $status, array( 'confirmed', 'paid', 'pending', 'pending_bank_review' ), true ) ) { return false; }
+    // Past, still-confirmed sessions may request an exception for VAVA review.
+    // This never reschedules an appointment without administrator approval.
+    if ( ! vava_customer_action_is_future( $booking_id ) && ! in_array( $status, array( 'confirmed', 'paid' ), true ) ) { return false; }
     $parent = absint( get_post_meta( $booking_id, '_vava_package_parent_booking_id', true ) );
     if ( $parent && in_array( (string) get_post_meta( $parent, '_vava_booking_status', true ),
         array( 'cancellation_requested', 'cancelled', 'customer_cancelled' ), true ) ) { return false; }
@@ -67,6 +69,23 @@ function vava_customer_action_notice_queue( int $booking_id, string $event ): vo
 }
 function vava_customer_action_notice_send( int $booking_id, string $event, string $target ): void {
     if ( 'vava_booking' !== get_post_type( $booking_id ) || ! in_array( $target, array( 'customer', 'admin' ), true ) ) { return; }
+    // A queued email may run after the administrator has already resolved the request.
+    // Never send a stale "pending" message after the decision is finalized.
+    $booking_status = (string) get_post_meta( $booking_id, '_vava_booking_status', true );
+    $reschedule_request = (array) get_post_meta( $booking_id, '_vava_booking_reschedule_request', true );
+    $required_status = array(
+        'cancel_request' => 'cancellation_requested',
+        'cancelled' => 'cancelled',
+        'cancel_rejected' => 'rejected',
+        'reschedule_request' => 'pending',
+        'reschedule_approved' => 'approved',
+        'reschedule_rejected' => 'rejected',
+    );
+    if ( 'cancel_request' === $event && 'cancellation_requested' !== $booking_status ) { return; }
+    if ( 'cancelled' === $event && ! in_array( $booking_status, array( 'cancelled', 'customer_cancelled' ), true ) ) { return; }
+    if ( 'cancel_rejected' === $event && 'rejected' !== (string) get_post_meta( $booking_id, '_vava_booking_cancellation_request_status', true ) ) { return; }
+    if ( in_array( $event, array( 'reschedule_request', 'reschedule_approved', 'reschedule_rejected' ), true )
+        && (string) ( $reschedule_request['status'] ?? '' ) !== (string) ( $required_status[ $event ] ?? '' ) ) { return; }
     $key = '_vava_action_notice_' . sanitize_key( $event ) . '_' . $target;
     if ( get_post_meta( $booking_id, $key . '_sent_at', true ) ) { return; }
     if ( function_exists( 'vava_mail_notifications_enabled' ) && ! vava_mail_notifications_enabled( 'bookings' ) ) {
@@ -148,6 +167,7 @@ function vava_customer_reschedule_request_handler(): void {
                 'date' => $date, 'time' => $time, 'original_date' => $old_date, 'original_time' => $old_time,
                 'status' => 'pending', 'requested_at' => current_time( 'mysql', true ),
                 'requested_by' => get_current_user_id(),
+                'previous_appointment_passed' => ! vava_customer_action_is_future( $booking_id ),
             ) );
             if ( function_exists( 'vava_booking_append_action_log' ) ) {
                 vava_booking_append_action_log( $booking_id, 'reschedule_requested',
@@ -234,6 +254,9 @@ function vava_customer_reschedule_admin_card( int $booking_id ): void {
     }
     echo '<h3>طلب تغيير موعد من العميل — بانتظار المراجعة</h3><p><strong>الموعد المطلوب:</strong> '
         . esc_html( (string) ( $request['date'] ?? '' ) . ' ' . (string) ( $request['time'] ?? '' ) ) . '</p>';
+    if ( ! empty( $request['previous_appointment_passed'] ) ) {
+        echo '<p role="alert" style="background:#fcf2e5;border:1px solid #ebcf9e;padding:12px;border-radius:9px">طلب استثنائي: الموعد الأصلي فات. راجعي سجل الجلسة والتواصل مع العميل قبل الموافقة على تغيير الموعد.</p>';
+    }
     foreach ( array( 'approve' => 'اعتماد الموعد الجديد', 'reject' => 'رفض التغيير' ) as $decision => $label ) {
         echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" style="display:inline-block;margin:6px">';
         echo '<input type="hidden" name="action" value="vava_booking_reschedule_admin"><input type="hidden" name="decision" value="' . esc_attr( $decision ) . '">';
@@ -256,17 +279,28 @@ function vava_customer_reschedule_account_card( int $booking_id, string $lang, s
             . '</p>';
         return;
     }
+    if ( 'approved' === $current_status || 'rejected' === $current_status ) {
+        $approved = 'approved' === $current_status;
+        echo '<p class="vava-account-reschedule-status" role="status" style="padding:10px 12px;border:1px solid #d6d9c7;border-radius:10px">'
+            . esc_html( $approved
+                ? ( $is_en ? 'Your previous appointment change was approved. Your updated appointment is shown above.' : 'تم اعتماد طلب تغيير الموعد السابق، والموعد المحدّث ظاهر في تفاصيل الحجز.' )
+                : ( $is_en ? 'Your previous date change request was declined. You can submit a new request for review.' : 'تم رفض طلب تعديل الموعد السابق، ويمكنك تقديم طلب جديد للمراجعة.' ) )
+            . '</p>';
+    }
     if ( ! vava_customer_reschedule_mode( $booking_id ) ) { return; }
+    $is_past_booking = ! vava_customer_action_is_future( $booking_id );
     $selected_id = isset( $_GET['reschedule_booking'] ) ? absint( $_GET['reschedule_booking'] ) : 0;
     $date = $selected_id === $booking_id && isset( $_GET['reschedule_date'] )
         ? sanitize_text_field( wp_unslash( $_GET['reschedule_date'] ) ) : '';
     $shared = vava_booking_shared_data( vava_booking_page_id() );
     $max = wp_date( 'Y-m-d', strtotime( '+' . max( 1, absint( $shared['max_days'] ?? 60 ) ) . ' days' ) );
     $base = vava_customer_account_url( $lang );
-    echo '<details class="vava-account-reschedule" style="margin:10px 0;padding:12px;border:1px solid #d5dcc9;border-radius:12px"'
+    echo '<details id="vava-reschedule-' . esc_attr( (string) $booking_id ) . '" class="vava-account-reschedule" style="margin:10px 0;padding:12px;border:1px solid #d5dcc9;border-radius:12px"'
         . ( $selected_id === $booking_id ? ' open' : '' ) . '><summary style="cursor:pointer;font-weight:600">'
         . esc_html( $is_en ? 'Request a date/time change' : 'طلب تعديل تاريخ ووقت الجلسة' ) . '</summary>';
-    echo '<p style="font-size:12px">' . esc_html( $is_en ? 'Choose an available time. VAVA will review the request before your appointment changes.' : 'اختاري موعدًا متاحًا. لن يتغير حجزك إلا بعد موافقة إدارة VAVA.' ) . '</p>';
+    echo '<p style="font-size:12px">' . esc_html( $is_past_booking
+        ? ( $is_en ? 'This appointment date has passed. You can request an exceptional reschedule, but VAVA must review whether the session was provided. Your existing booking will not change without approval.' : 'موعد هذه الجلسة فات بالفعل. يمكنك طلب تعديل استثنائي، لكن الإدارة ستراجع أولًا هل تم تقديم الجلسة أم لا. لن يتغير الحجز قبل الموافقة.' )
+        : ( $is_en ? 'Choose an available time. VAVA will review the request before your appointment changes.' : 'اختاري موعدًا متاحًا. لن يتغير حجزك إلا بعد موافقة إدارة VAVA.' ) ) . '</p>';
     echo '<form method="get" action="' . esc_url( $base ) . '">';
     echo '<input type="hidden" name="page_id" value="' . esc_attr( (string) vava_booking_my_bookings_page_id() ) . '">';
     echo '<input type="hidden" name="vava_lang" value="' . esc_attr( $lang ) . '">';
