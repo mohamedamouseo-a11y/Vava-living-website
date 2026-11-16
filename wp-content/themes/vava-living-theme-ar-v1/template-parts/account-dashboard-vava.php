@@ -106,7 +106,9 @@ $format_date = static function ( string $date ) use ( $is_en ): string {
 	if ( ! $timestamp ) {
 		return $date;
 	}
-	return wp_date( $is_en ? 'M j, Y' : 'Y-m-d', $timestamp );
+	// wp_date() localizes English month names using the site's Arabic WP locale.
+    // Keep the English customer account consistently in English.
+    return $is_en ? gmdate( 'M j, Y', $timestamp ) : wp_date( 'Y-m-d', $timestamp );
 };
 
 $product_status = static function ( array $record ) use ( $is_en ): array {
