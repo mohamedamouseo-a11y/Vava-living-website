@@ -956,3 +956,12 @@ body.vava-my-bookings-page *,body.vava-my-bookings-page *::before,body.vava-my-b
 .vava-account-impact-action:hover,.vava-account-impact-action:focus-visible{border-color:#a94d3b!important;background:#a94d3b!important;color:#fff!important}
 .vava-impact-questionnaire:target,.vava-impact-questionnaire:focus{outline:3px solid rgba(116,122,78,.2);outline-offset:4px;scroll-margin-top:120px}
 .vava-account-order-details.is-impact-open{display:grid}
+
+/* VAVA_DIGITAL_ACCOUNT_FILE_ACTIONS_V2 */
+.vava-account-order-card.is-product .vava-account-order-actions{align-items:center;flex-wrap:wrap;gap:8px}
+.vava-account-order-card.is-product .vava-account-order-actions>.vava-account-file-action{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:43px;padding:9px 14px;border:1px solid #aab99e;border-radius:11px;background:#f1f6ec;color:#536c49;text-decoration:none;font-size:12px;font-weight:800;line-height:1.25;transition:background .17s ease,transform .17s ease}
+.vava-account-order-card.is-product .vava-account-order-actions>.vava-account-file-action:hover{background:#e5efdc;transform:translateY(-1px)}
+.vava-account-order-card.is-product .vava-account-order-actions>.vava-account-file-action.is-download{background:#677e56;border-color:#677e56;color:#fff}
+.vava-account-order-card.is-product .vava-account-order-actions>.vava-account-file-action.is-download:hover{background:#526845;color:#fff}
+.vava-account-order-card.is-product .vava-account-order-actions>.vava-account-file-action span{font-size:17px;line-height:1}
+@media(max-width:560px){.vava-account-order-card.is-product .vava-account-order-actions>.vava-account-file-action{flex:1 1 125px;min-height:46px}}
