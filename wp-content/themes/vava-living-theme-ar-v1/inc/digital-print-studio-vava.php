@@ -52,6 +52,16 @@ function vava_digital_access_print_preview(): void {
     $page_count = absint( $record['page_count'] ?? 0 );
     $filesize = function_exists( 'vava_digital_products_format_bytes' ) ? vava_digital_products_format_bytes( (int) filesize( $file ) ) : '';
     $cover_url = function_exists( 'vava_digital_products_cover_url' ) ? vava_digital_products_cover_url( $uid ) : '';
+    // Generate a short-lived, authenticated *single-page* preview.
+    // Never auto-load multi-megabyte (or 100+ MB) source PDFs in an iframe.
+    $preview_page_url = '';
+    if ( $page_count > 0 && function_exists( 'vava_digital_products_private_page_path' )
+        && function_exists( 'vava_digital_products_reader_page_url' )
+        && vava_digital_products_private_page_path( $record, 1 ) ) {
+        $preview_page_url = vava_digital_products_reader_page_url(
+            $uid, 1, $user->ID, $order_id, (string) ( $record['fingerprint'] ?? '' )
+        );
+    }
     $reader_url = vava_digital_products_viewer_url( $uid, $lang );
     $library_url = vava_customer_account_url( $lang, array( 'view' => 'products' ) );
     $style_url = add_query_arg(
