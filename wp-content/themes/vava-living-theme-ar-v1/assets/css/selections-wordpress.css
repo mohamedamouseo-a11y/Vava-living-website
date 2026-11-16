@@ -1086,3 +1086,28 @@ html[data-page="store-en.html"] .vava-tangible-coming-soon-visual img{
     width:min(460px,100%)!important
   }
 }
+
+
+/* VAVA_COLLECTION_HEIGHTS_ONLY_20261116
+   Height-only parity: retain existing image positions, card widths,
+   padding, colors, buttons and alternating design. */
+@media (min-width:781px) {
+  html[data-page="store.html"] .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block-copy {
+    height:300px;
+    min-height:300px;
+  }
+}
+@media (max-width:780px) {
+  html[data-page="store.html"] .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block-copy {
+    height:auto;
+    min-height:320px;
+  }
+}
+@media (max-width:420px) {
+  html[data-page="store.html"] .vava-selection-block-copy,
+  html[data-page="store-en.html"] .vava-selection-block-copy {
+    min-height:340px;
+  }
+}
