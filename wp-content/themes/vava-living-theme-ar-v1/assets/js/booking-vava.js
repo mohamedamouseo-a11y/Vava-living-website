@@ -38,6 +38,14 @@
   const receiptProgressPercent = receiptProgress && receiptProgress.querySelector('[data-booking-upload-percent]');
   const receiptProgressBar = receiptProgress && receiptProgress.querySelector('[data-booking-upload-bar]');
   const receiptProgressMeta = receiptProgress && receiptProgress.querySelector('[data-booking-upload-meta]');
+  // Show actual upload progress on the final review step, where the upload starts.
+  const receiptReviewProgress = receiptProgress && form.querySelector('.vava-booking-review-footer') ? receiptProgress.cloneNode(true) : null;
+  if (receiptReviewProgress) {
+    receiptReviewProgress.removeAttribute('data-booking-upload-progress');
+    receiptReviewProgress.setAttribute('data-booking-review-upload-progress', '');
+    receiptReviewProgress.hidden = true;
+    form.querySelector('.vava-booking-review-footer').insertAdjacentElement('afterend', receiptReviewProgress);
+  }
   const heroTitle = root.querySelector('[data-booking-hero-title]');
   const heroIntro = root.querySelector('[data-booking-hero-intro]');
   const isEnglish = VAVA_BOOKING.lang === 'en';
@@ -84,13 +92,23 @@
   function updateReceiptProgress(percent, label, meta, state = '') {
     if (!receiptProgress) return;
     const value = Math.max(0, Math.min(100, Number(percent || 0)));
-    receiptProgress.hidden = false;
-    receiptProgress.classList.toggle('is-complete', state === 'complete');
-    receiptProgress.classList.toggle('is-error', state === 'error');
-    if (receiptProgressLabel && label) receiptProgressLabel.textContent = label;
-    if (receiptProgressPercent) receiptProgressPercent.textContent = `${Math.round(value)}%`;
-    if (receiptProgressBar) receiptProgressBar.style.width = `${value}%`;
-    if (receiptProgressMeta && typeof meta !== 'undefined') receiptProgressMeta.textContent = meta || '';
+    [receiptProgress, receiptReviewProgress].forEach((box) => {
+      if (!box) return;
+      // The confirmation step stays clear until a real upload begins.
+      if (box === receiptReviewProgress && state === 'selected') { box.hidden = true; return; }
+      box.hidden = false;
+      box.classList.toggle('is-complete', state === 'complete');
+      box.classList.toggle('is-error', state === 'error');
+      box.classList.toggle('is-selected', state === 'selected');
+      const labelNode = box.querySelector('[data-booking-upload-label]');
+      const percentNode = box.querySelector('[data-booking-upload-percent]');
+      const barNode = box.querySelector('[data-booking-upload-bar]');
+      const metaNode = box.querySelector('[data-booking-upload-meta]');
+      if (labelNode && label) labelNode.textContent = label;
+      if (percentNode) percentNode.textContent = `${Math.round(value)}%`;
+      if (barNode) barNode.style.width = `${value}%`;
+      if (metaNode && typeof meta !== 'undefined') metaNode.textContent = meta || '';
+    });
   }
 
   function submitBookingRequest(data, onProgress) {
@@ -98,6 +116,7 @@
       const xhr = new XMLHttpRequest();
       xhr.open('POST', VAVA_BOOKING.ajaxUrl, true);
       xhr.withCredentials = true;
+      xhr.timeout = 120000;
       xhr.upload.addEventListener('progress', (uploadEvent) => {
         if (uploadEvent.lengthComputable && typeof onProgress === 'function') onProgress(uploadEvent.loaded / uploadEvent.total * 100);
       });
@@ -108,7 +127,8 @@
         if (xhr.status >= 200 && xhr.status < 300 && json) resolve(json);
         else reject(new Error(json && json.data && json.data.message ? json.data.message : VAVA_BOOKING.error));
       };
-      xhr.onerror = () => reject(new Error(VAVA_BOOKING.error));
+      xhr.onerror = () => reject(new Error(isEnglish ? 'The connection was interrupted. Please try again.' : 'انقطع الاتصال أثناء إرسال الحجز. تحققي من الإنترنت وأعيدي المحاولة.'));
+      xhr.ontimeout = () => reject(new Error(isEnglish ? 'The upload timed out. Please try again.' : 'انتهت مهلة رفع الإيصال. أعيدي المحاولة عبر اتصال مستقر.'));
       xhr.send(data);
     });
   }
@@ -528,6 +548,9 @@
   }
 
   function answerLabel(control) {
+    if (control.tagName === 'SELECT') {
+      return control.selectedOptions?.[0]?.textContent?.trim() || control.value;
+    }
     const optionLabel = control.closest('label')?.querySelector('span');
     return optionLabel ? optionLabel.textContent.trim() : control.value;
   }
@@ -542,6 +565,7 @@
       if (!controls.length) return;
       let value = '';
       if (controls[0].type === 'radio' || controls[0].type === 'checkbox') value = controls.filter((c) => c.checked).map(answerLabel).join('، ');
+      else if (controls[0].tagName === 'SELECT') value = controls[0].value ? answerLabel(controls[0]) : '';
       else value = controls[0].value.trim();
       if (value) rows.push({ label, value });
     });
@@ -984,7 +1008,7 @@
       const fileName = form.querySelector('[data-bank-receipt-name]');
       const file = event.target.files && event.target.files[0];
       if (fileName) fileName.textContent = file ? file.name : (document.documentElement.lang === 'en' ? 'No file selected' : 'لم يتم اختيار ملف');
-      if (file) updateReceiptProgress(0, isEnglish ? 'Ready to upload' : 'جاهز للرفع', `${file.name} · ${formatUploadBytes(file.size)}`);
+      if (file) updateReceiptProgress(0, isEnglish ? 'Receipt selected — it will upload when you submit the booking' : 'تم اختيار الإيصال — سيبدأ رفعه عند إرسال الحجز للمراجعة', `${file.name} · ${formatUploadBytes(file.size)}`, 'selected');
       else if (receiptProgress) receiptProgress.hidden = true;
     }
     if (event.target.matches('[data-questionnaire-field]')) updateQuestionnaireSummary();
@@ -1097,10 +1121,10 @@
       const receipt = form.elements.bank_receipt && form.elements.bank_receipt.files ? form.elements.bank_receipt.files[0] : null;
       if (receipt) updateReceiptProgress(1, isEnglish ? 'Uploading receipt…' : 'جارٍ رفع الإيصال…', `${receipt.name} · ${formatUploadBytes(receipt.size)}`);
       const json = await submitBookingRequest(data, (value) => {
-        if (receipt) updateReceiptProgress(Math.max(2, Math.min(96, value)), isEnglish ? 'Uploading receipt…' : 'جارٍ رفع الإيصال…', `${receipt.name} · ${formatUploadBytes(receipt.size)}`);
+        if (receipt) updateReceiptProgress(Math.max(2, Math.min(96, value)), value >= 99 ? (isEnglish ? 'Upload sent — confirming booking…' : 'اكتمل الإرسال — جارٍ حفظ الإيصال وتأكيد الحجز…') : (isEnglish ? 'Uploading receipt…' : 'جارٍ رفع الإيصال…'), `${receipt.name} · ${formatUploadBytes(receipt.size)}`);
       });
-      if (receipt) updateReceiptProgress(100, isEnglish ? 'Receipt uploaded successfully' : 'تم رفع الإيصال بنجاح', `${receipt.name} · ${formatUploadBytes(receipt.size)}`, 'complete');
       if (!json.success) throw new Error(json.data && json.data.message ? json.data.message : VAVA_BOOKING.error);
+      if (receipt) updateReceiptProgress(100, isEnglish ? 'Receipt uploaded successfully' : 'تم رفع الإيصال بنجاح', `${receipt.name} · ${formatUploadBytes(receipt.size)}`, 'complete');
       if (json.data.redirect) {
         window.location.href = json.data.redirect;
         return;
