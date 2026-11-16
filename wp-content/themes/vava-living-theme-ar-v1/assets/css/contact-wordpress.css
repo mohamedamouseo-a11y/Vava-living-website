@@ -49,3 +49,12 @@ html[dir="ltr"] .vava-contact-page .vava-contact-form select{background-position
 .vava-contact-page .message-guide .guide-item{transition:border-color .22s ease,background .22s ease,box-shadow .22s ease,transform .22s ease}
 .vava-contact-page .message-guide .guide-item.is-field-active{border-color:rgba(207,125,101,.55);background:linear-gradient(145deg,rgba(255,248,244,.98),rgba(243,238,226,.92));box-shadow:0 14px 34px rgba(148,95,76,.12);transform:translateY(-2px)}
 @media(prefers-reduced-motion:reduce){.vava-contact-page .message-guide .guide-item{transition:none!important}.vava-contact-page .message-guide .guide-item.is-field-active{transform:none}}
+
+/* VAVA_MOBILE_TAP_VERIFY_20261116 */
+@media(pointer:coarse) {
+  .vava-contact-page .vava-contact-hold{touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;min-height:70px}
+  .vava-contact-page .vava-contact-hold.is-tap-mode{border-color:rgba(111,129,95,.46)}
+  .vava-contact-page .vava-contact-hold.is-tap-mode .vava-contact-hold-copy strong{font-size:clamp(.90rem,3.5vw,1rem)}
+  .vava-contact-page .vava-contact-hold.is-tap-mode.is-holding{cursor:progress}
+  .vava-contact-page .vava-contact-hold.is-tap-mode.is-verifying{cursor:progress}
+}
