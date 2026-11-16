@@ -416,3 +416,40 @@ html[dir="ltr"] .vava-paths-stage-button span{transform:rotate(180deg)}
 .vava-paths-comparison-card.is-featured .vava-paths-comparison-action-price strong{color:var(--paths-coral)}
 .vava-paths-comparison-action-row .vava-paths-plan-book-button{margin-top:0;width:100%}
 @media(max-width:520px){.vava-paths-comparison-action-row{grid-template-columns:1fr}.vava-paths-comparison-action-price{width:100%}}
+
+
+/* VAVA_COMPARE_DISCOVERY_GUIDANCE_PARITY_V11 */
+/* Guidance is an inline sentence containing a linked session title.
+ * A flex container split the three text fragments into separate columns
+ * on narrow English screens; use normal inline text wrapping instead.
+ */
+.vava-paths-wordpress-page .vava-paths-guidance-note{
+  display:block;
+  max-width:min(820px,100%);
+  text-align:center;
+  line-height:1.9;
+  overflow-wrap:break-word;
+}
+.vava-paths-wordpress-page .vava-paths-guidance-note a.vava-paths-guidance-session-link{
+  display:inline;
+  white-space:normal;
+  overflow-wrap:break-word;
+  text-decoration:underline!important;
+  text-decoration-thickness:1px!important;
+  text-underline-offset:3px;
+}
+.vava-paths-wordpress-page .vava-paths-guidance-note a.vava-paths-guidance-session-link:focus-visible{
+  outline:2px solid #cf7356;
+  outline-offset:3px;
+  border-radius:3px;
+}
+@media(max-width:680px){
+  .vava-paths-wordpress-page .vava-paths-guidance-note{
+    width:100%;
+    margin-top:20px;
+    padding:16px 18px;
+    border-radius:18px;
+    font-size:14px;
+    line-height:1.85;
+  }
+}
