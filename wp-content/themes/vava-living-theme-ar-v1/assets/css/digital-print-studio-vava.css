@@ -1,0 +1,76 @@
+/* VAVA Living · Print Studio V2 — secluded, responsive print preparation. */
+:root{color-scheme:light;--ink:#343c2f;--ink-soft:#61705b;--olive:#657552;--olive-deep:#475b3c;--cream:#faf8f4;--line:#e4e3d9;--coral:#bd735c;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.75 "Segoe UI",Tahoma,Arial,sans-serif;min-width:320px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button,a{-webkit-tap-highlight-color:transparent}
+a:focus-visible{outline:3px solid #b9b786;outline-offset:4px}
+.vava-print-topbar{position:relative;border-bottom:1px solid #e7e5dc;background:#fffdf9;box-shadow:0 5px 20px rgba(77,78,60,.035)}
+.vava-print-topbar-inner{display:flex;align-items:center;gap:20px;max-width:1350px;min-height:78px;margin:auto;padding:12px 32px}
+.vava-print-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.vava-print-brand-symbol{display:grid;place-items:center;width:43px;height:43px;border-radius:12px;background:linear-gradient(145deg,#818b6c,#4b604a);color:#fff;font:600 27px/1 Georgia,serif;box-shadow:0 7px 16px rgba(86,111,71,.17)}
+.vava-print-brand-type{display:grid;align-content:center;gap:0;color:#364633;line-height:1}
+.vava-print-brand-type strong{font:600 24px/1.1 Georgia,serif;letter-spacing:3px}
+.vava-print-brand-type small{margin-top:3px;font-size:9px;letter-spacing:3px}
+.vava-print-topbar-divider{width:1px;height:29px;background:#e5e2d9}
+.vava-print-topbar-title{font-size:13px;font-weight:700;color:#7b816f}
+.vava-print-topbar-back{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;margin-inline-start:auto;padding:8px 14px;border:1px solid #d9dfd0;border-radius:10px;background:#f8f9f3;font-size:13px;font-weight:700;color:#526348}
+.vava-print-topbar-back:hover{background:#ecf1e7}
+.vava-print-main{max-width:1350px;margin:0 auto;padding:25px 32px 64px}
+.vava-print-breadcrumb{display:flex;align-items:center;gap:10px;margin-bottom:20px;color:#899186;font-size:12px}
+.vava-print-breadcrumb span{color:#b9baaf}
+.vava-print-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:0 0 24px}
+.vava-print-eyebrow{display:flex;align-items:center;gap:9px;color:#71845f;font-size:11px;font-weight:800;letter-spacing:.5px}
+.vava-print-live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#79a36d;box-shadow:0 0 0 5px #e9f4e5}
+.vava-print-heading h1{max-width:950px;margin:9px 0 7px;font-size:clamp(25px,2.85vw,41px);font-weight:700;line-height:1.35;color:#353e31}
+.vava-print-heading p{max-width:700px;margin:0;color:#778072;font-size:14px}
+.vava-print-verified{display:flex;align-items:center;gap:8px;white-space:nowrap;margin-bottom:6px;padding:8px 12px;border:1px solid #d5e4cc;border-radius:100px;background:#eff6ea;color:#526d46;font-size:12px;font-weight:700}
+.vava-print-verified>span:first-child{display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:#79a36d;color:#fff;font-size:12px}
+.vava-print-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(315px,.84fr);gap:22px;align-items:start}
+.vava-print-preview,.vava-print-sidebar{min-width:0;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:0 14px 50px rgba(72,70,51,.055);overflow:hidden}
+.vava-print-preview-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:59px;padding:11px 19px;border-bottom:1px solid #e7e7e1;background:#fffdf8}
+.vava-print-preview-bar>div{display:flex;align-items:center;gap:10px;font-size:14px}
+.vava-print-file-dot{display:block;width:11px;height:11px;border:3px solid #e6b2a2;border-radius:50%;background:#b66f5a;box-shadow:0 0 0 4px #fbf0ea}
+.vava-print-page-count{display:inline-block;padding:4px 10px;border-radius:8px;background:#eef0e8;color:#5e7354;font-size:12px;font-weight:800;white-space:nowrap}
+.vava-print-pdf-surface{display:flex;justify-content:center;min-height:510px;height:min(76vh,920px);padding:22px;background:radial-gradient(circle at 25% 10%,#f3f0e9,transparent 50%),linear-gradient(145deg,#e9e9e3,#f2f0ea)}
+.vava-print-pdf-surface iframe{display:block;width:100%;height:100%;border:0;border-radius:5px;background:#fff;box-shadow:0 9px 45px rgba(50,50,38,.14)}
+.vava-print-mobile-pdf{display:none}
+.vava-print-preview-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:50px;padding:10px 19px;color:#7e8779;font-size:11px}
+.vava-print-preview-foot>span:first-child{display:inline-flex;align-items:center;gap:6px}
+.vava-print-sidebar{padding:20px;position:sticky;top:16px}
+.vava-print-product-summary{display:grid;grid-template-columns:72px minmax(0,1fr);gap:15px;align-items:center}
+.vava-print-cover,.vava-print-cover-fallback{display:block;width:72px;height:91px;border:1px solid #deded6;border-radius:10px;object-fit:cover;background:#f2f2ed}
+.vava-print-cover-fallback{display:grid;place-items:center;color:#788d6e;font-weight:900}
+.vava-print-summary-label{color:#93988e;font-size:11px}
+.vava-print-product-summary h2{margin:4px 0 7px;color:#354336;font-size:clamp(15px,1.5vw,18px);line-height:1.5;overflow-wrap:anywhere}
+.vava-print-order{color:#7b8472;font-size:12px}
+.vava-print-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:21px 0;padding:14px 0;border-top:1px solid #e8e8e1;border-bottom:1px solid #e8e8e1}
+.vava-print-meta>div{display:grid;gap:3px;text-align:center}
+.vava-print-meta>div+div{border-inline-start:1px solid #e8e8e1}
+.vava-print-meta span{color:#959c8f;font-size:11px}
+.vava-print-meta strong{color:#4c5c43;font-size:13px}
+.vava-print-actions{display:grid;gap:10px}
+.vava-print-actions>a:not(.vava-print-link){display:flex;align-items:center;justify-content:center;gap:12px;min-height:53px;padding:11px 14px;border-radius:12px;font-weight:800;font-size:14px;text-align:center;transition:transform .15s ease,background .15s ease,box-shadow .15s ease}
+.vava-print-actions>a:hover{transform:translateY(-1px)}
+.vava-print-actions svg{width:20px;height:20px;flex-shrink:0}
+.vava-print-actions .vava-print-primary{border:1px solid #596b4b;background:linear-gradient(135deg,#82936d,#5f7451);color:#fff;box-shadow:0 7px 18px rgba(83,109,70,.19)}
+.vava-print-actions .vava-print-primary:hover{background:linear-gradient(135deg,#758960,#54684a)}
+.vava-print-actions .vava-print-secondary{border:1px solid #d3daca;background:#f5f8f0;color:#526449}
+.vava-print-actions .vava-print-secondary:hover{background:#edf2e6}
+.vava-print-actions .vava-print-link{justify-self:center;margin-top:3px;padding:8px;color:#75866c;font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.vava-print-guide{margin-top:17px;padding:17px 17px 12px;border-radius:14px;background:linear-gradient(145deg,#faf7ef,#f7f6f1);border:1px solid #eee6d7}
+.vava-print-guide>strong{display:block;margin-bottom:11px;color:#5c624a;font-size:14px}
+.vava-print-guide ol{margin:0;padding-inline-start:24px;color:#797a6e;font-size:12px}
+.vava-print-guide li{margin:0 0 9px;padding-inline-start:3px}
+.vava-print-guide li::marker{color:#c07d65;font-weight:800}
+.vava-print-privacy{display:flex;align-items:flex-start;gap:9px;margin:17px 1px 1px;color:#87897f;font-size:11px;line-height:1.9}
+.vava-print-privacy span{font-size:15px;color:#899875}
+.vava-print-bottom-links{display:flex;gap:18px;margin-top:23px;font-size:13px;color:#6d7a62}
+.vava-print-bottom-links a{border-bottom:1px solid #c8d0c1;padding-bottom:2px}
+.vava-print-footer{padding:19px 16px;border-top:1px solid #e4e5dc;color:#91968b;text-align:center;font-size:11px;letter-spacing:.15px}
+.vava-print-footer span{margin:0 8px}
+@media(max-width:1040px){.vava-print-grid{grid-template-columns:minmax(0,1fr) 330px;gap:13px}.vava-print-main{padding-inline:20px}.vava-print-sidebar{padding:16px}.vava-print-pdf-surface{padding:12px}}
+@media(max-width:830px){.vava-print-grid{grid-template-columns:1fr}.vava-print-sidebar{position:static;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 20px}.vava-print-product-summary,.vava-print-meta{grid-column:1}.vava-print-actions,.vava-print-guide,.vava-print-privacy{grid-column:2}.vava-print-actions{grid-row:1/3;align-content:start}.vava-print-guide{grid-row:3;grid-column:1/-1;margin-top:13px}.vava-print-privacy{grid-row:4;grid-column:1/-1}.vava-print-pdf-surface{min-height:480px;height:68vh}}
+@media(max-width:620px){.vava-print-topbar-inner{min-height:64px;padding:9px 15px;gap:10px}.vava-print-brand-symbol{width:36px;height:36px;font-size:22px}.vava-print-brand-type strong{font-size:18px}.vava-print-brand-type small{font-size:7px}.vava-print-topbar-divider{display:none}.vava-print-topbar-title{font-size:11px}.vava-print-topbar-back{min-height:36px;padding:5px 9px;font-size:11px;white-space:nowrap}.vava-print-main{padding:16px 13px 38px}.vava-print-breadcrumb{margin-bottom:10px}.vava-print-heading{display:block;margin-bottom:16px}.vava-print-heading h1{font-size:clamp(24px,6vw,31px)}.vava-print-heading p{font-size:12px}.vava-print-verified{width:max-content;margin-top:14px}.vava-print-preview,.vava-print-sidebar{border-radius:16px}.vava-print-preview-bar{padding:11px 13px}.vava-print-pdf-surface{height:auto;min-height:0;padding:24px 16px;background:#f2f1ed}.vava-print-pdf-surface iframe{display:none}.vava-print-mobile-pdf{display:grid;justify-items:center;width:100%;text-align:center;gap:12px}.vava-print-mobile-paper{display:grid;place-items:center;min-height:230px;max-height:330px;aspect-ratio:4/5;width:min(64vw,210px);padding:9px;border:1px solid #e5e5df;border-radius:8px;background:#fff;box-shadow:0 12px 35px rgba(59,61,43,.13);overflow:hidden}.vava-print-mobile-paper img{width:100%;height:100%;object-fit:contain}.vava-print-mobile-paper span{font-size:38px;letter-spacing:3px;color:#9aa38d}.vava-print-mobile-pdf>strong{color:#3e513d;font-size:15px}.vava-print-mobile-pdf>p{max-width:290px;margin:0;color:#858b7c;font-size:12px;line-height:1.7}.vava-print-mobile-pdf>a{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:47px;margin-top:3px;border-radius:11px;border:1px solid #9fac90;background:#fff;color:#526d49;font-size:13px;font-weight:800}.vava-print-sidebar{display:block;padding:16px}.vava-print-meta{margin:16px 0}.vava-print-actions{margin-bottom:14px}.vava-print-guide{margin-top:6px}.vava-print-bottom-links{justify-content:center}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
