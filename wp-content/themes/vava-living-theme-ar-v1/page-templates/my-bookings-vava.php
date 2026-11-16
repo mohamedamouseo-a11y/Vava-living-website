@@ -96,7 +96,7 @@ foreach ( $bookings as $booking_id ) {
 	$method         = (string) get_post_meta( $booking_id, '_vava_booking_payment_method', true );
 	$uid            = (string) get_post_meta( $booking_id, '_vava_booking_service_uid', true );
 	$service        = vava_booking_resolve_service( $uid, $lang );
-	$title          = $service ? (string) $service['title'] : (string) get_post_meta( $booking_id, '_vava_booking_service_title', true );
+	$title          = function_exists( 'vava_account_booking_localized_title' ) ? vava_account_booking_localized_title( (int) $booking_id, $lang ) : ( $service ? (string) $service['title'] : (string) get_post_meta( $booking_id, '_vava_booking_service_title', true ) );
 	$description    = $service ? trim( wp_strip_all_tags( (string) ( $service['description'] ?? '' ) ) ) : '';
 	$detail_url     = $service ? vava_booking_service_detail_url( $service, $lang ) : '#';
 	$date           = (string) get_post_meta( $booking_id, '_vava_booking_date', true );
