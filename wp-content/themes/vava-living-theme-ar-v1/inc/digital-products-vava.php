@@ -541,11 +541,26 @@ function vava_digital_product_reader_data( array $card, string $lang = 'ar' ): a
 			'group'        => (string) ( $card['group'] ?? 'digital' ),
 		);
 	}
+	// The product card's short description is not the full reader description.
+	// Capture the canonical long description before editable card fields merge.
+	$canonical_full_description = trim( (string) ( $data['full_description'] ?? '' ) );
+	if ( '' === $canonical_full_description ) {
+		$canonical_full_description = trim( (string) ( $data['description'] ?? '' ) );
+	}
 	foreach ( array( 'title', 'description', 'full_description', 'category', 'question', 'inside', 'ideal', 'pages' ) as $field ) {
 		if ( ! isset( $card[ $field ] ) ) {
 			continue;
 		}
-		if ( is_array( $card[ $field ] ) || '' !== trim( (string) $card[ $field ] ) ) {
+		if ( is_array( $card[ $field ] ) ) {
+			// Empty EN lists in old product-editor records must not erase the
+			// translated "Inside" and "Ideal for" catalogue sections.
+			// Keep intentional non-empty, admin-edited localized lists.
+			$items = array_values( array_filter(
+				$card[ $field ],
+				static fn( $item ) => is_scalar( $item ) && '' !== trim( (string) $item )
+			) );
+			if ( $items ) { $data[ $field ] = $items; }
+		} elseif ( '' !== trim( (string) $card[ $field ] ) ) {
 			$data[ $field ] = $card[ $field ];
 		}
 	}
@@ -554,9 +569,12 @@ function vava_digital_product_reader_data( array $card, string $lang = 'ar' ): a
 	$data['currency']   = (string) ( $card['currency'] ?? ( 'en' === $lang ? 'SAR' : 'ر.س' ) );
 	$pdf_cover = function_exists( 'vava_digital_products_cover_url' ) ? vava_digital_products_cover_url( $uid ) : '';
 	$data['cover_url'] = $pdf_cover ?: vava_selections_image_url( absint( $card['image_id'] ?? 0 ), (string) ( $card['fallback_asset'] ?? $data['cover_asset'] ?? '' ) );
-	// Use card-level full_description if set, otherwise fall back to catalogue description.
-	if ( '' === trim( (string) ( $data['full_description'] ?? '' ) ) && isset( $data['description'] ) && '' !== trim( (string) $data['description'] ) ) {
-		$data['full_description'] = (string) $data['description'];
+	// Prefer the complete canonical product description, never the abbreviated
+	// storefront card summary. Admin-authored non-empty full text takes priority.
+	if ( '' === trim( (string) ( $data['full_description'] ?? '' ) ) ) {
+		$data['full_description'] = '' !== $canonical_full_description
+			? $canonical_full_description
+			: (string) ( $data['description'] ?? '' );
 	}
 	return $data;
 }
