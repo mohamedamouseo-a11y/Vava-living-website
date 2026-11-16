@@ -438,7 +438,7 @@ function vava_package_followup_render_account( int $parent_id, string $lang ): v
             $child_status = (string) get_post_meta( $child_id, '_vava_booking_status', true );
             $child_date = (string) get_post_meta( $child_id, '_vava_booking_date', true );
             $child_time = (string) get_post_meta( $child_id, '_vava_booking_time', true );
-            $status_text = function_exists( 'vava_booking_status_label' ) ? vava_booking_status_label( $child_status ) : $child_status;
+            $status_text = function_exists( 'vava_account_booking_localized_status' ) ? vava_account_booking_localized_status( $child_status, $lang ) : ( function_exists( 'vava_booking_status_label' ) ? vava_booking_status_label( $child_status ) : $child_status );
             echo '<li>' . esc_html( $child_date . ' ' . $child_time . ' — ' . $status_text );
             if ( in_array( $child_status, array( 'confirmed', 'paid' ), true ) ) {
                 $mail_state = (string) get_post_meta( $child_id, '_vava_followup_confirmation_state', true );
