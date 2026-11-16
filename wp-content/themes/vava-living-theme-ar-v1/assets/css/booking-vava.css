@@ -4074,3 +4074,20 @@ html[dir="ltr"] .vava-booking-step--questionnaire .vava-booking-stage-button spa
     min-width:0;
   }
 }
+
+/* VAVA receipt upload UX: selection is not a transfer. Never show a misleading 0% bar before submitting. */
+.vava-booking-upload-progress.is-selected{background:#f0f4e9;border-color:#bfceb0}
+.vava-booking-upload-progress.is-selected>i,
+.vava-booking-upload-progress.is-selected em,
+.vava-booking-upload-progress.is-error>i,
+.vava-booking-upload-progress.is-error em{display:none!important}
+.vava-booking-upload-progress.is-selected>span{justify-content:flex-start}
+.vava-booking-upload-progress.is-selected b{font-weight:700}
+
+/* VAVA_QUESTIONNAIRE_INPUT_TYPES_V2 */
+.vava-questionnaire-field select,.vava-questionnaire-field input[type=email],.vava-questionnaire-field input[type=date]{
+ width:100%;min-width:0;min-height:50px;box-sizing:border-box;padding:11px 14px;border:1px solid #d9d7c6;border-radius:12px;background:#fbfbf6;color:#48483f;font:inherit;accent-color:#747a4e;
+}
+.vava-booking-step--questionnaire .vava-questionnaire-field select,.vava-booking-step--questionnaire .vava-questionnaire-field input[type=email],
+.vava-booking-step--questionnaire .vava-questionnaire-field input[type=date]{margin-top:auto!important}
+.vava-questionnaire-field.is-invalid select,.vava-questionnaire-field.is-invalid input[type=email],.vava-questionnaire-field.is-invalid input[type=date]{border-color:#c95749}
