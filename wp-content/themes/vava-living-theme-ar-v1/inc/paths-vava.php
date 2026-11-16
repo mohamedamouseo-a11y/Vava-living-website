@@ -424,12 +424,22 @@ function vava_paths_normalize_session_categories( array $data, string $lang = 'a
 	return $data;
 }
 
-/** Group enabled sessions by their fixed consultation category. */
+/**
+ * A customer-facing Quick Consultations group contains both the free
+ * discovery session and the paid inquiry session. Keep the original service
+ * categories untouched: they determine duration, payment and booking rules.
+ */
+function vava_paths_session_display_category( array $session ): string {
+	$category = vava_paths_session_category( $session );
+	return in_array( $category, array( 'discovery', 'inquiry' ), true ) ? 'quick' : $category;
+}
+
+/** Group enabled sessions by their customer-facing consultation category. */
 function vava_paths_group_sessions( array $packages ): array {
 	$groups = array( 'quick' => array(), 'followup' => array(), 'comprehensive' => array() );
 	foreach ( $packages as $package ) {
 		$package = is_array( $package ) ? $package : array();
-		$category = vava_paths_session_category( $package );
+		$category = vava_paths_session_display_category( $package );
 		$groups[ $category ][] = $package;
 	}
 	return $groups;
@@ -841,12 +851,12 @@ function vava_paths_render_frontend( int $post_id, string $lang ): void {
 					<span class="is-active"><i>3</i><?php echo esc_html( $is_en ? 'View sessions' : 'عرض الجلسات' ); ?></span>
 				</nav>
 				<div class="vava-paths-session-grid vava-paths-category-results" data-paths-session-grid>
-					<?php foreach ( $packages as $package ) : $category = vava_paths_session_category( $package ); ?>
+					<?php foreach ( $packages as $package ) : $category = vava_paths_session_display_category( $package ); ?>
 						<article class="vava-paths-session-card vava-paths-session-card-simple<?php echo ! empty( $package['featured'] ) ? ' is-featured' : ''; ?>" data-paths-session-card data-session-category="<?php echo esc_attr( $category ); ?>">
 							<h3><?php echo esc_html( (string) ( $package['title'] ?? '' ) ); ?></h3>
 							<div class="vava-paths-session-simple-footer">
 								<div class="vava-paths-session-price"><strong><?php echo esc_html( (string) ( $package['price'] ?? '' ) ); ?></strong><small><?php echo esc_html( (string) ( $package['currency'] ?? '' ) ); ?></small></div>
-								<a href="<?php echo esc_url( vava_paths_resolve_url( (string) ( $package['link_url'] ?? '' ) ) ); ?>"><?php echo esc_html( (string) ( $package['link_text'] ?? $labels['view_details'] ) ); ?></a>
+								<a href="<?php echo esc_url( vava_language_url( $lang, vava_paths_session_details_url( $package, $lang ) ) ); ?>"><?php echo esc_html( (string) ( $package['link_text'] ?? $labels['view_details'] ) ); ?></a>
 							</div>
 						</article>
 					<?php endforeach; ?>
