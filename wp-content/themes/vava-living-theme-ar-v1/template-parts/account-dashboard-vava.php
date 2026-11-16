@@ -279,10 +279,10 @@ $meeting_is_pending = $meeting_is_confirmed && ! $meeting_link_visible && (strin
 												$digital_file = function_exists( 'vava_digital_products_file_record' ) ? vava_digital_products_file_record( $digital_uid ) : array();
 												$digital_ready = 'ready' === (string) ( $digital_file['processing_status'] ?? '' ) && function_exists( 'vava_digital_products_private_file_path' ) && vava_digital_products_private_file_path( $digital_file );
 												if ( $digital_ready && $account_user instanceof WP_User && function_exists( 'vava_digital_access_url' ) && function_exists( 'vava_digital_products_user_can_view' ) && vava_digital_products_user_can_view( $account_user->ID, $digital_uid ) ) :
-													$print_url = vava_digital_access_url( $digital_uid, 'print', $account_user );
+													$print_url = function_exists( 'vava_digital_access_print_preview_url' ) ? vava_digital_access_print_preview_url( $digital_uid, $account_user, $lang ) : '';
 													$download_url = vava_digital_access_url( $digital_uid, 'download', $account_user );
-													if ( $print_url ) : ?><a class="vava-account-file-action" href="<?php echo esc_url( $print_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $is_en ? 'Print PDF' : 'طباعة PDF' ); ?></a><?php endif; ?>
-													<?php if ( $download_url ) : ?><a class="vava-account-file-action is-download" href="<?php echo esc_url( $download_url ); ?>"><?php echo esc_html( $is_en ? 'Download PDF' : 'تحميل PDF' ); ?></a><?php endif; ?>
+													if ( $print_url ) : ?><a class="vava-account-file-action is-print" href="<?php echo esc_url( $print_url ); ?>" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▤</span><?php echo esc_html( $is_en ? 'Print preview' : 'معاينة الطباعة' ); ?></a><?php endif; ?>
+													<?php if ( $download_url ) : ?><a class="vava-account-file-action is-download" href="<?php echo esc_url( $download_url ); ?>"><span aria-hidden="true">⇩</span><?php echo esc_html( $is_en ? 'Download PDF' : 'تحميل PDF' ); ?></a><?php endif; ?>
 												<?php endif; ?>
 											<?php else : ?><span class="vava-account-disabled-action"><?php echo esc_html( $is_en ? 'Awaiting approval' : 'بانتظار الاعتماد' ); ?></span><?php endif; ?>
 										</div>
