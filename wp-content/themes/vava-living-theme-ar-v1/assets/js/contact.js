@@ -39,6 +39,13 @@
   var label = hold.querySelector('[data-contact-hold-label]');
   var percent = hold.querySelector('[data-contact-hold-percent]');
   var requiredSeconds = Math.max(3, parseInt(hold.getAttribute('data-duration') || '4', 10));
+  var isEnglish = String(window.VAVA_CONTACT.lang || 'ar').toLowerCase() === 'en';
+  // Press-and-hold is unreliable on touch devices (pointerup/cancel can fire
+  // during the first AJAX request). Use one tap and a timed server challenge.
+  var mobileTapMode = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+  var tapIdleText = isEnglish ? 'Tap once to verify' : 'اضغط مرة واحدة للتحقق';
+  var tapActiveText = isEnglish ? 'Checking automatically…' : 'جارٍ التحقق تلقائيًا…';
+  var subLabel = hold.querySelector('.vava-contact-hold-copy small');
   var idleText = hold.getAttribute('data-idle') || '';
   var activeText = hold.getAttribute('data-active') || idleText;
   var verifiedText = hold.getAttribute('data-verified') || idleText;
@@ -51,6 +58,16 @@
   var raf = 0;
   var startController = null;
   var verifyController = null;
+  function updateInputMode() {
+    hold.classList.toggle('is-tap-mode', mobileTapMode);
+    if (subLabel && mobileTapMode) {
+      subLabel.textContent = isEnglish
+        ? 'Tap once and wait ' + requiredSeconds + ' seconds (no holding needed)'
+        : 'اضغط مرة واحدة وانتظر ' + requiredSeconds + ' ثوانٍ بدون ضغط مطوّل';
+    }
+    if (state === 'idle' && label) label.textContent = mobileTapMode ? tapIdleText : idleText;
+  }
+  updateInputMode();
 
   function post(action, payload, controller) {
     var body = new URLSearchParams();
@@ -82,15 +99,17 @@
     stopAnimation();
     state = 'idle';
     challenge = '';
+    isPressed = false;
+    releasePointerCapture();
     setProgress(0);
     hold.classList.remove('is-holding', 'is-verifying', 'is-verified', 'is-error');
     if (showError) hold.classList.add('is-error');
-    if (label) label.textContent = message || idleText;
+    if (label) label.textContent = showError ? (message || errorText) : (mobileTapMode ? tapIdleText : (message || idleText));
     if (showError) {
       window.setTimeout(function () {
         if (state !== 'idle') return;
         hold.classList.remove('is-error');
-        if (label) label.textContent = idleText;
+        if (label) label.textContent = mobileTapMode ? tapIdleText : idleText;
       }, 1700);
     }
   }
@@ -128,13 +147,19 @@
     stopAnimation();
     hold.classList.remove('is-holding');
     hold.classList.add('is-verifying');
-    if (label) label.textContent = activeText;
+    if (label) label.textContent = mobileTapMode ? tapActiveText : activeText;
     verifyController = new AbortController();
+    window.setTimeout(function () {
+      if (state === 'verifying') {
+        if (verifyController) verifyController.abort();
+        setIdle(errorText, true);
+      }
+    }, 16000);
     post('vava_contact_hold_verify', { challenge: challenge }, verifyController).then(function (result) {
       if (result && result.success && result.data && result.data.token) unlock(String(result.data.token));
       else setIdle(errorText, true);
     }).catch(function (error) {
-      if (error && error.name === 'AbortError') return;
+      if (error && error.name === 'AbortError' && state !== 'verifying') return;
       setIdle(errorText, true);
     });
   }
@@ -146,7 +171,8 @@
       return;
     }
     var elapsed = (performance.now() - startedAt) / 1000;
-    var progress = elapsed / requiredSeconds;
+    // Slight grace above the server threshold prevents "too_fast" on mobile.
+    var progress = elapsed / (mobileTapMode ? requiredSeconds + 0.35 : requiredSeconds);
     setProgress(progress);
     if (progress >= 1) {
       finishVerification();
@@ -162,6 +188,10 @@
       if (event.repeat) return;
     }
     if (event && event.type === 'pointerdown' && typeof event.button === 'number' && event.button !== 0) return;
+    if (event && event.pointerType === 'touch' && !mobileTapMode) {
+      mobileTapMode = true;
+      updateInputMode();
+    }
     if (event) event.preventDefault();
 
     isPressed = true;
@@ -175,11 +205,17 @@
     state = 'starting';
     hold.classList.remove('is-error');
     hold.classList.add('is-verifying');
-    if (label) label.textContent = activeText;
+    if (label) label.textContent = mobileTapMode ? tapActiveText : activeText;
     startController = new AbortController();
+    window.setTimeout(function () {
+      if (state === 'starting') {
+        if (startController) startController.abort();
+        setIdle(errorText, true);
+      }
+    }, 16000);
     post('vava_contact_hold_start', {}, startController).then(function (result) {
-      if (!isPressed || state !== 'starting') {
-        setIdle(idleText, false);
+      if (state !== 'starting' || (!mobileTapMode && !isPressed)) {
+        if (state === 'starting') setIdle(idleText, false);
         return;
       }
       if (!result || !result.success || !result.data) throw new Error('start_failed');
@@ -190,19 +226,25 @@
       challenge = String(result.data.challenge || '');
       if (!challenge) throw new Error('challenge_missing');
       requiredSeconds = Math.max(3, parseInt(result.data.duration || requiredSeconds, 10));
+      updateInputMode();
       startedAt = performance.now();
       state = 'holding';
       hold.classList.remove('is-verifying');
       hold.classList.add('is-holding');
       raf = window.requestAnimationFrame(frame);
     }).catch(function (error) {
-      if (error && error.name === 'AbortError') return;
+      if (error && error.name === 'AbortError' && state !== 'starting') return;
       setIdle(errorText, true);
     });
   }
 
   function cancel(event) {
     if (event && event.type === 'keyup' && event.key !== ' ' && event.key !== 'Enter') return;
+    if (mobileTapMode) {
+      // The finger can be lifted immediately: verification continues.
+      releasePointerCapture();
+      return;
+    }
     isPressed = false;
     releasePointerCapture();
     if (state === 'starting') {
@@ -216,15 +258,19 @@
   }
 
   hold.addEventListener('pointerdown', begin);
+  // Legacy touch browsers without Pointer Events can still verify with a tap.
+  if (typeof window.PointerEvent === 'undefined') {
+    hold.addEventListener('click', function (event) { if (mobileTapMode) begin(event); });
+  }
   hold.addEventListener('pointerup', cancel);
   hold.addEventListener('pointercancel', cancel);
   hold.addEventListener('lostpointercapture', function () {
-    if (state === 'starting' || state === 'holding') cancel();
+    if (!mobileTapMode && (state === 'starting' || state === 'holding')) cancel();
   });
   hold.addEventListener('keydown', begin);
   hold.addEventListener('keyup', cancel);
   hold.addEventListener('blur', function () {
-    if (state === 'starting' || state === 'holding') cancel();
+    if (!mobileTapMode && (state === 'starting' || state === 'holding')) cancel();
   });
   hold.addEventListener('contextmenu', function (event) { event.preventDefault(); });
   hold.addEventListener('dragstart', function (event) { event.preventDefault(); });
