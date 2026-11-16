@@ -57,6 +57,7 @@ require_once get_template_directory() . '/inc/digital-products-commerce-vava.php
 require_once get_template_directory() . '/inc/digital-product-access-vava.php';
 require_once get_template_directory() . '/inc/digital-print-studio-vava.php';
 require_once get_template_directory() . '/inc/package-followups-vava.php';
+require_once get_template_directory() . '/inc/account-booking-localization-vava.php';
 require_once get_template_directory() . '/inc/journal-vava.php';
 require_once get_template_directory() . '/inc/article-i18n-vava.php';
 require_once get_template_directory() . '/inc/contact-vava.php';
