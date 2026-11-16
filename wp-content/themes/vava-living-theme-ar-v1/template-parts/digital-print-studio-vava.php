@@ -42,16 +42,22 @@ defined( 'ABSPATH' ) || exit;
                     <div><span class="vava-print-file-dot" aria-hidden="true"></span><strong id="vava-print-preview-title"><?php echo esc_html( $is_en ? 'Page preview' : 'معاينة صفحات الملف' ); ?></strong></div>
                     <span class="vava-print-page-count"><?php echo esc_html( sprintf( $is_en ? '%d pages' : '%d صفحات', $page_count ) ); ?></span>
                 </div>
-                <div class="vava-print-pdf-surface">
-                    <iframe title="<?php echo esc_attr( $is_en ? 'Authorized PDF page preview' : 'معاينة صفحات PDF المصرح بها' ); ?>"
-                        src="<?php echo esc_url( $print_url ); ?>" loading="eager" referrerpolicy="no-referrer"></iframe>
-                    <div class="vava-print-mobile-pdf">
-                        <div class="vava-print-mobile-paper">
-                            <?php if ( $cover_url ) : ?><img src="<?php echo esc_url( $cover_url ); ?>" alt="<?php echo esc_attr( $title ); ?>" loading="eager"><?php else : ?><span aria-hidden="true">PDF</span><?php endif; ?>
-                        </div>
-                        <strong><?php echo esc_html( $is_en ? 'View the complete PDF on your phone' : 'استعرضي الملف كاملًا على هاتفك' ); ?></strong>
-                        <p><?php echo esc_html( $is_en ? 'For a clearer preview on mobile, open the PDF in your browser or PDF app.' : 'لأفضل عرض على الموبايل، افتحي الملف في المتصفح أو تطبيق PDF على جهازك.' ); ?></p>
-                        <a href="<?php echo esc_url( $print_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $is_en ? 'Open full PDF' : 'فتح ملف PDF كاملًا' ); ?><span aria-hidden="true">↗</span></a>
+                <div class="vava-print-pdf-surface is-lightweight">
+                    <div class="vava-print-first-page">
+                        <span class="vava-print-sheet-badge"><?php echo esc_html( $is_en ? 'Real page preview · 1 / ' . $page_count : 'معاينة الصفحة الأولى · 1 / ' . $page_count ); ?></span>
+                        <?php if ( $preview_page_url ) : ?>
+                            <img class="vava-print-first-page-image" src="<?php echo esc_url( $preview_page_url ); ?>" loading="eager" decoding="async"
+                                 alt="<?php echo esc_attr( $is_en ? 'First page of your purchased digital PDF' : 'الصفحة الأولى من ملف PDF الذي اشتريته' ); ?>">
+                        <?php elseif ( $cover_url ) : ?>
+                            <img class="vava-print-first-page-image" src="<?php echo esc_url( $cover_url ); ?>" loading="eager" decoding="async"
+                                 alt="<?php echo esc_attr( $title ); ?>">
+                        <?php else : ?>
+                            <div class="vava-print-first-page-fallback" aria-hidden="true">PDF</div>
+                        <?php endif; ?>
+                        <p><?php echo esc_html( $is_en ? 'A lightweight preview is shown here. Open the PDF to review every page and print from your device.' : 'دي معاينة خفيفة للصفحة الأولى. افتحي ملف PDF لمراجعة كل الصفحات والطباعة من جهازك.' ); ?></p>
+                        <a class="vava-print-preview-open" href="<?php echo esc_url( $print_url ); ?>" target="_blank" rel="noopener noreferrer">
+                            <?php echo esc_html( $is_en ? 'Open all PDF pages' : 'فتح كل صفحات PDF' ); ?> <span aria-hidden="true">↗</span>
+                        </a>
                     </div>
                 </div>
                 <div class="vava-print-preview-foot">
