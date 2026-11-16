@@ -407,3 +407,71 @@
   installHeaderActions();
   render();
 })();
+
+/* VAVA_QUESTIONNAIRE_FIELD_EDITOR_V2 */
+(() => {
+  'use strict';
+  const root = document.querySelector('[data-booking-admin]');
+  if (!root) return;
+  const choices = new Set(['radio', 'checkboxes', 'select']);
+
+  function updateRows(key) {
+    root.querySelectorAll('[data-questionnaire-edit-row]').forEach((row) => {
+      if (row.dataset.questionnaireEditKey !== key) return;
+      const type = row.querySelector('[data-questionnaire-sync="type"]')?.value || 'text';
+      const visible = Boolean(row.querySelector('[data-questionnaire-sync="visible"]')?.checked);
+      const options = row.querySelector('[data-questionnaire-options-editor]');
+      if (options) options.hidden = !choices.has(type);
+      row.classList.toggle('is-question-hidden', !visible);
+    });
+  }
+
+  root.addEventListener('change', (event) => {
+    const control = event.target.closest('[data-questionnaire-sync]');
+    if (!control || !root.contains(control)) return;
+    const row = control.closest('[data-questionnaire-edit-row]');
+    if (!row) return;
+    const key = row.dataset.questionnaireEditKey;
+    const property = control.dataset.questionnaireSync;
+    root.querySelectorAll('[data-questionnaire-edit-row]').forEach((sibling) => {
+      if (sibling.dataset.questionnaireEditKey !== key) return;
+      const mirror = sibling.querySelector('[data-questionnaire-sync="' + property + '"]');
+      if (!mirror || mirror === control) return;
+      if (control.type === 'checkbox') mirror.checked = control.checked;
+      else mirror.value = control.value;
+    });
+    if (property === 'type' && choices.has(control.value)) {
+      root.querySelectorAll('[data-questionnaire-edit-row]').forEach((sibling) => {
+        if (sibling.dataset.questionnaireEditKey !== key) return;
+        const input = sibling.querySelector('[data-questionnaire-options-editor] textarea');
+        if (!input || input.value.trim()) return;
+        const lang = sibling.closest('[data-questionnaire-admin-lang]')?.dataset.questionnaireAdminLang;
+        input.value = lang === 'en' ? 'Option 1\nOption 2' : 'الخيار الأول\nالخيار الثاني';
+      });
+    }
+    updateRows(key);
+  });
+
+  // Avoid silently publishing a choice question with one or zero choices.
+  const form = root.closest('form') || root.querySelector('form');
+  if (form) form.addEventListener('submit', (event) => {
+    for (const row of root.querySelectorAll('[data-questionnaire-edit-row]')) {
+      const type = row.querySelector('[data-questionnaire-sync="type"]')?.value || 'text';
+      if (!choices.has(type)) continue;
+      const input = row.querySelector('[data-questionnaire-options-editor] textarea');
+      if (!input) continue;
+      const lines = input.value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+      if (lines.length >= 2 && lines.length <= 30) {
+        const partner = Array.from(root.querySelectorAll('[data-questionnaire-edit-row]'))
+          .find((r) => r !== row && r.dataset.questionnaireEditKey === row.dataset.questionnaireEditKey);
+        const other = partner?.querySelector('[data-questionnaire-options-editor] textarea')?.value.split(/\r?\n/).filter((x) => x.trim()).length;
+        if (other === lines.length) continue;
+      }
+      event.preventDefault();
+      const en = row.closest('[data-questionnaire-admin-lang]')?.dataset.questionnaireAdminLang === 'en';
+      alert(en ? 'Add 2–30 answer options in each language, in the same order.' : 'أضيفي من خيارين إلى 30 خيارًا لكل لغة وبنفس الترتيب.');
+      input.focus();
+      return;
+    }
+  });
+})();
