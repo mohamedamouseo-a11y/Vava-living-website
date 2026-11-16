@@ -176,7 +176,61 @@ if ( ! function_exists( 'vava_booking_questionnaire_defaults' ) ) {
 function vava_booking_questionnaire_settings( int $page_id = 0 ): array {
 	$page_id = $page_id ?: ( function_exists( 'vava_booking_page_id' ) ? vava_booking_page_id() : 0 );
 	$stored = $page_id ? get_post_meta( $page_id, '_vava_booking_questionnaires', true ) : array();
-	return array_replace_recursive( vava_booking_questionnaire_defaults(), is_array( $stored ) ? $stored : array() );
+	$defaults = vava_booking_questionnaire_defaults();
+	if ( ! is_array( $stored ) ) { return $defaults; }
+	foreach ( $defaults as $type => &$questionnaire ) {
+		if ( empty( $stored[ $type ] ) || ! is_array( $stored[ $type ] ) ) { continue; }
+		$questionnaire = array_replace_recursive( $questionnaire, $stored[ $type ] );
+		foreach ( (array) ( $stored[ $type ]['groups'] ?? array() ) as $group_key => $group ) {
+			if ( ! is_array( $group ) || ! array_key_exists( 'fields', $group ) ) { continue; }
+			// Numeric arrays must be replaced, NOT recursively merged: deleted options
+			// and hidden/retired questions must never reappear from theme defaults.
+			$default_fields = (array) ( $defaults[ $type ]['groups'][ $group_key ]['fields'] ?? array() );
+			$by_id = array();
+			foreach ( $default_fields as $default_field ) {
+				$by_id[ sanitize_key( (string) ( $default_field['id'] ?? '' ) ) ] = $default_field;
+			}
+			$clean_fields = array();
+			foreach ( (array) $group['fields'] as $field ) {
+				if ( ! is_array( $field ) ) { continue; }
+				$id = sanitize_key( (string) ( $field['id'] ?? '' ) );
+				if ( '' === $id ) { continue; }
+				$merged = array_replace_recursive( (array) ( $by_id[ $id ] ?? array() ), $field );
+				if ( array_key_exists( 'options', $field ) ) { $merged['options'] = array_values( (array) $field['options'] ); }
+				$clean_fields[] = $merged;
+			}
+			$questionnaire['groups'][ $group_key ]['fields'] = $clean_fields;
+		}
+	}
+	unset( $questionnaire );
+	return $defaults;
+}
+
+/**
+ * Explicit admin visibility plus blank-label protection: deleting the text of
+ * either translation must not leave an empty answer box for that language.
+ */
+function vava_booking_questionnaire_field_visible( array $field, string $lang = 'ar' ): bool {
+	if ( isset( $field['visible'] ) && ! $field['visible'] ) { return false; }
+	if ( '' === sanitize_key( (string) ( $field['id'] ?? '' ) ) ) { return false; }
+	return '' !== trim( (string) ( $field['label'][ $lang ] ?? '' ) );
+}
+
+function vava_booking_questionnaire_visible_groups( array $questionnaire, string $lang ): array {
+	$groups = array();
+	foreach ( (array) ( $questionnaire['groups'] ?? array() ) as $group_key => $group ) {
+		$group = (array) $group;
+		$fields = array_values( array_filter( (array) ( $group['fields'] ?? array() ),
+			static fn( $field ) => is_array( $field ) && vava_booking_questionnaire_field_visible( $field, $lang ) ) );
+		if ( ! $fields ) { continue; }
+		$group['fields'] = $fields;
+		$groups[ $group_key ] = $group;
+	}
+	return $groups;
+}
+
+function vava_booking_questionnaire_allowed_field_types(): array {
+	return array( 'text', 'textarea', 'number', 'radio', 'checkboxes', 'select', 'date', 'email' );
 }
 
 function vava_booking_questionnaire_service_category( array $service ): string {
@@ -240,11 +294,17 @@ function vava_booking_questionnaire_sanitize_answers( string $type, array $raw_a
 	$clean = array();
 	$missing = array();
 	foreach ( $map as $id => $field ) {
+		if ( ! vava_booking_questionnaire_field_visible( $field, $lang ) ) { continue; }
 		$value = $raw_answers[ $id ] ?? '';
 		if ( 'checkboxes' === (string) ( $field['type'] ?? '' ) ) {
 			$value = is_array( $value ) ? array_values( array_filter( array_map( 'sanitize_text_field', wp_unslash( $value ) ) ) ) : array();
 		} else {
 			$value = is_scalar( $value ) ? sanitize_textarea_field( wp_unslash( (string) $value ) ) : '';
+		}
+		if ( in_array( (string) ( $field['type'] ?? '' ), array( 'radio', 'checkboxes', 'select' ), true ) ) {
+			$choices = array_map( static fn( $option ) => (string) ( $option['value'] ?? '' ), (array) ( $field['options'] ?? array() ) );
+			if ( is_array( $value ) ) { $value = array_values( array_intersect( $value, $choices ) ); }
+			elseif ( '' !== $value && ! in_array( $value, $choices, true ) ) { $value = ''; }
 		}
 		if ( $validate && ! empty( $field['required'] ) && ( is_array( $value ) ? ! $value : '' === trim( (string) $value ) ) ) { $missing[] = $id; }
 		$has_value = is_array( $value ) ? ! empty( $value ) : '' !== trim( (string) $value );
@@ -329,11 +389,12 @@ function vava_booking_questionnaire_group_intro( string $type, string $group_key
 
 function vava_booking_questionnaire_render_field( array $field, string $lang, array $defaults = array() ): void {
 	$id = sanitize_key( (string) ( $field['id'] ?? '' ) );
-	if ( ! $id ) { return; }
-	$label = (string) ( $field['label'][ $lang ] ?? $field['label']['ar'] ?? $id );
-	$type = (string) ( $field['type'] ?? 'text' );
+	if ( ! $id || ! vava_booking_questionnaire_field_visible( $field, $lang ) ) { return; }
+	$label = (string) $field['label'][ $lang ];
+	$type = sanitize_key( (string) ( $field['type'] ?? 'text' ) );
+	if ( ! in_array( $type, vava_booking_questionnaire_allowed_field_types(), true ) ) { $type = 'text'; }
 	$required = ! empty( $field['required'] );
-	$value = (string) ( $defaults[ $id ] ?? '' );
+	$value = is_scalar( $defaults[ $id ] ?? '' ) ? (string) $defaults[ $id ] : '';
 	$name = 'questionnaire_answers[' . $id . ']';
 	$placeholder = vava_booking_questionnaire_field_placeholder( $id, $type, $lang );
 	$unit = vava_booking_questionnaire_field_unit( $id, $lang );
@@ -362,9 +423,16 @@ function vava_booking_questionnaire_render_field( array $field, string $lang, ar
 					<label class="vava-questionnaire-option-card option-<?php echo esc_attr( sanitize_html_class( $option_value ) ); ?>"><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[]" value="<?php echo esc_attr( $option_value ); ?>" data-questionnaire-field="<?php echo esc_attr( $id ); ?>"/><i class="vava-questionnaire-option-marker" aria-hidden="true"></i><span class="vava-questionnaire-option-copy"><b><?php echo esc_html( (string) ( $option[ $lang ] ?? $option['ar'] ?? $option_value ) ); ?></b></span></label>
 				<?php endforeach; ?>
 			</div>
+		<?php elseif ( 'select' === $type ) : ?>
+			<select name="<?php echo esc_attr( $name ); ?>" data-questionnaire-field="<?php echo esc_attr( $id ); ?>"<?php echo $required ? ' required' : ''; ?>>
+				<option value=""><?php echo esc_html( 'en' === $lang ? 'Choose an answer' : 'اختر إجابتك' ); ?></option>
+				<?php foreach ( $options as $option ) : $choice = (string) ( $option['value'] ?? '' ); ?>
+				<option value="<?php echo esc_attr( $choice ); ?>"<?php selected( $value, $choice ); ?>><?php echo esc_html( (string) ( $option[ $lang ] ?? $option['ar'] ?? $choice ) ); ?></option>
+				<?php endforeach; ?>
+			</select>
 		<?php else : ?>
-			<div class="vava-questionnaire-input-shell<?php echo $unit ? ' has-unit' : ''; ?>">
-				<input type="<?php echo 'number' === $type ? 'number' : 'text'; ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>" data-questionnaire-field="<?php echo esc_attr( $id ); ?>"<?php echo 'number' === $type ? ' inputmode="decimal" min="0"' : ''; ?><?php echo $required ? ' required' : ''; ?>/>
+			<div class="vava-questionnaire-input-shell<?php echo $unit && 'number' === $type ? ' has-unit' : ''; ?>">
+				<input type="<?php echo esc_attr( in_array( $type, array( 'number', 'date', 'email' ), true ) ? $type : 'text' ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" placeholder="<?php echo esc_attr( 'date' === $type ? '' : $placeholder ); ?>" data-questionnaire-field="<?php echo esc_attr( $id ); ?>"<?php echo 'number' === $type ? ' inputmode="decimal" min="0"' : ''; ?><?php echo $required ? ' required' : ''; ?>/>
 				<?php if ( $unit ) : ?><span><?php echo esc_html( $unit ); ?></span><?php endif; ?>
 			</div>
 		<?php endif; ?>
@@ -376,7 +444,7 @@ function vava_booking_questionnaire_render_frontend( string $type, string $lang,
 	$settings = vava_booking_questionnaire_settings();
 	if ( empty( $settings[ $type ] ) ) { return; }
 	$questionnaire = $settings[ $type ];
-	$groups = (array) ( $questionnaire['groups'] ?? array() );
+	$groups = vava_booking_questionnaire_visible_groups( $questionnaire, $lang );
 	$title = (string) ( $questionnaire['title'][ $lang ] ?? $questionnaire['title']['ar'] ?? '' );
 	?>
 	<section class="vava-booking-step vava-booking-step--questionnaire is-locked" data-booking-step="2" data-questionnaire-stage data-questionnaire-type="<?php echo esc_attr( $type ); ?>" data-questionnaire-language="<?php echo esc_attr( $lang ); ?>" dir="<?php echo esc_attr( 'en' === $lang ? 'ltr' : 'rtl' ); ?>" hidden>
@@ -418,6 +486,46 @@ function vava_booking_questionnaire_render_frontend( string $type, string $lang,
 	<?php
 }
 
+/** Admin: one question's visibility, format and bilingual options. */
+function vava_booking_questionnaire_render_admin_field( string $survey_type, string $group_key, int $index, array $field, string $lang ): void {
+	$id = sanitize_key( (string) ( $field['id'] ?? '' ) );
+	$base = 'vava_questionnaires[' . $survey_type . '][groups][' . $group_key . '][fields][' . $index . ']';
+	$primary = 'ar' === $lang;
+	$visible = ! isset( $field['visible'] ) || ! empty( $field['visible'] );
+	$required = ! empty( $field['required'] );
+	$type = sanitize_key( (string) ( $field['type'] ?? 'text' ) );
+	$key = $survey_type . ':' . $group_key . ':' . $index;
+	$choices = in_array( $type, array( 'radio', 'checkboxes', 'select' ), true );
+	$options = implode( "\n", array_map( static fn( $opt ) => (string) ( $opt[ $lang ] ?? '' ), (array) ( $field['options'] ?? array() ) ) );
+	$types = array(
+		'text' => array( 'ar' => 'إجابة قصيرة', 'en' => 'Short text' ),
+		'textarea' => array( 'ar' => 'إجابة مطوّلة', 'en' => 'Long text' ),
+		'number' => array( 'ar' => 'رقم', 'en' => 'Number' ),
+		'email' => array( 'ar' => 'بريد إلكتروني', 'en' => 'Email' ),
+		'date' => array( 'ar' => 'تاريخ', 'en' => 'Date' ),
+		'radio' => array( 'ar' => 'اختيار واحد (بطاقات)', 'en' => 'Single choice (cards)' ),
+		'checkboxes' => array( 'ar' => 'اختيارات متعددة', 'en' => 'Multiple choices' ),
+		'select' => array( 'ar' => 'قائمة منسدلة', 'en' => 'Dropdown' ),
+	);
+	?>
+	<div class="vava-questionnaire-field-admin-row<?php echo $visible ? '' : ' is-question-hidden'; ?>" data-questionnaire-edit-row data-questionnaire-edit-key="<?php echo esc_attr( $key ); ?>">
+		<div class="vava-questionnaire-field-admin-title"><code><?php echo esc_html( $id ); ?></code><small><?php echo esc_html( 'en' === $lang ? 'Stable answer ID' : 'معرّف الإجابة الثابت' ); ?></small></div>
+		<label class="vava-questionnaire-field-admin-check"><?php if ( $primary ) : ?><input type="hidden" name="<?php echo esc_attr( $base . '[visible]' ); ?>" value="0"><?php endif; ?><input type="checkbox" data-questionnaire-sync="visible"<?php echo $primary ? ' name="' . esc_attr( $base . '[visible]' ) . '"' : ''; ?> value="1"<?php checked( $visible ); ?>><?php echo esc_html( 'en' === $lang ? 'Show to customer' : 'إظهار للعميل' ); ?></label>
+		<label class="vava-questionnaire-field-admin-check"><?php if ( $primary ) : ?><input type="hidden" name="<?php echo esc_attr( $base . '[required]' ); ?>" value="0"><?php endif; ?><input type="checkbox" data-questionnaire-sync="required"<?php echo $primary ? ' name="' . esc_attr( $base . '[required]' ) . '"' : ''; ?> value="1"<?php checked( $required ); ?>><?php echo esc_html( 'en' === $lang ? 'Required' : 'إجباري' ); ?></label>
+		<label class="vava-questionnaire-field-admin-type"><span><?php echo esc_html( 'en' === $lang ? 'Answer format' : 'شكل الإجابة' ); ?></span><select data-questionnaire-sync="type"<?php echo $primary ? ' name="' . esc_attr( $base . '[type]' ) . '"' : ''; ?>>
+			<?php foreach ( $types as $value => $labels ) : ?><option value="<?php echo esc_attr( $value ); ?>"<?php selected( $type, $value ); ?>><?php echo esc_html( $labels[ $lang ] ); ?></option><?php endforeach; ?>
+		</select></label>
+		<label class="vava-questionnaire-field-admin-question"><span><?php echo esc_html( 'en' === $lang ? 'Question text' : 'نص السؤال' ); ?></span><input name="<?php echo esc_attr( $base . '[label][' . $lang . ']' ); ?>" value="<?php echo esc_attr( (string) ( $field['label'][ $lang ] ?? '' ) ); ?>" placeholder="<?php echo esc_attr( 'en' === $lang ? 'Enter question text' : 'اكتب نص السؤال' ); ?>"></label>
+		<div class="vava-questionnaire-field-admin-options" data-questionnaire-options-editor<?php echo $choices ? '' : ' hidden'; ?>>
+			<label><span><?php echo esc_html( 'en' === $lang ? 'Answer options — one per line (same order in both languages)' : 'خيارات الإجابة — كل خيار في سطر (بنفس الترتيب بالعربي والإنجليزي)' ); ?></span>
+			<textarea rows="4" name="<?php echo esc_attr( $base . '[options_lines][' . $lang . ']' ); ?>" placeholder="<?php echo esc_attr( 'en' === $lang ? "Option 1\nOption 2" : "الخيار الأول\nالخيار الثاني" ); ?>"><?php echo esc_textarea( $options ); ?></textarea></label>
+			<small><?php echo esc_html( 'en' === $lang ? 'You can add, remove or edit options. Existing responses remain saved.' : 'يمكن إضافة أو حذف أو تعديل الخيارات. إجابات العملاء السابقة تظل محفوظة.' ); ?></small>
+		</div>
+		<div class="vava-questionnaire-field-admin-note" data-questionnaire-field-note><?php echo esc_html( 'en' === $lang ? 'Turn off “Show to customer” to hide this field without deleting past answers.' : 'لإخفاء خانة السؤال ألغِ «إظهار للعميل» دون حذف الإجابات السابقة.' ); ?></div>
+	</div>
+	<?php
+}
+
 function vava_booking_questionnaire_render_admin_panel( WP_Post $post ): void {
 	$settings = vava_booking_questionnaire_settings( (int) $post->ID );
 	$icons = array( 'beginning' => '🌱', 'midpoint' => '≋', 'impact' => '★' );
@@ -442,7 +550,7 @@ function vava_booking_questionnaire_render_admin_panel( WP_Post $post ): void {
 													<label class="vava-booking-admin-field is-full"><span><?php echo esc_html( 'en' === $lang ? 'Section title' : 'عنوان القسم' ); ?></span><input name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][groups][<?php echo esc_attr( $group_key ); ?>][label][<?php echo esc_attr( $lang ); ?>]" value="<?php echo esc_attr( (string) $group['label'][ $lang ] ); ?>"/></label>
 													<div class="vava-questionnaire-field-admin-list">
 														<?php foreach ( (array) ( $group['fields'] ?? array() ) as $field_index => $field ) : ?>
-															<div class="vava-questionnaire-field-admin-row"><span><?php echo esc_html( (string) ( $field['id'] ?? '' ) ); ?></span><label><input type="hidden" name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][groups][<?php echo esc_attr( $group_key ); ?>][fields][<?php echo esc_attr( (string) $field_index ); ?>][required]" value="0"/><input type="checkbox" name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][groups][<?php echo esc_attr( $group_key ); ?>][fields][<?php echo esc_attr( (string) $field_index ); ?>][required]" value="1"<?php checked( ! empty( $field['required'] ) ); ?>/><?php echo esc_html( 'en' === $lang ? 'Required' : 'إجباري' ); ?></label><input type="hidden" name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][groups][<?php echo esc_attr( $group_key ); ?>][fields][<?php echo esc_attr( (string) $field_index ); ?>][id]" value="<?php echo esc_attr( (string) $field['id'] ); ?>"/><input type="hidden" name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][groups][<?php echo esc_attr( $group_key ); ?>][fields][<?php echo esc_attr( (string) $field_index ); ?>][type]" value="<?php echo esc_attr( (string) $field['type'] ); ?>"/><input name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][groups][<?php echo esc_attr( $group_key ); ?>][fields][<?php echo esc_attr( (string) $field_index ); ?>][label][<?php echo esc_attr( $lang ); ?>]" value="<?php echo esc_attr( (string) $field['label'][ $lang ] ); ?>"/><?php if ( ! empty( $field['options'] ) ) : ?><div class="vava-questionnaire-option-admin-list"><small><?php echo esc_html( 'en' === $lang ? 'Answer options' : 'خيارات الإجابة' ); ?></small><?php foreach ( (array) $field['options'] as $option_index => $option ) : ?><label><input type="hidden" name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][groups][<?php echo esc_attr( $group_key ); ?>][fields][<?php echo esc_attr( (string) $field_index ); ?>][options][<?php echo esc_attr( (string) $option_index ); ?>][value]" value="<?php echo esc_attr( (string) ( $option['value'] ?? '' ) ); ?>"/><input name="vava_questionnaires[<?php echo esc_attr( $type ); ?>][groups][<?php echo esc_attr( $group_key ); ?>][fields][<?php echo esc_attr( (string) $field_index ); ?>][options][<?php echo esc_attr( (string) $option_index ); ?>][<?php echo esc_attr( $lang ); ?>]" value="<?php echo esc_attr( (string) ( $option[ $lang ] ?? '' ) ); ?>"/></label><?php endforeach; ?></div><?php endif; ?></div>
+															<?php vava_booking_questionnaire_render_admin_field( $type, $group_key, (int) $field_index, (array) $field, $lang ); ?>
 														<?php endforeach; ?>
 													</div>
 												</div>
@@ -469,28 +577,79 @@ function vava_booking_questionnaire_save_settings( int $post_id, WP_Post $post )
 	if ( 'page' !== $post->post_type || ! function_exists( 'vava_booking_is_page' ) || ! vava_booking_is_page( $post_id ) || ! isset( $_POST['vava_booking_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['vava_booking_nonce'] ) ), 'vava_booking_save' ) || ! current_user_can( 'edit_post', $post_id ) ) { return; }
 	if ( ! isset( $_POST['vava_questionnaires'] ) || ! is_array( $_POST['vava_questionnaires'] ) ) { return; }
 	$raw = wp_unslash( $_POST['vava_questionnaires'] );
-	$defaults = vava_booking_questionnaire_defaults();
+	$settings = vava_booking_questionnaire_settings( $post_id );
 	$clean = array();
-	foreach ( $defaults as $type => $questionnaire ) {
+	foreach ( $settings as $type => $questionnaire ) {
 		$incoming = isset( $raw[ $type ] ) && is_array( $raw[ $type ] ) ? $raw[ $type ] : array();
-		$clean[ $type ] = array_replace_recursive( $questionnaire, vava_booking_questionnaire_recursive_sanitize( $incoming ) );
+		$clean[ $type ] = $questionnaire;
 		$clean[ $type ]['enabled'] = ! empty( $incoming['enabled'] ) ? 1 : 0;
+		foreach ( array( 'ar', 'en' ) as $lang ) {
+			$clean[ $type ]['title'][ $lang ] = sanitize_text_field( (string) ( $incoming['title'][ $lang ] ?? $questionnaire['title'][ $lang ] ?? '' ) );
+			$clean[ $type ]['description'][ $lang ] = sanitize_textarea_field( (string) ( $incoming['description'][ $lang ] ?? $questionnaire['description'][ $lang ] ?? '' ) );
+		}
 		foreach ( (array) $questionnaire['groups'] as $group_key => $group ) {
-			foreach ( (array) $group['fields'] as $index => $field ) {
-				$clean[ $type ]['groups'][ $group_key ]['fields'][ $index ]['id'] = $field['id'];
-				$clean[ $type ]['groups'][ $group_key ]['fields'][ $index ]['type'] = $field['type'];
-				$clean[ $type ]['groups'][ $group_key ]['fields'][ $index ]['required'] = ! empty( $incoming['groups'][ $group_key ]['fields'][ $index ]['required'] ) ? 1 : 0;
-				$clean_options = array();
-				foreach ( (array) ( $field['options'] ?? array() ) as $option_index => $default_option ) {
-					$incoming_option = (array) ( $incoming['groups'][ $group_key ]['fields'][ $index ]['options'][ $option_index ] ?? array() );
-					$clean_options[] = array(
-						'value' => (string) ( $default_option['value'] ?? '' ),
-						'ar' => sanitize_text_field( (string) ( $incoming_option['ar'] ?? $default_option['ar'] ?? '' ) ),
-						'en' => sanitize_text_field( (string) ( $incoming_option['en'] ?? $default_option['en'] ?? '' ) ),
-					);
-				}
-				$clean[ $type ]['groups'][ $group_key ]['fields'][ $index ]['options'] = $clean_options;
+			$incoming_group = (array) ( $incoming['groups'][ $group_key ] ?? array() );
+			foreach ( array( 'ar', 'en' ) as $lang ) {
+				$clean[ $type ]['groups'][ $group_key ]['label'][ $lang ] = sanitize_text_field( (string) ( $incoming_group['label'][ $lang ] ?? $group['label'][ $lang ] ?? '' ) );
 			}
+			$clean_fields = array();
+			foreach ( (array) ( $group['fields'] ?? array() ) as $index => $existing_field ) {
+				$id = sanitize_key( (string) ( $existing_field['id'] ?? '' ) );
+				if ( '' === $id ) { continue; }
+				$submitted = (array) ( $incoming_group['fields'][ $index ] ?? array() );
+				$field = $existing_field;
+				$field['id'] = $id; // IDs remain stable for historical answers.
+				$field['visible'] = array_key_exists( 'visible', $submitted ) ? ( ! empty( $submitted['visible'] ) ? 1 : 0 ) : ( ! isset( $existing_field['visible'] ) || ! empty( $existing_field['visible'] ) ? 1 : 0 );
+				$field['required'] = array_key_exists( 'required', $submitted ) ? ( ! empty( $submitted['required'] ) ? 1 : 0 ) : ( ! empty( $existing_field['required'] ) ? 1 : 0 );
+				$requested_type = sanitize_key( (string) ( $submitted['type'] ?? $field['type'] ?? 'text' ) );
+				$field['type'] = in_array( $requested_type, vava_booking_questionnaire_allowed_field_types(), true ) ? $requested_type : 'text';
+				foreach ( array( 'ar', 'en' ) as $lang ) {
+					$field['label'][ $lang ] = sanitize_text_field( (string) ( $submitted['label'][ $lang ] ?? $field['label'][ $lang ] ?? '' ) );
+				}
+				$previous_options = array_values( (array) ( $existing_field['options'] ?? array() ) );
+				if ( isset( $submitted['options_lines'] ) && is_array( $submitted['options_lines'] ) ) {
+					$lines = array();
+					foreach ( array( 'ar', 'en' ) as $lang ) {
+						$source = (string) ( $submitted['options_lines'][ $lang ] ?? '' );
+						$lines[ $lang ] = array_values( array_filter( array_map( 'sanitize_text_field', preg_split( '/\r\n|\r|\n/', $source ) ), static fn( $s ) => '' !== trim( $s ) ) );
+					}
+					if ( count( $lines['ar'] ) >= 2 && count( $lines['ar'] ) === count( $lines['en'] ) && count( $lines['ar'] ) <= 30 ) {
+						$used = array();
+						$options = array();
+						foreach ( $lines['ar'] as $option_index => $ar_label ) {
+							$en_label = $lines['en'][ $option_index ];
+							$value = '';
+							foreach ( $previous_options as $prior ) {
+								$prior_value = sanitize_key( (string) ( $prior['value'] ?? '' ) );
+								if ( $prior_value && ! isset( $used[ $prior_value ] ) && ( (string) ( $prior['ar'] ?? '' ) === $ar_label || (string) ( $prior['en'] ?? '' ) === $en_label ) ) {
+									$value = $prior_value;
+									break;
+								}
+							}
+							if ( ! $value && isset( $previous_options[ $option_index ] ) ) {
+								$prior_value = sanitize_key( (string) ( $previous_options[ $option_index ]['value'] ?? '' ) );
+								if ( $prior_value && ! isset( $used[ $prior_value ] ) ) { $value = $prior_value; }
+							}
+						if ( ! $value ) {
+							$n = 1;
+							while ( isset( $used[ 'choice_' . $n ] ) || in_array( 'choice_' . $n, array_column( $previous_options, 'value' ), true ) ) { $n++; }
+							$value = 'choice_' . $n;
+						}
+						$used[ $value ] = true;
+						$options[] = array( 'value' => $value, 'ar' => $ar_label, 'en' => $en_label );
+						}
+						$field['options'] = $options;
+					} elseif ( ! empty( $submitted['options_lines']['ar'] ) || ! empty( $submitted['options_lines']['en'] ) ) {
+						// Never publish an incomplete choice widget.
+						$field['options'] = $previous_options;
+					}
+				}
+				if ( in_array( $field['type'], array( 'radio', 'checkboxes', 'select' ), true ) && count( (array) ( $field['options'] ?? array() ) ) < 2 ) {
+					$field['type'] = in_array( (string) ( $existing_field['type'] ?? '' ), array( 'radio', 'checkboxes', 'select' ), true ) ? 'text' : (string) ( $existing_field['type'] ?? 'text' );
+				}
+				$clean_fields[] = $field;
+			}
+			$clean[ $type ]['groups'][ $group_key ]['fields'] = $clean_fields;
 		}
 	}
 	update_post_meta( $post_id, '_vava_booking_questionnaires', $clean );
@@ -580,7 +739,7 @@ function vava_booking_questionnaire_render_impact_form( int $booking_id, string 
 	<section id="vava-impact-questionnaire-<?php echo esc_attr( (string) $booking_id ); ?>" class="vava-impact-questionnaire" data-impact-questionnaire tabindex="-1">
 		<header><span>★</span><div><small><?php echo esc_html( 'en' === $lang ? 'After completing your journey' : 'بعد اكتمال رحلتك' ); ?></small><h4><?php echo esc_html( (string) $q['title'][ $lang ] ); ?></h4><p><?php echo esc_html( (string) $q['description'][ $lang ] ); ?></p></div></header>
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post"><input type="hidden" name="action" value="vava_booking_submit_impact_questionnaire"/><input type="hidden" name="booking" value="<?php echo esc_attr( (string) $booking_id ); ?>"/><input type="hidden" name="lang" value="<?php echo esc_attr( $lang ); ?>"/><input type="hidden" name="magic_token" value="<?php echo esc_attr( $legacy_token ); ?>"/><?php wp_nonce_field( 'vava_booking_impact_' . $booking_id ); ?>
-			<div class="vava-impact-questionnaire-groups"><?php $impact_group_index = 0; foreach ( (array) $q['groups'] as $group ) : $impact_group_index++; ?><details<?php echo 1 === $impact_group_index ? ' open' : ''; ?>><summary><?php echo esc_html( (string) $group['label'][ $lang ] ); ?></summary><div class="vava-questionnaire-fields"><?php foreach ( (array) $group['fields'] as $field ) { vava_booking_questionnaire_render_field( $field, $lang, $defaults ); } ?></div></details><?php endforeach; ?></div>
+			<div class="vava-impact-questionnaire-groups"><?php $impact_group_index = 0; foreach ( vava_booking_questionnaire_visible_groups( $q, $lang ) as $group ) : $impact_group_index++; ?><details<?php echo 1 === $impact_group_index ? ' open' : ''; ?>><summary><?php echo esc_html( (string) $group['label'][ $lang ] ); ?></summary><div class="vava-questionnaire-fields"><?php foreach ( (array) $group['fields'] as $field ) { vava_booking_questionnaire_render_field( $field, $lang, $defaults ); } ?></div></details><?php endforeach; ?></div>
 			<button type="submit"><?php echo esc_html( 'en' === $lang ? 'Submit journey impact questionnaire' : 'إرسال استبيان أثر الرحلة' ); ?></button>
 		</form>
 	</section>
