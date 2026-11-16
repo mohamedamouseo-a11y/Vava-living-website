@@ -930,3 +930,29 @@ body.rtl.post-type-page.vava-booking-classic #vava_live_preview_box .vava-bookin
     min-width:0!important;
   }
 }
+
+/* VAVA_QUESTIONNAIRE_FIELD_EDITOR_V2 */
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-row{
+  display:grid;grid-template-columns:minmax(90px,.6fr) minmax(120px,.85fr) minmax(100px,.65fr) minmax(170px,1.15fr);
+  gap:12px;padding:15px;align-items:end;border:1px solid #e2e5d7;background:#fff;border-radius:13px;
+}
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-row.is-question-hidden{border-color:#deded9;background:#f5f5f1;opacity:.78}
+.vava-questionnaire-field-admin-title{display:grid;gap:4px;align-self:center;min-width:0}
+.vava-questionnaire-field-admin-title code{font-size:11px;white-space:normal;overflow-wrap:anywhere}
+.vava-questionnaire-field-admin-title small,.vava-questionnaire-field-admin-note{color:#77796a;font-size:11px;line-height:1.7}
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-check{display:flex;align-items:center;gap:7px;min-height:42px;font-weight:700;font-size:12px;cursor:pointer}
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-check input{width:18px;height:18px;accent-color:#747a4e}
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-type,
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-question,
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-options>label{display:grid;gap:7px;min-width:0;font-size:12px;font-weight:700;color:#575e48}
+.vava-questionnaire-field-admin-question{grid-column:1/-1}
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-row input:not([type=checkbox]),
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-row select,
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-row textarea{width:100%;min-width:0;min-height:43px;box-sizing:border-box;padding:9px 11px;border:1px solid #cfd6c5;border-radius:10px;background:#fff;color:#3b4736;font-size:13px}
+.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-row textarea{min-height:116px;resize:vertical;line-height:1.6}
+.vava-questionnaire-field-admin-options{grid-column:1/-1;padding:13px;border-radius:12px;border:1px dashed #c6d1bc;background:#f7f9f3}
+.vava-questionnaire-field-admin-options[hidden]{display:none!important}
+.vava-questionnaire-field-admin-options small{display:block;margin-top:8px;color:#727967;line-height:1.6}
+.vava-questionnaire-field-admin-note{grid-column:1/-1}
+@media(max-width:1100px){.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-row{grid-template-columns:repeat(2,minmax(0,1fr))}.vava-questionnaire-field-admin-title{grid-column:1/-1}}
+@media(max-width:620px){.vava-questionnaire-admin-panel .vava-questionnaire-field-admin-row{grid-template-columns:1fr}.vava-questionnaire-field-admin-title,.vava-questionnaire-field-admin-question,.vava-questionnaire-field-admin-options,.vava-questionnaire-field-admin-note{grid-column:1}}
