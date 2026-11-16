@@ -394,7 +394,8 @@ function vava_booking_questionnaire_render_field( array $field, string $lang, ar
 	$type = sanitize_key( (string) ( $field['type'] ?? 'text' ) );
 	if ( ! in_array( $type, vava_booking_questionnaire_allowed_field_types(), true ) ) { $type = 'text'; }
 	$required = ! empty( $field['required'] );
-	$value = is_scalar( $defaults[ $id ] ?? '' ) ? (string) $defaults[ $id ] : '';
+	$initial_value = $defaults[ $id ] ?? '';
+	$value = is_scalar( $initial_value ) ? (string) $initial_value : '';
 	$name = 'questionnaire_answers[' . $id . ']';
 	$placeholder = vava_booking_questionnaire_field_placeholder( $id, $type, $lang );
 	$unit = vava_booking_questionnaire_field_unit( $id, $lang );
