@@ -1142,8 +1142,12 @@
         const number = successBox.querySelector('[data-success-booking-number]');
         const status = successBox.querySelector('[data-success-booking-status]');
         const myBookings = successBox.querySelector('[data-success-my-bookings]');
+        const emailNotice = successBox.querySelector('[data-success-email-note]');
         if (number && json.data.bookingId) number.textContent = `#${json.data.bookingId}`;
-        if (status) status.textContent = paymentStatusLabel(selectedPaymentMethod());
+        if (status) status.textContent = json.data.status === 'confirmed'
+          ? (isEnglish ? 'Confirmed' : 'مؤكد')
+          : paymentStatusLabel(selectedPaymentMethod());
+        if (emailNotice && json.data.emailNotice) emailNotice.textContent = json.data.emailNotice;
         if (myBookings && json.data.myBookingsUrl) myBookings.href = json.data.myBookingsUrl;
         successBox.hidden = false;
         window.requestAnimationFrame(() => successBox.classList.add('is-visible'));
