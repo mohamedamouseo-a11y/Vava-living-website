@@ -37,6 +37,7 @@ $whatsapp_number_label = $is_en ? 'Phone number' : 'رقم الهاتف';
 $whatsapp_number_placeholder = $is_en ? 'Enter number without country code' : 'اكتب الرقم بدون كود الدولة';
 $whatsapp_help = $is_en ? 'The country code is added automatically when your number is saved.' : 'يُضاف مفتاح الدولة تلقائيًا عند حفظ رقم WhatsApp.';
 $is_free_service = $service && function_exists( 'vava_booking_service_is_free' ) ? vava_booking_service_is_free( $service ) : false;
+$discovery_email_required = $service && function_exists( 'vava_booking_service_category' ) && 'discovery' === vava_booking_service_category( $service );
 $default_payment = $is_free_service ? 'free' : ( $paymob_ready ? 'paymob' : ( $bank_ready ? 'bank' : ( ! empty( $shared['payment_methods']['cash'] ) ? 'cash' : '' ) ) );
 $has_payment_method = $is_free_service || $paymob_ready || $bank_ready || ! empty( $shared['payment_methods']['cash'] );
 $paths_id = vava_booking_paths_page_id();
@@ -303,7 +304,7 @@ get_header( 'page' );
 								<div class="vava-booking-section-title"><h3><?php echo esc_html( (string) $text['fields_title'] ); ?></h3></div>
 								<div class="vava-booking-fields">
 									<?php foreach ( array( 'name', 'email' ) as $key ) : $field = (array) $text['fields'][ $key ]; ?>
-										<label><span><?php echo esc_html( (string) $field['label'] ); ?><?php echo ! empty( $field['required'] ) ? ' *' : ''; ?></span><input name="<?php echo esc_attr( $key ); ?>" placeholder="<?php echo esc_attr( (string) $field['placeholder'] ); ?>" type="<?php echo 'email' === $key ? 'email' : 'text'; ?>"<?php echo ! empty( $field['required'] ) ? ' required' : ''; ?>/></label>
+										<label><span><?php echo esc_html( (string) $field['label'] ); ?><?php echo ( ! empty( $field['required'] ) || ( 'email' === $key && $discovery_email_required ) ) ? ' *' : ''; ?></span><input name="<?php echo esc_attr( $key ); ?>" placeholder="<?php echo esc_attr( (string) $field['placeholder'] ); ?>" type="<?php echo 'email' === $key ? 'email' : 'text'; ?>"<?php echo ( ! empty( $field['required'] ) || ( 'email' === $key && $discovery_email_required ) ) ? ' required' : ''; ?>/></label>
 									<?php endforeach; ?>
 									<fieldset class="vava-booking-whatsapp-group is-full" data-whatsapp-field>
 										<legend><?php echo esc_html( (string) $text['fields']['whatsapp']['label'] ); ?><?php echo $whatsapp_required ? ' *' : ''; ?></legend>
@@ -507,6 +508,7 @@ get_header( 'page' );
 							<strong data-success-title><?php echo esc_html( (string) $text['success_title'] ); ?></strong>
 							<span data-success-message><?php echo esc_html( (string) $text['success_message'] ); ?></span>
 							<dl class="vava-booking-success-meta"><div><dt><?php echo esc_html( $is_en ? 'Booking number' : 'رقم الحجز' ); ?></dt><dd data-success-booking-number>—</dd></div><div><dt><?php echo esc_html( $is_en ? 'Status' : 'الحالة' ); ?></dt><dd data-success-booking-status>—</dd></div></dl>
+							<p class="vava-booking-success-email-note" data-success-email-note><?php echo esc_html( $is_en ? 'Keep your booking number for reference.' : 'احتفظي برقم الحجز للمتابعة.' ); ?></p>
 							<a class="vava-booking-success-toast-view" data-success-my-bookings href="<?php echo esc_url( $my_bookings_url ); ?>"><span><?php echo esc_html( $is_en ? 'Track my bookings' : 'متابعة حجوزاتي' ); ?></span><i class="vava-booking-success-toast-arrow" aria-hidden="true">←</i></a>
 						</div>
 					</aside>
