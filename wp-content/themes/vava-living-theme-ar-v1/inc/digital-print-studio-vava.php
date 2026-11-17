@@ -48,6 +48,7 @@ function vava_digital_access_print_preview(): void {
         }
     }
     $title = sanitize_text_field( (string) ( $product['title'] ?? '' ) );
+    if ( '' === $title ) { $title = sanitize_text_field( (string) get_post_meta( $order_id, '_vava_booking_service_title', true ) ); }
     if ( '' === $title ) { $title = $is_en ? 'My digital product' : 'منتجي الرقمي'; }
     $page_count = absint( $record['page_count'] ?? 0 );
     $filesize = function_exists( 'vava_digital_products_format_bytes' ) ? vava_digital_products_format_bytes( (int) filesize( $file ) ) : '';
