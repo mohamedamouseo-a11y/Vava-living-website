@@ -310,20 +310,32 @@
     var editor = $(this).closest('[data-products-editor]');
     var group = editor.attr('data-products-group');
     var uid = productUid();
-    appendProduct(group, 'ar', uid);
-    appendProduct(group, 'en', uid);
-    rebuildBoth(group);
+    if (group === 'digital') {
+      appendProduct(group, editor.attr('data-products-language'), uid);
+      rebuildPreview(group, editor.attr('data-products-language'));
+    } else {
+      appendProduct(group, 'ar', uid);
+      appendProduct(group, 'en', uid);
+      rebuildBoth(group);
+    }
   });
 
   root.on('click', '[data-product-remove]', function () {
     var item = $(this).closest('[data-selections-product-item]');
     var group = item.attr('data-product-group');
     var uid = item.attr('data-product-uid');
-    itemFor(group, 'ar', uid).remove();
-    itemFor(group, 'en', uid).remove();
-    reindexEditor(editorFor(group, 'ar'));
-    reindexEditor(editorFor(group, 'en'));
-    rebuildBoth(group);
+    if (group === 'digital') {
+      var language = item.attr('data-product-language');
+      item.remove();
+      reindexEditor(editorFor(group, language));
+      rebuildPreview(group, language);
+    } else {
+      itemFor(group, 'ar', uid).remove();
+      itemFor(group, 'en', uid).remove();
+      reindexEditor(editorFor(group, 'ar'));
+      reindexEditor(editorFor(group, 'en'));
+      rebuildBoth(group);
+    }
   });
 
   function openExclusive(item) {
@@ -370,10 +382,14 @@
     var other = language === 'en' ? 'ar' : 'en';
     var uid = item.attr('data-product-uid');
     var key = field.attr('data-product-shared-field');
-    var counterpart = itemFor(group, other, uid).find('[data-product-shared-field="' + key + '"]').first();
-    if (field.is(':checkbox')) counterpart.prop('checked', field.is(':checked'));
-    else counterpart.val(field.val());
-    rebuildBoth(group);
+    if (group === 'digital') {
+      rebuildPreview(group, language);
+    } else {
+      var counterpart = itemFor(group, other, uid).find('[data-product-shared-field="' + key + '"]').first();
+      if (field.is(':checkbox')) counterpart.prop('checked', field.is(':checked'));
+      else counterpart.val(field.val());
+      rebuildBoth(group);
+    }
   });
 
   function setProductImage(group, uid, id, url, fileName) {
