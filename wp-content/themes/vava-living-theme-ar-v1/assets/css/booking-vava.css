@@ -4091,3 +4091,17 @@ html[dir="ltr"] .vava-booking-step--questionnaire .vava-booking-stage-button spa
 .vava-booking-step--questionnaire .vava-questionnaire-field select,.vava-booking-step--questionnaire .vava-questionnaire-field input[type=email],
 .vava-booking-step--questionnaire .vava-questionnaire-field input[type=date]{margin-top:auto!important}
 .vava-questionnaire-field.is-invalid select,.vava-questionnaire-field.is-invalid input[type=email],.vava-questionnaire-field.is-invalid input[type=date]{border-color:#c95749}
+
+
+/* VAVA_DISCOVERY_BOOKING_CONFIRMATION_V1 */
+.vava-booking-success-email-note{
+  margin:9px 0 0;
+  padding:10px 14px;
+  border-radius:11px;
+  background:#f0f3e9;
+  color:#5b6745;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.75;
+  text-align:center;
+}
