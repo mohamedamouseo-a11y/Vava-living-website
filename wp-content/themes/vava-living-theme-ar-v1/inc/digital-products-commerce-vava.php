@@ -571,6 +571,14 @@ function vava_digital_products_admin_verify_request(): array {
 	if ( ! $post_id || '' === $uid || ! wp_verify_nonce( $nonce, 'vava_digital_product_admin_' . $post_id ) || ! current_user_can( 'edit_page', $post_id ) ) {
 		wp_send_json_error( array( 'message' => 'غير مصرح بتنفيذ هذا الإجراء.' ), 403 );
 	}
+	$exists = false;
+	if ( function_exists( 'vava_selections_shared_data' ) ) {
+		$shared = vava_selections_shared_data( $post_id );
+		foreach ( (array) ( $shared['products']['digital'] ?? array() ) as $sku ) {
+			if ( sanitize_key( (string) ( $sku['uid'] ?? '' ) ) === $uid ) { $exists = true; break; }
+		}
+	}
+	if ( ! $exists ) { wp_send_json_error( array( 'message' => 'احفظي المنتج في اللغة المطلوبة قبل رفع PDF.' ), 404 ); }
 	return array( $post_id, $uid );
 }
 
@@ -707,6 +715,8 @@ function vava_digital_products_render_purchase_action( array $data, string $lang
 		?><a class="vava-product-purchase-button is-view" href="<?php echo esc_url( vava_digital_products_viewer_url( $uid, $lang ) ); ?>"><span><?php echo esc_html( $is_en ? 'Open product' : 'مشاهدة المنتج' ); ?></span><i aria-hidden="true">◉</i></a><?php
 	} elseif ( 'pending' === $state['state'] ) {
 		?><a class="vava-product-purchase-button is-pending" href="<?php echo esc_url( function_exists( 'vava_customer_account_url' ) ? vava_customer_account_url( $lang, array( 'view' => 'products' ) ) : '#' ); ?>"><span><?php echo esc_html( $is_en ? 'Payment under review' : 'التحويل قيد المراجعة' ); ?></span><i aria-hidden="true">◷</i></a><?php
+	} elseif ( $is_en && ! $file_ready ) {
+		?><span class="vava-product-purchase-button is-pending" aria-disabled="true"><span><?php echo esc_html( 'English PDF coming soon' ); ?></span><i aria-hidden="true">◷</i></span><?php
 	} else {
 		?><a class="vava-product-purchase-button" href="<?php echo esc_url( vava_digital_products_checkout_url( $uid, $lang ) ); ?>"><span><?php echo esc_html( $is_en ? 'Buy now' : 'اشترِ الآن' ); ?></span><i aria-hidden="true">▣</i></a><?php
 	}
@@ -783,7 +793,14 @@ function vava_digital_products_checkout_submit(): void {
 	$lang = isset( $_POST['lang'] ) && 'en' === sanitize_key( wp_unslash( $_POST['lang'] ) ) ? 'en' : 'ar';
 	$uid  = isset( $_POST['product'] ) ? sanitize_key( wp_unslash( $_POST['product'] ) ) : '';
 	$product = function_exists( 'vava_digital_product_data' ) ? vava_digital_product_data( $uid, $lang ) : array();
-	if ( ! $product ) { wp_send_json_error( array( 'message' => 'المنتج غير متاح.' ), 404 ); }
+	if ( ! $product ) { wp_send_json_error( array( 'message' => 'المنتج غير متاح بهذه اللغة.' ), 404 ); }
+	if ( 'en' === $lang ) {
+		$record = vava_digital_products_file_record( $uid );
+		if ( 'ready' !== (string) ( $record['processing_status'] ?? '' ) || absint( $record['page_count'] ?? 0 ) < 1 ||
+			! vava_digital_products_private_file_path( $record ) ) {
+			wp_send_json_error( array( 'message' => 'This English PDF is not available for purchase yet.' ), 422 );
+		}
+	}
 	$customer = vava_digital_products_checkout_customer_payload();
 	if ( '' === $customer['name'] || ! is_email( $customer['email'] ) || '' === $customer['whatsapp'] || '' === $customer['previous'] ) { wp_send_json_error( array( 'message' => 'يرجى استكمال بيانات العميل بشكل صحيح.' ), 422 ); }
 	$page_id = function_exists( 'vava_booking_page_id' ) ? vava_booking_page_id() : 0;
