@@ -568,7 +568,9 @@ function vava_digital_products_admin_verify_request(): array {
 	$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
 	$uid = isset( $_POST['uid'] ) ? sanitize_key( wp_unslash( $_POST['uid'] ) ) : '';
 	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
-	if ( ! $post_id || '' === $uid || ! wp_verify_nonce( $nonce, 'vava_digital_product_admin_' . $post_id ) || ! current_user_can( 'edit_page', $post_id ) ) {
+	if ( ! $post_id || '' === $uid || ! wp_verify_nonce( $nonce, 'vava_digital_product_admin_' . $post_id ) ||
+		! current_user_can( 'edit_page', $post_id ) ||
+		! function_exists( 'vava_selections_is_page' ) || ! vava_selections_is_page( $post_id ) ) {
 		wp_send_json_error( array( 'message' => 'غير مصرح بتنفيذ هذا الإجراء.' ), 403 );
 	}
 	$exists = false;
