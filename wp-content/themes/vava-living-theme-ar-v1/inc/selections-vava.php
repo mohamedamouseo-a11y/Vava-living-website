@@ -261,6 +261,11 @@ function vava_selections_products( int $post_id, string $group, string $lang, bo
 		if ( '' === $uid || ( $enabled_only && empty( $item['enabled'] ) ) ) {
 			continue;
 		}
+		// Each digital product is an independent SKU for ONE storefront language.
+		// Pre-split legacy SKUs and their paid orders remain the Arabic originals.
+		if ( 'digital' === $group && ( 'en' === ( $item['language'] ?? 'ar' ) ? 'en' : 'ar' ) !== $lang ) {
+			continue;
+		}
 		$localized = $map[ $uid ] ?? array();
 		$result[]  = array_merge(
 			array(
@@ -275,6 +280,7 @@ function vava_selections_products( int $post_id, string $group, string $lang, bo
 			array(
 				'uid'   => $uid,
 				'group' => $group,
+				'language' => 'digital' === $group ? ( 'en' === ( $item['language'] ?? 'ar' ) ? 'en' : 'ar' ) : $lang,
 			)
 		);
 	}
@@ -518,7 +524,8 @@ function vava_selections_render_products_editor( int $post_id, string $group, st
 	$products = vava_selections_products( $post_id, $group, $lang, false );
 	?>
 	<div class="vava-admin-repeaters vava-dynamic-repeater vava-selections-products-editor" data-products-editor data-products-group="<?php echo esc_attr( $group ); ?>" data-products-language="<?php echo esc_attr( $lang ); ?>">
-		<div class="vava-repeater-heading"><div><h3><?php echo esc_html( vava_selections_sections( $lang )[ $group ] ); ?></h3><p class="description"><?php echo esc_html( 'en' === $lang ? 'Product images, prices, and visibility are synchronized between both languages.' : 'صور المنتجات والأسعار وحالة الظهور متزامنة بين اللغتين.' ); ?></p></div><button class="button button-secondary" data-product-add type="button"><?php echo esc_html( vava_selections_admin_text( 'add_product', $lang ) ); ?></button></div>
+		<input type="hidden" name="_vava_products_editor_present[<?php echo esc_attr( $lang ); ?>][<?php echo esc_attr( $group ); ?>]" value="1">
+		<div class="vava-repeater-heading"><div><h3><?php echo esc_html( vava_selections_sections( $lang )[ $group ] ); ?></h3><p class="description"><?php echo esc_html( 'digital' === $group ? ( 'en' === $lang ? 'English products have their own PDF, price, publishing status, and customer access. Save a new product before uploading its PDF.' : 'المنتجات العربية مستقلة في ملف PDF والسعر والنشر وصلاحيات العميل. احفظي المنتج الجديد أولًا قبل رفع PDF.' ) : ( 'en' === $lang ? 'Tangible product settings are synchronized between both languages.' : 'إعدادات المنتجات الملموسة متزامنة بين اللغتين.' ) ); ?></p></div><button class="button button-secondary" data-product-add type="button"><?php echo esc_html( vava_selections_admin_text( 'add_product', $lang ) ); ?></button></div>
 		<div class="vava-repeater-list" data-products-list><?php foreach ( $products as $index => $product ) { vava_selections_render_product_item( $post_id, $group, $lang, $product, $index ); } ?></div>
 		            <template data-product-template><?php vava_selections_render_product_item( $post_id, $group, $lang, array( 'uid' => '__UID__', 'title' => '', 'description' => '', 'full_description' => '', 'category' => '', 'question' => '', 'inside' => array(), 'ideal' => array(), 'pages' => '', 'currency' => 'en' === $lang ? 'SAR' : 'ر.س', 'button_text' => 'en' === $lang ? 'View Details' : 'عرض التفاصيل', 'price' => '', 'image_id' => 0, 'fallback_asset' => '', 'enabled' => 1 ), 0, true ); ?></template>
 	</div>
@@ -686,6 +693,46 @@ function vava_selections_save_meta( int $post_id, WP_Post $post ): void {
 	);
 	$new_text = array( 'ar' => array( 'digital' => array(), 'tangible' => array() ), 'en' => array( 'digital' => array(), 'tangible' => array() ) );
 	foreach ( array( 'digital', 'tangible' ) as $group ) {
+		if ( 'digital' === $group ) {
+			// Separate language inventories: never overwrite another language's list,
+			// prices, visibility or PDFs as a side effect of saving this editor.
+			$previous_items = (array) ( $shared['products']['digital'] ?? array() );
+			$previous_map = array();
+			foreach ( $previous_items as $previous ) {
+				$key_uid = sanitize_key( (string) ( $previous['uid'] ?? '' ) );
+				if ( $key_uid ) { $previous_map[ $key_uid ] = $previous; }
+			}
+			$merged = array();
+			$seen = array();
+			foreach ( array( 'ar', 'en' ) as $catalog_lang ) {
+				$present = ! empty( $_POST['_vava_products_editor_present'][ $catalog_lang ]['digital'] );
+				$raw_items = $present ? vava_selections_raw_products( $catalog_lang, 'digital' ) : array_values( array_filter( $previous_items, static function ( $entry ) use ( $catalog_lang ) {
+					return ( 'en' === ( $entry['language'] ?? 'ar' ) ? 'en' : 'ar' ) === $catalog_lang;
+				} ) );
+				$previous_text = vava_selections_product_text_map( (array) ( $existing_text[ $catalog_lang ]['digital'] ?? array() ) );
+				$rows = array();
+				foreach ( array_slice( $raw_items, 0, 24 ) as $index => $raw_item ) {
+					if ( ! is_array( $raw_item ) ) { continue; }
+					$uid = vava_selections_sanitize_uid( (string) ( $raw_item['uid'] ?? '' ), 'digital', $index );
+					if ( isset( $seen[ $uid ] ) ) { continue; }
+					if ( isset( $previous_map[ $uid ] ) && ( 'en' === ( $previous_map[ $uid ]['language'] ?? 'ar' ) ? 'en' : 'ar' ) !== $catalog_lang ) { continue; }
+					$seen[ $uid ] = true;
+					$merged[] = array(
+						'uid' => $uid, 'language' => $catalog_lang,
+						'image_id' => absint( $raw_item['image_id'] ?? $previous_map[ $uid ]['image_id'] ?? 0 ),
+						'fallback_asset' => sanitize_text_field( (string) ( $raw_item['fallback_asset'] ?? $previous_map[ $uid ]['fallback_asset'] ?? '' ) ),
+						'price' => sanitize_text_field( (string) ( $raw_item['price'] ?? $previous_map[ $uid ]['price'] ?? '' ) ),
+						'pages' => sanitize_text_field( (string) ( $raw_item['pages'] ?? $previous_map[ $uid ]['pages'] ?? '' ) ),
+						'enabled' => empty( $raw_item['enabled'] ) ? 0 : 1,
+					);
+					$rows[] = $present ? vava_selections_sanitize_local_product( $raw_item, $uid )
+						: ( $previous_text[ $uid ] ?? vava_selections_sanitize_local_product( $raw_item, $uid ) );
+				}
+				$new_text[ $catalog_lang ]['digital'] = $rows;
+			}
+			$shared['products']['digital'] = $merged;
+			continue;
+		}
 		$raw_active = vava_selections_raw_products( $active_language, $group );
 		$raw_other  = vava_selections_raw_products( $other_language, $group );
 		if ( ! $raw_active && $raw_other ) {
