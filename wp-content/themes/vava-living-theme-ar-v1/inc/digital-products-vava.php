@@ -325,7 +325,12 @@ function vava_digital_product_data( string $uid, string $lang = 'ar' ): array {
 	if ( $page_id && function_exists( 'vava_selections_products' ) ) {
 		foreach ( vava_selections_products( $page_id, 'digital', $lang, true ) as $card ) {
 			if ( sanitize_key( (string) ( $card['uid'] ?? '' ) ) !== $uid ) { continue; }
-			$default = isset( $catalog[ $uid ] ) ? (array) $catalog[ $uid ] : array();
+			// English editions have independent order IDs and PDFs, but the
+			// existing translated editorial baseline can be reused for any
+			// as-yet-empty description/list fields. Never reuse the AR file.
+			$editorial_uid = 'en' === $lang && 0 === strpos( $uid, 'en-' )
+				? substr( $uid, 3 ) : $uid;
+			$default = isset( $catalog[ $editorial_uid ] ) ? (array) $catalog[ $editorial_uid ] : array();
 			$canonical = array_merge( $default, (array) ( $default[ $lang ] ?? array() ) );
 			$data = array_merge( $canonical, $card );
 			foreach ( array( 'inside', 'ideal' ) as $list_key ) {
