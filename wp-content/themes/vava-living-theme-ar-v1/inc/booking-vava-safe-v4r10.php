@@ -1352,6 +1352,9 @@ function vava_booking_ajax_submit(): void {
 	}
 	if ( $customer['email'] && ! is_email( $customer['email'] ) ) { $invalid_customer = true; }
 	if ( $invalid_customer ) { wp_send_json_error( array( 'message' => $text['validation_error'] ), 422 ); }
+	if ( 'discovery' === vava_booking_service_category( $service ) && ! is_email( $customer['email'] ) ) {
+		wp_send_json_error( array( 'message' => 'en' === $lang ? 'Please enter a valid email to receive your booking number and appointment details.' : 'يرجى إدخال بريد إلكتروني صحيح لاستلام رقم الحجز وتفاصيل الجلسة.' ), 422 );
+	}
 	$questionnaire_data = array();
 	if ( function_exists( 'vava_booking_questionnaire_type_for_booking' ) ) {
 		$required_questionnaire = vava_booking_questionnaire_type_for_booking( $service, (string) $customer['previous'], $page_id );
@@ -1428,7 +1431,17 @@ function vava_booking_ajax_submit(): void {
 	}
 	vava_booking_send_confirmation( $booking_id );
 	if ( 'confirmed' === $status ) { do_action( 'vava_booking_status_changed', (int) $booking_id, 'confirmed' ); }
-	wp_send_json_success( array( 'title' => $text['success_title'], 'message' => $text['success_message'], 'bookingId' => $booking_id, 'status' => $status, 'myBookingsUrl' => vava_booking_my_bookings_url( $lang ) ) );
+	$notification_sent = 'sent' === (string) get_post_meta( $booking_id, '_vava_booking_notification_sent', true );
+	wp_send_json_success( array(
+		'title' => $text['success_title'],
+		'message' => $text['success_message'],
+		'bookingId' => $booking_id,
+		'status' => $status,
+		'myBookingsUrl' => vava_booking_my_bookings_url( $lang ),
+		'emailNotice' => $notification_sent
+			? ( 'en' === $lang ? 'A confirmation email has been sent to your address.' : 'تم إرسال رسالة تأكيد الحجز إلى بريدك الإلكتروني.' )
+			: ( 'en' === $lang ? 'Your booking is saved. If the email is delayed, keep the booking number shown above.' : 'تم حفظ حجزك. إذا تأخر وصول البريد، احتفظي برقم الحجز الظاهر بالأعلى.' ),
+	) );
 }
 add_action( 'wp_ajax_vava_booking_submit', 'vava_booking_ajax_submit' );
 add_action( 'wp_ajax_nopriv_vava_booking_submit', 'vava_booking_ajax_submit' );
@@ -1719,34 +1732,144 @@ $questionnaire_exists = ! empty( get_post_meta( $booking_id, '_vava_booking_ques
 	return (string) ob_get_clean();
 }
 
+/**
+ * Booking confirmations — independent per-recipient delivery tracking.
+ * A missing customer address or failed customer email must never suppress
+ * the separate notification to VAVA administration.
+ */
 function vava_booking_send_details_email( int $booking_id, bool $force = false, bool $send_admin = true ) {
-	if ( function_exists( 'vava_mail_notifications_enabled' ) && ! vava_mail_notifications_enabled( 'bookings' ) ) { return true; }
-	if ( ! $booking_id || 'vava_booking' !== get_post_type( $booking_id ) ) { return new WP_Error( 'invalid_booking', 'الحجز غير موجود.' ); }
-	if ( ! $force && 'sent' === (string) get_post_meta( $booking_id, '_vava_booking_notification_sent', true ) ) { return true; }
+	if ( ! $booking_id || 'vava_booking' !== get_post_type( $booking_id ) ) {
+		return new WP_Error( 'invalid_booking', 'الحجز غير موجود.' );
+	}
+	if ( function_exists( 'vava_mail_notifications_enabled' ) && ! vava_mail_notifications_enabled( 'bookings' ) ) {
+		return new WP_Error( 'bookings_notifications_disabled', 'إشعارات الحجوزات معطلة من الإعدادات.' );
+	}
+
 	$customer = (array) get_post_meta( $booking_id, '_vava_booking_customer', true );
-	$email = sanitize_email( (string) ( $customer['email'] ?? '' ) );
-	if ( ! $email || ! is_email( $email ) ) { return new WP_Error( 'invalid_email', 'لا يوجد بريد عميل صالح داخل الحجز.' ); }
-	$lang = 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar';
+	$email    = sanitize_email( (string) ( $customer['email'] ?? '' ) );
+	$lang     = 'en' === get_post_meta( $booking_id, '_vava_booking_language', true ) ? 'en' : 'ar';
 	$is_followup = absint( get_post_meta( $booking_id, '_vava_package_parent_booking_id', true ) ) > 0;
-	// Both translations go in ONE email, regardless of the booking's stored language.
-	$subject = $is_followup
+	$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
+	$subject  = $is_followup
 		? 'VAVA — تأكيد جلسة المتابعة / Follow-up session confirmation #' . $booking_id
 		: 'VAVA — تفاصيل الحجز / Booking details #' . $booking_id;
-	$headers = array( 'Content-Type: text/html; charset=UTF-8' );
-	$sent = wp_mail( $email, $subject, vava_booking_email_html( $booking_id, $lang ), $headers );
-	update_post_meta( $booking_id, '_vava_booking_notification_sent', $sent ? 'sent' : 'attempted' );
+	$customer_sent = 'sent' === (string) get_post_meta( $booking_id, '_vava_booking_notification_sent', true );
+	$admin_sent    = 'sent' === (string) get_post_meta( $booking_id, '_vava_booking_admin_notification_sent', true );
+	$customer_ok   = $customer_sent && ! $force;
+	$admin_ok      = $admin_sent && ! $force;
+	$errors        = array();
+
+	if ( ! $customer_ok ) {
+		update_post_meta( $booking_id, '_vava_booking_notification_attempts', absint( get_post_meta( $booking_id, '_vava_booking_notification_attempts', true ) ) + 1 );
+		if ( is_email( $email ) ) {
+			$customer_ok = (bool) wp_mail( $email, $subject, vava_booking_email_html( $booking_id, $lang ), $headers );
+		} else {
+			$errors[] = 'customer_email_invalid';
+		}
+		update_post_meta( $booking_id, '_vava_booking_notification_sent', $customer_ok ? 'sent' : 'failed' );
+		update_post_meta( $booking_id, '_vava_booking_notification_last_attempt', current_time( 'mysql' ) );
+		if ( $customer_ok ) {
+			update_post_meta( $booking_id, '_vava_booking_notification_sent_at', current_time( 'mysql' ) );
+		} else {
+			$errors[] = 'customer_delivery_failed';
+		}
+	}
+
+	$admin_required = $send_admin && ( ! function_exists( 'vava_mail_notifications_enabled' ) || vava_mail_notifications_enabled( 'admin' ) );
+	if ( $admin_required && ! $admin_ok ) {
+		$admin_email = function_exists( 'vava_mail_admin_recipient' )
+			? vava_mail_admin_recipient() : sanitize_email( (string) get_option( 'admin_email' ) );
+		update_post_meta( $booking_id, '_vava_booking_admin_notification_attempts', absint( get_post_meta( $booking_id, '_vava_booking_admin_notification_attempts', true ) ) + 1 );
+		if ( is_email( $admin_email ) ) {
+			$admin_subject = sprintf( 'VAVA — حجز جديد #%d — %s', $booking_id, (string) get_post_meta( $booking_id, '_vava_booking_service_title', true ) );
+			$admin_body = function_exists( 'vava_booking_questionnaire_admin_email_html' )
+				? vava_booking_questionnaire_admin_email_html( $booking_id )
+				: vava_booking_email_html( $booking_id, $lang );
+			$admin_ok = (bool) wp_mail( $admin_email, $admin_subject, $admin_body, $headers );
+		} else {
+			$errors[] = 'admin_email_invalid';
+		}
+		update_post_meta( $booking_id, '_vava_booking_admin_notification_sent', $admin_ok ? 'sent' : 'failed' );
+		update_post_meta( $booking_id, '_vava_booking_admin_notification_last_attempt', current_time( 'mysql' ) );
+		if ( $admin_ok ) {
+			update_post_meta( $booking_id, '_vava_booking_admin_notification_sent_at', current_time( 'mysql' ) );
+		} else {
+			$errors[] = 'admin_delivery_failed';
+		}
+	}
+
 	if ( $force ) {
 		update_post_meta( $booking_id, '_vava_booking_last_details_email_sent_at', current_time( 'mysql' ) );
 		update_post_meta( $booking_id, '_vava_booking_last_details_email_sent_by', get_current_user_id() );
 	}
-	if ( $send_admin ) {
-		$admin_email = sanitize_email( (string) get_option( 'admin_email' ) );
-		if ( $admin_email && $admin_email !== $email ) {
-			wp_mail( $admin_email, sprintf( 'VAVA Booking #%d — %s', $booking_id, (string) get_post_meta( $booking_id, '_vava_booking_service_title', true ) ), function_exists( 'vava_booking_questionnaire_admin_email_html' ) ? vava_booking_questionnaire_admin_email_html( $booking_id ) : vava_booking_email_html( $booking_id, $lang ), $headers );
+
+	// Retry only missing recipients without duplicating accepted mail.
+	// WordPress Cron runs on site traffic or the configured system cron.
+	if ( ( ! $customer_ok || ( $admin_required && ! $admin_ok ) ) &&
+		absint( get_post_meta( $booking_id, '_vava_booking_notification_retry_runs', true ) ) < 3 ) {
+		$args = array( $booking_id, (bool) $admin_required );
+		if ( ! wp_next_scheduled( 'vava_booking_notification_retry', $args ) ) {
+			wp_schedule_single_event( time() + 300, 'vava_booking_notification_retry', $args );
 		}
 	}
-	return $sent ? true : new WP_Error( 'email_failed', 'تعذر إرسال البريد. راجع إعدادات SMTP.' );
+	if ( ! $customer_ok || ( $admin_required && ! $admin_ok ) ) {
+		update_post_meta( $booking_id, '_vava_booking_notification_issue', implode( ',', array_unique( $errors ) ) ?: 'mail_send_failed' );
+		return new WP_Error( 'booking_email_pending_retry', 'تم حفظ الحجز، لكن أحد إشعاراته يحتاج إلى إعادة إرسال.' );
+	}
+	delete_post_meta( $booking_id, '_vava_booking_notification_issue' );
+	return true;
 }
+
+/** Retry failed booking notifications safely without duplicating already-sent messages. */
+function vava_booking_retry_notifications( int $booking_id, bool $send_admin = true ): void {
+	if ( 'vava_booking' !== get_post_type( $booking_id ) ) { return; }
+	$attempts = absint( get_post_meta( $booking_id, '_vava_booking_notification_retry_runs', true ) );
+	if ( $attempts >= 3 ) { return; }
+	update_post_meta( $booking_id, '_vava_booking_notification_retry_runs', $attempts + 1 );
+	vava_booking_send_details_email( $booking_id, false, $send_admin );
+}
+add_action( 'vava_booking_notification_retry', 'vava_booking_retry_notifications', 10, 2 );
+
+/* VAVA_DISCOVERY_MAIL_ADMIN_ALERTS_V1 */
+/** Show delivery failures to staff even if the email provider is unreachable. */
+function vava_booking_notification_admin_notice(): void {
+	if ( ! is_admin() || ! function_exists( 'get_current_screen' ) || ! current_user_can( 'edit_others_posts' ) ) { return; }
+	$screen = get_current_screen();
+	if ( ! $screen || 'edit-vava_booking' !== (string) $screen->id ) { return; }
+	$pending = get_posts( array(
+		'post_type' => 'vava_booking', 'post_status' => 'publish',
+		'posts_per_page' => 6, 'fields' => 'ids', 'no_found_rows' => true,
+		'meta_key' => '_vava_booking_notification_issue',
+		'meta_compare' => 'EXISTS',
+		'orderby' => 'date', 'order' => 'DESC',
+	) );
+	if ( ! $pending ) { return; }
+	echo '<div class="notice notice-warning"><p><strong>VAVA — إشعارات حجوزات تحتاج متابعة:</strong> ';
+	foreach ( $pending as $booking_id ) {
+		if ( ! get_post_meta( $booking_id, '_vava_booking_notification_issue', true ) ) { continue; }
+		$link = wp_nonce_url( admin_url( 'admin-post.php?action=vava_booking_retry_mail&booking=' . absint( $booking_id ) ), 'vava_booking_retry_mail_' . absint( $booking_id ) );
+		echo '<a href="' . esc_url( $link ) . '" style="margin:0 5px">إعادة إرسال #' . esc_html( (string) $booking_id ) . '</a> ';
+	}
+	echo ' · <a href="' . esc_url( admin_url( 'edit.php?post_type=vava_booking&page=vava-mail-smtp-settings' ) ) . '">إعدادات البريد</a></p></div>';
+}
+add_action( 'admin_notices', 'vava_booking_notification_admin_notice', 20 );
+
+/** Secure staff-initiated retry; only unsent recipients receive a message. */
+function vava_booking_manual_retry_mail(): void {
+	$booking_id = absint( $_GET['booking'] ?? 0 );
+	if ( ! $booking_id || 'vava_booking' !== get_post_type( $booking_id ) ||
+		! current_user_can( 'edit_post', $booking_id ) || ! current_user_can( 'edit_others_posts' ) ) {
+		wp_die( 'غير مصرح بإعادة إرسال الإشعار.', '', array( 'response' => 403 ) );
+	}
+	check_admin_referer( 'vava_booking_retry_mail_' . $booking_id );
+	if ( get_post_meta( $booking_id, '_vava_booking_notification_issue', true ) ) {
+		vava_booking_send_details_email( $booking_id, false, true );
+	}
+	wp_safe_redirect( admin_url( 'edit.php?post_type=vava_booking' ) );
+	exit;
+}
+add_action( 'admin_post_vava_booking_retry_mail', 'vava_booking_manual_retry_mail' );
+
 
 function vava_booking_send_refund_update( int $booking_id, float $amount, bool $completed ): void {
 	$is_digital = function_exists( 'vava_digital_products_is_order' ) && vava_digital_products_is_order( $booking_id );
