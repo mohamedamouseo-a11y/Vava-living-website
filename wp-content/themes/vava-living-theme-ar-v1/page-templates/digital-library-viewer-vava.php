@@ -37,6 +37,17 @@ if ( ! $product && $can_view ) {
 	}
 }
 
+// Reading a previously purchased Arabic item must still work after switching
+// the account UI to English; the authorized order UID determines the PDF.
+if ( ! $product && $can_view && $order_id ) {
+    $product = array(
+        'title' => (string) get_post_meta( $order_id, '_vava_booking_service_title', true ) ?: ( $is_en ? 'My digital product' : 'منتجي الرقمي' ),
+        'category' => $is_en ? 'Digital product' : 'منتج رقمي',
+        'card_description' => '',
+        'cover_url' => function_exists( 'vava_digital_products_cover_url' ) ? vava_digital_products_cover_url( $uid ) : '',
+    );
+}
+
 $account_url = function_exists( 'vava_customer_account_url' ) ? vava_customer_account_url( $lang, array( 'view' => 'products' ) ) : home_url( '/' );
 $cover_url = (string) ( $product['cover_url'] ?? '' );
 $page_count = absint( $record['page_count'] ?? 0 );
