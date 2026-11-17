@@ -319,9 +319,35 @@ function vava_digital_product_data( string $uid, string $lang = 'ar' ): array {
 	$catalog = vava_digital_products_catalog();
 	$uid     = sanitize_key( $uid );
 	$lang    = 'en' === $lang ? 'en' : 'ar';
-	if ( ! isset( $catalog[ $uid ] ) ) {
+	// Product availability is language-specific; do not silently substitute
+	// an Arabic PDF when someone opens an English checkout or product URL.
+	$page_id = function_exists( 'vava_selections_page_id' ) ? absint( vava_selections_page_id() ) : 0;
+	if ( $page_id && function_exists( 'vava_selections_products' ) ) {
+		foreach ( vava_selections_products( $page_id, 'digital', $lang, true ) as $card ) {
+			if ( sanitize_key( (string) ( $card['uid'] ?? '' ) ) !== $uid ) { continue; }
+			$default = isset( $catalog[ $uid ] ) ? (array) $catalog[ $uid ] : array();
+			$canonical = array_merge( $default, (array) ( $default[ $lang ] ?? array() ) );
+			$data = array_merge( $canonical, $card );
+			foreach ( array( 'inside', 'ideal' ) as $list_key ) {
+				if ( ! array_filter( (array) ( $data[ $list_key ] ?? array() ) ) ) {
+					$data[ $list_key ] = (array) ( $canonical[ $list_key ] ?? array() );
+				}
+			}
+			if ( '' === trim( (string) ( $data['full_description'] ?? '' ) ) ) {
+				$data['full_description'] = (string) ( $canonical['full_description'] ?? $canonical['description'] ?? '' );
+			}
+			$data['uid'] = $uid;
+			$data['card_description'] = (string) ( $card['description'] ?? '' );
+			$data['cover_url'] = function_exists( 'vava_digital_products_cover_url' ) ? vava_digital_products_cover_url( $uid ) : '';
+			if ( '' === $data['cover_url'] ) {
+				$data['cover_url'] = vava_selections_image_url( absint( $card['image_id'] ?? 0 ), (string) ( $card['fallback_asset'] ?? $default['cover_asset'] ?? '' ) );
+			}
+			return $data;
+		}
 		return array();
 	}
+	// Safe compatibility before the new independent-inventory migration.
+	if ( ! isset( $catalog[ $uid ] ) ) { return array(); }
 	$item = $catalog[ $uid ];
 	$data = array_merge( $item, (array) ( $item[ $lang ] ?? array() ) );
 	$data['cover_url'] = function_exists( 'vava_digital_products_cover_url' ) ? vava_digital_products_cover_url( $uid ) : '';
@@ -492,7 +518,7 @@ function vava_digital_product_reader_labels( string $lang = 'ar' ): array {
 			'language'   => 'Content language',
 			'pages'      => 'Pages',
 			'usage'      => 'License',
-			'language_value' => 'Arabic',
+			'language_value' => 'English',
 			'usage_value'    => 'Personal use',
 			'previous'   => 'Previous product',
 			'next'       => 'Next product',
