@@ -12,6 +12,16 @@ $lang    = vava_current_language();
 $is_en   = 'en' === $lang;
 $uid     = isset( $_GET['product'] ) ? sanitize_key( wp_unslash( $_GET['product'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $product = function_exists( 'vava_digital_product_data' ) ? vava_digital_product_data( $uid, $lang ) : array();
+// English storefront products must never accept a bank transfer while
+// the independently translated PDF is still missing or processing.
+$english_pdf_ready = true;
+if ( $is_en && $product && function_exists( 'vava_digital_products_file_record' ) ) {
+    $pdf_record = vava_digital_products_file_record( $uid );
+    $english_pdf_ready = 'ready' === (string) ( $pdf_record['processing_status'] ?? '' )
+        && absint( $pdf_record['page_count'] ?? 0 ) > 0
+        && function_exists( 'vava_digital_products_private_file_path' )
+        && '' !== vava_digital_products_private_file_path( $pdf_record );
+}
 $booking_page_id = function_exists( 'vava_booking_page_id' ) ? vava_booking_page_id() : 0;
 $shared  = function_exists( 'vava_booking_shared_data' ) ? vava_booking_shared_data( $booking_page_id ) : array();
 $bank    = (array) ( $shared['bank_transfer'] ?? array() );
@@ -54,6 +64,8 @@ get_header( 'page' );
 		<div class="container">
 			<?php if ( ! $product ) : ?>
 				<div class="vava-digital-checkout-message is-error"><h2><?php echo esc_html( $is_en ? 'Product unavailable' : 'المنتج غير متاح' ); ?></h2><p><?php echo esc_html( $is_en ? 'Return to VAVA Selections and choose another product.' : 'ارجع إلى مختارات VAVA واختر منتجًا آخر.' ); ?></p></div>
+			<?php elseif ( ! $english_pdf_ready ) : ?>
+				<div class="vava-digital-checkout-message is-pending"><h2><?php echo esc_html( 'English PDF coming soon' ); ?></h2><p><?php echo esc_html( 'This English edition is being prepared. No payment is required until its protected PDF is ready.' ); ?></p><a href="<?php echo esc_url( $back_url ); ?>"><?php echo esc_html( 'Back to VAVA Selections' ); ?></a></div>
 			<?php elseif ( ! $bank_ready ) : ?>
 				<div class="vava-digital-checkout-message is-error"><h2><?php echo esc_html( $is_en ? 'Payment is temporarily unavailable' : 'الدفع غير متاح مؤقتًا' ); ?></h2><p><?php echo esc_html( $is_en ? 'The bank transfer details are not complete yet.' : 'بيانات التحويل البنكي غير مكتملة في لوحة التحكم.' ); ?></p></div>
 			<?php else : ?>
